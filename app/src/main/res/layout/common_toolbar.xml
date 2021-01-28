@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/margin5"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin5"
+        android:background="@drawable/gradient_blue_180"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:elevation="@dimen/margin5"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/navy_blue" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_offer"
+                    android:layout_width="@dimen/margin25"
+                    android:layout_height="@dimen/margin25"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin25"
+                    android:layout_toLeftOf="@+id/image_notification"
+                    android:src="@drawable/ic_offer" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_notification"
+                    android:layout_width="@dimen/margin25"
+                    android:layout_height="@dimen/margin25"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:src="@drawable/ic_bell" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:background="@drawable/rounded_stroke_gray_5"
+                android:padding="@dimen/margin10"
+                android:layout_marginBottom="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/margin20"
+                    android:layout_height="@dimen/margin20"
+                    android:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/ic_search"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_search"
+                    android:background="@color/white"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:textSize="@dimen/margin12"
+                    android:hint="Search for online service..."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--    <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="3dp"-->
+    <!--            android:background="@drawable/toolbar_shadow" />-->
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="User" />
+
+
+<!--    <group android:id="@+id/nav_subinsurnacetype">-->
+
+<!--        <item-->
+<!--            android:id="@+id/nav_insurancelab"-->
+<!--            android:title="@string/nav_msi"-->
+<!--            android:visible="false" />-->
+
+<!--        &lt;!&ndash;  <item android:title="@string/str_buy_insurance" />&ndash;&gt;-->
+
+<!--        <item-->
+<!--            android:id="@+id/nav_showinsurancepolicy"-->
+<!--            android:title="@string/str_view_policy_lab"-->
+<!--            android:visible="false" />-->
+
+<!--        <item-->
+<!--            android:id="@+id/nav_claiminsurancepolicy"-->
+<!--            android:title="@string/str_claim_details"-->
+<!--            android:visible="false" />-->
+
+<!--    </group>-->
+
+
+
+</menu>

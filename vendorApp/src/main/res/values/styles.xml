@@ -1,0 +1,303 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+
+<!--    <style name="FilePickerTheme" parent="LibAppTheme">-->
+<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
+<!--    </style>-->
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!-- Styles -->
+    <style name="OverFlow" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+
+    </style>
+
+    <style name="Button_Normal" parent="android:Widget.TextView">
+        <item name="android:paddingLeft">@dimen/margin20</item>
+        <item name="android:paddingRight">@dimen/margin20</item>
+        <item name="android:textSize">@dimen/textsize16</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:layout_marginTop">@dimen/margin10</item>
+        <item name="android:layout_marginLeft">@dimen/margin20</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="Button_Normal_otp" parent="android:Widget.TextView">
+        <item name="android:paddingLeft">@dimen/margin20</item>
+        <item name="android:paddingRight">@dimen/margin20</item>
+        <item name="android:textSize">@dimen/textsize16</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:layout_marginTop">@dimen/margin10</item>
+        <item name="android:layout_marginLeft">@dimen/margin20</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+<!--    <item name="android:background">@drawable/rounded_primary</item>-->
+
+
+    <style name="Text_mont_regular" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+
+    <style name="Text_mont_semibold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_semibold</item>
+    </style>
+
+    <!-- Medium Normal TextSize -->
+
+    <style name="EditText_Auth_Normal" parent="AppTheme_NoActionBar">
+        <item name="android:textColorHint">@color/text_white</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:inputType">textVisiblePassword|textNoSuggestions</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="android:paddingLeft">@dimen/margin25</item>
+        <item name="android:paddingRight">@dimen/margin25</item>
+        <item name="android:layout_marginTop">@dimen/margin20</item>
+        <item name="android:layout_marginLeft">@dimen/margin20</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+<!--    <item name="android:background">@drawable/rectangle_white_border</item>-->
+
+    <style name="EditText_Normal" parent="AppTheme_NoActionBar">
+        <item name="android:textColorHint">@color/gray_border</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:inputType">textVisiblePassword|textNoSuggestions</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="android:paddingLeft">@dimen/margin25</item>
+        <item name="android:paddingRight">@dimen/margin25</item>
+        <item name="android:layout_marginTop">@dimen/margin20</item>
+        <item name="android:layout_marginLeft">@dimen/margin20</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+    <style name="EditText_Normal_borderless" parent="AppTheme_NoActionBar">
+        <item name="android:textColorHint">@color/gray_border</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:inputType">textVisiblePassword|textNoSuggestions</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="android:paddingRight">@dimen/margin25</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+    <style name="EditText_Normal_no_margin" parent="AppTheme_NoActionBar">
+        <item name="android:textColorHint">@color/gray_border</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:inputType">textVisiblePassword|textNoSuggestions</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="android:paddingLeft">@dimen/margin25</item>
+        <item name="android:paddingRight">@dimen/margin25</item>
+        <item name="android:background">@drawable/rounded_stroke_gray_25</item>
+        <item name="android:layout_marginLeft">@dimen/margin20</item>
+        <item name="android:layout_marginRight">@dimen/margin20</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+    <style name="EditText_Normal_no_margin_padding" parent="AppTheme_NoActionBar">
+        <item name="android:textColorHint">@color/gray_border</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:inputType">textVisiblePassword|textNoSuggestions</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="colorControlNormal">@color/light_text_color</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/light_text_color</item>
+        <item name="android:layout_height">@dimen/margin50</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor_white</item>
+        <item name="android:importantForAutofill">no</item>
+    </style>
+
+    <style name="EditText_Secondary_OTP" parent="android:Widget.TextView">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/margin5</item>
+        <item name="android:layout_marginRight">@dimen/margin5</item>
+        <item name="android:textSize">@dimen/textsize18</item>
+        <item name="android:inputType">number</item>
+        <item name="android:layout_width">@dimen/margin50</item>
+        <item name="android:layout_height">@dimen/margin60</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
+    <style name="CardView_Normal">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:stateListAnimator" tools:ignore="NewApi">@drawable/lift_on_touch</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/margin0</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="CardView_NoRipple_white">
+        <item name="android:foreground">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/margin0</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@color/seventeen_white</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="CardView_NoRipple">
+        <item name="android:foreground">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/margin0</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="CardView_NoRipple_Transparent">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/margin0</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AppTheme_NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme_NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!-- set the rounded drawable as background to your bottom sheet -->
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <!--<item name="android:windowIsFloating">false</item>-->
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog"/>
+
+    <style name="Theme_Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowMinWidthMajor">95%</item>
+    </style>
+
+    <style name="textinputlayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/textsize12</item>
+        <!--<item name="android:fontFamily" tools:ignore="NewApi">@font/open_sans</item>-->
+    </style>
+
+    <declare-styleable name="TouchImageView">
+        <attr name="zoom_enabled" format="boolean" />
+    </declare-styleable>
+
+    <style name="Text_Indicator_selected" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/textsize12</item>
+    </style>
+    <style name="Text_Indicator_unselected" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/gray_border</item>
+        <item name="android:textSize">@dimen/textsize12</item>
+    </style>
+
+    <style name="NumberPickerText">
+        <item name="android:textSize">@dimen/textsize16</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <!--   <item name="colorControlNormal">@color/gray</item>-->
+    </style>
+
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_user_small"
+        android:title="@string/my_account" />
+
+
+    <group android:id="@+id/nav_nearby_services">
+
+        <item
+            android:id="@+id/nav_rm_appln"
+            android:title="APPL"
+            android:icon="@drawable/ic_location"
+            android:iconTint="@color/white"
+            android:visible="true" />
+
+        <!--  <item android:title="@string/str_buy_insurance" />-->
+
+        <item
+            android:id="@+id/nav_rm_appln1"
+            android:title="APPL"
+            android:iconTint="@color/white"
+            android:visible="true" />
+
+        <item
+            android:id="@+id/nav_rm_appln3"
+            android:title="APPL"
+            android:visible="true" />
+    </group>
+
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/ic_clock"
+        android:title="@string/nav_history" />
+
+
+
+</menu>
