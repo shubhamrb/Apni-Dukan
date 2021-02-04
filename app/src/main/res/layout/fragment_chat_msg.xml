@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/layout_back" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_chat_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin15"
+            android:layout_marginBottom="@dimen/margin80" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/margin3"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:padding="@dimen/margin15">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_file_picker"
+                android:layout_width="@dimen/margin30"
+                android:layout_height="@dimen/margin30"
+                android:padding="@dimen/margin3"
+                app:srcCompat="@drawable/ic_chat_filepick"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_smiley"
+                android:layout_width="@dimen/margin30"
+                android:layout_height="@dimen/margin30"
+                android:layout_marginLeft="@dimen/margin15"
+                android:padding="@dimen/margin3"
+                android:layout_toRightOf="@+id/image_file_picker"
+                app:srcCompat="@drawable/ic_chat_smiley" />
+
+            <EditText
+                android:id="@+id/edit_msg"
+                style="@style/Text_mont_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_toLeftOf="@+id/image_send_msg"
+                android:layout_toRightOf="@+id/image_smiley"
+                android:background="@color/white"
+                android:hint="Type Something" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_send_msg"
+                android:layout_width="@dimen/margin30"
+                android:layout_height="@dimen/margin30"
+                android:padding="@dimen/margin3"
+                android:layout_alignParentRight="true"
+                app:srcCompat="@drawable/ic_chat_send" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -5,15 +5,17 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.webkit.MimeTypeMap
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mponline.userApp.BuildConfig
-import com.recyclemybin.utils.Constants
+import com.mponline.userApp.utils.Constants
 
 class  CommonUtils{
 
@@ -72,6 +74,18 @@ class  CommonUtils{
             return name?.matches(Constants.REGEX_GPS_NAME.toRegex())
         }
 
+        open fun convertDpToPixel(context: Context, dp: Int): Int {
+            val scale = context.resources.displayMetrics.density
+            return (dp * scale + 0.5f).toInt()
+        }
+
+        fun getFileExtension(activity: Activity, uri: Uri): String {
+            val contentResolver = activity.contentResolver
+            val mimeTypeMap = MimeTypeMap.getSingleton()
+
+            // Return file Extension
+            return ".${mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))}"
+        }
 
     }
 }

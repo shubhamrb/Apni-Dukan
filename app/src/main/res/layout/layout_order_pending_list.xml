@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin15"
+            android:layout_marginBottom="@dimen/margin15"
+            android:layout_marginRight="@dimen/margin15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/margin3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:text="@string/process_timer"
+                        android:layout_marginRight="@dimen/margin20"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:text="@string/process_timer_desc"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:id="@+id/text_hour"
+                            android:textSize="@dimen/textsize16"
+                            android:textColor="@color/black"
+                            android:background="@drawable/rect_stroke_gray"
+                            android:paddingLeft="@dimen/margin15"
+                            android:paddingRight="@dimen/margin15"
+                            android:paddingTop="@dimen/margin5"
+                            android:paddingBottom="@dimen/margin5"
+                            android:text="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_regular"
+                            android:text="hrs."
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin5"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:id="@+id/text_minute"
+                            android:textSize="@dimen/textsize16"
+                            android:textColor="@color/black"
+                            android:background="@drawable/rect_stroke_gray"
+                            android:paddingLeft="@dimen/margin15"
+                            android:paddingRight="@dimen/margin15"
+                            android:paddingTop="@dimen/margin5"
+                            android:paddingBottom="@dimen/margin5"
+                            android:text="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_regular"
+                            android:text="min."
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin5"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:id="@+id/text_sec"
+                            android:textSize="@dimen/textsize16"
+                            android:textColor="@color/black"
+                            android:background="@drawable/rect_stroke_gray"
+                            android:paddingLeft="@dimen/margin15"
+                            android:paddingRight="@dimen/margin15"
+                            android:paddingTop="@dimen/margin5"
+                            android:paddingBottom="@dimen/margin5"
+                            android:text="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_regular"
+                            android:text="sec."
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
+        android:layout_height="0.5dp"
+        android:background="@color/black"/>
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
+        android:layout_marginTop="@dimen/margin15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/rl_call"
+            android:layout_width="@dimen/margin0"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/margin5"
+            android:background="@drawable/gradient_violet"
+            android:layout_height="@dimen/margin80"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                app:srcCompat="@drawable/ic_phone_call"
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:text="@string/call_kiosk"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:lines="2"
+                android:textSize="@dimen/textsize12"
+                android:layout_marginTop="@dimen/margin5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rl_chat"
+            android:layout_width="@dimen/margin0"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin5"
+            android:layout_marginRight="@dimen/margin5"
+            android:background="@drawable/gradient_navy_blue"
+            android:layout_height="@dimen/margin80"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                app:srcCompat="@drawable/ic_chat"
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:text="@string/chat_kiosk"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:lines="2"
+                android:textSize="@dimen/textsize12"
+                android:layout_marginTop="@dimen/margin5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rl_whatsapp"
+            android:layout_width="@dimen/margin0"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin5"
+            android:background="@drawable/gradient_green"
+            android:layout_height="@dimen/margin80"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                app:srcCompat="@drawable/ic_whatsapp"
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:text="@string/whatapp_kiosk"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/margin5"
+                android:textSize="@dimen/textsize12"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_proceed"
+        android:text="@string/make_payment"
+        android:gravity="center"
+        android:padding="@dimen/margin15"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
+        android:textColor="@color/white"
+        android:background="@drawable/gradient_blue_180"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin25"/>
+
+</LinearLayout>

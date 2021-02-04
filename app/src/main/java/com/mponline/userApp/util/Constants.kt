@@ -1,4 +1,4 @@
-package com.recyclemybin.utils
+package com.mponline.userApp.utils
 
 
 /**
@@ -96,7 +96,7 @@ class Constants {
         const val PATIENT_ITEM = "PATIENT_ITEM"
         const val PATIENT_ID = "PATIENT_ID"
         const val MAX_DOC_TO_UPLOAD = 5
-        val BIDS_FILEPROVIDER = "com.bidsapp.fileprovider"
+        const val APP_FILEPROVIDER = "com.mponline.userApp.fileprovider"
         const val REQUEST_CAMERA = 600
         const val REQUEST_GALLERY = 700
         const val RC_PHOTO_PICKER_PERM = 123
@@ -138,9 +138,31 @@ class Constants {
         var PICKUP_DISPATCH_ORDER = "PICKUP_DISPATCH_ORDER"
         var LOCATION_LAT = "LOCATION_LAT"
         var LOCATION_LNG = "LOCATION_LNG"
+        var CAMERA = "CAMERA"
+        var GALLERY = "GALLERY"
+
+
+        //Fragment types
+        var WITH_NAV_DRAWER = "WITH_NAV_DRAWER"
+        var NO_NAV_DRAWER = "NO_NAV_DRAWER"
 
         //Fragment TAGS
         var HOME_PAGE = "HOME_PAGE"
+        var SERVICE_PAGE = "SERVICE_PAGE"
+        var STORE_PAGE = "STORE_PAGE"
+        var SUB_SERVICE_PAGE = "SUB_SERVICE_PAGE"
+        var INSTRUCTION_PAGE = "INSTRUCTION_PAGE"
+        var CUSTOM_FOEMS_PAGE = "CUSTOM_FOEMS_PAGE"
+        var ORDER_HISTORY_PAGE = "ORDER_HISTORY_PAGE"
+        var DOWNLOAD_LIST_PAGE = "DOWNLOAD_LIST_PAGE"
+        var PAYMENT_DETAIL_PAGE = "PAYMENT_DETAIL_PAGE"
+        var PAYMENT_SUMMARY_PAGE = "PAYMENT_SUMMARY_PAGE"
+        var STORE_DETAIL_PAGE = "STORE_DETAIL_PAGE"
+        var CHAT_HOME_PAGE = "CHAT_HOME_PAGE"
+        var CHAT_MSG_PAGE = "CHAT_MSG_PAGE"
+        var MY_ACCOUNT_PAGE = "MY_ACCOUNT_PAGE"
+
+        var CLOSE_NAV_DRAWER = "CLOSE_NAV_DRAWER"
 
 
     }

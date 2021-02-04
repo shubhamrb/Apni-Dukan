@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginBottom="@dimen/margin8"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_bold"
+        android:id="@+id/text_service_name"
+        android:text="Form name change"
+        android:textColor="@color/light_black"
+        android:textSize="@dimen/textsize14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_bold"
+        android:text="$22"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/light_black"
+        android:textSize="@dimen/textsize14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

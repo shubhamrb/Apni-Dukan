@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="@dimen/margin3"
+    android:layout_margin="@dimen/margin5"
+    app:cardCornerRadius="@dimen/margin3"
+    android:id="@+id/card_payment_option"
+    app:cardBackgroundColor="@color/grey_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_pay_opt"
+        android:text="Phone Pay"
+        android:padding="@dimen/margin15"
+        android:gravity="center"
+        android:textColor="@color/light_black"
+        android:textSize="@dimen/textsize14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.cardview.widget.CardView>

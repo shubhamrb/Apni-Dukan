@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_marginTop="@dimen/margin15"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/Text_mont_regular"
+        android:id="@+id/edt_custom_field"
+        android:textColor="@color/black"
+        android:padding="@dimen/margin15"
+        android:background="@color/white"
+        android:textColorHint="@color/light_black"
+        android:hint="First Name*"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

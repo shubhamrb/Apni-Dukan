@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_stroke_gray_5"
+    android:layout_marginLeft="@dimen/margin15"
+    android:layout_marginRight="@dimen/margin15"
+    android:layout_marginBottom="@dimen/margin15"
+    android:elevation="@dimen/margin3"
+    android:id="@+id/cv_notification"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linear_upper_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_notification"
+                    android:scaleType="fitXY"
+                    android:layout_margin="@dimen/margin15"
+                    android:background="@color/grey_alpha"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/margin55"
+                    android:layout_height="@dimen/margin55"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginBottom="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_weight="3.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginRight="@dimen/margin3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:text="RRB Group D"
+                            android:layout_marginRight="@dimen/margin20"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsize14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_to_date"
+                        android:text="Application submitted as on 1 Jan 2021"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:gravity="right|center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_status"
+                        android:text="Waiting for\nkiosk to accept"
+                        android:layout_gravity="right|center_vertical"
+                        android:gravity="right"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:textColor="@color/purple"
+                        android:textSize="@dimen/textsize12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/image_status"
+                        android:layout_gravity="right|center_vertical"
+                        android:gravity="right"
+                        app:srcCompat="@drawable/circle_green"
+                        android:layout_width="@dimen/margin10"
+                        android:layout_height="@dimen/margin10"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/black"/>
+
+            <include
+                android:id="@+id/layout_order_complete"
+                android:visibility="gone"
+                layout="@layout/layout_order_complete_list"/>
+
+            <include
+                android:id="@+id/layout_order_pending"
+                android:visibility="visible"
+                layout="@layout/layout_order_pending_list"/>
+
+            <LinearLayout
+                android:id="@+id/ll_hide_opt"
+                android:layout_marginTop="@dimen/margin25"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/gradient_navy_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:id="@+id/text_hide_option"
+                    android:text="@string/hide_options"
+                    android:padding="@dimen/margin15"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    app:srcCompat="@drawable/ic_arrow_back_ios"
+                    android:rotation="90"
+                    android:layout_width="@dimen/margin15"
+                    android:layout_height="@dimen/margin15"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.MainActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/common_toolbar_normal" />
+
+    <include layout="@layout/layout_back" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin15"
+                android:text="@string/unread"
+                android:textColor="@color/light_black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_unread_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin15" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin20"
+                android:text="@string/read"
+                android:textColor="@color/light_black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_read_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin15" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient_blue_180"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</RelativeLayout>

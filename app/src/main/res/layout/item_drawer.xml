@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingTop="@dimen/margin10"
+              android:paddingBottom="@dimen/margin5"
+              android:clickable="true">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+            android:id="@+id/ivicon"
+            android:layout_marginLeft="@dimen/margin25"
+            android:src="@android:drawable/ic_menu_report_image"/>
+
+    <TextView
+            style="@style/Text_mont_semibold"
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+            android:layout_height="@dimen/margin35"
+            android:paddingLeft="@dimen/margin25"
+            android:paddingTop="@dimen/margin7"
+            android:text="Noti"
+            android:textColor="@color/white"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="@dimen/margin10"
+            android:textSize="@dimen/textsize14"/>
+
+</LinearLayout>

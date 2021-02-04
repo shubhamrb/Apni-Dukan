@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/ll_completed_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_download_files"
+            android:layout_marginTop="@dimen/margin25"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gradient_blue_180"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:text="@string/download_files"
+                android:padding="@dimen/margin15"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                app:srcCompat="@drawable/ic_download"
+                android:rotation="90"
+                android:layout_width="@dimen/margin15"
+                android:layout_height="@dimen/margin15"/>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_semibold"
+            android:text="@string/leave_rating"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin15"
+            android:layout_marginRight="@dimen/margin20"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/ratingbar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin10"
+            android:layout_marginBottom="@dimen/margin10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/ll_submit_rating"
+            android:layout_marginTop="@dimen/margin25"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/gradient_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:text="@string/submit_rating"
+                android:padding="@dimen/margin15"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

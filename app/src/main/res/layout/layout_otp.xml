@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_1"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/margin15"
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_2"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/margin15"
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_3"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/margin15"
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_4"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/margin15"
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_5"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/margin15"
+            android:background="@drawable/rect_solid_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edt_6"
+                android:padding="@dimen/margin15"
+                android:inputType="number"
+                android:maxLength="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/margin8"
+    android:layout_marginTop="@dimen/margin5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_incomming_usericon"
+        app:srcCompat="@drawable/ic_user_icon_chat"
+        android:layout_alignBottom="@+id/image_incomming_tri"
+        android:layout_width="@dimen/margin30"
+        android:layout_height="@dimen/margin30"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_incomming_tri"
+        app:srcCompat="@drawable/incomming_white_tri"
+        android:layout_marginLeft="@dimen/margin5"
+        android:layout_alignBottom="@+id/ll_incomming_msg"
+        android:layout_toRightOf="@+id/image_incomming_usericon"
+        android:layout_width="@dimen/margin20"
+        android:layout_height="@dimen/margin20"/>
+
+    <LinearLayout
+        android:id="@+id/ll_incomming_msg"
+        android:background="@drawable/incomming_white_rect"
+        android:layout_toRightOf="@+id/image_incomming_tri"
+        android:orientation="vertical"
+        android:padding="@dimen/margin15"
+        android:layout_width="@dimen/margin230"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_regular"
+            android:id="@+id/text_msg"
+            android:textColor="@color/light_grey_text"
+            android:text="sdfsdfsdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_incomming_file_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_file_preview"
+                android:background="@color/grey_alpha"
+                android:layout_marginTop="@dimen/textsize15"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin100"/>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_download_file"
+                android:background="@drawable/circle_white"
+                app:srcCompat="@drawable/ic_download"
+                android:tint="@color/blue"
+                android:padding="@dimen/margin5"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/image_file_preview"
+              android:layout_margin="@dimen/margin15"
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:id="@+id/text_filename"
+                android:layout_below="@id/image_file_preview"
+                android:layout_marginTop="@dimen/textsize10"
+                android:layout_marginLeft="@dimen/textsize10"
+                android:text="SSC.pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:id="@+id/text_filesize"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/image_file_preview"
+                android:layout_marginTop="@dimen/textsize10"
+                android:layout_marginLeft="@dimen/textsize10"
+                android:layout_margin="@dimen/textsize10"
+                android:text="SSC.pdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_msg_time"
+        android:layout_alignLeft="@+id/image_incomming_tri"
+        android:layout_below="@+id/image_incomming_tri"
+        android:layout_marginTop="@dimen/margin5"
+        android:layout_marginLeft="@dimen/margin5"
+        android:textColor="@color/light_grey_text"
+        android:text="10:10"
+        android:textSize="@dimen/textsize12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

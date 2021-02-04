@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.MainActivity">
+
+
+    <include layout="@layout/layout_back" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:textSize="@dimen/textsize20"
+                android:layout_marginTop="@dimen/margin50"
+                android:textAllCaps="true"
+                android:text="@string/login"
+                android:textColor="@color/blue" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/Text_mont_regular"
+                android:id="@+id/edit_mobile_no"
+                android:text=""
+                android:hint="@string/mobile_no"
+                android:background="@color/grey_back"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin15"
+                android:padding="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_margin="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    layout="@layout/layout_otp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_login"
+                    style="@style/Text_mont_regular"
+                    android:text="@string/login"
+                    android:paddingTop="@dimen/margin10"
+                    android:paddingBottom="@dimen/margin10"
+                    android:paddingRight="@dimen/margin25"
+                    android:paddingLeft="@dimen/margin25"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/gradient_blue"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_regular"
+                android:id="@+id/text_forgot_pwd"
+                android:text="@string/forgot_pin"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:padding="@dimen/margin15"
+                android:textSize="@dimen/textsize16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_register"
+        android:text="@string/dont_hav_acc"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="@dimen/margin15"
+        android:textSize="@dimen/textsize16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

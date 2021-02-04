@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/margin15"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_bold"
+        android:id="@+id/text_service_name"
+        android:text="SSC Exam"
+        android:layout_marginRight="@dimen/margin15"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/ll_download_all"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_store_name"
+        android:text="By MmL"
+        android:layout_below="@+id/text_service_name"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/margin8"
+        android:textSize="@dimen/textsize14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/ll_download_all"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin15"
+        android:paddingRight="@dimen/margin15"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/gradient_green_180"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_regular"
+            android:id="@+id/text_hide_option"
+            android:text="@string/download_all"
+            android:padding="@dimen/margin15"
+            android:textSize="@dimen/textsize14"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            app:srcCompat="@drawable/ic_download"
+            android:layout_width="@dimen/margin15"
+            android:layout_height="@dimen/margin15"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_files"
+        android:layout_below="@id/text_store_name"
+        android:layout_marginTop="@dimen/margin8"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>

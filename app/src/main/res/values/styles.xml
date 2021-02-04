@@ -100,6 +100,17 @@
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_semibold</item>
     </style>
+    <style name="Text_mont_bold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_bold</item>
+    </style>
+
+    <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">@dimen/margin5</item>
+        <item name="android:maxHeight">@dimen/margin5</item>
+        <item name="colorControlNormal">@color/text_gray</item>
+        <item name="colorControlActivated">@color/spark_primary_color</item>
+    </style>
 
     <!-- Medium Normal TextSize -->
 

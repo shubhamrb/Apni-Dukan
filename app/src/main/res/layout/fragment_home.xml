@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/layout_back"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_banner"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin120"/>
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="@color/light_purple"
+                    android:layout_marginTop="@dimen/margin10"
+                    app:dotsCornerRadius="5dp"
+                    android:layout_gravity="center_horizontal"
+                    app:dotsSize="10dp"
+                    app:dotsSpacing="3dp"
+                    app:dotsWidthFactor="2.5"
+                    app:selectedDotColor="@color/purple"
+                    app:progressMode="false"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:text="@string/top_services"
+                    android:textColor="@color/light_black"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_services"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:text="@string/top_stores"
+                    android:textColor="@color/light_black"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_stores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:text="@string/nearby_stores"
+                    android:textColor="@color/light_black"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_nearbystores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_bottom_banner"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin120"/>
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots__bottom_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:dotsColor="@color/light_purple"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginBottom="@dimen/margin60"
+                    app:dotsCornerRadius="5dp"
+                    android:layout_gravity="center_horizontal"
+                    app:dotsSize="10dp"
+                    app:dotsSpacing="3dp"
+                    app:dotsWidthFactor="2.5"
+                    app:selectedDotColor="@color/purple"
+                    app:progressMode="false"
+                    />
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

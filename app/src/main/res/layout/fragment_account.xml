@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_back"
+    android:id="@+id/relative_frag"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/common_toolbar_normal"/>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_above="@id/bottom_navigation"
+                android:layout_below="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textsize18"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="Manish Kumar"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="manish@gmail.com"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:text="8888888888"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textsize16"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin25"
+                        android:text="@string/my_account"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Address contact info"
+                        android:textColor="@color/light_black" />
+
+                    <View
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginRight="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin10"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black"/>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textsize16"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="@string/security"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Change password"
+                        android:textColor="@color/light_black" />
+
+                    <View
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginRight="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin10"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black"/>
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textsize16"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="@string/help"
+                        android:textColor="@color/light_black" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Help and support"
+                        android:textColor="@color/light_black" />
+
+                    <View
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginRight="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin10"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/black"/>
+
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin25"
+                        android:text="@string/order_history"
+                        android:textColor="@color/light_black" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textsize14"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/total_order"
+                            android:textColor="@color/light_black" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_semibold"
+                            android:id="@+id/text_total_order"
+                            android:textSize="@dimen/textsize14"
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/circle_gradient_purple"
+                            android:text="6"
+                            android:layout_marginLeft="@dimen/margin15"
+                            android:textColor="@color/white"
+                            android:layout_width="@dimen/margin25"
+                            android:layout_height="@dimen/margin25"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_order_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+</RelativeLayout>

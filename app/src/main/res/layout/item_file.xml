@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/margin5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_filename"
+        android:text="Form"
+        android:layout_marginTop="@dimen/margin8"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_regular"
+        android:id="@+id/text_filesize"
+        android:text="10 MB"
+        android:layout_marginLeft="@dimen/margin10"
+        android:layout_toRightOf="@+id/text_filename"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/margin8"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_download"
+        android:background="@drawable/gradient_blue"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="@dimen/margin35"
+        android:layout_height="@dimen/margin35">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            app:srcCompat="@drawable/ic_download"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/margin15"
+            android:layout_height="@dimen/margin15"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

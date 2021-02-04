@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relative_frag"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/layout_back"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_bold"
+                    android:id="@+id/text_payment_mode"
+                    android:text="Phone Pay"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:text="Scan the QR Code to make payment."
+                    android:layout_marginTop="@dimen/margin8"
+                    android:textColor="@color/light_black"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_bold"
+                    android:id="@+id/text_store_name"
+                    android:text="KIOSK STORE"
+                    android:layout_marginTop="@dimen/margin45"
+                    android:textColor="@color/light_black"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textsize22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_qr_code"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_width="@dimen/margin200"
+                    android:layout_height="@dimen/margin200"
+                    android:background="@color/grey_alpha"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:text="Scan to make payment."
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:textColor="@color/light_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:gravity="center"
+                    android:text="Once payment is done kindly share it with\nthe kiosk on chat section."
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginBottom="@dimen/margin25"
+                    android:textColor="@color/light_black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_share_screenshot"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/gradient_blue_180"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_share_screenshot"
+                        android:text="@string/share_screenshot"
+                        android:padding="@dimen/margin15"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

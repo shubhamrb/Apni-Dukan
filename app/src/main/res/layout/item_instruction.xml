@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_marginTop="@dimen/margin10"
+    android:layout_marginBottom="@dimen/margin10"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/margin10"
+            android:layout_height="@dimen/margin10"
+            app:srcCompat="@drawable/circle_purple"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_regular"
+            android:textColor="@color/light_black"
+            android:text="Lorem ipsum dolor sit amet,"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin15"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
