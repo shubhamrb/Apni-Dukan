@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mponline.vendorApp.ui.customui.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:layout_margin="@dimen/margin5"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="@dimen/margin3"
+        android:elevation="@dimen/margin3"
+        android:id="@+id/cv_service"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_service"
+                        android:background="@color/grey_alpha"
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/margin40"
+                        android:layout_height="@dimen/margin40"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_service"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:textColor="@color/light_black"
+                        android:text="Exam forms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</com.mponline.vendorApp.ui.customui.SquareRelativeLayout>

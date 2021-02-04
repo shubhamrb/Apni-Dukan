@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#91BF17</color>
-    <color name="colorPrimaryDark">@color/colorPrimary</color>
-    <color name="colorAccent">@color/colorPrimary</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/sly_blue</color>
+    <color name="colorAccent">@color/sly_blue</color>
     <color name="white">#ffffff</color>
+    <color name="app_back">#FFFAFA</color>
     <color name="black">#000000</color>
 
-    <color name="app_back">#f7f7f7</color>
     <color name="hint_text_color">#acacac</color>
     <color name="disable_edittext">#DCDCDC</color>
     <color name="primary_text_color">#393C47</color>
@@ -30,7 +30,7 @@
     <color name="menu_color">#454F63</color>
     <color name="seventeen_white">#17ffffff</color>
 
-    <color name="green">#91BF17</color>
+    <color name="green">#39AE00</color>
 
     <color name="light_gray">#656565</color>
 
@@ -44,6 +44,7 @@
     <color name="fifty_black">#80000000</color>
 
 
+    <color name="sly_blue">#02A1FF</color>
     <color name="blue">#2C3092</color>
     <color name="orange">#F36F21</color>
     <color name="orange_light">#F09400</color>
@@ -51,13 +52,24 @@
     <!--    <color name="gray_border">#9CA5B2</color>-->
 
     <color name="spark_primary_color">#FFFFC107</color>
+    <color name="yellow">#FFB302</color>
     <color name="spark_secondary_color">#FFFF5722</color>
     <color name="spark_image_tint">#00000000</color>
     <color name="green_status">#32C534</color>
-    <color name="red">#EE292A</color>
-    <color name="navy_blue">#4D78F8</color>
+    <color name="red">#FF2502</color>
     <color name="green_status_alpha">#3332C534</color>
     <color name="red_alpha">#80EE292A</color>
     <color name="navy_blue_alpha">#334D78F8</color>
+    <color name="navy_blue">#3C5A99</color>
+    <color name="purple">#513CC6</color>
+    <color name="light_purple">#FF33CF</color>
+    <color name="light_black">#272727</color>
+    <color name="grad_purple">#513BC6</color>
+    <color name="grad_magento">#FF33CF</color>
+    <color name="magento">#B736CB</color>
+    <color name="grey_back">#F5F5F5</color>
+    <color name="light_grey_text">#63697B</color>
+    <color name="border_violet">#8000FF</color>
+    <color name="border_navy_blue">#006FFF</color>
 
 </resources>

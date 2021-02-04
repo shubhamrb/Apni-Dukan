@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nestedscroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/nav_header_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_drawer_close"
+                android:layout_width="@dimen/margin25"
+                android:layout_height="@dimen/margin25"
+                android:padding="@dimen/margin5"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/margin20"
+                android:layout_marginRight="@dimen/margin20"
+                android:layout_marginBottom="@dimen/margin15"
+                android:tint="@color/blue"
+                app:srcCompat="@drawable/ic_close" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_drawer_close"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_drawable"
+                    style="@style/Text_mont_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:background="@color/sly_blue"
+                    android:gravity="center"
+                    android:padding="@dimen/margin15"
+                    android:text="MK"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize18" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin20"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_username"
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="manish kumar"
+                        android:textAllCaps="true"
+                        android:textColor="@color/sly_blue"
+                        android:textSize="@dimen/textsize18" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_email"
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:visibility="gone"
+                        android:text="manish@gmail.com"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize14" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_mobile"
+                        style="@style/Text_mont_regular"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8888888888"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/textsize14" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin15"
+            android:layout_below="@+id/nav_header_container"
+            android:layout_marginTop="35dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_semibold"
+            android:id="@+id/text_logout"
+            android:text="Logout"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/margin15"
+            android:elevation="@dimen/margin3"
+            android:layout_margin="@dimen/margin15"
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

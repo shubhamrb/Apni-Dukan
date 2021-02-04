@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="@string/overview"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:text="@string/overview_desc"
+                    android:textColor="@color/light_black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:orientation="horizontal">
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_total_order"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_blue"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:text="@string/total_order" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_total_order"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/sly_blue" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_completed_order"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_green"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:text="@string/completed_orders" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_completed_order"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/green" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_pending_order"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_yellow"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:lines="2"
+                                android:gravity="center"
+                                android:text="@string/pending_orders" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_pending_order"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/yellow" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin5"
+                    android:orientation="horizontal">
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_denied_order"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_red"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:text="@string/denied_orders" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_denied_order"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/red" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_payment_recieved"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_violet"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:lines="2"
+                                android:text="@string/payment_recieved" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_payment_recieved"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/border_violet" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                    <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
+                        android:id="@+id/sq_total_amt"
+                        android:layout_width="@dimen/margin0"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin5"
+                        android:layout_weight="1"
+                        android:background="@drawable/rect_navy_blue"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/margin15">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_raleway_regular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:lines="2"
+                                android:gravity="center"
+                                android:text="@string/total_amt" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_total_amt"
+                                style="@style/Text_mont_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/margin15"
+                                android:gravity="center"
+                                android:text="20"
+                                android:textColor="@color/border_navy_blue" />
+                        </LinearLayout>
+                    </com.mponline.vendorApp.ui.customui.SquareRelativeLayout>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="@string/recent_orders"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:text="@string/past_order_listed"
+                    android:textColor="@color/light_black" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_orders"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -2,7 +2,6 @@
 
 
     <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -11,7 +10,6 @@
         <item name="colorControlActivated">@color/light_text_color</item>
         <item name="actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <!-- Customize your theme here. -->
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
     </style>
@@ -29,13 +27,27 @@
         <item name="android:windowDisablePreview">true</item>
     </style>
 
+    <!--    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle" tools:ignore="DuplicateDefinition">-->
+    <!--        <item name="spinBars">true</item>-->
+    <!--        <item name="color">@android:color/white</item>-->
+    <!--    </style>-->
 
-<!--    <style name="FilePickerTheme" parent="LibAppTheme">-->
-<!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--    </style>-->
+    <style name="DrawerStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textSize">@dimen/textsize12</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="NavigationTheme" parent="AppTheme">
+        <!--        <item name="android:layout_marginBottom">-5dp</item>-->
+    </style>
+
+    <!--    <style name="FilePickerTheme" parent="LibAppTheme">-->
+    <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--        <item name="colorAccent">@color/colorAccent</item>-->
+    <!--    </style>-->
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>
@@ -76,17 +88,61 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
     </style>
-<!--    <item name="android:background">@drawable/rounded_primary</item>-->
+    <!--    <item name="android:background">@drawable/rounded_primary</item>-->
 
 
+    <style name="Text_title" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="Text_subtitle" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize12</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
     <style name="Text_mont_regular" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 
     <style name="Text_mont_semibold" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_semibold</item>
+    </style>
+    <style name="Text_mont_bold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_bold</item>
+    </style>
+    <style name="Text_raleway_bold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_bold</item>
+    </style>
+    <style name="Text_raleway_regular" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_regular</item>
+    </style>
+    <style name="Text_raleway_medium" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_medium</item>
+    </style>
+    <style name="Text_raleway_semibold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_semibold</item>
+    </style>
+
+    <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:minHeight">@dimen/margin5</item>
+        <item name="android:maxHeight">@dimen/margin5</item>
+        <item name="colorControlNormal">@color/text_gray</item>
+        <item name="colorControlActivated">@color/spark_primary_color</item>
     </style>
 
     <!-- Medium Normal TextSize -->
@@ -110,9 +166,9 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="android:importantForAutofill">no</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
-<!--    <item name="android:background">@drawable/rectangle_white_border</item>-->
+    <!--    <item name="android:background">@drawable/rectangle_white_border</item>-->
 
     <style name="EditText_Normal" parent="AppTheme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
@@ -133,7 +189,7 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="android:importantForAutofill">no</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
     <style name="EditText_Normal_borderless" parent="AppTheme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
@@ -151,7 +207,7 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="android:importantForAutofill">no</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
     <style name="EditText_Normal_no_margin" parent="AppTheme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
@@ -172,7 +228,7 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="android:importantForAutofill">no</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
     <style name="EditText_Normal_no_margin_padding" parent="AppTheme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
@@ -188,7 +244,7 @@
         <item name="android:layout_height">@dimen/margin50</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor_white</item>
-        <item name="android:importantForAutofill">no</item>
+        <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
 
     <style name="EditText_Secondary_OTP" parent="android:Widget.TextView">

@@ -3,29 +3,34 @@
 
     <item
         android:id="@+id/nav_home"
-        android:title="User" />
+        android:title="@string/my_account" />
 
 
-<!--    <group android:id="@+id/nav_subinsurnacetype">-->
+    <group android:id="@+id/nav_nearby_services">
 
-<!--        <item-->
-<!--            android:id="@+id/nav_insurancelab"-->
-<!--            android:title="@string/nav_msi"-->
-<!--            android:visible="false" />-->
+        <item
+            android:id="@+id/nav_rm_appln"
+            android:title="APPL"
+            android:iconTint="@color/white"
+            android:visible="true" />
 
-<!--        &lt;!&ndash;  <item android:title="@string/str_buy_insurance" />&ndash;&gt;-->
+        <!--  <item android:title="@string/str_buy_insurance" />-->
 
-<!--        <item-->
-<!--            android:id="@+id/nav_showinsurancepolicy"-->
-<!--            android:title="@string/str_view_policy_lab"-->
-<!--            android:visible="false" />-->
+        <item
+            android:id="@+id/nav_rm_appln1"
+            android:title="APPL"
+            android:iconTint="@color/white"
+            android:visible="true" />
 
-<!--        <item-->
-<!--            android:id="@+id/nav_claiminsurancepolicy"-->
-<!--            android:title="@string/str_claim_details"-->
-<!--            android:visible="false" />-->
+        <item
+            android:id="@+id/nav_rm_appln3"
+            android:title="APPL"
+            android:visible="true" />
+    </group>
 
-<!--    </group>-->
+    <item
+        android:id="@+id/nav_history"
+        android:title="@string/nav_history" />
 
 
 

@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mponline.vendorApp.BuildConfig
+import com.mponline.vendorApp.utils.Constants
 
 class  CommonUtils{
 
@@ -47,6 +48,15 @@ class  CommonUtils{
             if (BuildConfig.DEBUG) {
                 Log.e(tag, message)
             }
+        }
+
+        fun isValidGPSName(name: String): Boolean {
+            return name?.matches(Constants.REGEX_GPS_NAME.toRegex())
+        }
+
+        open fun convertDpToPixel(context: Context, dp: Int): Int {
+            val scale = context.resources.displayMetrics.density
+            return (dp * scale + 0.5f).toInt()
         }
 
         fun loadImageWithGlide(context: Context, urlLink:String, imageView: ImageView){
