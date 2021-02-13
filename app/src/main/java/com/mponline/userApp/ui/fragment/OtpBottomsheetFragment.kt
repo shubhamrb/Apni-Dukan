@@ -1,6 +1,7 @@
 package com.mponline.userApp.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mponline.userApp.R
+import com.mponline.userApp.ui.activity.MainActivity
+import com.mponline.userApp.ui.activity.RegisterActivity
+import kotlinx.android.synthetic.main.layout_bottom_otp.*
 
 const val ARG_ITEM_COUNT = "item_count"
 
@@ -24,7 +28,11 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        view?.run {
+            text_verify_otp.setOnClickListener {
+                context.startActivity(Intent(context, MainActivity::class.java))
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

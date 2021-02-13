@@ -41,7 +41,10 @@ class LoginActivity : BaseActivity(), OnItemClickListener {
         setContentView(R.layout.activity_login)
 
         text_login.setOnClickListener {
-
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        }
+        text_register.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
 
     }

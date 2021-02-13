@@ -256,7 +256,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_regular"
-        android:id="@+id/text_proceed"
+        android:id="@+id/text_make_payment"
         android:text="@string/make_payment"
         android:gravity="center"
         android:padding="@dimen/margin15"

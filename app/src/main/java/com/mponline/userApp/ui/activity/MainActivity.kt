@@ -16,14 +16,17 @@ import com.google.android.material.navigation.NavigationView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
+import com.mponline.userApp.ui.base.FusedLocationActivity
 import com.mponline.userApp.ui.fragment.*
 import com.mponline.userApp.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.common_toolbar.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     OnSwichFragmentListener, OnItemClickListener {
 
@@ -32,6 +35,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
+        app_bar_common.visibility = View.VISIBLE
         when (tag) {
             Constants.HOME_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -39,15 +43,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.SERVICE_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, ServiceFragment())
-                ft.addToBackStack(Constants.SERVICE_PAGE)
-                ft.commit()
+                if(obj!=null && obj is CategorylistItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, ServiceFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.SERVICE_PAGE)
+                    ft.commit()
+                }
             }
             Constants.STORE_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, StoresFragment())
-                ft.addToBackStack(Constants.SERVICE_PAGE)
+                ft.addToBackStack(Constants.STORE_PAGE)
                 ft.commit()
             }
             Constants.SUB_SERVICE_PAGE -> {
@@ -98,6 +104,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.addToBackStack(Constants.CHAT_MSG_PAGE)
                 ft.commit()
             }
+            Constants.COUPON_PAGE -> {
+                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                ft.add(R.id.rl_container_drawer, CouponFragment())
+                ft.addToBackStack(Constants.COUPON_PAGE)
+                ft.commit()
+            }
             Constants.CLOSE_NAV_DRAWER -> {
                if(drawer_layout.isDrawerOpen(GravityCompat.START)){
                    drawer_layout.closeDrawer(GravityCompat.START)
@@ -107,24 +119,36 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onSwitchFragmentParent(tag: String, type: String, obj: Any?, extras: Any?) {
+        app_bar_common.visibility = View.GONE
         when (tag) {
             Constants.DOWNLOAD_LIST_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_parent, DownloadListFragment())
+                ft.add(R.id.rl_container_drawer, DownloadListFragment())
                 ft.addToBackStack(Constants.DOWNLOAD_LIST_PAGE)
                 ft.commit()
             }
             Constants.CHAT_HOME_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_parent, ChatHomeFragment())
+                ft.add(R.id.rl_container_drawer, ChatHomeFragment())
                 ft.addToBackStack(Constants.CHAT_HOME_PAGE)
                 ft.commit()
             }
             Constants.MY_ACCOUNT_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_parent, AccountFragment())
+                ft.add(R.id.rl_container_drawer, AccountFragment())
                 ft.addToBackStack(Constants.MY_ACCOUNT_PAGE)
                 ft.commit()
+            }
+        }
+    }
+
+    override fun onSwichToolbar(tag: String, type: String, obj: Any?) {
+        when(tag){
+            Constants.HIDE_NAV_DRAWER_TOOLBAR->{
+                app_bar_common.visibility = View.GONE
+            }
+            Constants.SHOW_NAV_DRAWER_TOOLBAR->{
+                app_bar_common.visibility = View.VISIBLE
             }
         }
     }
@@ -140,6 +164,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
 
         bottom_navigation.setOnNavigationItemSelectedListener {
+            supportFragmentManager?.popBackStack();
             when (it.itemId) {
                 R.id.nav_home ->{
                     onSwitchFragment(Constants.HOME_PAGE, "", null, null)
@@ -173,6 +198,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         )
 
         toolbar.setNavigationOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            val f = supportFragmentManager.findFragmentById(R.id.rl_container_drawer)
+            supportFragmentManager.fragments.lastOrNull()?.onStart()
+//            when (f?.tag) {
+//                Constants.HOME_PAGE -> {
+//                    supportFragmentManager.fragments.lastOrNull()?.onResume()
+//                }
+//                Constants.SERVICE_PAGE -> {
+//                    supportFragmentManager.fragments.lastOrNull()?.onResume()
+//                }
+//            }
+        }
     }
 
     /*private fun setNavigationDrawer() {
@@ -243,6 +281,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onClick(pos: Int, view: View, obj: Any?) {
 
     }
+
+
 
 
 }

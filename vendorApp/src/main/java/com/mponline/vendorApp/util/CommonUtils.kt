@@ -7,6 +7,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
@@ -14,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.mponline.vendorApp.BuildConfig
 import com.mponline.vendorApp.utils.Constants
+
 
 class  CommonUtils{
 
@@ -76,6 +80,19 @@ class  CommonUtils{
             val connMgr = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo: NetworkInfo? = connMgr?.activeNetworkInfo
             return networkInfo?.isConnected == true
+        }
+
+        //Animations
+        fun outToLeftAnimation(): Animation? {
+            val outtoLeft: Animation = TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f
+            )
+            outtoLeft.duration = 500
+            outtoLeft.interpolator = AccelerateInterpolator()
+            return outtoLeft
         }
 
 

@@ -8,11 +8,13 @@
         layout="@layout/layout_back"/>
 
     <LinearLayout
+        android:id="@+id/ll_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedscroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,19 +34,19 @@
                     android:id="@+id/dots_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:dotsColor="@color/light_purple"
+                    app:dotsColor="@color/trans_light_purple"
                     android:layout_marginTop="@dimen/margin10"
-                    app:dotsCornerRadius="5dp"
+                    app:dotsCornerRadius="2.5dp"
                     android:layout_gravity="center_horizontal"
-                    app:dotsSize="10dp"
-                    app:dotsSpacing="3dp"
+                    app:dotsSize="@dimen/margin5"
+                    app:dotsSpacing="@dimen/margin2"
                     app:dotsWidthFactor="2.5"
-                    app:selectedDotColor="@color/purple"
+                    app:selectedDotColor="@color/trans_purple"
                     app:progressMode="false"
                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
+                    style="@style/Text_mont_medium"
                     android:text="@string/top_services"
                     android:textColor="@color/light_black"
                     android:layout_marginLeft="@dimen/margin15"
@@ -60,7 +62,7 @@
                     android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
+                    style="@style/Text_mont_medium"
                     android:text="@string/top_stores"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
@@ -70,13 +72,30 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_stores"
+                    android:layoutAnimation="@anim/layout_animation"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_medium"
+                    android:text="@string/top_exam_form"
+                    android:textColor="@color/light_black"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_top_exam_forms"
+                    android:layoutAnimation="@anim/layout_animation"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
+                    style="@style/Text_mont_medium"
                     android:text="@string/nearby_stores"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
@@ -91,30 +110,33 @@
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewpager_bottom_banner"
-                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin20"
                     android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginBottom="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin120"/>
 
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                    android:id="@+id/dots__bottom_indicator"
+                    android:id="@+id/dots_bottom_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:dotsColor="@color/light_purple"
+                    app:dotsColor="@color/trans_light_purple"
                     android:layout_marginTop="@dimen/margin10"
-                    android:layout_marginBottom="@dimen/margin60"
-                    app:dotsCornerRadius="5dp"
+                    app:dotsCornerRadius="2.5dp"
                     android:layout_gravity="center_horizontal"
-                    app:dotsSize="10dp"
-                    app:dotsSpacing="3dp"
+                    app:dotsSize="@dimen/margin5"
+                    app:dotsSpacing="@dimen/margin2"
                     app:dotsWidthFactor="2.5"
-                    app:selectedDotColor="@color/purple"
+                    app:selectedDotColor="@color/trans_purple"
                     app:progressMode="false"
                     />
+
 
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-
+    <include
+        android:id="@+id/layout_progress"
+        layout="@layout/layout_progress"/>
 </RelativeLayout>

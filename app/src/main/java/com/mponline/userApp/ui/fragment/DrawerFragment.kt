@@ -23,7 +23,7 @@ import com.mponline.userApp.ui.adapter.DrawerAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
-import com.recyclemybin.utils.PreferenceUtils
+import com.mponline.userApp.utils.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_drawer.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

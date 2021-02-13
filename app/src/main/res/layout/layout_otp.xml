@@ -16,14 +16,18 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_1"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin10"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -31,14 +35,18 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_2"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin10"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -46,14 +54,18 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_3"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin10"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -61,14 +73,18 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_4"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin10"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -76,14 +92,18 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_5"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin10"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -91,9 +111,13 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_6"
-                android:padding="@dimen/margin15"
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:paddingLeft="@dimen/margin8"
+                android:paddingRight="@dimen/margin8"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>

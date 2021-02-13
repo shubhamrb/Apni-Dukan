@@ -4,6 +4,7 @@ import com.mponline.userApp.api.NetworkAPIService
 import com.mponline.userApp.db.dao.UserDao
 import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.repository.UserRepositoryImpl
+import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,10 @@ class RepositoryModule {
             apiService,
             userDao
         ) as UserRepository
+    }
+    @Provides
+    fun provideViewModel(userRepository: UserRepository): UserListViewModel {
+        return UserListViewModel(userRepository) as UserListViewModel
     }
 
 }

@@ -73,6 +73,11 @@ class DownloadListFragment : BaseFragment(), OnItemClickListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.HIDE_NAV_DRAWER_TOOLBAR,"",null)
+    }
+
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
 //            R.id.cv_store->{

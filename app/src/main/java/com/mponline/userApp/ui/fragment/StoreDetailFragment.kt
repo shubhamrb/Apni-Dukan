@@ -62,10 +62,15 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+    }
+
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
             R.id.cv_service->{
-                mSwichFragmentListener?.onSwitchFragment(Constants.SUB_SERVICE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                mSwichFragmentListener?.onSwitchFragment(Constants.INSTRUCTION_PAGE, Constants.WITH_NAV_DRAWER, null, null)
             }
 
         }

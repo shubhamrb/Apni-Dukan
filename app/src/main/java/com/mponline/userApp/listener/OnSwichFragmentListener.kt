@@ -7,4 +7,8 @@ interface OnSwichFragmentListener {
 
     //Without drawer
     fun onSwitchFragmentParent(tag: String, type:String, obj:Any?, extras:Any?)
+
+    //To manage toolbar
+    fun onSwichToolbar(tag: String, type:String, obj:Any?){}
+
 }

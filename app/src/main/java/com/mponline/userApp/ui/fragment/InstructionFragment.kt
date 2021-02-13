@@ -1,6 +1,7 @@
 package com.mponline.userApp.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +50,9 @@ class InstructionFragment : BaseFragment(), OnItemClickListener {
         view?.relative_frag?.setOnClickListener {
 
         }
+        view?.text_proceed?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(Constants.CUSTOM_FOEMS_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+        }
         //Step
         view?.rv_steps?.layoutManager =
             LinearLayoutManager(
@@ -70,6 +74,11 @@ class InstructionFragment : BaseFragment(), OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {

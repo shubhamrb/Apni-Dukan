@@ -70,6 +70,11 @@ class CouponFragment : BaseFragment(), OnItemClickListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+    }
+
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
 //            R.id.cv_store->{

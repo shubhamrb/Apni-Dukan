@@ -22,6 +22,7 @@ import com.mponline.userApp.utils.Constants
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.common_toolbar_normal.view.*
 import kotlinx.android.synthetic.main.fragment_chat_home.view.*
+import kotlinx.android.synthetic.main.item_chat.view.*
 
 class ChatHomeFragment : BaseFragment(), OnItemClickListener {
     override fun onNetworkChange(isConnected: Boolean) {
@@ -74,10 +75,27 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
 
     }
 
+    override fun onStart() {
+        CommonUtils.printLog("ONRESUME","Called")
+        mSwichFragmentListener?.onSwichToolbar(Constants.HIDE_NAV_DRAWER_TOOLBAR,"",null)
+        mView?.app_bar_normal?.visibility = View.VISIBLE
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        mView?.app_bar_normal?.visibility = View.INVISIBLE
+    }
+
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
-            R.id.cv_store->{
-                mSwichFragmentListener?.onSwitchFragment(Constants.STORE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+            R.id.rl_chat->{
+                mSwichFragmentListener?.onSwitchFragment(Constants.CHAT_MSG_PAGE, Constants.WITH_NAV_DRAWER, null, null)
             }
 
         }

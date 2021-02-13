@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mponline.userApp.R
+import com.mponline.userApp.model.response.BannerlistItem
+import com.mponline.userApp.utils.ImageGlideUtils
+import kotlinx.android.synthetic.main.item_banner.view.*
 
 class BannerPagerFragment : Fragment() {
 
@@ -16,26 +19,26 @@ class BannerPagerFragment : Fragment() {
     ): View? {
 
             val view = inflater.inflate(R.layout.item_banner, container, false)
-//            arguments?.let {
-//                val pos: Int = arguments!!.getInt("pos")
-//                val data: StartUpScreenModel? = arguments?.getParcelable<StartUpScreenModel>("data")
-//                data?.run {
-//                    view.text_startup_msg.text = data?.title
-//                    view.image_startup.setImageResource(this.image)
-//
-//                }
-//            }
+            arguments?.let {
+                val pos: Int = arguments!!.getInt("pos")
+                val data: BannerlistItem? = arguments?.getParcelable<BannerlistItem>("obj")
+                data?.run {
+                   ImageGlideUtils.loadUrlImage(activity!!, image, view?.image_banner!!)
+                }
+            }
             return view
     }
 
     companion object {
         fun newInstance(
             context: Activity,
-            pos: Int
+            pos: Int,
+            mBannerlistItem: BannerlistItem
         ): Fragment {
             val fragment = BannerPagerFragment()
             val bundle = Bundle()
             bundle.putInt("pos", pos)
+            bundle.putParcelable("obj", mBannerlistItem)
             fragment.arguments = bundle
             return fragment
         }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import kotlinx.android.synthetic.main.item_chat.view.*
 import kotlinx.android.synthetic.main.item_sub_store.view.*
 
 
@@ -31,6 +32,9 @@ class ChatAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        holder.itemView.setOnClickListener {
+            listener.onClick(position, holder.itemView.rl_chat, null)
+        }
     }
 
     override fun getItemId(position: Int): Long {

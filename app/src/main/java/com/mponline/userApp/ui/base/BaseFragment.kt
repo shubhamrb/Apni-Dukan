@@ -8,18 +8,22 @@ import android.app.ProgressDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
+import android.util.DisplayMetrics
+import android.view.View
+import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.R
 import com.mponline.userApp.db.AppDatabase
 import com.mponline.userApp.livedata.ConnectionLiveData
+import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.util.CameraGalleryUtils
-import com.recyclemybin.utils.PreferenceUtils
+import com.mponline.userApp.util.CommonUtils
+import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.utils.PreferenceUtils
 import com.zplesac.connectionbuddy.ConnectionBuddy
 import com.zplesac.connectionbuddy.models.ConnectivityEvent
 import com.zplesac.connectionbuddy.models.ConnectivityState
@@ -38,7 +42,7 @@ abstract class BaseFragment : Fragment() {
     var database: AppDatabase? = null
     var mCustomerNo: String = ""
     var mMobileNo: String = ""
-    var mCurrentPhotoPath:String = ""
+    var mCurrentPhotoPath: String = ""
 
 
     abstract fun onNetworkChange(isConnected: Boolean)
@@ -157,7 +161,11 @@ abstract class BaseFragment : Fragment() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun createImageFile(activity: Activity, extension: String = ".jpg", cameraUtils: CameraGalleryUtils): File {
+    fun createImageFile(
+        activity: Activity,
+        extension: String = ".jpg",
+        cameraUtils: CameraGalleryUtils
+    ): File {
         // Create an image file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
@@ -179,8 +187,51 @@ abstract class BaseFragment : Fragment() {
         return image
     }
 
+    //    @SerializedName("api_key")
+//    val apiKey: String = "",
+//    @SerializedName("latitude")
+//    val latitude: String = "",
+//    @SerializedName("longitude")
+//    val longitude: String = "",
+//    @SerializedName("category_id")
+//    val category_id: String = "",
+//    @SerializedName("subcategory_id")
+//    val subcategory_id: String = "",
+//    @SerializedName("product_id")
+//    val product_id: String = ""
 
+    fun getCommonRequestObj(
+        apiKey: String,
+        latitude: String = "",
+        longitude: String = "",
+        category_id: String = "",
+        subcategory_id: String = "",
+        product_id: String = ""
+    ): CommonRequestObj {
+        return CommonRequestObj(
+            apiKey = apiKey,
+            latitude = latitude,
+            longitude = longitude,
+            category_id = category_id,
+            subcategory_id = subcategory_id,
+            product_id = product_id
+        )
+    }
 
+    fun getApiKey():String{
+        return Constants.DUMMY_API_KEY
+    }
 
+    fun translateViewToLeftAnim(view: View, duration:Long = 1200){
+        val displayMetrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        var width = displayMetrics.widthPixels.toFloat()
+        CommonUtils.printLog("DEVICE_WIDTH", "${width}")
+        var animation: TranslateAnimation = TranslateAnimation(width, 0f, 0f, 0f)
+        animation.duration = duration
+        animation.repeatCount = 0
+        animation.repeatMode = 0
+        view?.startAnimation(animation)
+    }
 
 }

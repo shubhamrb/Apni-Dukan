@@ -51,6 +51,14 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         view?.relative_frag?.setOnClickListener {
 
         }
+        view?.text_free_coupons?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(
+                Constants.COUPON_PAGE,
+                Constants.WITH_NAV_DRAWER,
+                null,
+                null
+            )
+        }
 
         //Payment detail
         view?.rv_payment_details?.setHasFixedSize(true)
@@ -80,6 +88,11 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {

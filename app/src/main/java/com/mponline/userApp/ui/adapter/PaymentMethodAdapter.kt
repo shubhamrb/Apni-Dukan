@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.utils.Constants
 import kotlinx.android.synthetic.main.item_stores.view.*
 
 
@@ -30,7 +32,12 @@ class PaymentMethodAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder.itemView.setOnClickListener {
+            if(context is OnSwichFragmentListener){
+                var mOnSwichFragmentListener = context as OnSwichFragmentListener
+                mOnSwichFragmentListener.onSwitchFragment(Constants.PAYMENT_DETAIL_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+            }
+        }
     }
 
     override fun getItemId(position: Int): Long {

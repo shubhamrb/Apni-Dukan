@@ -37,8 +37,7 @@ import com.mponline.userApp.livedata.ConnectionLiveData
 import com.mponline.userApp.model.UserCurrentAddress
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
-import com.recyclemybin.utils.DateUtils
-import com.recyclemybin.utils.PreferenceUtils
+import com.mponline.userApp.utils.PreferenceUtils
 import com.zplesac.connectionbuddy.ConnectionBuddy
 import com.zplesac.connectionbuddy.models.ConnectivityEvent
 import com.zplesac.connectionbuddy.models.ConnectivityState

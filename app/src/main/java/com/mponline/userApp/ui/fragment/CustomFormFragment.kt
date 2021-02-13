@@ -96,6 +96,9 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         view?.relative_frag?.setOnClickListener {
 
         }
+        view?.text_proceed?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(Constants.ORDER_HISTORY_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+        }
 
         //Forms
         customFormList?.add(
@@ -151,6 +154,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

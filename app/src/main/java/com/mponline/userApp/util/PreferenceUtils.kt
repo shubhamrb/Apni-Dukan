@@ -1,4 +1,4 @@
-package com.recyclemybin.utils
+package com.mponline.userApp.utils
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.mponline.userApp.model.response.BannerlistItem
 import com.mponline.userApp.ui.fragment.BannerPagerFragment
 
 class BannerPagerAdapter(
-    val activity: Activity, fm: FragmentManager
+    val activity: Activity, fm: FragmentManager, var mList:ArrayList<BannerlistItem>
 ) : FragmentStatePagerAdapter(fm) {
 
     override fun getCount(): Int {
-        return 5
+        return mList?.size
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -20,7 +21,7 @@ class BannerPagerAdapter(
     }
 
     override fun getItem(position: Int): Fragment {
-        return BannerPagerFragment.newInstance(activity, position)
+        return BannerPagerFragment.newInstance(activity, position, mList?.get(position))
     }
 
 }

@@ -8,6 +8,9 @@ import android.net.NetworkInfo
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.webkit.MimeTypeMap
 import android.widget.ImageView
@@ -85,6 +88,19 @@ class  CommonUtils{
 
             // Return file Extension
             return ".${mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))}"
+        }
+
+        //Animations
+        fun outToLeftAnimation(): Animation? {
+            val outtoLeft: Animation = TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, -1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f
+            )
+            outtoLeft.duration = 1500
+            outtoLeft.interpolator = AccelerateInterpolator()
+            return outtoLeft
         }
 
     }

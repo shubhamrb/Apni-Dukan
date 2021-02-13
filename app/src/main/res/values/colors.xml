@@ -60,7 +60,9 @@
     <color name="navy_blue_alpha">#334D78F8</color>
     <color name="navy_blue">#3C5A99</color>
     <color name="purple">#513CC6</color>
+    <color name="trans_purple">#B3513CC6</color>
     <color name="light_purple">#FF33CF</color>
+    <color name="trans_light_purple">#B3FF33CF</color>
     <color name="light_black">#272727</color>
     <color name="grad_purple">#513BC6</color>
     <color name="grad_magento">#FF33CF</color>

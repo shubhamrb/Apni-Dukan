@@ -94,7 +94,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
                     android:id="@+id/text_free_coupons"
-                    android:text="Get Free Coupons, Click here"
+                    android:text="@string/get_coupons_click"
                     android:layout_marginTop="@dimen/margin8"
                     android:textColor="@color/light_black"
                     android:layout_marginLeft="@dimen/margin15"
