@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:ignore="MissingDefaultResource">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin15"
+            android:layout_marginRight="@dimen/margin15"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_raleway_medium"
+                android:id="@+id/text_add_entry"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/margin15"
+                android:layout_weight="1"
+                android:textSize="@dimen/textsize16"
+                android:text="@string/customers"
+                android:background="@color/sly_blue"
+                android:layout_width="@dimen/margin0"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_raleway_medium"
+                android:id="@+id/text_payment_settlement"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:textSize="@dimen/textsize16"
+                android:padding="@dimen/margin15"
+                android:layout_weight="1"
+                android:text="@string/admins"
+                android:background="@color/black"
+                android:layout_width="@dimen/margin0"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_inbox"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+</RelativeLayout>

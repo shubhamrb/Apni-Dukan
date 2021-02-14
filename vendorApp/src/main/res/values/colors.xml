@@ -45,6 +45,7 @@
 
 
     <color name="sly_blue">#02A1FF</color>
+    <color name="trans_sly_blue">#3302A1FF</color>
     <color name="blue">#2C3092</color>
     <color name="orange">#F36F21</color>
     <color name="orange_light">#F09400</color>
@@ -53,6 +54,7 @@
 
     <color name="spark_primary_color">#FFFFC107</color>
     <color name="yellow">#FFB302</color>
+    <color name="light_greenish_blue">#02FFCB</color>
     <color name="spark_secondary_color">#FFFF5722</color>
     <color name="spark_image_tint">#00000000</color>
     <color name="green_status">#32C534</color>

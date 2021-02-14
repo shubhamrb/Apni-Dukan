@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.mponline.vendorApp.ui.fragment.HomeFragment
-import com.mponline.vendorApp.ui.fragment.OrderFragment
-import com.mponline.vendorApp.ui.fragment.ServicesFragment
+import com.mponline.vendorApp.ui.fragment.*
 
 
 class HomeTabAdapter(private val myContext: Context, fm: FragmentManager, internal var totalTabs: Int) : FragmentStatePagerAdapter(fm) {
@@ -24,7 +22,7 @@ class HomeTabAdapter(private val myContext: Context, fm: FragmentManager, intern
             }
             2 -> {
                 // val movieFragment = MovieFragment()
-                return HomeFragment()
+                return InboxFragment()
             }
             3 -> {
                 // val movieFragment = MovieFragment()
@@ -32,11 +30,11 @@ class HomeTabAdapter(private val myContext: Context, fm: FragmentManager, intern
             }
             4 -> {
                 // val movieFragment = MovieFragment()
-                return HomeFragment()
+                return PaymentsFragment()
             }
             5 -> {
                 // val movieFragment = MovieFragment()
-                return HomeFragment()
+                return OfferFragment()
             }
             else ->{
                 return HomeFragment()

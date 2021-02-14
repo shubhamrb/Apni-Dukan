@@ -94,17 +94,22 @@
     <style name="Text_title" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/raleway_bold</item>
     </style>
     <style name="Text_subtitle" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize12</item>
         <item name="android:textColor">@color/light_black</item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/raleway_regular</item>
     </style>
     <style name="Text_mont_regular" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="Text_mont_medium" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
     <style name="Text_mont_semibold" parent="android:Widget.TextView">

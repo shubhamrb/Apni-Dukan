@@ -61,16 +61,30 @@
     <string name="register_as_vendor">Register as\nVendor</string>
     <string name="forgot_pin_click">Forgot PIN? Click here!</string>
     <string name="overview">Overview</string>
+    <string name="payment_overview">Payments Overview</string>
     <string name="total_orders">Total Orders</string>
     <string name="completed_orders">Completed Orders</string>
+    <string name="due_amt">Due Amount</string>
+    <string name="collected_at_store">Collected at store</string>
     <string name="pending_orders">Pending Orders</string>
     <string name="denied_orders">Denied Orders</string>
     <string name="payment_recieved">Payment Recieved</string>
     <string name="total_amt">Total Amount</string>
+    <string name="recieved_amt">Recieved Amount</string>
+    <string name="settled_amt">Settled Amount</string>
+    <string name="unsettled_amt">Unsettled Amount</string>
     <string name="recent_orders">Recent Orders</string>
     <string name="categories">Categories</string>
+    <string name="recent_txn">Recent Transactions</string>
+    <string name="recent_txn_desc">The following are recent payments which are shown below tap to get to the order page.</string>
     <string name="categories_desc">You can manage or add  your Categories ant its services which are already listed for kiosks.</string>
     <string name="past_order_listed">Past 5 orders listed below</string>
     <string name="overview_desc">The following data shown below is from January 01, 2021 to this date. This will be updated as per order request and your actions.</string>
-
+    <string name="payment_overview_desc">The following data shown below is from January 01, 2021 to this date. This will be updated as per order request and your actions. Tap to access.</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="pay_settlement">Pay Settlement</string>
+    <string name="offer_subtitle">The Offers you are providing your customers for your services you offering them on this platform. Tap to Edit or Delete.</string>
+    <string name="customers">Customers</string>
+    <string name="admins">Admins</string>
+<!--    <string name="overview">Overview</string>-->
 </resources>
