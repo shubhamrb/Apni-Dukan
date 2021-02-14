@@ -10,7 +10,7 @@ data class StoreByCategoryData(@SerializedName("name")
                 @SerializedName("banner_image")
                 val bannerImage: String = "",
                 @SerializedName("stores")
-                val stores: List<StorelistItem>?)
+                val stores: ArrayList<StorelistItem>?)
 
 
 data class GetStoreByCategoryResponse(@SerializedName("data")

@@ -12,6 +12,8 @@ data class CommonRequestObj(
     val longitude: String = "",
     @SerializedName("category_id")
     val category_id: String = "",
+    @SerializedName("store_id")
+    val store_id: String = "",
     @SerializedName("subcategory_id")
     val subcategory_id: String = "",
     @SerializedName("product_id")

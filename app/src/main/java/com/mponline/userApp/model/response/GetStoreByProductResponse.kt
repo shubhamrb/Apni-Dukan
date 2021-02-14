@@ -14,22 +14,22 @@ data class GetStoreByProductResponse(@SerializedName("data")
 
 
 data class StoreByProductData(@SerializedName("stores")
-                val stores: List<StoresItem>?)
+                val stores: ArrayList<StorelistItem>?)
 
 
-data class StoresItem(@SerializedName("image")
-                      val image: String = "",
-                      @SerializedName("distance")
-                      val distance: Int = 0,
-                      @SerializedName("city")
-                      val city: String = "",
-                      @SerializedName("ratting")
-                      val ratting: Int = 0,
-                      @SerializedName("IsAvailable")
-                      val isAvailable: Int = 0,
-                      @SerializedName("name")
-                      val name: String = "",
-                      @SerializedName("id")
-                      val id: Int = 0)
+//data class StoresItem(@SerializedName("image")
+//                      val image: String = "",
+//                      @SerializedName("distance")
+//                      val distance: Int = 0,
+//                      @SerializedName("city")
+//                      val city: String = "",
+//                      @SerializedName("ratting")
+//                      val ratting: Int = 0,
+//                      @SerializedName("IsAvailable")
+//                      val isAvailable: Int = 0,
+//                      @SerializedName("name")
+//                      val name: String = "",
+//                      @SerializedName("id")
+//                      val id: Int = 0)
 
 

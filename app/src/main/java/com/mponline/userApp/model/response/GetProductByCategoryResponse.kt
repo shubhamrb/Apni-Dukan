@@ -1,8 +1,11 @@
 package com.mponline.userApp.model.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ProductListItem(@SerializedName("image")
                            val image: String = "",
                            @SerializedName("short_description")
@@ -14,7 +17,7 @@ data class ProductListItem(@SerializedName("image")
                            @SerializedName("name")
                            val name: String = "",
                            @SerializedName("id")
-                           val id: Int = 0)
+                           val id: String = ""):Parcelable
 
 
 data class GetProductByCategoryResponse(@SerializedName("data")
@@ -28,6 +31,6 @@ data class GetProductByCategoryResponse(@SerializedName("data")
 
 
 data class ProductByCategoryData(@SerializedName("product_list")
-                val productList: List<ProductListItem>?)
+                val productList: ArrayList<ProductListItem>?)
 
 

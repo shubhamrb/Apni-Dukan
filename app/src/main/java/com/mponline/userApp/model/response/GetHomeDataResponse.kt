@@ -14,7 +14,7 @@ data class GetHomeDataResponse(@SerializedName("data")
                                @SerializedName("message")
                                val message: String = "")
 
-
+@Parcelize
 data class StorelistItem(@SerializedName("distance")
                          val distance: Int = 0,
                          @SerializedName("ratting")
@@ -30,9 +30,9 @@ data class StorelistItem(@SerializedName("distance")
                          @SerializedName("image")
                          val image: String = "",
                          @SerializedName("id")
-                         val id: Int = 0,
+                         val id: String = "",
                          @SerializedName("longitude")
-                         val longitude: String = "")
+                         val longitude: String = ""):Parcelable
 
 
 data class HomeData(@SerializedName("bottom_bannerlist")

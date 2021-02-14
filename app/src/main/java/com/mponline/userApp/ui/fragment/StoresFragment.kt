@@ -1,10 +1,12 @@
 package com.mponline.userApp.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,7 +16,10 @@ import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.model.response.GetStoreAroundResponse
+import com.mponline.userApp.model.response.ProductListItem
+import com.mponline.userApp.model.response.StorelistItem
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
@@ -38,6 +43,9 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     val viewModel: UserListViewModel by viewModels()
+    var mCategorylistItem: CategorylistItem? = null
+    var mSubCategorylistItem: CategorylistItem? = null
+    var mProductListItem: ProductListItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +67,20 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view?.relative_frag?.setOnClickListener {  }
-        callStores()
+        arguments?.let {
+            if (it?.containsKey("obj") && it?.containsKey("subobj")) {
+                mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
+                mSubCategorylistItem = arguments?.getParcelable<CategorylistItem>("subobj")
+                callStoreByCategory()
+            }else if (it?.containsKey("product")) {
+                mProductListItem = arguments?.getParcelable<ProductListItem>("product")
+                mProductListItem?.let {
+                    callStoreByProduct()
+                }
+            }else{
+                callNearByStores()
+            }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,13 +96,12 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
             R.id.cv_store->{
-                mSwichFragmentListener?.onSwitchFragment(Constants.STORE_DETAIL_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                mSwichFragmentListener?.onSwitchFragment(Constants.STORE_DETAIL_PAGE, Constants.WITH_NAV_DRAWER, obj, null)
             }
-
         }
     }
 
-    private fun callStores() {
+    private fun callNearByStores() {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
@@ -93,7 +113,67 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
                 it?.run {
                     if (success) {
                         switchView(1, "")
-                        setDataToUI(this)
+                        setDataToUI(this?.data!!)
+                    } else {
+                        switchView(0, "")
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            resources?.getString(R.string.no_net)!!
+                        )
+                    }
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+    private fun callStoreByCategory() {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(3, "")
+            var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey(),
+                latitude = "23.2599",
+                longitude = "77.4126",
+                category_id = mCategorylistItem?.id!!
+            )
+            viewModel?.getStoreByCategory(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    if (success) {
+                        switchView(1, "")
+                        setDataToUI(this?.data?.stores!!)
+                    } else {
+                        switchView(0, "")
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            resources?.getString(R.string.no_net)!!
+                        )
+                    }
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+    private fun callStoreByProduct() {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(3, "")
+            var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey(),
+                latitude = "23.2599",
+                longitude = "77.4126",
+                product_id = mProductListItem?.id!!
+            )
+            viewModel?.getStoreByProduct(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    if (success) {
+                        switchView(1, "")
+                        setDataToUI(this?.data?.stores!!)
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(
@@ -111,9 +191,9 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    fun setDataToUI(mGetStoreAroundResponse: GetStoreAroundResponse){
-        mGetStoreAroundResponse?.let {
-            if (it?.data != null) {
+    fun setDataToUI(data: ArrayList<StorelistItem>){
+        data?.let {
+            if (it?.size>=0) {
                 view?.rv_stores?.setHasFixedSize(true)
                 view?.rv_stores?.layoutManager =
                     LinearLayoutManager(
@@ -124,10 +204,36 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
                 view?.rv_stores?.adapter = StoresAdapter(
                     activity,
                     this,
-                    it?.data
+                    it
                 )
             }
         }
+    }
+
+    companion object {
+        fun newInstance(
+            context: Activity,
+            category: CategorylistItem,
+            subcategory: CategorylistItem): Fragment {
+            val fragment = StoreDetailFragment()
+            val bundle = Bundle()
+            bundle.putParcelable("obj", category)
+            bundle.putParcelable("subobj", subcategory)
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        fun newInstance(
+            context: Activity,
+            mProductListItem: ProductListItem
+        ): Fragment {
+            val fragment = StoreDetailFragment()
+            val bundle = Bundle()
+            bundle.putParcelable("product", mProductListItem)
+            fragment.arguments = bundle
+            return fragment
+        }
+
     }
 
     fun switchView(i: Int, msg: String) {

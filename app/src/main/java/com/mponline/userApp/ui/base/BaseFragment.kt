@@ -205,6 +205,7 @@ abstract class BaseFragment : Fragment() {
         latitude: String = "",
         longitude: String = "",
         category_id: String = "",
+        store_id: String = "",
         subcategory_id: String = "",
         product_id: String = ""
     ): CommonRequestObj {
@@ -212,6 +213,7 @@ abstract class BaseFragment : Fragment() {
             apiKey = apiKey,
             latitude = latitude,
             longitude = longitude,
+            store_id = store_id,
             category_id = category_id,
             subcategory_id = subcategory_id,
             product_id = product_id

@@ -112,7 +112,6 @@
                     android:id="@+id/viewpager_bottom_banner"
                     android:layout_marginTop="@dimen/margin20"
                     android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginBottom="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin120"/>
 
@@ -122,16 +121,14 @@
                     android:layout_height="wrap_content"
                     app:dotsColor="@color/trans_light_purple"
                     android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginBottom="@dimen/margin15"
                     app:dotsCornerRadius="2.5dp"
                     android:layout_gravity="center_horizontal"
                     app:dotsSize="@dimen/margin5"
                     app:dotsSpacing="@dimen/margin2"
                     app:dotsWidthFactor="2.5"
                     app:selectedDotColor="@color/trans_purple"
-                    app:progressMode="false"
-                    />
-
-
+                    app:progressMode="false"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

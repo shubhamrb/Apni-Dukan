@@ -3,12 +3,16 @@ package com.mponline.userApp.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DataItem(@SerializedName("openingtime")
+data class DataItem(@SerializedName("category")
+                    val category: ArrayList<CategorylistItem>,
+                    @SerializedName("openingtime")
                     val openingtime: String = "",
                     @SerializedName("distance")
-                    val distance: Int = 0,
+                    val distance: String = "",
+                     @SerializedName("is_available")
+                    val is_available:String = "0",
                     @SerializedName("ratting")
-                    val ratting: Int = 0,
+                    val ratting:String = "",
                     @SerializedName("latitude")
                     val latitude: String = "",
                     @SerializedName("closingtime")

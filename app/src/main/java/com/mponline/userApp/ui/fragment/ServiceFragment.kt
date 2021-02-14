@@ -24,6 +24,7 @@ import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_service.view.*
 import kotlinx.android.synthetic.main.fragment_service.view.rv_services
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
 @AndroidEntryPoint
@@ -132,7 +133,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
                 mSwichFragmentListener?.onSwitchFragment(
                     Constants.SUB_SERVICE_PAGE,
                     Constants.WITH_NAV_DRAWER,
-                    null,
+                    obj,
                     null
                 )
             }
@@ -145,17 +146,21 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
             when (i) {
                 0 -> {
                     relative_progress?.visibility = View.GONE
-                    ll_container?.visibility = View.VISIBLE
+                    relative_empty?.visibility = View.VISIBLE
+                    ll_container?.visibility = View.GONE
                 }
                 1 -> {
                     relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
                 2 -> {
                     relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.GONE
                 }
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
+                    relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.GONE
                 }
             }

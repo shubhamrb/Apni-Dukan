@@ -17,6 +17,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.response.CategorylistItem
+import com.mponline.userApp.model.response.StorelistItem
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
 import com.mponline.userApp.ui.base.FusedLocationActivity
@@ -57,10 +58,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.SUB_SERVICE_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, SubServiceFragment())
-                ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
-                ft.commit()
+                if(obj!=null && obj is CategorylistItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, SubServiceFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
+                    ft.commit()
+                }
             }
             Constants.INSTRUCTION_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -93,10 +96,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.STORE_DETAIL_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, StoreDetailFragment())
-                ft.addToBackStack(Constants.STORE_DETAIL_PAGE)
-                ft.commit()
+                if(obj!=null && obj is StorelistItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, StoreDetailFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE)
+                    ft.commit()
+                }
             }
             Constants.CHAT_MSG_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

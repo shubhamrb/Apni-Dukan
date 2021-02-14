@@ -45,7 +45,7 @@ class StoresAdapter(
         if(mList?.get(position)?.isAvailable == 1) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)
         holder.itemView.text_price.visibility = View.GONE
         holder.itemView.cv_store.setOnClickListener {
-            listener?.onClick(position, holder.itemView.cv_store, null)
+            listener?.onClick(position, holder.itemView.cv_store, mList?.get(position))
         }
     }
 
