@@ -28,6 +28,7 @@
         </activity>
         <activity android:name="com.mponline.vendorApp.ui.activity.AddServiceDetailActivity">
         </activity>
+
     </application>
 
 </manifest>
