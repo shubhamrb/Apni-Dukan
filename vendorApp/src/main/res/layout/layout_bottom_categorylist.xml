@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin15"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin15"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_title"
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_category"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_subtitle"
+            android:id="@+id/text_subtitle"
+            android:layout_marginTop="@dimen/margin8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_category_desc"/>
+
+        <LinearLayout
+            android:background="@drawable/rounded_stroke_black_5"
+            android:padding="@dimen/margin8"
+            android:layout_marginTop="@dimen/margin15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"
+                android:tint="@color/black"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/ic_search"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edt_search"
+                android:background="@color/white"
+                android:layout_marginLeft="@dimen/margin8"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/margin12"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:ellipsize="end"
+                android:hint="@string/add_category_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+

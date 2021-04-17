@@ -16,15 +16,17 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.mponline.vendorApp.ui.activity.MainActivity">
-        </activity>
-        <activity android:name="com.mponline.vendorApp.ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.mponline.vendorApp.ui.activity.LoginActivity">
+        </activity>
         <activity android:name="com.mponline.vendorApp.ui.activity.RegisterActivity">
+        </activity>
+        <activity android:name="com.mponline.vendorApp.ui.activity.AddServiceDetailActivity">
         </activity>
     </application>
 

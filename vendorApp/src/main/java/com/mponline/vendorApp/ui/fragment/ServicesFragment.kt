@@ -17,7 +17,8 @@ import com.mponline.vendorApp.ui.adapter.ServicesAdapter
 import com.mponline.vendorApp.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_services.view.*
 
-class ServicesFragment : BaseFragment(), OnItemClickListener {
+class ServicesFragment : BaseFragment(), OnItemClickListener,
+    CategoryListBottomsheetFragment.OnCategoryListItemSelectListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
@@ -66,5 +67,15 @@ class ServicesFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
+        showAddCategoryBottomsheet()
+    }
+
+    fun showAddCategoryBottomsheet() {
+        val instance = CategoryListBottomsheetFragment.newInstance(2)
+        instance.show(childFragmentManager, "ADD_CATEGORY")
+    }
+
+    override fun onItemSelect(obj: Any?) {
+
     }
 }

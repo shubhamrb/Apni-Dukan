@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/margin5"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin5"
+        android:background="@color/white"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:paddingTop="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_raleway_regular"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_search"
+                    android:layout_width="@dimen/margin25"
+                    android:layout_height="@dimen/margin25"
+                    android:layout_toLeftOf="@+id/image_notification"
+                    android:layout_marginRight="@dimen/margin15"
+                    app:srcCompat="@drawable/ic_search"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_notification"
+                    android:layout_width="@dimen/margin25"
+                    android:layout_height="@dimen/margin25"
+                    android:layout_toLeftOf="@+id/image_profile"
+                    android:layout_marginRight="@dimen/margin15"
+                    app:srcCompat="@drawable/ic_bell"
+                    android:tint="@color/sly_blue"/>
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_profile"
+                    android:layout_width="@dimen/margin25"
+                    android:layout_height="@dimen/margin25"
+                    app:srcCompat="@drawable/ic_user_small"
+                    android:tint="@color/sly_blue"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin15"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--    <View-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="3dp"-->
+    <!--            android:background="@drawable/toolbar_shadow" />-->
+
+</LinearLayout>

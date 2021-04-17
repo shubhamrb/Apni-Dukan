@@ -86,5 +86,16 @@
     <string name="offer_subtitle">The Offers you are providing your customers for your services you offering them on this platform. Tap to Edit or Delete.</string>
     <string name="customers">Customers</string>
     <string name="admins">Admins</string>
+    <string name="add_category">Add Category</string>
+    <string name="add_category_desc">Add categories for your service</string>
+    <string name="add_category_hint">Search for categories or services eg. RRB forms, Exams</string>
+    <string name="ur_title">Your title</string>
+    <string name="eligibility_criteria">Eligibility criteria</string>
+    <string name="ur_desc">Your description</string>
+    <string name="include_charges">Include Charges</string>
+    <string name="price">Price</string>
+    <string name="base_price">Base Price</string>
+    <string name="admin_convinience_fee">Admin Convinience Fee</string>
+    <string name="edit">Edit</string>
 <!--    <string name="overview">Overview</string>-->
 </resources>
