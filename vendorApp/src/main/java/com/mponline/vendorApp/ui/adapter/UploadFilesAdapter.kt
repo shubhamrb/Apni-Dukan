@@ -12,7 +12,7 @@ import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.ui.activity.OrderDetailActivity
 
 
-class RecentOrderAdapter(
+class UploadFilesAdapter(
     var context: Context?,
     val listener: OnItemClickListener
 ) :
@@ -23,7 +23,7 @@ class RecentOrderAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return NotificationListImgsViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.item_order,
+                R.layout.item_upload_file,
                 parent,
                 false
             )

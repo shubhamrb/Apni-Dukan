@@ -97,5 +97,6 @@
     <string name="base_price">Base Price</string>
     <string name="admin_convinience_fee">Admin Convinience Fee</string>
     <string name="edit">Edit</string>
-<!--    <string name="overview">Overview</string>-->
+    <string name="dummy_desc">sdfsdf sdf skdhfjsd</string>
+    <!--    <string name="overview">Overview</string>-->
 </resources>

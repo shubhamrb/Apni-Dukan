@@ -1,31 +1,30 @@
 package com.mponline.vendorApp.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.listener.OnSwichFragmentListener
-import com.mponline.vendorApp.ui.adapter.HomeTabAdapter
-import com.mponline.vendorApp.ui.adapter.ServicesAdapter
+import com.mponline.vendorApp.ui.adapter.ServicesFileDetailAdapter
+import com.mponline.vendorApp.ui.adapter.ServicesTextDetailAdapter
 import com.mponline.vendorApp.ui.base.BaseActivity
 import com.mponline.vendorApp.ui.fragment.DrawerFragment
+import com.mponline.vendorApp.ui.fragment.SetTimerBottomsheetFragment
+import com.mponline.vendorApp.ui.fragment.UploadFilesBottomsheetFragment
 import com.mponline.vendorApp.utils.Constants
-import kotlinx.android.synthetic.main.activity_add_service_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.drawer_layout
+import kotlinx.android.synthetic.main.activity_orderdetail_list.*
 import kotlinx.android.synthetic.main.common_toolbar.*
-import kotlinx.android.synthetic.main.fragment_services.view.*
+import kotlinx.android.synthetic.main.layout_order_detail.*
 
-
-class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
-    OnSwichFragmentListener, OnItemClickListener {
+class OrderDetailActivity : BaseActivity(),  NavigationView.OnNavigationItemSelectedListener,
+    OnSwichFragmentListener, OnItemClickListener,
+    SetTimerBottomsheetFragment.OnTimerSubmitListener, UploadFilesBottomsheetFragment.OnTaskSubmit {
 
     override fun onNetworkChange(isConnected: Boolean) {
 
@@ -39,7 +38,7 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
 //                ft.commit()
 //            }
             Constants.CLOSE_NAV_DRAWER -> {
-                if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                if(drawer_layout.isDrawerOpen(GravityCompat.START)){
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
             }
@@ -59,8 +58,7 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_service_detail)
-
+        setContentView(R.layout.activity_order_detail)
 
         var fragment_navigation_drawer =
             supportFragmentManager.findFragmentById(R.id.fragment_navigation_drawer) as DrawerFragment
@@ -70,20 +68,38 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
             toolbar!!
         )
 
-        toolbar.setNavigationOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
+        rv_text_detail?.setHasFixedSize(true)
+        rv_text_detail?.layoutManager =
+            LinearLayoutManager(
+                this, RecyclerView.VERTICAL, false
+            )
+        rv_text_detail?.adapter = ServicesTextDetailAdapter(
+            this,
+            this
+        )
 
+        //Files List
+        rv_file_details?.setHasFixedSize(true)
+        rv_file_details?.layoutManager =
+            LinearLayoutManager(
+                this, RecyclerView.VERTICAL, false
+            )
+        rv_file_details?.adapter = ServicesFileDetailAdapter(
+            this,
+            this
+        )
 
-//        rv_service?.setHasFixedSize(true)
-//        rv_service?.layoutManager =
-//            GridLayoutManager(
-//                this, 3
-//            )
-//        rv_service?.adapter = ServicesAdapter(
-//            this,
-//            this
-//        )
+        btn_accept.setOnClickListener {
+            val instance = SetTimerBottomsheetFragment.newInstance(3)
+            instance.show(supportFragmentManager, "SET_TIMER")
+        }
+        btn_reject.setOnClickListener {
+            val instance = UploadFilesBottomsheetFragment.newInstance(3)
+            instance.show(supportFragmentManager, "UPLOAD_FILES")
+        }
+
+        layout_time_left.visibility = View.VISIBLE
     }
-
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -95,13 +111,15 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun onClick(pos: Int, view: View, obj: Any?) {
 
     }
 
+    override fun onTimerSubmit(hrs: String, mins: String, obj: Any?) {
 
+    }
+
+    override fun onTaskSubmit(obj: Any?) {
+
+    }
 }

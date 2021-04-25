@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
+import com.mponline.vendorApp.utils.Constants
+import kotlinx.android.synthetic.main.item_txns.view.*
 
 
 class RecentTxnsAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mType:String  = Constants.ALL_TXNS
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,6 +33,11 @@ class RecentTxnsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        if(mType == Constants.DUE_TXNS){
+            holder.itemView.text_due_recieved.visibility = View.VISIBLE
+        }else{
+            holder.itemView.text_due_recieved.visibility = View.GONE
+        }
     }
 
     override fun getItemId(position: Int): Long {

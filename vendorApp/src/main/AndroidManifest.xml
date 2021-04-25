@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mponline.vendorApp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
-        android:name="com.mponline.vendorApp.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,21 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme_NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name="com.mponline.vendorApp.ui.activity.MainActivity">
+        <activity android:name=".ui.activity.OrderDetailActivity"></activity>
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mponline.vendorApp.ui.activity.LoginActivity">
-        </activity>
-        <activity android:name="com.mponline.vendorApp.ui.activity.RegisterActivity">
-        </activity>
-        <activity android:name="com.mponline.vendorApp.ui.activity.AddServiceDetailActivity">
-        </activity>
+        <activity android:name=".ui.activity.LoginActivity"></activity>
+        <activity android:name=".ui.activity.RegisterActivity"></activity>
+        <activity android:name=".ui.activity.AddServiceDetailActivity"></activity>
+        <activity android:name=".ui.activity.OrderDetailListActivity"></activity>
+        <activity android:name=".ui.activity.OfferDetailActivity"></activity>
+        <activity android:name=".ui.activity.EditOfferActivity"></activity>
+        <activity android:name=".ui.activity.EditCouponActivity"></activity>
+        <activity android:name=".ui.activity.PaymentDetailListActivity"></activity>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

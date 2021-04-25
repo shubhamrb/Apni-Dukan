@@ -1,7 +1,6 @@
 package com.mponline.vendorApp.ui.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +8,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
-import com.mponline.vendorApp.ui.activity.OrderDetailActivity
+import kotlinx.android.synthetic.main.item_service.view.*
+import kotlinx.android.synthetic.main.item_service_text_details.view.*
 
 
-class RecentOrderAdapter(
+class ServicesFileDetailAdapter(
     var context: Context?,
     val listener: OnItemClickListener
 ) :
@@ -23,7 +23,7 @@ class RecentOrderAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return NotificationListImgsViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.item_order,
+                R.layout.item_service_text_details,
                 parent,
                 false
             )
@@ -32,8 +32,8 @@ class RecentOrderAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        holder.itemView.setOnClickListener {
-            context?.startActivity(Intent(context, OrderDetailActivity::class.java))
+        holder.itemView.image_file_download.visibility = View.VISIBLE
+        holder.itemView?.setOnClickListener {
         }
     }
 
@@ -43,7 +43,7 @@ class RecentOrderAdapter(
 
 
     override fun getItemCount(): Int {
-        return 5
+        return 9
     }
 
     override fun getItemViewType(position: Int): Int {

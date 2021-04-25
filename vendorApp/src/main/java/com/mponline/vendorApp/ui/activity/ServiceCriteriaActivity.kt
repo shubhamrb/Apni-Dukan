@@ -73,15 +73,15 @@ class ServiceCriteriaActivity : BaseActivity(), NavigationView.OnNavigationItemS
         toolbar.setNavigationOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
 
 
-        rv_service?.setHasFixedSize(true)
-        rv_service?.layoutManager =
-            GridLayoutManager(
-                this, 3
-            )
-        rv_service?.adapter = ServicesAdapter(
-            this,
-            this
-        )
+//        rv_service?.setHasFixedSize(true)
+//        rv_service?.layoutManager =
+//            GridLayoutManager(
+//                this, 3
+//            )
+//        rv_service?.adapter = ServicesAdapter(
+//            this,
+//            this
+//        )
     }
 
 

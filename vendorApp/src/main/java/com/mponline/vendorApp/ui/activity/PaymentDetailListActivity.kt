@@ -6,25 +6,21 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.listener.OnSwichFragmentListener
-import com.mponline.vendorApp.ui.adapter.HomeTabAdapter
-import com.mponline.vendorApp.ui.adapter.ServicesAdapter
+import com.mponline.vendorApp.ui.adapter.OrderTabAdapter
+import com.mponline.vendorApp.ui.adapter.PaymentsTabAdapter
 import com.mponline.vendorApp.ui.base.BaseActivity
 import com.mponline.vendorApp.ui.fragment.DrawerFragment
 import com.mponline.vendorApp.utils.Constants
-import kotlinx.android.synthetic.main.activity_add_service_detail.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.drawer_layout
+import kotlinx.android.synthetic.main.activity_orderdetail_list.*
 import kotlinx.android.synthetic.main.common_toolbar.*
-import kotlinx.android.synthetic.main.fragment_services.view.*
 
 
-class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
+class PaymentDetailListActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener,
     OnSwichFragmentListener, OnItemClickListener {
 
     override fun onNetworkChange(isConnected: Boolean) {
@@ -39,9 +35,9 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
 //                ft.commit()
 //            }
             Constants.CLOSE_NAV_DRAWER -> {
-                if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-                    drawer_layout.closeDrawer(GravityCompat.START)
-                }
+               if(drawer_layout.isDrawerOpen(GravityCompat.START)){
+                   drawer_layout.closeDrawer(GravityCompat.START)
+               }
             }
         }
     }
@@ -57,10 +53,29 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
         }
     }
 
+    var mType:String = ""
+    var setPosition = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_service_detail)
-
+        setContentView(R.layout.activity_orderdetail_list)
+        text_entity_title.setText("My Payments")
+        if(intent?.hasExtra("type")!!){
+            mType = intent?.getStringExtra("type")!!
+            when(mType){
+                Constants.ALL_TXNS->{
+                    setPosition =0
+                }
+                Constants.DUE_TXNS->{
+                    setPosition =1
+                }
+                Constants.RECIEVED_TXNS->{
+                    setPosition =2
+                }
+                Constants.SETTLED_TXNS->{
+                    setPosition =3
+                }
+            }
+        }
 
         var fragment_navigation_drawer =
             supportFragmentManager.findFragmentById(R.id.fragment_navigation_drawer) as DrawerFragment
@@ -73,15 +88,29 @@ class AddServiceDetailActivity : BaseActivity(), NavigationView.OnNavigationItem
         toolbar.setNavigationOnClickListener { drawer_layout.openDrawer(GravityCompat.START) }
 
 
-//        rv_service?.setHasFixedSize(true)
-//        rv_service?.layoutManager =
-//            GridLayoutManager(
-//                this, 3
-//            )
-//        rv_service?.adapter = ServicesAdapter(
-//            this,
-//            this
-//        )
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Transactions"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Due"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Recieved"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText("Settled"))
+        tabLayout!!.tabGravity = TabLayout.GRAVITY_FILL
+
+        val adapter = PaymentsTabAdapter(this, supportFragmentManager, tabLayout!!.tabCount)
+        viewPager!!.adapter = adapter
+
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager!!.currentItem = tab.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
+        viewPager?.setCurrentItem(setPosition)
     }
 
 

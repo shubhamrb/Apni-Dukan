@@ -45,14 +45,14 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
         view?.relative_frag?.setOnClickListener {  }
 
         //Stores
-        view?.rv_orders?.setHasFixedSize(true)
-        view?.rv_orders?.layoutManager =
+        view?.rv_txns?.setHasFixedSize(true)
+        view?.rv_txns?.layoutManager =
             LinearLayoutManager(
                 activity,
                 RecyclerView.VERTICAL,
                 false
             )
-        view?.rv_orders?.adapter = RecentOrderAdapter(
+        view?.rv_txns?.adapter = RecentOrderAdapter(
             activity,
             this
         )

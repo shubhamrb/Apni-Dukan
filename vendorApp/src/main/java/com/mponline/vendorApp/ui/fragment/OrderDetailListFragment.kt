@@ -1,27 +1,27 @@
 package com.mponline.vendorApp.ui.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.listener.OnSwichFragmentListener
-import com.mponline.vendorApp.ui.activity.OfferDetailActivity
-import com.mponline.vendorApp.ui.adapter.OffersAdapter
+import com.mponline.vendorApp.ui.adapter.RecentOrderAdapter
 import com.mponline.vendorApp.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_offer.view.*
+import kotlinx.android.synthetic.main.fragment_orders_detail_list.view.*
 
-class OfferFragment : BaseFragment(), OnItemClickListener {
+class OrderDetailListFragment : BaseFragment(), OnItemClickListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
 
     var mView: View? = null
+    var mType:String = ""
     var mSwichFragmentListener: OnSwichFragmentListener? = null
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class OfferFragment : BaseFragment(), OnItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mView = inflater!!.inflate(R.layout.fragment_offer, container, false)
+        mView = inflater!!.inflate(R.layout.fragment_orders_detail_list, container, false)
 
         return mView
     }
@@ -43,25 +43,27 @@ class OfferFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            if(it?.containsKey("type")){
+                mType = arguments?.getString("type")!!
+                view?.text_title?.text = mType
+            }
+        }
 
         view?.relative_frag?.setOnClickListener {  }
 
         //Stores
-        view?.rv_offers?.setHasFixedSize(true)
-        view?.rv_offers?.layoutManager =
+        view?.rv_txns?.setHasFixedSize(true)
+        view?.rv_txns?.layoutManager =
             LinearLayoutManager(
                 activity,
                 RecyclerView.VERTICAL,
                 false
             )
-        view?.rv_offers?.adapter = OffersAdapter(
+        view?.rv_txns?.adapter = RecentOrderAdapter(
             activity,
             this
         )
-
-        view?.rl_add_offer?.setOnClickListener {
-            activity?.startActivity(Intent(activity, OfferDetailActivity::class.java))
-        }
 
     }
 
@@ -71,5 +73,19 @@ class OfferFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
+    }
+
+    companion object{
+        fun newInstance(
+            context: Context,
+            type:String,
+            obj:Any?
+        ): Fragment {
+            val fragment = OrderDetailListFragment()
+            val bundle = Bundle()
+            bundle.putString("type", type)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

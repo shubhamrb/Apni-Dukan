@@ -164,6 +164,16 @@ class Constants {
 
         var CLOSE_NAV_DRAWER = "CLOSE_NAV_DRAWER"
 
+        var ALL_ORDERS = "All Orders"
+        var PENDING_ORDERS = "Pending Orders"
+        var COMPLETED_ORDERS = "Completed Orders"
+        var DECLINED_ORDERS = "Declined Orders"
+
+        var ALL_TXNS = "All Transactions"
+        var DUE_TXNS = "Due Transactions"
+        var RECIEVED_TXNS = "Recieved Transactions"
+        var SETTLED_TXNS = "Settled Transactions"
+
 
     }
 }

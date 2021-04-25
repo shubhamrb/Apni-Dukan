@@ -49,7 +49,7 @@
                     android:orientation="horizontal">
 
                     <com.mponline.vendorApp.ui.customui.SquareRelativeLayout
-                        android:id="@+id/sq_total_order"
+                        android:id="@+id/sq_total_amt"
                         android:layout_width="@dimen/margin0"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

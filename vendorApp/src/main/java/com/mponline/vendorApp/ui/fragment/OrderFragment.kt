@@ -1,6 +1,7 @@
 package com.mponline.vendorApp.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.listener.OnSwichFragmentListener
+import com.mponline.vendorApp.ui.activity.OrderDetailListActivity
 import com.mponline.vendorApp.ui.adapter.RecentOrderAdapter
 import com.mponline.vendorApp.ui.base.BaseFragment
+import com.mponline.vendorApp.utils.Constants
 import kotlinx.android.synthetic.main.fragment_orders.view.*
 
 class OrderFragment : BaseFragment(), OnItemClickListener {
@@ -44,15 +47,36 @@ class OrderFragment : BaseFragment(), OnItemClickListener {
 
         view?.relative_frag?.setOnClickListener {  }
 
+        view?.sq_total_order?.setOnClickListener {
+            var intent:Intent = Intent(activity, OrderDetailListActivity::class.java)
+            intent?.putExtra("type", Constants.ALL_ORDERS)
+            activity?.startActivity(intent)
+        }
+        view?.sq_pending_order?.setOnClickListener {
+            var intent:Intent = Intent(activity, OrderDetailListActivity::class.java)
+            intent?.putExtra("type", Constants.PENDING_ORDERS)
+            activity?.startActivity(intent)
+        }
+        view?.sq_denied_order?.setOnClickListener {
+            var intent:Intent = Intent(activity, OrderDetailListActivity::class.java)
+            intent?.putExtra("type", Constants.DECLINED_ORDERS)
+            activity?.startActivity(intent)
+        }
+        view?.sq_completed_order?.setOnClickListener {
+            var intent:Intent = Intent(activity, OrderDetailListActivity::class.java)
+            intent?.putExtra("type", Constants.COMPLETED_ORDERS)
+            activity?.startActivity(intent)
+        }
+
         //Stores
-        view?.rv_orders?.setHasFixedSize(true)
-        view?.rv_orders?.layoutManager =
+        view?.rv_txns?.setHasFixedSize(true)
+        view?.rv_txns?.layoutManager =
             LinearLayoutManager(
                 activity,
                 RecyclerView.VERTICAL,
                 false
             )
-        view?.rv_orders?.adapter = RecentOrderAdapter(
+        view?.rv_txns?.adapter = RecentOrderAdapter(
             activity,
             this
         )

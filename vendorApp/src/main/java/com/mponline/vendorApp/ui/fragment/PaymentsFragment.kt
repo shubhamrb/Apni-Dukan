@@ -1,6 +1,7 @@
 package com.mponline.vendorApp.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.vendorApp.R
 import com.mponline.vendorApp.listener.OnItemClickListener
 import com.mponline.vendorApp.listener.OnSwichFragmentListener
+import com.mponline.vendorApp.ui.activity.PaymentDetailListActivity
 import com.mponline.vendorApp.ui.adapter.RecentTxnsAdapter
 import com.mponline.vendorApp.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.relative_frag
 import kotlinx.android.synthetic.main.fragment_payment.view.*
 
 class PaymentsFragment : BaseFragment(), OnItemClickListener {
@@ -44,20 +44,26 @@ class PaymentsFragment : BaseFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view?.relative_frag?.setOnClickListener {  }
+        view?.run {
+            view?.relative_frag?.setOnClickListener {  }
 
-        //Stores
-        view?.rv_recent_txn?.setHasFixedSize(true)
-        view?.rv_recent_txn?.layoutManager =
-            LinearLayoutManager(
+            //Stores
+            view?.rv_recent_txn?.setHasFixedSize(true)
+            view?.rv_recent_txn?.layoutManager =
+                LinearLayoutManager(
+                    activity,
+                    RecyclerView.VERTICAL,
+                    false
+                )
+            view?.rv_recent_txn?.adapter = RecentTxnsAdapter(
                 activity,
-                RecyclerView.VERTICAL,
-                false
+                this@PaymentsFragment
             )
-        view?.rv_recent_txn?.adapter = RecentTxnsAdapter(
-            activity,
-            this
-        )
+
+            sq_total_amt?.setOnClickListener {
+                activity?.startActivity(Intent(activity, PaymentDetailListActivity::class.java))
+            }
+        }
 
     }
 
