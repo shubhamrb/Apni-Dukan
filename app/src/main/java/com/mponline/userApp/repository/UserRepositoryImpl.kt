@@ -8,6 +8,7 @@ import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.util.CommonUtils
 import kotlinx.coroutines.*
@@ -235,6 +236,83 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apiService?.getProductDetail(commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    //Login
+    override fun login(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<LoginResponse> {
+        val data = MutableLiveData<LoginResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.login(userAuthRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun register(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<SignupResponse> {
+        val data = MutableLiveData<SignupResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.signup(userAuthRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun sendOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.sendOtp(userAuthRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.verifyMobile(userAuthRequestObj)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

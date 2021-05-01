@@ -14,5 +14,14 @@ class ApiName {
         const val GET_STORE_BY_PRODUCT:String = "api/getStoreByProduct"
         const val GET_STORE_DETAIL:String = "api/getStoreDetail"
         const val GET_PRODUCT_DETAIL:String = "api/getProductDetail"
+
+        //2
+        const val SIGNUP:String = "api/signup"
+        const val SIGNIN:String = "api/signin"
+        const val SEND_OTP:String = "api/sendOtp"
+        const val VERIFY_MOBILE_OTP:String = "api/verifyMobileOtp"
+        const val CHANGE_PWD:String = "api/auth/changePassword"
+        const val UPDATE_PROFILE:String = "api/auth/update_profile"
+
     }
 }

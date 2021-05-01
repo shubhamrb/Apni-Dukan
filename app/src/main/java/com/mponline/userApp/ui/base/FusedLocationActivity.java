@@ -53,9 +53,11 @@ import com.mponline.userApp.util.CommonUtils;
 import java.text.DateFormat;
 import java.util.Date;
 
+import dagger.hilt.android.AndroidEntryPoint;
 
 
-    public abstract class FusedLocationActivity extends BaseActivity {
+@AndroidEntryPoint
+public class FusedLocationActivity extends BaseActivity {
 
     private static final String TAG = FusedLocationActivity.class.getSimpleName();
 

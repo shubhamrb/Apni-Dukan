@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -16,18 +17,17 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_1"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+               android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
+                android:textColor="@color/magento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin5"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -35,18 +35,17 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_2"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/magento"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin5"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -54,18 +53,17 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_3"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/magento"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin5"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -73,18 +71,17 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_4"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/magento"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin5"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -92,18 +89,17 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_5"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/magento"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_marginLeft="@dimen/margin10"
+            android:layout_marginLeft="@dimen/margin5"
             android:background="@drawable/rect_solid_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -111,12 +107,11 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_6"
-                android:paddingTop="@dimen/margin15"
-                android:paddingBottom="@dimen/margin15"
-                android:paddingLeft="@dimen/margin8"
-                android:paddingRight="@dimen/margin8"
+                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:textColor="@color/magento"
+                android:hint="*"
                 android:textSize="@dimen/textsize12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

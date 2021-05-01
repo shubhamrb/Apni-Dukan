@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
 
 interface UserRepository {
@@ -31,6 +32,12 @@ interface UserRepository {
 
     fun getStoreDetail(commonRequestObj: CommonRequestObj): MutableLiveData<GetStoreDetailResponse>
     fun getProductDetail(commonRequestObj: CommonRequestObj): MutableLiveData<GetProductDetailResponse>
+
+    //Login
+    fun login(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<LoginResponse>
+    fun register(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<SignupResponse>
+    fun sendOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
+    fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
 
 
 }

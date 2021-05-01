@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">MPonline</string>
     <string name="no_net">No data found, please on wifi/mobile data !</string>
+    <string name="failure_msg">Something went wrong, Please try again!</string>
     <string name="no_data">No data found</string>
+    <string name="valid">Valid</string>
     <string name="please_wait">Please wait</string>
     <string name="no_records">No Data Available</string>
     <string name="no_net_connection">No Network Connection</string>
-    <string name="check_ur_network">Check Your Network</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="drawer_open">Open</string>
@@ -77,4 +78,12 @@
     <string name="discount">Discount</string>
     <string name="cart_value_discount">Cart Value Offer Discount</string>
     <string name="get_coupons_click"><u>Get Free Coupons, Click here</u></string>
+
+<!--    validations-->
+    <string name="empty_name">Please enter valid name</string>
+    <string name="empty_mobile">Please enter valid mobile no</string>
+    <string name="empty_pin">Please enter valid pin</string>
+    <string name="empty_device_token">Please wait until fetch valid device token</string>
+    <string name="empty_device_type">Please wait until fetch valid device type</string>
+
 </resources>

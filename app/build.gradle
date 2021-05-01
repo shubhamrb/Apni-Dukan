@@ -98,6 +98,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_extensions_version"
+    kapt 'com.google.dagger:hilt-android-compiler:2.28-alpha'
     kapt "androidx.hilt:hilt-compiler:$hilt_extensions_version"
 
     // Local Unit Tests

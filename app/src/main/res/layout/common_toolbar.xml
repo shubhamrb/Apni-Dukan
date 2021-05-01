@@ -80,7 +80,7 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edt_search"
-                    android:background="@color/white"
+                    android:background="@color/grey_back"
                     android:layout_marginLeft="@dimen/margin15"
                     android:textSize="@dimen/margin12"
                     android:hint="Search for online service..."

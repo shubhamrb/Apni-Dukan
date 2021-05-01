@@ -178,7 +178,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
                 }
 
                 //Stores
-                if (it?.data?.storelist != null) {
+                if (it?.data?.top_storelist != null) {
                     rv_stores?.setHasFixedSize(true)
                     rv_stores?.layoutManager =
                         LinearLayoutManager(
@@ -189,7 +189,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
                     rv_stores?.adapter = StoresAdapter(
                         activity,
                         this@HomeFragment,
-                        it?.data?.storelist!!
+                        it?.data?.top_storelist!!
                     )
                 }
 
@@ -226,11 +226,11 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
                 }
 
                 //Bottom Banner
-                if (mGetHomeDataResponse?.data?.bannerlist != null) {
+                if (mGetHomeDataResponse?.data?.bottom_bannerlist != null) {
                     val adapter2 = BannerPagerAdapter(
                         activity!!,
                         childFragmentManager,
-                        mGetHomeDataResponse?.data?.bannerlist!!
+                        mGetHomeDataResponse?.data?.bottom_bannerlist!!
                     )
                     viewpager_bottom_banner.adapter = adapter2
                     dots_bottom_indicator.setViewPager(viewpager_bottom_banner)
@@ -294,18 +294,18 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
             when (i) {
                 0 -> {
                     relative_progress?.visibility = View.GONE
-                    ll_container?.visibility = View.VISIBLE
+                    nestedscroll?.visibility = View.VISIBLE
                 }
                 1 -> {
                     relative_progress?.visibility = View.GONE
-                    ll_container?.visibility = View.VISIBLE
+                    nestedscroll?.visibility = View.VISIBLE
                 }
                 2 -> {
                     relative_progress?.visibility = View.GONE
                 }
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
-                    ll_container?.visibility = View.GONE
+                    nestedscroll?.visibility = View.GONE
                 }
             }
         }

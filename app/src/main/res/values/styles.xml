@@ -91,6 +91,7 @@
 <!--    <item name="android:background">@drawable/rounded_primary</item>-->
 
 
+<!--    //Montserrat-->
     <style name="Text_mont_regular" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
@@ -109,6 +110,27 @@
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:fontFamily" tools:ignore="NewApi">@font/montserrat_bold</item>
     </style>
+
+<!--    //Raleway-->
+    <style name="Text_raleway_regular" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/raleway_regular</item>
+    </style>
+
+    <style name="Text_raleway_semibold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_semibold</item>
+    </style>
+
+    <style name="Text_raleway_medium" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_medium</item>
+    </style>
+    <style name="Text_raleway_bold" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway_bold</item>
+    </style>
+
 
     <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:minHeight">@dimen/margin5</item>

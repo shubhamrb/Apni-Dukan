@@ -7,11 +7,11 @@
     <include
         layout="@layout/layout_back"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedscroll"
@@ -19,6 +19,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -132,8 +133,9 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+    </RelativeLayout>
+
     <include
-        android:id="@+id/layout_progress"
         layout="@layout/layout_progress"/>
+
 </RelativeLayout>

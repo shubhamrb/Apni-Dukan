@@ -7,25 +7,7 @@ package com.mponline.userApp.utils
 class Constants {
     companion object {
         const val REQUEST_PERMISSIONS = 200
-        //        const val BASE_URL = "http://103.26.97.22/SP_WS/SP_S_Webservice.svc/"
-//        const val BASE_URL = "https://recyclemybin.000webhostapp.com/"
-//        const val BASE_URL = "http://rmb.wealthresources.in/Api/" //Live
-//        const val BASE_URL = "http://rmb.wealthresources.in/Api/" //Live
-        const val BASE_URL = "http://test.rmb.wealthresources.in/Api/"  //Test
-        //        const val BASE_URL = "http://192.168.0.105/scrap/api/"
-        const val USERTYPE_INDIVIDUAL = "0"
-        const val USERTYPE_APARTMENT = "1"
-        const val USERTYPE_CORPORATE = "2"
-        const val USERTYPE_VENDOR = "3"
-        const val USERTYPE_ADMIN = "4"
-
-        const val PROCESSING_FEES_PERCENT = 5
-
-        const val FB_SUCCESS = "FB_SUCCESS"
-        const val FB_CANCEL = "FB_CANCEL"
-        const val FB_ERROR = "FB_ERROR"
-        const val LINKEDIN_SUCCESS = "LINKEDIN_SUCCESS"
-        const val LINKEDIN_CANCEL = "LINKEDIN_CANCEL"
+        const val DEVICE_TYPE = "ANDROID"
 
         //LinkedIn
         const val API_KEY_linkedin_CONST = "815wbplzyjdkp4"

@@ -2,6 +2,7 @@ package com.mponline.userApp.api
 
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -41,6 +42,19 @@ interface NetworkAPIService {
 
     @POST(ApiName.GET_PRODUCT_DETAIL)
     suspend fun getProductDetail(@Body commonRequestObj: CommonRequestObj): Response<GetProductDetailResponse>
+
+    //Login
+    @POST(ApiName.SIGNUP)
+    suspend fun signup(@Body userAuthRequestObj: UserAuthRequestObj): Response<SignupResponse>
+
+    @POST(ApiName.SIGNIN)
+    suspend fun login(@Body userAuthRequestObj: UserAuthRequestObj): Response<LoginResponse>
+
+    @POST(ApiName.SEND_OTP)
+    suspend fun sendOtp(@Body userAuthRequestObj: UserAuthRequestObj): Response<CommonResponse>
+
+    @POST(ApiName.VERIFY_MOBILE_OTP)
+    suspend fun verifyMobile(@Body userAuthRequestObj: UserAuthRequestObj): Response<CommonResponse>
 
 
 }

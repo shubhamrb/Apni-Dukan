@@ -49,6 +49,8 @@
                 android:id="@+id/edit_mobile_no"
                 android:text=""
                 android:hint="@string/mobile_no"
+                android:inputType="number"
+                android:maxLength="10"
                 android:background="@color/grey_back"
                 android:layout_marginLeft="@dimen/margin15"
                 android:layout_marginRight="@dimen/margin15"
@@ -86,6 +88,7 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include layout="@layout/layout_progress" />
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_regular"
         android:id="@+id/text_makelogin"

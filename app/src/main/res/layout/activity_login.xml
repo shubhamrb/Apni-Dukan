@@ -12,7 +12,6 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_above="@id/bottom_navigation"
-        android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,7 +21,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_mont_regular"
+                style="@style/Text_raleway_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
@@ -36,6 +35,8 @@
                 style="@style/Text_mont_regular"
                 android:id="@+id/edit_mobile_no"
                 android:text=""
+                android:inputType="number"
+                android:maxLength="10"
                 android:hint="@string/mobile_no"
                 android:background="@color/grey_back"
                 android:layout_marginLeft="@dimen/margin15"
@@ -45,30 +46,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_margin="@dimen/margin15"
+                android:weightSum="10"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    layout="@layout/layout_otp"/>
+               <RelativeLayout
+                   android:layout_weight="7"
+                   android:layout_width="0dp"
+                   android:layout_gravity="center_vertical"
+                   android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_login"
-                    style="@style/Text_mont_regular"
-                    android:text="@string/login"
-                    android:paddingTop="@dimen/margin10"
-                    android:paddingBottom="@dimen/margin10"
-                    android:paddingRight="@dimen/margin25"
-                    android:paddingLeft="@dimen/margin25"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/gradient_blue"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
+                   <include
+                       android:id="@+id/layout_otp"
+                       layout="@layout/layout_otp"/>
+               </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_weight="3"
+                    android:layout_width="@dimen/margin0"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_login"
+                        style="@style/Text_mont_regular"
+                        android:text="@string/login"
+                        android:layout_gravity="right"
+                        android:paddingTop="@dimen/margin10"
+                        android:paddingBottom="@dimen/margin10"
+                        android:gravity="right"
+                        android:paddingRight="@dimen/margin25"
+                        android:paddingLeft="@dimen/margin25"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/gradient_blue"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/textsize16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"
@@ -86,6 +105,8 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include layout="@layout/layout_progress" />
+
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_regular"
         android:id="@+id/text_register"
@@ -93,6 +114,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:padding="@dimen/margin15"
+        android:layout_marginBottom="@dimen/margin15"
         android:textSize="@dimen/textsize16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

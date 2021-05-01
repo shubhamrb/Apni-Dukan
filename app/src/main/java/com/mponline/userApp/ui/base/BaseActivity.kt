@@ -35,6 +35,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.db.AppDatabase
 import com.mponline.userApp.livedata.ConnectionLiveData
 import com.mponline.userApp.model.UserCurrentAddress
+import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.PreferenceUtils
@@ -45,7 +46,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-abstract class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     var isConnected: Boolean = false
     private var connectivityEvent: ConnectivityEvent = ConnectivityEvent()
@@ -61,7 +62,7 @@ abstract class BaseActivity : AppCompatActivity() {
     var mDeeplinkSuffixUrl: String = ""
 
 
-    abstract fun onNetworkChange(isConnected: Boolean)
+    open fun onNetworkChange(isConnected: Boolean){}
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -500,6 +501,31 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+    fun getCommonRequestObj(
+        apiKey: String,
+        latitude: String = "",
+        longitude: String = "",
+        category_id: String = "",
+        store_id: String = "",
+        subcategory_id: String = "",
+        product_id: String = ""
+    ): CommonRequestObj {
+        return CommonRequestObj(
+            apiKey = apiKey,
+            latitude = latitude,
+            longitude = longitude,
+            store_id = store_id,
+            category_id = category_id,
+            subcategory_id = subcategory_id,
+            product_id = product_id
+        )
+    }
+
+    fun getApiKey():String{
+        return Constants.DUMMY_API_KEY
+    }
+
 
 
 }
