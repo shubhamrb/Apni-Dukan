@@ -21,29 +21,29 @@ public class UserListViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     //Validation
-    fun validateLogin(userAuthRequestObj: UserAuthRequestObj, context:Context):String{
-        if(userAuthRequestObj?.mobile?.isNullOrEmpty() || userAuthRequestObj?.mobile?.length!! < 10){
+    fun validateLogin(userAuthRequestObj: UserAuthRequestObj, context: Context): String {
+        if (userAuthRequestObj?.mobile?.isNullOrEmpty() || userAuthRequestObj?.mobile?.length!! < 10) {
             return context?.resources?.getString(R.string.empty_mobile)!!
-        }else if(userAuthRequestObj?.pin?.isNullOrEmpty() || userAuthRequestObj?.pin?.length!! < 6){
+        } else if (userAuthRequestObj?.pin?.isNullOrEmpty() || userAuthRequestObj?.pin?.length!! < 6) {
             return context?.resources?.getString(R.string.empty_pin)!!
-        }else if(userAuthRequestObj?.device_token?.isNullOrEmpty()){
+        } else if (userAuthRequestObj?.device_token?.isNullOrEmpty()) {
             return context?.resources?.getString(R.string.empty_device_token)!!
-        }else if(userAuthRequestObj?.device_type?.isNullOrEmpty()) {
+        } else if (userAuthRequestObj?.device_type?.isNullOrEmpty()) {
             return context?.resources?.getString(R.string.empty_device_type)!!
         }
         return context?.resources?.getString(R.string.valid)!!
     }
 
-    fun validateRegister(userAuthRequestObj: UserAuthRequestObj, context:Context):String{
-        if(userAuthRequestObj?.name?.isNullOrEmpty() || userAuthRequestObj?.name?.length!! < 3){
+    fun validateRegister(userAuthRequestObj: UserAuthRequestObj, context: Context): String {
+        if (userAuthRequestObj?.name?.isNullOrEmpty() || userAuthRequestObj?.name?.length!! < 3) {
             return context?.resources?.getString(R.string.empty_name)!!
-        }else if(userAuthRequestObj?.mobile?.isNullOrEmpty() || userAuthRequestObj?.mobile?.length!! < 10){
+        } else if (userAuthRequestObj?.mobile?.isNullOrEmpty() || userAuthRequestObj?.mobile?.length!! < 10) {
             return context?.resources?.getString(R.string.empty_mobile)!!
-        }else if(userAuthRequestObj?.pin?.isNullOrEmpty() || userAuthRequestObj?.pin?.length!! < 6){
+        } else if (userAuthRequestObj?.pin?.isNullOrEmpty() || userAuthRequestObj?.pin?.length!! < 6) {
             return context?.resources?.getString(R.string.empty_pin)!!
-        }else if(userAuthRequestObj?.device_token?.isNullOrEmpty()){
+        } else if (userAuthRequestObj?.device_token?.isNullOrEmpty()) {
             return context?.resources?.getString(R.string.empty_device_token)!!
-        }else if(userAuthRequestObj?.device_type?.isNullOrEmpty()) {
+        } else if (userAuthRequestObj?.device_type?.isNullOrEmpty()) {
             return context?.resources?.getString(R.string.empty_device_type)!!
         }
         return context?.resources?.getString(R.string.valid)!!
@@ -119,6 +119,34 @@ public class UserListViewModel @ViewModelInject constructor(
 
     fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): LiveData<CommonResponse> {
         return userRepositoryImpl.verifyOtp(userAuthRequestObj);
+    }
+
+    fun getOrderHistory(commonRequestObj: CommonRequestObj): LiveData<OrderHistoryResponse> {
+        return userRepositoryImpl.getOrderHistory(commonRequestObj);
+    }
+
+    fun getNotificationList(commonRequestObj: CommonRequestObj): LiveData<NotificationListResponse> {
+        return userRepositoryImpl.getNotificationList(commonRequestObj);
+    }
+
+    fun getChatList(commonRequestObj: CommonRequestObj): LiveData<GetChatListResponse> {
+        return userRepositoryImpl.getChatList(commonRequestObj);
+    }
+
+    fun getUpdatedChatList(commonRequestObj: CommonRequestObj): LiveData<GetChatListResponse> {
+        return userRepositoryImpl.getUpdatedChatList(commonRequestObj);
+    }
+
+    fun saveChat(commonRequestObj: CommonRequestObj): LiveData<GetChatListResponse> {
+        return userRepositoryImpl.saveChat(commonRequestObj);
+    }
+
+    fun getCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {
+        return userRepositoryImpl.getCouponList(commonRequestObj);
+    }
+
+    fun applyCoupon(commonRequestObj: CommonRequestObj): LiveData<ApplyCouponResponse> {
+        return userRepositoryImpl.applyCoupon(commonRequestObj);
     }
 
 

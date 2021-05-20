@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.response.OrderHistoryDataItem
 import kotlinx.android.synthetic.main.item_chat.view.*
 import kotlinx.android.synthetic.main.item_sub_store.view.*
 
 
 class ChatAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mList:List<OrderHistoryDataItem>? = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -33,8 +35,13 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener {
-            listener.onClick(position, holder.itemView.rl_chat, null)
+            listener.onClick(position, holder.itemView.rl_chat, mList?.get(position))
         }
+
+        holder?.itemView?.text_chat_title?.text = mList?.get(position)?.products?.name
+        holder?.itemView?.text_chat_subtitle?.text = mList?.get(position)?.products?.description
+        holder?.itemView?.text_chat_datetime?.text = mList?.get(position)?.products?.updatedAt
+
     }
 
     override fun getItemId(position: Int): Long {
@@ -43,7 +50,7 @@ class ChatAdapter(
 
 
     override fun getItemCount(): Int {
-        return 10
+        return mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

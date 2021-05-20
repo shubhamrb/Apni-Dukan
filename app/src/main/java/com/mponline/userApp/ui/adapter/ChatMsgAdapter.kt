@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.response.ChatListDataItem
 import kotlinx.android.synthetic.main.item_msg_incomming.view.*
 import kotlinx.android.synthetic.main.item_msg_outgoing.view.*
 import kotlinx.android.synthetic.main.item_sub_store.view.*
@@ -15,7 +16,8 @@ import kotlinx.android.synthetic.main.item_sub_store.view.*
 
 class ChatMsgAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mList:List<ChatListDataItem>? = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -63,7 +65,7 @@ class ChatMsgAdapter(
 
 
     override fun getItemCount(): Int {
-        return 10
+        return mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

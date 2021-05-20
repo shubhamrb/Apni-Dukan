@@ -30,6 +30,7 @@ import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sub_services.view.*
 import kotlinx.android.synthetic.main.fragment_sub_services.view.ll_container
+import kotlinx.android.synthetic.main.item_sub_store.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
@@ -42,6 +43,9 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     val viewModel: UserListViewModel by viewModels()
+    var categoryObj: CategorylistItem? = null
+    var subCategoryObj: CategorylistItem? = null
+    var getProdByCategory: GetProductByCategoryResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,9 +69,10 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
         arguments?.let {
             if (it?.containsKey("obj")) {
-                val data: CategorylistItem? = arguments?.getParcelable<CategorylistItem>("obj")
-                data?.let {
-                    callSubCategory(it)
+                categoryObj = arguments?.getParcelable<CategorylistItem>("obj")
+                subCategoryObj = arguments?.getParcelable<CategorylistItem>("obj2")
+                categoryObj?.let {
+                    callSubCategory(it, subCategoryObj!!)
                 }
             }
         }
@@ -77,16 +82,17 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
     }
 
-    private fun callSubCategory(category: CategorylistItem) {
+    private fun callSubCategory(category: CategorylistItem, subcategory: CategorylistItem) {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                category_id = category?.id!!
+                category_id = category?.id!!,
+                subcategory_id = subcategory?.id!!
             )
             viewModel?.getProductByCategory(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
-                    if (success) {
+                    if (status) {
                         switchView(1, "")
                         setDataToUI(this)
                     } else {
@@ -108,6 +114,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
     fun setDataToUI(mGetProductByCategoryResponse: GetProductByCategoryResponse) {
         mGetProductByCategoryResponse?.let {
+            getProdByCategory = it!!
             mView?.rv_sub_service?.setHasFixedSize(true)
             mView?.rv_sub_service?.layoutManager =
                 LinearLayoutManager(
@@ -136,10 +143,13 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
-//            R.id.cv_store->{
-//                mSwichFragmentListener?.onSwitchFragment(Constants.STORE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
-//            }
-
+            R.id.cv_sub_service->{
+                mSwichFragmentListener?.onSwitchFragment(
+                    Constants.STORE_PAGE_BY_PROD,
+                    Constants.WITH_NAV_DRAWER,
+                    obj, null
+                )
+            }
         }
     }
 
@@ -173,11 +183,13 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
     companion object {
         fun newInstance(
             context: Activity,
+            subcategory: CategorylistItem,
             category: CategorylistItem
         ): Fragment {
             val fragment = SubServiceFragment()
             val bundle = Bundle()
             bundle.putParcelable("obj", category)
+            bundle.putParcelable("obj2", subcategory)
             fragment.arguments = bundle
             return fragment
         }

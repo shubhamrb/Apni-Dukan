@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_raleway_bold"
+                style="@style/Text_raleway_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
@@ -46,16 +46,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_raleway_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:textSize="@dimen/textsize14"
+                android:layout_marginTop="@dimen/margin15"
+                android:text="Enter pin" />
+
             <LinearLayout
-                android:layout_margin="@dimen/margin15"
-                android:weightSum="10"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin8"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                <RelativeLayout
-                   android:layout_weight="7"
-                   android:layout_width="0dp"
+                   android:layout_width="wrap_content"
                    android:layout_gravity="center_vertical"
                    android:layout_height="wrap_content">
 
@@ -65,29 +75,48 @@
                </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_weight="3"
                     android:layout_width="@dimen/margin0"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_login"
-                        style="@style/Text_mont_regular"
-                        android:text="@string/login"
-                        android:layout_gravity="right"
-                        android:paddingTop="@dimen/margin10"
-                        android:paddingBottom="@dimen/margin10"
-                        android:gravity="right"
-                        android:paddingRight="@dimen/margin25"
-                        android:paddingLeft="@dimen/margin25"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/gradient_blue"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/textsize16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+<!--                    <androidx.appcompat.widget.AppCompatTextView-->
+<!--                        android:id="@+id/text_login"-->
+<!--                        style="@style/Text_mont_regular"-->
+<!--                        android:text="@string/login"-->
+<!--                        android:layout_gravity="right"-->
+<!--                        android:paddingTop="@dimen/margin10"-->
+<!--                        android:paddingBottom="@dimen/margin10"-->
+<!--                        android:gravity="right"-->
+<!--                        android:paddingRight="@dimen/margin25"-->
+<!--                        android:paddingLeft="@dimen/margin25"-->
+<!--                        android:layout_alignParentRight="true"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        android:background="@drawable/gradient_blue"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="@dimen/textsize16"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
                 </RelativeLayout>
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_login"
+                style="@style/Text_mont_medium"
+                android:text="@string/login"
+                android:paddingTop="@dimen/margin10"
+                android:paddingBottom="@dimen/margin10"
+                android:paddingRight="@dimen/margin25"
+                android:paddingLeft="@dimen/margin25"
+                android:layout_marginTop="@dimen/margin25"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gradient_blue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"

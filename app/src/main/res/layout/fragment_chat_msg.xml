@@ -34,16 +34,16 @@
                 android:layout_width="@dimen/margin30"
                 android:layout_height="@dimen/margin30"
                 android:padding="@dimen/margin3"
-                app:srcCompat="@drawable/ic_chat_filepick"/>
+                app:srcCompat="@drawable/ic_clip"/>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_smiley"
-                android:layout_width="@dimen/margin30"
-                android:layout_height="@dimen/margin30"
-                android:layout_marginLeft="@dimen/margin15"
-                android:padding="@dimen/margin3"
-                android:layout_toRightOf="@+id/image_file_picker"
-                app:srcCompat="@drawable/ic_chat_smiley" />
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/image_smiley"-->
+<!--                android:layout_width="@dimen/margin30"-->
+<!--                android:layout_height="@dimen/margin30"-->
+<!--                android:layout_marginLeft="@dimen/margin15"-->
+<!--                android:padding="@dimen/margin3"-->
+<!--                android:layout_toRightOf="@+id/image_file_picker"-->
+<!--                app:srcCompat="@drawable/ic_chat_smiley" />-->
 
             <EditText
                 android:id="@+id/edit_msg"
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="@dimen/margin15"
                 android:layout_marginRight="@dimen/margin15"
                 android:layout_toLeftOf="@+id/image_send_msg"
-                android:layout_toRightOf="@+id/image_smiley"
+                android:layout_toRightOf="@+id/image_file_picker"
                 android:background="@color/white"
                 android:hint="Type Something" />
 
@@ -70,4 +70,8 @@
 
     </RelativeLayout>
 
+    <include
+        layout="@layout/layout_progress"/>
+    <include
+        layout="@layout/layout_empty"/>
 </RelativeLayout>

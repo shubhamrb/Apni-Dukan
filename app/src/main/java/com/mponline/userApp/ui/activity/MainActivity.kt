@@ -17,6 +17,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.response.CategorylistItem
+import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.model.response.StorelistItem
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -53,14 +54,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             Constants.STORE_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, StoresFragment())
+                ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
                 ft.addToBackStack(Constants.STORE_PAGE)
                 ft.commit()
             }
-            Constants.SUB_SERVICE_PAGE -> {
-                if(obj!=null && obj is CategorylistItem){
+            Constants.STORE_PAGE_BY_PROD -> {
+                if(obj!=null && obj is ProductListItem){
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(R.id.rl_container_drawer, SubServiceFragment.newInstance(this@MainActivity, obj))
+                    ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.STORE_PAGE_BY_PROD)
+                    ft.commit()
+                }
+            }
+            Constants.SUB_SERVICE_PAGE -> {
+                if(obj!=null && obj is CategorylistItem && extras!=null && extras is CategorylistItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, SubServiceFragment.newInstance(this@MainActivity, obj, extras))
                     ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
                     ft.commit()
                 }
@@ -105,7 +114,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             Constants.CHAT_MSG_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, ChatMsgFragment())
+                ft.add(R.id.rl_container_drawer, ChatMsgFragment.newInstance(this@MainActivity, obj!!))
                 ft.addToBackStack(Constants.CHAT_MSG_PAGE)
                 ft.commit()
             }

@@ -56,6 +56,7 @@ class LoginActivity : BaseActivity(), OnItemClickListener {
 
         if(!mPreferenceUtils?.getValue(Constants.USER_MOBILE)?.isNullOrEmpty()){
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
         }
         setContentView(R.layout.activity_login)
 

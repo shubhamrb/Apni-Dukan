@@ -42,6 +42,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
+                    android:id="@+id/text_chat_title"
                     android:text="Manish Kumar"
                     android:layout_marginRight="@dimen/margin20"
                     android:textColor="@color/black"
@@ -51,10 +52,12 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
-                    android:id="@+id/text_to_date"
+                    android:id="@+id/text_chat_subtitle"
                     android:text="Order processed"
                     android:layout_marginTop="@dimen/margin8"
                     android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textSize="@dimen/textsize12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -71,7 +74,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
-                    android:id="@+id/text_notification_time"
+                    android:id="@+id/text_chat_datetime"
                     android:layout_gravity="right"
                     android:gravity="right"
                     android:text="Yesterday\n23:10"

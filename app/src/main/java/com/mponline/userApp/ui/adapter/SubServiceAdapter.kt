@@ -39,7 +39,7 @@ class SubServiceAdapter(
         }
         holder.itemView.text_service_title.text = mList?.get(position)?.name
         holder.itemView.setOnClickListener {
-            listener?.onClick(position, holder.itemView.cv_sub_service, null)
+            listener?.onClick(position, holder.itemView.cv_sub_service, mList?.get(position))
         }
     }
 

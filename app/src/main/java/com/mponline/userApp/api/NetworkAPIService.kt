@@ -56,5 +56,27 @@ interface NetworkAPIService {
     @POST(ApiName.VERIFY_MOBILE_OTP)
     suspend fun verifyMobile(@Body userAuthRequestObj: UserAuthRequestObj): Response<CommonResponse>
 
+    //Listing
+    @POST(ApiName.GET_ORDER_HISTORY)
+    suspend fun getOrderHistory(@Header("Authorization")token:String): Response<OrderHistoryResponse>
+
+    @POST(ApiName.NOTIFICATION_LIST)
+    suspend fun getNotificationList(@Header("Authorization")token:String): Response<NotificationListResponse>
+
+    @POST(ApiName.GET_CHAT_LIST)
+    suspend fun getChatList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+
+    @POST(ApiName.GET_UPDATED_CHAT_LIST)
+    suspend fun getUpdatedChatList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+
+    @POST(ApiName.SAVE_CHAT)
+    suspend fun saveChat(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+
+    @POST(ApiName.APPLY_COUPON)
+    suspend fun applyCoupon(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<ApplyCouponResponse>
+
+    @POST(ApiName.GET_COUPON_LIST)
+    suspend fun getCouponList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetCouponListResponse>
+
 
 }

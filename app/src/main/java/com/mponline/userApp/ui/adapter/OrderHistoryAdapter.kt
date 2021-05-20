@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.utils.Constants
 import kotlinx.android.synthetic.main.item_order_history.view.*
 import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
@@ -17,7 +18,8 @@ import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 
 class OrderHistoryAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mList:List<OrderHistoryDataItem> = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -69,7 +71,7 @@ class OrderHistoryAdapter(
 
 
     override fun getItemCount(): Int {
-        return 5
+        return mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

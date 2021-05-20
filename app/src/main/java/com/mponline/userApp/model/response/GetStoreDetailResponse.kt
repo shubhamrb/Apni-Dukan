@@ -3,7 +3,7 @@ package com.mponline.userApp.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DataItem(@SerializedName("category")
+data class StoreDetailDataItem(@SerializedName("category")
                     val category: ArrayList<CategorylistItem>,
                     @SerializedName("openingtime")
                     val openingtime: String = "",
@@ -30,9 +30,9 @@ data class DataItem(@SerializedName("category")
 
 
 data class GetStoreDetailResponse(@SerializedName("data")
-                                  val data: List<DataItem>?,
-                                  @SerializedName("success")
-                                  val success: Boolean = false,
+                                  val data: List<StoreDetailDataItem>?,
+                                  @SerializedName("status")
+                                  val status: Boolean = false,
                                   @SerializedName("messageId")
                                   val messageId: Int = 0,
                                   @SerializedName("message")

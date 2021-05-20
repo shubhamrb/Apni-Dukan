@@ -20,6 +20,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.db.AppDatabase
 import com.mponline.userApp.livedata.ConnectionLiveData
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.HeaderInfo
 import com.mponline.userApp.util.CameraGalleryUtils
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
@@ -201,7 +202,8 @@ abstract class BaseFragment : Fragment() {
 //    val product_id: String = ""
 
     fun getCommonRequestObj(
-        apiKey: String,
+        apiKey: String="",
+        orderid: String = "",
         latitude: String = "",
         longitude: String = "",
         category_id: String = "",
@@ -211,12 +213,14 @@ abstract class BaseFragment : Fragment() {
     ): CommonRequestObj {
         return CommonRequestObj(
             apiKey = apiKey,
+            orderid = orderid,
             latitude = latitude,
             longitude = longitude,
             store_id = store_id,
             category_id = category_id,
             subcategory_id = subcategory_id,
-            product_id = product_id
+            product_id = product_id,
+            headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }
 

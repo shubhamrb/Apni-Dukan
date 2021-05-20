@@ -25,9 +25,16 @@ import com.mponline.userApp.utils.ImageGlideUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_store_detail.*
-import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_container
-import kotlinx.android.synthetic.main.fragment_store_detail.view.relative_frag
-import kotlinx.android.synthetic.main.fragment_store_detail.view.rv_services
+import kotlinx.android.synthetic.main.fragment_store_detail.image_store
+import kotlinx.android.synthetic.main.fragment_store_detail.image_store_status
+import kotlinx.android.synthetic.main.fragment_store_detail.ratingbar_rating
+import kotlinx.android.synthetic.main.fragment_store_detail.ratingbar_store
+import kotlinx.android.synthetic.main.fragment_store_detail.text_rating
+import kotlinx.android.synthetic.main.fragment_store_detail.text_store_desc
+import kotlinx.android.synthetic.main.fragment_store_detail.text_store_location
+import kotlinx.android.synthetic.main.fragment_store_detail.text_store_name
+import kotlinx.android.synthetic.main.fragment_store_detail.text_store_status
+import kotlinx.android.synthetic.main.fragment_store_detail.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
@@ -68,6 +75,10 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
 
         }
 
+        view?.text_checkout?.setOnClickListener {
+
+        }
+
         arguments?.let {
             if (it?.containsKey("obj") && it?.containsKey("subobj")) {
                 mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
@@ -104,7 +115,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             )
             viewModel?.getStoreDetail(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
-                    if (success) {
+                    if (status) {
                         switchView(1, "")
                         setDataToUI(this)
                     } else {
@@ -138,7 +149,11 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     text_store_status.text =
                         if (it?.data?.get(0)?.is_available!=null && it?.data?.get(0)?.is_available!! == "1") "Open" else "Closed"
                     image_store_status.setImageResource(if (it?.data?.get(0)?.is_available!=null && it?.data?.get(0)?.is_available!! == "1") R.drawable.circle_green else R.drawable.circle_red)
-                    ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
+                    if(it?.data?.get(0)?.ratting!=null){
+                        ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
+                        ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
+                        text_rating.text = it?.data?.get(0)?.ratting
+                    }
                     text_store_desc.text = Html.fromHtml(it?.data?.get(0)?.description)
 
                     //Services

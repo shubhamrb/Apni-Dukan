@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_mont_regular"
+                style="@style/Text_raleway_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
@@ -59,30 +59,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_raleway_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:textSize="@dimen/textsize14"
+                android:layout_marginTop="@dimen/margin15"
+                android:text="Create new pin" />
+
             <RelativeLayout
-                android:layout_margin="@dimen/margin15"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
               <include
                   layout="@layout/layout_otp"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_register"
-                    style="@style/Text_mont_regular"
-                    android:text="@string/sign_up"
-                    android:paddingTop="@dimen/margin10"
-                    android:paddingBottom="@dimen/margin10"
-                    android:paddingRight="@dimen/margin25"
-                    android:paddingLeft="@dimen/margin25"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/gradient_blue"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
             </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_register"
+                style="@style/Text_mont_medium"
+                android:text="@string/sign_up"
+                android:paddingTop="@dimen/margin10"
+                android:paddingBottom="@dimen/margin10"
+                android:paddingRight="@dimen/margin25"
+                android:paddingLeft="@dimen/margin25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin25"
+                android:background="@drawable/gradient_blue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize16"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

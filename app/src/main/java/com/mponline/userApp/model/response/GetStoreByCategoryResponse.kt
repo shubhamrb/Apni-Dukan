@@ -15,8 +15,8 @@ data class StoreByCategoryData(@SerializedName("name")
 
 data class GetStoreByCategoryResponse(@SerializedName("data")
                                       val data: StoreByCategoryData,
-                                      @SerializedName("success")
-                                      val success: Boolean = false,
+                                      @SerializedName("status")
+                                      val status: Boolean = false,
                                       @SerializedName("messageId")
                                       val messageId: Int = 0,
                                       @SerializedName("message")

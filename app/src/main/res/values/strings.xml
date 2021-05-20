@@ -78,6 +78,7 @@
     <string name="discount">Discount</string>
     <string name="cart_value_discount">Cart Value Offer Discount</string>
     <string name="get_coupons_click"><u>Get Free Coupons, Click here</u></string>
+    <string name="clk_to_proceed">Click to proceed</string>
 
 <!--    validations-->
     <string name="empty_name">Please enter valid name</string>

@@ -39,5 +39,13 @@ interface UserRepository {
     fun sendOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
     fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
 
+    //Listing
+    fun getOrderHistory(commonRequestObj: CommonRequestObj): MutableLiveData<OrderHistoryResponse>
+    fun getNotificationList(commonRequestObj: CommonRequestObj): MutableLiveData<NotificationListResponse>
+    fun getChatList(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
+    fun getUpdatedChatList(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
+    fun saveChat(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
+    fun applyCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<ApplyCouponResponse>
+    fun getCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
 
 }

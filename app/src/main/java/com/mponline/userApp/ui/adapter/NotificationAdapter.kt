@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.response.NotificationDataItem
 import kotlinx.android.synthetic.main.item_sub_store.view.*
+import kotlinx.android.synthetic.main.item_unread_notification.view.*
 
 
 class NotificationAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var type:String
+    var type:String,
+    var mList:List<NotificationDataItem>? = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -31,7 +34,9 @@ class NotificationAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder.itemView.text_noti_title.text = mList?.get(position)?.message
+        holder.itemView.text_noti_type.text = mList?.get(position)?.notiType
+        holder.itemView.text_notification_time.text = mList?.get(position)?.updatedAt
     }
 
     override fun getItemId(position: Int): Long {
@@ -40,7 +45,7 @@ class NotificationAdapter(
 
 
     override fun getItemCount(): Int {
-        return 5
+        return mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

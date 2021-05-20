@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 
 data class GetStoreAroundResponse(@SerializedName("data")
                                   val data: ArrayList<StorelistItem>?,
-                                  @SerializedName("success")
-                                  val success: Boolean = false,
+                                  @SerializedName("status")
+                                  val status: Boolean = false,
                                   @SerializedName("messageId")
                                   val messageId: Int = 0,
                                   @SerializedName("message")

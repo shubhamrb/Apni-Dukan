@@ -15,8 +15,8 @@ data class CategoryDataItem(@SerializedName("image")
 
 data class GetCategoriesResponse(@SerializedName("data")
                                  val data: ArrayList<CategorylistItem>?,
-                                 @SerializedName("success")
-                                 val success: Boolean = false,
+                                 @SerializedName("status")
+                                 val status: Boolean = false,
                                  @SerializedName("messageId")
                                  val messageId: Int = 0,
                                  @SerializedName("message")

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -9,112 +9,118 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_1"
-               android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
+                android:background="@drawable/round_rect_solid_gray"
+                android:textSize="@dimen/textsize14"
+                android:gravity="center"
                 android:textColor="@color/magento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/margin5"
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_2"
-                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:gravity="center"
                 android:textColor="@color/magento"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/margin5"
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+                android:background="@drawable/round_rect_solid_gray"
+                android:textSize="@dimen/textsize14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_3"
-                android:padding="@dimen/margin12"
                 android:inputType="number"
                 android:maxLength="1"
+                android:background="@drawable/round_rect_solid_gray"
+                android:gravity="center"
                 android:textColor="@color/magento"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/margin5"
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+                android:textSize="@dimen/textsize14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_4"
-                android:padding="@dimen/margin12"
                 android:inputType="number"
+                android:gravity="center"
                 android:maxLength="1"
+                android:background="@drawable/round_rect_solid_gray"
                 android:textColor="@color/magento"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/margin5"
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+                android:textSize="@dimen/textsize14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_5"
-                android:padding="@dimen/margin12"
+                android:background="@drawable/round_rect_solid_gray"
                 android:inputType="number"
+                android:gravity="center"
                 android:maxLength="1"
                 android:textColor="@color/magento"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/margin5"
-            android:background="@drawable/rect_solid_gray"
-            android:layout_width="wrap_content"
+                android:textSize="@dimen/textsize14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin15"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_6"
-                android:padding="@dimen/margin12"
+                android:background="@drawable/round_rect_solid_gray"
                 android:inputType="number"
+                android:gravity="center"
                 android:maxLength="1"
                 android:textColor="@color/magento"
                 android:hint="*"
-                android:textSize="@dimen/textsize12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
+                android:textSize="@dimen/textsize14"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
     </LinearLayout>
 </LinearLayout>

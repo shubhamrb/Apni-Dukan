@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 
 data class GetHomeDataResponse(@SerializedName("data")
                                val data: HomeData,
-                               @SerializedName("success")
-                               val success: Boolean = false,
+                               @SerializedName("status")
+                               val status: Boolean = false,
                                @SerializedName("messageId")
                                val messageId: Int = 0,
                                @SerializedName("message")

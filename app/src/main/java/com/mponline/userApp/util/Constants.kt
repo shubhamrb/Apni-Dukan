@@ -132,6 +132,7 @@ class Constants {
         var HOME_PAGE = "HOME_PAGE"
         var SERVICE_PAGE = "SERVICE_PAGE"
         var STORE_PAGE = "STORE_PAGE"
+        var STORE_PAGE_BY_PROD = "STORE_PAGE_BY_PROD"
         var SUB_SERVICE_PAGE = "SUB_SERVICE_PAGE"
         var INSTRUCTION_PAGE = "INSTRUCTION_PAGE"
         var CUSTOM_FOEMS_PAGE = "CUSTOM_FOEMS_PAGE"

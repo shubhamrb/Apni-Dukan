@@ -36,6 +36,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     val viewModel: UserListViewModel by viewModels()
+    var mCategoryObj: CategorylistItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +65,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
             if (it?.containsKey("obj")) {
                 val data: CategorylistItem? = arguments?.getParcelable<CategorylistItem>("obj")
                 data?.let {
+                    mCategoryObj = it
                     callSubCategory(it)
                 }
             }
@@ -82,7 +84,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
             )
             viewModel?.getSubCategories(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
-                    if (success) {
+                    if (status) {
                         switchView(1, "")
                         setDataToUI(this)
                     } else {
@@ -134,7 +136,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
                     Constants.SUB_SERVICE_PAGE,
                     Constants.WITH_NAV_DRAWER,
                     obj,
-                    null
+                    mCategoryObj
                 )
             }
 

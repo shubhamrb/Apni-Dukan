@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,14 +21,19 @@ import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.viewmodel.UserListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
+import kotlinx.android.synthetic.main.layout_progress.*
 
+@AndroidEntryPoint
 class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
 
     var mView: View? = null
+    val viewModel: UserListViewModel by viewModels()
     var mSwichFragmentListener: OnSwichFragmentListener? = null
 
     override fun onCreateView(
@@ -51,20 +58,50 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
         view?.relative_frag?.setOnClickListener {  }
 
-        //Stores
-        view?.rv_order_history?.setHasFixedSize(true)
-        view?.rv_order_history?.layoutManager =
-            LinearLayoutManager(
-                activity,
-                RecyclerView.VERTICAL,
-                false
-            )
-        view?.rv_order_history?.adapter = OrderHistoryAdapter(
-            activity,
-            this
-        )
-
+        callOrderHistoryApi()
     }
+
+    private fun callOrderHistoryApi() {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(3, "")
+            var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey(),
+                latitude = "23.2599",
+                longitude = "77.4126"
+            )
+            viewModel?.getOrderHistory(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    if (status) {
+                        switchView(1, "")
+                        view?.rv_order_history?.setHasFixedSize(true)
+                        view?.rv_order_history?.layoutManager =
+                            LinearLayoutManager(
+                                activity,
+                                RecyclerView.VERTICAL,
+                                false
+                            )
+                        view?.rv_order_history?.adapter = OrderHistoryAdapter(
+                            activity,
+                            this@OrderHistoryFragment,
+                            data!!
+                        )
+                    } else {
+                        switchView(0, "")
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            resources?.getString(R.string.no_net)!!
+                        )
+                    }
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -84,4 +121,27 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
         }
     }
+
+    fun switchView(i: Int, msg: String) {
+        mView?.run {
+            when (i) {
+                0 -> {
+                    relative_progress?.visibility = View.GONE
+                    ll_container?.visibility = View.VISIBLE
+                }
+                1 -> {
+                    relative_progress?.visibility = View.GONE
+                    ll_container?.visibility = View.VISIBLE
+                }
+                2 -> {
+                    relative_progress?.visibility = View.GONE
+                }
+                3 -> {
+                    relative_progress?.visibility = View.VISIBLE
+                    ll_container?.visibility = View.GONE
+                }
+            }
+        }
+    }
+
 }

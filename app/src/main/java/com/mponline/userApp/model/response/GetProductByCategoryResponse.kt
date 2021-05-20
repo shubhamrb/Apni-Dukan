@@ -22,8 +22,8 @@ data class ProductListItem(@SerializedName("image")
 
 data class GetProductByCategoryResponse(@SerializedName("data")
                                      val data: ProductByCategoryData,
-                                     @SerializedName("success")
-                                     val success: Boolean = false,
+                                     @SerializedName("status")
+                                     val status: Boolean = false,
                                      @SerializedName("messageId")
                                      val messageId: Int = 0,
                                      @SerializedName("message")

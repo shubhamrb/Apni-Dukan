@@ -105,7 +105,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
             )
             viewModel?.getHomeData(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
-                    if (success) {
+                    if (status) {
                         switchView(1, "")
                         setDataToUI(this)
                     } else {

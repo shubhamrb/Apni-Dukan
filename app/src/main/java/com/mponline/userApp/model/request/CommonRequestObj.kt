@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class CommonRequestObj(
     @SerializedName("api_key")
     val apiKey: String = "",
+    @SerializedName("orderid")
+    val orderid: String = "",
     @SerializedName("latitude")
     val latitude: String = "",
     @SerializedName("longitude")
@@ -17,7 +19,12 @@ data class CommonRequestObj(
     @SerializedName("subcategory_id")
     val subcategory_id: String = "",
     @SerializedName("product_id")
-    val product_id: String = ""
+    val product_id: String = "",
+    var headerInfo:HeaderInfo?=null
+)
+
+data class HeaderInfo(
+    var Authorization:String = ""
 )
 
 

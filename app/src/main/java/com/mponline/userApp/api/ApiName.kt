@@ -23,5 +23,13 @@ class ApiName {
         const val CHANGE_PWD:String = "api/auth/changePassword"
         const val UPDATE_PROFILE:String = "api/auth/update_profile"
 
+        const val GET_ORDER_HISTORY:String = "api/auth/getOrderHistory"
+        const val NOTIFICATION_LIST:String = "api/auth/getNotificationList"
+        const val GET_CHAT_LIST:String = "api/auth/getChatList"
+        const val GET_UPDATED_CHAT_LIST:String = "api/auth/getUpdatedMessage"
+        const val SAVE_CHAT:String = "api/auth/saveChat"
+        const val GET_COUPON_LIST:String = "api/auth/couponList"
+        const val APPLY_COUPON:String = "api/auth/applycoupon"
+
     }
 }
