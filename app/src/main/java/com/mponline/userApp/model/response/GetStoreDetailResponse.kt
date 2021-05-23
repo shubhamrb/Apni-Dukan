@@ -1,8 +1,11 @@
 package com.mponline.userApp.model.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class StoreDetailDataItem(@SerializedName("category")
                     val category: ArrayList<CategorylistItem>,
                     @SerializedName("openingtime")
@@ -24,11 +27,11 @@ data class StoreDetailDataItem(@SerializedName("category")
                     @SerializedName("description")
                     val description: String = "",
                     @SerializedName("id")
-                    val id: Int = 0,
+                    val id: String = "",
                     @SerializedName("longitude")
-                    val longitude: String = "")
+                    val longitude: String = ""):Parcelable
 
-
+@Parcelize
 data class GetStoreDetailResponse(@SerializedName("data")
                                   val data: List<StoreDetailDataItem>?,
                                   @SerializedName("status")
@@ -36,6 +39,6 @@ data class GetStoreDetailResponse(@SerializedName("data")
                                   @SerializedName("messageId")
                                   val messageId: Int = 0,
                                   @SerializedName("message")
-                                  val message: String = "")
+                                  val message: String = ""):Parcelable
 
 

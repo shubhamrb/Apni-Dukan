@@ -9,26 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.response.CategorylistItem
-import com.mponline.userApp.model.response.GetStoreAroundResponse
 import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.model.response.StorelistItem
-import com.mponline.userApp.ui.adapter.ServicesAdapter
-import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_stores.view.*
 import kotlinx.android.synthetic.main.fragment_stores.view.ll_container
 import kotlinx.android.synthetic.main.fragment_stores.view.rv_stores
@@ -97,10 +91,10 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
         when (view?.id) {
             R.id.cv_store -> {
                 mSwichFragmentListener?.onSwitchFragment(
-                    Constants.STORE_DETAIL_PAGE,
+                    Constants.STORE_DETAIL_PAGE_WITH_PROD,
                     Constants.WITH_NAV_DRAWER,
                     obj,
-                    null
+                    mProductListItem
                 )
             }
         }

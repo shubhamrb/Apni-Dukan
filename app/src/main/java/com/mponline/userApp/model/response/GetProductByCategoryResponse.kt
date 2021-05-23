@@ -19,7 +19,7 @@ data class ProductListItem(@SerializedName("image")
                            @SerializedName("id")
                            val id: String = ""):Parcelable
 
-
+@Parcelize
 data class GetProductByCategoryResponse(@SerializedName("data")
                                      val data: ProductByCategoryData,
                                      @SerializedName("status")
@@ -27,10 +27,10 @@ data class GetProductByCategoryResponse(@SerializedName("data")
                                      @SerializedName("messageId")
                                      val messageId: Int = 0,
                                      @SerializedName("message")
-                                     val message: String = "")
+                                     val message: String = ""):Parcelable
 
-
+@Parcelize
 data class ProductByCategoryData(@SerializedName("product_list")
-                val productList: ArrayList<ProductListItem>?)
+                val productList: ArrayList<ProductListItem>?):Parcelable
 
 

@@ -1,37 +1,50 @@
 package com.mponline.userApp.model.response
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class ProductDetailDataItem(@SerializedName("store_id")
-                    val storeId: Int = 0,
+@Parcelize
+data class GetProdDetailDataItem(@SerializedName("store_id")
+                    val storeId: String = "",
                     @SerializedName("short_description")
                     val shortDescription: String = "",
                     @SerializedName("image")
                     val image: String = "",
                     @SerializedName("form")
-                    val form: String = "",
+                    val form: List<FormItem>?,
                     @SerializedName("price")
                     val price: String = "",
                     @SerializedName("product_id")
-                    val productId: Int = 0,
+                    val productId: String = "",
                     @SerializedName("discount")
-                    val discount: Int = 0,
+                    val discount: String = "",
                     @SerializedName("description")
                     val description: String = "",
                     @SerializedName("id")
-                    val id: Int = 0,
+                    val id: String = "",
                     @SerializedName("discount_type")
-                    val discountType: Int = 0)
+                    val discountType: String = ""):Parcelable
 
+@Parcelize
+data class FormItem(@SerializedName("isRequired")
+                    val isRequired: String = "",
+                    @SerializedName("name")
+                    val name: String = "",
+                    @SerializedName("field_type")
+                    val fieldType: String = "",
+                    @SerializedName("value")
+                    val value: String = ""):Parcelable
 
+@Parcelize
 data class GetProductDetailResponse(@SerializedName("data")
-                                    val data: List<ProductDetailDataItem>?,
-                                    @SerializedName("success")
-                                    val success: Boolean = false,
+                                    val data: ArrayList<GetProdDetailDataItem>? = ArrayList(),
                                     @SerializedName("messageId")
-                                    val messageId: Int = 0,
+                                    val messageId: String = "",
                                     @SerializedName("message")
-                                    val message: String = "")
+                                    val message: String = "",
+                                    @SerializedName("status")
+                                    val status: Boolean = false):Parcelable
 
 

@@ -2,11 +2,8 @@ package com.mponline.userApp.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
@@ -16,8 +13,10 @@ import com.google.android.material.navigation.NavigationView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.model.response.ProductListItem
+import com.mponline.userApp.model.response.StoreDetailDataItem
 import com.mponline.userApp.model.response.StorelistItem
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -75,16 +74,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             Constants.INSTRUCTION_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, InstructionFragment())
-                ft.addToBackStack(Constants.INSTRUCTION_PAGE)
-                ft.commit()
+                if(obj!=null && extras !=null && obj is StoreDetailDataItem && extras is ProductListItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, InstructionFragment.newInstance(this, obj, extras))
+                    ft.addToBackStack(Constants.INSTRUCTION_PAGE)
+                    ft.commit()
+                }
             }
             Constants.CUSTOM_FOEMS_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, CustomFormFragment())
-                ft.addToBackStack(Constants.CUSTOM_FOEMS_PAGE)
-                ft.commit()
+                if(obj!=null && obj is PrePlaceOrderPojo){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, CustomFormFragment.newInstance(this, obj))
+                    ft.addToBackStack(Constants.CUSTOM_FOEMS_PAGE)
+                    ft.commit()
+                }
             }
             Constants.ORDER_HISTORY_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -108,7 +111,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if(obj!=null && obj is StorelistItem){
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                     ft.add(R.id.rl_container_drawer, StoreDetailFragment.newInstance(this@MainActivity, obj))
-                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE)
+                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
+                    ft.commit()
+                }
+            }
+            Constants.STORE_DETAIL_PAGE_WITH_PROD -> {
+                if(obj!=null && obj is StorelistItem && extras!=null && extras is ProductListItem){
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, StoreDetailFragment.newInstance(this@MainActivity, obj, extras))
+                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
                     ft.commit()
                 }
             }

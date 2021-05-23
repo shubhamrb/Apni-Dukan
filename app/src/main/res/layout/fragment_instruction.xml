@@ -9,7 +9,7 @@
     <include
         layout="@layout/layout_back"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,12 +19,14 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/ll_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
+                    android:id="@+id/text_title"
                     android:text="RRB Group D exam"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
@@ -36,6 +38,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
+                    android:id="@+id/text_desc"
                     android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat."
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
@@ -47,17 +50,18 @@
 
              <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
-                    android:text="Eligibility criteria"
+                    android:text="Price"
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginRight="@dimen/margin15"
-                    android:textColor="@color/purple"
+                    android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin15"
-                    android:textSize="@dimen/textsize14"
+                    android:textSize="@dimen/textsize16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
+                    android:id="@+id/text_price"
                     android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat."
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
@@ -72,12 +76,14 @@
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
                     android:text="Select Your Caste"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginRight="@dimen/margin15"
                     android:textColor="@color/black"
@@ -88,6 +94,7 @@
 
                 <RadioGroup
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -125,7 +132,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
                     android:id="@+id/text_proceed"
-                    android:text="Proceed To Next Step"
+                    android:text="Proceed To Checkout"
                     android:gravity="center"
                     android:padding="@dimen/margin15"
                     android:textColor="@color/white"
@@ -134,10 +141,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginBottom="@dimen/margin80"
+                    android:layout_marginBottom="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin25"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+
+        <include
+            layout="@layout/layout_progress"/>
+
+        <include
+            layout="@layout/layout_empty"/>
+    </RelativeLayout>
 
 </RelativeLayout>

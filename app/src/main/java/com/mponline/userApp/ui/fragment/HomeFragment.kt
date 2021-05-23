@@ -280,9 +280,9 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
             }
             R.id.cv_store -> {
                 mSwichFragmentListener?.onSwitchFragment(
-                    Constants.STORE_PAGE,
+                    Constants.STORE_DETAIL_PAGE,
                     Constants.WITH_NAV_DRAWER,
-                    null,
+                    obj,
                     null
                 )
             }

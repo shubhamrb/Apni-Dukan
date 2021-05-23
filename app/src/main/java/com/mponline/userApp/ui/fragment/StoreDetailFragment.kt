@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
-import com.mponline.userApp.model.response.CategorylistItem
-import com.mponline.userApp.model.response.GetStoreDetailResponse
-import com.mponline.userApp.model.response.StorelistItem
+import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
@@ -50,6 +48,8 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     var mCategorylistItem: CategorylistItem? = null
     var mStorelistItem: StorelistItem? = null
     var mSubCategorylistItem: CategorylistItem? = null
+    var mStoreDetailDataItem: StoreDetailDataItem? = null
+    var mProductListItem: ProductListItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,13 +70,20 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mView = view
         view?.relative_frag?.setOnClickListener {
 
         }
 
         view?.text_checkout?.setOnClickListener {
-
+            if(mProductListItem!=null){
+                mSwichFragmentListener?.onSwitchFragment(
+                    Constants.INSTRUCTION_PAGE,
+                    Constants.WITH_NAV_DRAWER,
+                    mStoreDetailDataItem,
+                    mProductListItem
+                )
+            }
         }
 
         arguments?.let {
@@ -84,11 +91,17 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                 mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
                 mSubCategorylistItem = arguments?.getParcelable<CategorylistItem>("subobj")
             }
-             if (it?.containsKey("store")) {
+            if (it?.containsKey("store")) {
                 mStorelistItem = arguments?.getParcelable<StorelistItem>("store")
-                 mStorelistItem?.let {
-                     callStoreDetail(mStorelistItem?.id!!)
-                 }
+                mStorelistItem?.let {
+                    callStoreDetail(mStorelistItem?.id!!)
+                }
+            }
+            if (it?.containsKey("prod")) {
+                mProductListItem = arguments?.getParcelable<ProductListItem>("prod")
+                mView?.text_checkout?.visibility = View.VISIBLE
+            } else {
+                mView?.text_checkout?.visibility = View.GONE
             }
         }
 
@@ -117,6 +130,9 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                 it?.run {
                     if (status) {
                         switchView(1, "")
+                        if (this?.data != null && this?.data?.size!! > 0) {
+                            mStoreDetailDataItem = this?.data?.get(0)!!
+                        }
                         setDataToUI(this)
                     } else {
                         switchView(0, "")
@@ -147,9 +163,14 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     text_store_name.text = "${it?.data?.get(0)?.name}"
                     text_store_location.text = "${it?.data?.get(0)?.distance} Km away from you"
                     text_store_status.text =
-                        if (it?.data?.get(0)?.is_available!=null && it?.data?.get(0)?.is_available!! == "1") "Open" else "Closed"
-                    image_store_status.setImageResource(if (it?.data?.get(0)?.is_available!=null && it?.data?.get(0)?.is_available!! == "1") R.drawable.circle_green else R.drawable.circle_red)
-                    if(it?.data?.get(0)?.ratting!=null){
+                        if (it?.data?.get(0)?.is_available != null && it?.data?.get(0)?.is_available!! == "1") "Open" else "Closed"
+                    image_store_status.setImageResource(
+                        if (it?.data?.get(0)?.is_available != null && it?.data?.get(
+                                0
+                            )?.is_available!! == "1"
+                        ) R.drawable.circle_green else R.drawable.circle_red
+                    )
+                    if (it?.data?.get(0)?.ratting != null) {
                         ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
                         text_rating.text = it?.data?.get(0)?.ratting
@@ -180,12 +201,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
             R.id.cv_service -> {
-                mSwichFragmentListener?.onSwitchFragment(
-                    Constants.INSTRUCTION_PAGE,
-                    Constants.WITH_NAV_DRAWER,
-                    null,
-                    null
-                )
+
             }
 
         }
@@ -218,6 +234,8 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     }
 
     companion object {
+
+        //Not used
         fun newInstance(
             context: Activity,
             category: CategorylistItem,
@@ -235,6 +253,18 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             return fragment
         }
 
+        fun newInstance(
+            context: Activity,
+            mStorelistItem: StorelistItem,
+            mProductListItem: ProductListItem
+        ): Fragment {
+            val fragment = StoreDetailFragment()
+            val bundle = Bundle()
+            bundle.putParcelable("store", mStorelistItem)
+            bundle.putParcelable("prod", mProductListItem)
+            fragment.arguments = bundle
+            return fragment
+        }
         fun newInstance(
             context: Activity,
             mStorelistItem: StorelistItem
