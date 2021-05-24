@@ -11,9 +11,12 @@ import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.PlaceOrderRequest
 import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 public class UserListViewModel @ViewModelInject constructor(
 //    @ApplicationContext var application: Context,
@@ -147,6 +150,13 @@ public class UserListViewModel @ViewModelInject constructor(
 
     fun applyCoupon(commonRequestObj: CommonRequestObj): LiveData<ApplyCouponResponse> {
         return userRepositoryImpl.applyCoupon(commonRequestObj);
+    }
+    fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): LiveData<CommonResponse> {
+        return userRepositoryImpl.placeOrder(token, postOrderRequest);
+    }
+
+    fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): LiveData<UploadFileResponse> {
+        return userRepositoryImpl.uploadFile(token, file, requestDocs);
     }
 
 

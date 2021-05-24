@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -102,6 +103,15 @@ class  CommonUtils{
             outtoLeft.interpolator = AccelerateInterpolator()
             return outtoLeft
         }
+
+        fun getFileName(filePath: String): String {
+            if (!TextUtils.isEmpty(filePath)) {
+                return filePath.substring(filePath.lastIndexOf("/") + 1)
+            } else {
+                return ""
+            }
+        }
+
 
     }
 }

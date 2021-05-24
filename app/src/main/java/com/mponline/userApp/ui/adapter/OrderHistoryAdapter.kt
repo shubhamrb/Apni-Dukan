@@ -11,7 +11,9 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.utils.ImageGlideUtils
 import kotlinx.android.synthetic.main.item_order_history.view.*
+import kotlinx.android.synthetic.main.item_sub_store.view.*
 import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
 import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 
@@ -35,7 +37,11 @@ class OrderHistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        if(!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()){
+            ImageGlideUtils.loadUrlImage(context!!, mList?.get(position)?.storedetail?.image, holder.itemView.image_order_history)
+        }
+        holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name
+//        holder?.itemView?.text_to_date?.text = "Application submitted as on ${mList?.get(position)?.products?.name}"
         if(position == 1){
             holder.itemView.text_status.text = "Completed"
             holder.itemView.layout_order_complete.visibility = View.VISIBLE

@@ -10,6 +10,7 @@
         layout="@layout/layout_back"/>
 
     <LinearLayout
+        android:id="@+id/ll_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -53,36 +54,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
-                    android:text="Upload Documents"
-                    android:layout_marginTop="@dimen/margin25"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
-                    android:text="Kindly upload required documents."
-                    android:layout_marginTop="@dimen/margin8"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:textSize="@dimen/textsize12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_custom_files"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
@@ -101,5 +72,11 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+    <include
+        layout="@layout/layout_progress"/>
+
+    <include
+        layout="@layout/layout_empty"/>
 
 </RelativeLayout>

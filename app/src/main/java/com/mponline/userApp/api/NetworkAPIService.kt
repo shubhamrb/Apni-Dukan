@@ -2,8 +2,11 @@ package com.mponline.userApp.api
 
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.PlaceOrderRequest
 import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -77,6 +80,17 @@ interface NetworkAPIService {
 
     @POST(ApiName.GET_COUPON_LIST)
     suspend fun getCouponList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetCouponListResponse>
+
+    @POST(ApiName.PLACE_ORDER)
+    suspend fun placeOrder(@Header("Authorization")token:String, @Body placeOrderRequest: PlaceOrderRequest): Response<CommonResponse>
+
+    @Multipart
+    @POST(ApiName.UPLOAD_FILE)
+    suspend fun callUploadDocuments(
+        @Header("Authorization")token:String, @Part file: MultipartBody.Part?, @Part(
+            "name"
+        ) name: RequestBody
+    ): Response<UploadFileResponse>
 
 
 }

@@ -1,10 +1,12 @@
 package com.mponline.userApp.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +16,7 @@ import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
@@ -35,6 +38,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     var mView: View? = null
     val viewModel: UserListViewModel by viewModels()
     var mSwichFragmentListener: OnSwichFragmentListener? = null
+    var isPostApplnSubmit = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +59,18 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.let {
+            isPostApplnSubmit = it?.getBoolean("flag")
+            if(isPostApplnSubmit){
+                view?.text_title?.setText("Form submitted successfully")
+                view?.text_subtitle?.setText(activity?.resources?.getString(R.string.post_submit_desc))
+                view?.text_subtitle?.visibility = View.VISIBLE
+            }else{
+                view?.text_title?.setText("Order History")
+                view?.text_subtitle?.visibility = View.GONE
+            }
+        }
 
         view?.relative_frag?.setOnClickListener {  }
 
@@ -143,5 +159,20 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             }
         }
     }
+
+
+    companion object {
+        fun newInstance(
+            context: Activity,
+            isPostApplnSubmit:Boolean
+        ): Fragment {
+            val fragment = OrderHistoryFragment()
+            val bundle = Bundle()
+            bundle.putBoolean("flag", isPostApplnSubmit)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+
 
 }

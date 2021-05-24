@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.PlaceOrderRequest
 import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface UserRepository {
 
@@ -47,5 +50,7 @@ interface UserRepository {
     fun saveChat(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
     fun applyCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<ApplyCouponResponse>
     fun getCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
+    fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): MutableLiveData<CommonResponse>
+    fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): MutableLiveData<UploadFileResponse>
 
 }

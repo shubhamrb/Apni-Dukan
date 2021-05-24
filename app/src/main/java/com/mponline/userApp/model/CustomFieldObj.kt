@@ -5,7 +5,7 @@ data class CustomFieldObj(
     var hintName:String? = "",
     var max:String? = "",
     var min:String? = "",
-    var isRequired:Boolean = false,
+    var isRequired:String = "",
     var value:String? = "",
     var name:String? = "",
     var ansValue:String? = ""

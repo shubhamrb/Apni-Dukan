@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +16,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.CustomFieldObj
 import com.mponline.userApp.model.PrePlaceOrderPojo
+import com.mponline.userApp.model.request.FormDataItem
+import com.mponline.userApp.model.request.PlaceOrderRequest
 import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.model.response.StoreDetailDataItem
 import com.mponline.userApp.ui.adapter.CustomFileAdapter
@@ -32,18 +39,27 @@ import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.*
 import com.mponline.userApp.util.FileUtils.getLocalPath
 import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.viewmodel.UserListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_custom_form.view.*
+import kotlinx.android.synthetic.main.fragment_custom_form.view.relative_frag
 import kotlinx.android.synthetic.main.item_btn.view.*
 import kotlinx.android.synthetic.main.item_chkbox.view.*
 import kotlinx.android.synthetic.main.item_edittext.view.*
 import kotlinx.android.synthetic.main.item_radiobtn.view.*
 import kotlinx.android.synthetic.main.item_spinner.view.*
+import kotlinx.android.synthetic.main.layout_empty.*
+import kotlinx.android.synthetic.main.layout_progress.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import java.lang.Exception
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragment.Listener  {
     override fun onNetworkChange(isConnected: Boolean) {
 
@@ -57,6 +73,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     var mSelectedPos = -1
     var mCustomFileAdapter:CustomFileAdapter? = null
     var mPrePlaceOrderPojo:PrePlaceOrderPojo? = null
+    val viewModel: UserListViewModel by viewModels()
 
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
@@ -114,17 +131,19 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.form?.forEachIndexed { index, formItem ->
                         customFormList?.add(
                             CustomFieldObj(
-                                name = formItem?.name,fieldType = formItem?.fieldType, hintName = formItem?.name, min = "3", max = "20", isRequired = if(formItem?.isRequired?.equals("YES", true)) true else false,value= formItem?.value, ansValue = ""
+                                name = formItem?.name,fieldType = formItem?.fieldType, hintName = formItem?.name, min = "3", max = "20", isRequired = formItem?.isRequired!!,value= formItem?.value, ansValue = ""
                             ))
                     }
                     mCustomFileAdapter = CustomFileAdapter(
                         activity,
                         this@CustomFormFragment, customFormList
                     )
-                    view?.rv_custom_form?.layoutManager =
-                        LinearLayoutManager(
-                            activity, RecyclerView.VERTICAL, false
-                        )
+                    var mLayoutMgr = LinearLayoutManager(
+                        activity, RecyclerView.VERTICAL, false
+                    )
+                    mLayoutMgr.isAutoMeasureEnabled = false
+                    view?.rv_custom_form?.layoutManager = mLayoutMgr
+
                     view?.rv_custom_form?.adapter = mCustomFileAdapter
                 }
             }
@@ -134,7 +153,21 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 
         }
         view?.text_proceed?.setOnClickListener {
-            mSwichFragmentListener?.onSwitchFragment(Constants.ORDER_HISTORY_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+            var formData:ArrayList<FormDataItem> = ArrayList()
+            customFormList?.forEachIndexed { index, customFieldObj ->
+                formData?.add(FormDataItem(isRequired = customFieldObj?.isRequired!!,
+                name = customFieldObj?.name!!,
+                fieldType = customFieldObj?.fieldType!!,
+                ansValue = customFieldObj?.ansValue!!))
+            }
+            var placeOrderRequest:PlaceOrderRequest = PlaceOrderRequest(
+                storeId = mPrePlaceOrderPojo?.storeDetailDataItem?.id!!,
+                productId = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.productId!!,
+                price = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.price!!,
+                type = "form",
+                formData = formData
+            )
+            callPlaceOrder(placeOrderRequest)
         }
 
 //        //Forms
@@ -182,7 +215,8 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 //                            ImageOrientationChecker.imagePreviewCamera(File(image))
                             if(mCustomFileAdapter!=null){
                                 customFormList?.get(mSelectedPos)?.ansValue = image
-                                mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                                mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = mSelectedPos)
+                                callUploadLkDocuments(customFormList?.get(mSelectedPos)?.name!!, customFormList?.get(mSelectedPos)?.ansValue!!, mSelectedPos)
                             }
                         }catch (e:Exception){
                         }
@@ -224,7 +258,8 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                         var image = cameraUtils.mCurrentPhotoPath
                                         if(mCustomFileAdapter!=null){
                                             customFormList?.get(mSelectedPos)?.ansValue = image
-                                            mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                                            mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = mSelectedPos)
+                                            callUploadLkDocuments(customFormList?.get(mSelectedPos)?.name!!, customFormList?.get(mSelectedPos)?.ansValue!!, mSelectedPos)
                                         }
                                     } else {
 
@@ -255,9 +290,13 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 }
                 R.id.image_file_close->{
                     customFormList?.get(pos)?.ansValue = ""
-                    mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                    mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos)
                 }
                 R.id.edt_custom_field->{
+                    customFormList?.get(pos)?.ansValue = obj?.ansValue
+//                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
+                }
+                R.id.edt_custom_field_mult->{
                     customFormList?.get(pos)?.ansValue = obj?.ansValue
 //                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
                 }
@@ -281,7 +320,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                             // Display Selected date in textbox
                             CommonUtils.printLog("DATE_SELECTED", "${dayOfMonth}/${(monthOfYear+1)}/${year}")
                             customFormList?.get(pos)?.ansValue = "${dayOfMonth}/${(monthOfYear+1)}/${year}"
-                            mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                            mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos)
                         }, year, month, day)
                         dpd.show()
                     }
@@ -293,11 +332,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     var itemOptList = customFormList?.get(pos)?.ansValue?.split(",")!!
                     var selectedAns = getItemCheckedPos(itemOptList, obj)
                     customFormList?.get(pos)?.ansValue = selectedAns
-                    mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                    mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos)
                 }
                 R.id.rbtn_item->{
                     customFormList?.get(pos)?.ansValue = obj
-                    mCustomFileAdapter?.onRefreshAdapter(customFormList)
+                    mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos)
                 }
             }
 
@@ -318,6 +357,90 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
             ansValue = ansValue+","+ selectedOpt
         }
         return ansValue
+    }
+
+    private fun callPlaceOrder(placeOrderRequest: PlaceOrderRequest) {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(3, "")
+            viewModel?.placeOrder("Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN), placeOrderRequest)?.observe(activity!!, androidx.lifecycle.Observer {
+                it?.run {
+                    if (status) {
+                        switchView(1, "")
+                        //Redirect to Order History
+                        mSwichFragmentListener?.onSwitchFragment(Constants.ORDER_HISTORY_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                    } else {
+                        switchView(0, "")
+                    }
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        message!!
+                    )
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+
+    fun callUploadLkDocuments(
+        docName: String,
+        mFilePath: String,
+        selectedPos:Int
+    ) {
+        if (CommonUtils.isOnline(activity!!)) {
+            var multipartBody: MultipartBody.Part? = null
+            var fileName = ""
+            var requestDocStr = docName
+            var requestDocs = RequestBody.create("text/plain".toMediaTypeOrNull(), requestDocStr)
+            if (!TextUtils.isEmpty(mFilePath)) {
+                var imageFile = File(mFilePath)
+                var filePathName = CommonUtils.getFileName(mFilePath)
+                //////
+                var requestFile: RequestBody? = null
+                if (mFilePath.contains(".jpg") || mFilePath.contains(".png") || mFilePath.contains(
+                        ".jpeg"
+                    )
+                ) {
+                    requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile)
+                    fileName =
+                        if (filePathName.contains(".jpg")) "Test.jpg"
+                        else if (filePathName.contains(".png")) "Test.png"
+                        else "Test.jpg"
+                } else {
+                    fileName =
+                        if (mFilePath.contains(".pdf")) "Test.pdf"
+                        else if (mFilePath.contains(".doc")) "Test.doc"
+                        else if (mFilePath.contains(".xls")) "Test.xls"
+                        else if (mFilePath.contains(".xlsx")) "Test.xls"
+                        else "Test.txt"
+                    requestFile =
+                        RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile)
+                }
+                multipartBody = MultipartBody.Part.createFormData("myfile", fileName, requestFile)
+            }
+            viewModel?.uploadFile("Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN), multipartBody, requestDocs)?.observe(activity!!, androidx.lifecycle.Observer {
+                it?.run {
+                    CommonUtils.printLog("RESPONSE", Gson().toJson(this))
+                    if (status) {
+                        customFormList?.get(selectedPos)?.ansValue = data?.url
+                        mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = selectedPos)
+                    } else {
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            message!!
+                        )
+                    }
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
     }
 
     fun dispatchTakePictureIntent(activity: Activity) {
@@ -369,6 +492,33 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
             return fragment
         }
     }
+
+    fun switchView(i: Int, msg: String) {
+        mView?.run {
+            when (i) {
+                0 -> {
+                    relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.VISIBLE
+                    ll_container?.visibility = View.GONE
+                }
+                1 -> {
+                    relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.GONE
+                    ll_container?.visibility = View.VISIBLE
+                }
+                2 -> {
+                    relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.GONE
+                }
+                3 -> {
+                    relative_progress?.visibility = View.VISIBLE
+                    relative_empty?.visibility = View.GONE
+                    ll_container?.visibility = View.GONE
+                }
+            }
+        }
+    }
+
 
 
 

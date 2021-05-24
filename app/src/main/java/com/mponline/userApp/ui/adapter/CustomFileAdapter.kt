@@ -150,46 +150,49 @@ class CustomFileAdapter(
                 holder.itemView.edt_custom_field_mult.visibility = View.VISIBLE
                 holder.itemView.edt_custom_field_mult.setHint(mList?.get(position)?.name)
             }
-            holder.itemView.edt_custom_field.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                }
+            if (mList?.get(position)?.fieldType?.equals("text")!! || mList?.get(position)?.fieldType?.equals("number")!!) {
+                holder.itemView.edt_custom_field.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                    }
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    listener.onClick(
-                        position,
-                        holder.itemView.edt_custom_field,
-                        mList?.get(position)
-                    )
-                }
-            })
-            holder.itemView.edt_custom_field_mult.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                }
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        listener.onClick(
+                            position,
+                            holder.itemView.edt_custom_field,
+                            mList?.get(position)
+                        )
+                    }
+                })
+            }else{
+                holder.itemView.edt_custom_field_mult.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                    }
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    listener.onClick(
-                        position,
-                        holder.itemView.edt_custom_field_mult,
-                        mList?.get(position)
-                    )
-                }
-            })
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        listener.onClick(
+                            position,
+                            holder.itemView.edt_custom_field_mult,
+                            mList?.get(position)
+                        )
+                    }
+                })
+            }
         } else if (holder is DropdownViewHolder) {
             if (mList?.get(position)?.value != null && !mList?.get(position)?.value?.isNullOrEmpty()!!) {
                 var dropdownItemList = mList?.get(position)?.value?.split(",")
@@ -277,9 +280,9 @@ class CustomFileAdapter(
         return VIEWTYPE_FILEPICKER
     }
 
-    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>) {
+    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>, pos:Int) {
         mList = list
-        notifyDataSetChanged()
+        notifyItemChanged(pos)
     }
 
     class TextViewHolder(view: View) : RecyclerView.ViewHolder(view)

@@ -28,7 +28,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/image_notification"
+                    android:id="@+id/image_order_history"
                     android:scaleType="fitXY"
                     android:layout_margin="@dimen/margin15"
                     android:background="@color/grey_alpha"
@@ -55,6 +55,7 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text_mont_semibold"
+                            android:id="@+id/text_order_title"
                             android:text="RRB Group D"
                             android:layout_marginRight="@dimen/margin20"
                             android:textColor="@color/black"

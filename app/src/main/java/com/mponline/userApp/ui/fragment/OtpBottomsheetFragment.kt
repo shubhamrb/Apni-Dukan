@@ -76,7 +76,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
             progressDialogShow()
             viewModel?.verifyOtp(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
-                    if (success!!) {
+                    if (status!!) {
                         progressDialogDismiss()
 //                        mPreferenceUtils?.setValue(Constants.USER_NAME, data?.user?.name!!)
 //                        mPreferenceUtils?.setValue(Constants.USER_MOBILE, data?.user?.phone!!)

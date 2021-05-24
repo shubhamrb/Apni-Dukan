@@ -8,10 +8,13 @@ import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.PlaceOrderRequest
 import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.util.CommonUtils
 import kotlinx.coroutines.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, val userDao: UserDao):
@@ -447,6 +450,44 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apiService?.getCouponList(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.placeOrder(token, postOrderRequest)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): MutableLiveData<UploadFileResponse> {
+        val data = MutableLiveData<UploadFileResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.callUploadDocuments(token, file, requestDocs)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

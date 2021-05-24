@@ -26,6 +26,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
+                    android:id="@+id/text_title"
                     android:text="Form submitted successfully"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
@@ -35,6 +36,7 @@
                     android:layout_height="wrap_content"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
+                    android:id="@+id/text_subtitle"
                     android:text="@string/post_submit_desc"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
