@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.CustomFieldObj
+import com.mponline.userApp.util.CommonUtils
 import kotlinx.android.synthetic.main.fragment_custom_form.view.*
 import kotlinx.android.synthetic.main.item_btn.view.*
 import kotlinx.android.synthetic.main.item_chkbox_custfield.view.*
@@ -134,6 +135,7 @@ class CustomFileAdapter(
                 listener.onClick(position, holder.itemView.image_file_close, mList?.get(position))
             }
         } else if (holder is TextViewHolder) {
+            CommonUtils.printLog("ANS_TXT","${mList?.get(position)?.ansValue}")
             if (mList?.get(position)?.fieldType?.equals("text")!!) {
                 holder.itemView.edt_custom_field.visibility = View.VISIBLE
                 holder.itemView.edt_custom_field.setHint(mList?.get(position)?.name)
@@ -164,11 +166,15 @@ class CustomFileAdapter(
                     }
 
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                      if(isAllowedForListener){
+                        CommonUtils.printLog("ANS_TXT_LISTNER","${s.toString()}")
+                        mList?.get(position)?.ansValue = s?.toString()
                         listener.onClick(
-                            position,
-                            holder.itemView.edt_custom_field,
-                            mList?.get(position)
-                        )
+                              position,
+                              holder.itemView.edt_custom_field,
+                              mList?.get(position)
+                          )
+//                      }
                     }
                 })
             }else{
@@ -185,24 +191,22 @@ class CustomFileAdapter(
                     }
 
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                        listener.onClick(
-                            position,
-                            holder.itemView.edt_custom_field_mult,
-                            mList?.get(position)
-                        )
+//                        if(isAllowedForListener) {
+                        CommonUtils.printLog("ANS_TXT_LISTNER","${s.toString()}")
+                        mList?.get(position)?.ansValue = s?.toString()
+                            listener.onClick(
+                                position,
+                                holder.itemView.edt_custom_field_mult,
+                                mList?.get(position)
+                            )
+//                        }
                     }
                 })
             }
         } else if (holder is DropdownViewHolder) {
+            CommonUtils.printLog("ANS_DROPDOWN","${mList?.get(position)?.ansValue}")
             if (mList?.get(position)?.value != null && !mList?.get(position)?.value?.isNullOrEmpty()!!) {
                 var dropdownItemList = mList?.get(position)?.value?.split(",")
-                if(!mList?.get(position)?.ansValue?.isNullOrEmpty()!!){
-                    dropdownItemList?.forEachIndexed { index, s ->
-                        if(s?.trim()?.equals(mList?.get(position)?.ansValue, true)){
-                            holder.itemView.spn_opt.setSelection(index)
-                        }
-                    }
-                }
                 holder.itemView.text_spn_title.text = mList?.get(position)?.name!!
                 holder.bind(context, mList?.get(position), position, listener)
             }
@@ -242,6 +246,9 @@ class CustomFileAdapter(
         } else {
 
         }
+        if(position == mList?.size-1){
+//            isAllowedForListener = false
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -280,9 +287,11 @@ class CustomFileAdapter(
         return VIEWTYPE_FILEPICKER
     }
 
-    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>, pos:Int) {
+    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>, pos:Int, flag:Boolean) {
         mList = list
-        notifyItemChanged(pos)
+//        isAllowedForListener = flag
+        notifyDataSetChanged()
+//        notifyItemChanged(pos)
     }
 
     class TextViewHolder(view: View) : RecyclerView.ViewHolder(view)
@@ -309,14 +318,25 @@ class CustomFileAdapter(
                         pos: Int,
                         id: Long
                     ) {
+//                        if(flag) {
+                        CommonUtils.printLog("ANS_DROPDOWN_LISTENER","${dropdownItemList?.get(pos)} ${pos}")
                         customFieldObj?.ansValue = dropdownItemList?.get(pos)
-                        listener?.onClick(
-                            position,
-                            itemView.spn_opt,
-                            customFieldObj
-                        )
+                            listener?.onClick(
+                                position,
+                                itemView.spn_opt,
+                                customFieldObj
+                            )
+//                        }
                     }
                 }
+            if(!customFieldObj?.ansValue?.isNullOrEmpty()!!){
+                dropdownItemList?.forEachIndexed { index, s ->
+                    if(s?.trim()?.equals(customFieldObj?.ansValue?.trim(), true)){
+                        CommonUtils.printLog("ANS_DROPDOWN_CHECK","${s} ${index}")
+                        itemview.spn_opt.setSelection(index)
+                    }
+                }
+            }
         }
     }
 

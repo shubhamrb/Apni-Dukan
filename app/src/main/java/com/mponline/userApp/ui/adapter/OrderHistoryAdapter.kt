@@ -13,7 +13,6 @@ import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.ImageGlideUtils
 import kotlinx.android.synthetic.main.item_order_history.view.*
-import kotlinx.android.synthetic.main.item_sub_store.view.*
 import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
 import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 class OrderHistoryAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList:List<OrderHistoryDataItem> = ArrayList()
+    var mList: List<OrderHistoryDataItem> = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,33 +36,62 @@ class OrderHistoryAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if(!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()){
-            ImageGlideUtils.loadUrlImage(context!!, mList?.get(position)?.storedetail?.image, holder.itemView.image_order_history)
+        if (!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()) {
+            ImageGlideUtils.loadUrlImage(
+                context!!,
+                mList?.get(position)?.storedetail?.image,
+                holder.itemView.image_order_history
+            )
         }
         holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name
-//        holder?.itemView?.text_to_date?.text = "Application submitted as on ${mList?.get(position)?.products?.name}"
-        if(position == 1){
-            holder.itemView.text_status.text = "Completed"
-            holder.itemView.layout_order_complete.visibility = View.VISIBLE
-            holder.itemView.layout_order_pending.visibility = View.GONE
-        }else{
-            holder.itemView.layout_order_complete.visibility = View.GONE
-            holder.itemView.layout_order_pending.visibility = View.VISIBLE
+        holder?.itemView?.text_to_date?.text =
+            "Application submitted as on ${mList?.get(position)?.createdAt}"
+        when (mList?.get(position)?.status) {
+            1 -> {
+                holder.itemView.text_status.text = "Pending"
+            }
+            2 -> {
+                holder.itemView.text_status.text = "Accepted"
+                holder.itemView.linear_bottom_layout.visibility = View.VISIBLE
+            }
+            3 -> {
+                holder.itemView.text_status.text = "Rejected"
+            }
+            4 -> {
+                holder.itemView.text_status.text = "Cancelled"
+            }
+            5 -> {
+                holder.itemView.text_status.text = "Completed"
+            }
         }
+        if (mList?.get(position)?.status == 2) {
 
+        }
         holder.itemView.linear_upper_layout.setOnClickListener {
-            holder.itemView.linear_bottom_layout.visibility = View.VISIBLE
+            if (mList?.get(position)?.status == 2 || mList?.get(position)?.status == 5) {
+                holder.itemView.linear_bottom_layout.visibility = View.VISIBLE
+            }
         }
         holder.itemView.ll_download_files.setOnClickListener {
-            if(context is OnSwichFragmentListener){
+            if (context is OnSwichFragmentListener) {
                 var mOnSwichFragmentListener = context as OnSwichFragmentListener
-                mOnSwichFragmentListener.onSwitchFragmentParent(Constants.DOWNLOAD_LIST_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                mOnSwichFragmentListener.onSwitchFragmentParent(
+                    Constants.DOWNLOAD_LIST_PAGE,
+                    Constants.WITH_NAV_DRAWER,
+                    null,
+                    null
+                )
             }
         }
         holder.itemView.text_make_payment.setOnClickListener {
-            if(context is OnSwichFragmentListener){
+            if (context is OnSwichFragmentListener) {
                 var mOnSwichFragmentListener = context as OnSwichFragmentListener
-                mOnSwichFragmentListener.onSwitchFragment(Constants.PAYMENT_SUMMARY_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                mOnSwichFragmentListener.onSwitchFragment(
+                    Constants.PAYMENT_SUMMARY_PAGE,
+                    Constants.WITH_NAV_DRAWER,
+                    null,
+                    null
+                )
             }
         }
         holder.itemView.ll_hide_opt.setOnClickListener {

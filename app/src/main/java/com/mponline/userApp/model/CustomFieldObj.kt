@@ -8,5 +8,6 @@ data class CustomFieldObj(
     var isRequired:String = "",
     var value:String? = "",
     var name:String? = "",
+    var ext:String? = "",
     var ansValue:String? = ""
 )

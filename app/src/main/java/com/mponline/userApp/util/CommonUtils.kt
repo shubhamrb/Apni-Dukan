@@ -111,6 +111,15 @@ class  CommonUtils{
                 return ""
             }
         }
+        fun getFileExt(filePath: String?): String? {
+            if (!TextUtils.isEmpty(filePath)) {
+                var ext = filePath?.substring(filePath.lastIndexOf(".") + 1)
+                CommonUtils.printLog("EXTENSION", ext!!)
+                return ext
+            } else {
+                return ""
+            }
+        }
 
 
     }

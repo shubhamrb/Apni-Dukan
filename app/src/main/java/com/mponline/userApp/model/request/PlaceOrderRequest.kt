@@ -19,6 +19,8 @@ data class FormDataItem(@SerializedName("isRequired")
                         val isRequired: String = "",
                         @SerializedName("name")
                         val name: String = "",
+                        @SerializedName("ext")
+                        var ext: String = "",
                         @SerializedName("field_type")
                         val fieldType: String = "",
                         @SerializedName("ansValue")
