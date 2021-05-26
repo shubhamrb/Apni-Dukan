@@ -18,7 +18,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin15"
             android:layout_marginBottom="@dimen/margin15"
-            android:layout_marginRight="@dimen/margin15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -73,14 +72,14 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text_mont_semibold"
                             android:id="@+id/text_hour"
-                            android:textSize="@dimen/textsize16"
+                            android:textSize="@dimen/textsize14"
                             android:textColor="@color/black"
                             android:background="@drawable/rect_stroke_gray"
-                            android:paddingLeft="@dimen/margin15"
-                            android:paddingRight="@dimen/margin15"
+                            android:paddingLeft="@dimen/margin10"
+                            android:paddingRight="@dimen/margin10"
                             android:paddingTop="@dimen/margin5"
                             android:paddingBottom="@dimen/margin5"
-                            android:text="1"
+                            android:text="11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -101,14 +100,14 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text_mont_semibold"
                             android:id="@+id/text_minute"
-                            android:textSize="@dimen/textsize16"
+                            android:textSize="@dimen/textsize14"
                             android:textColor="@color/black"
                             android:background="@drawable/rect_stroke_gray"
-                            android:paddingLeft="@dimen/margin15"
-                            android:paddingRight="@dimen/margin15"
+                            android:paddingLeft="@dimen/margin10"
+                            android:paddingRight="@dimen/margin10"
                             android:paddingTop="@dimen/margin5"
                             android:paddingBottom="@dimen/margin5"
-                            android:text="1"
+                            android:text="11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -128,14 +127,14 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Text_mont_semibold"
                             android:id="@+id/text_sec"
-                            android:textSize="@dimen/textsize16"
+                            android:textSize="@dimen/textsize14"
                             android:textColor="@color/black"
                             android:background="@drawable/rect_stroke_gray"
-                            android:paddingLeft="@dimen/margin15"
-                            android:paddingRight="@dimen/margin15"
+                            android:paddingLeft="@dimen/margin10"
+                            android:paddingRight="@dimen/margin10"
                             android:paddingTop="@dimen/margin5"
                             android:paddingBottom="@dimen/margin5"
-                            android:text="1"
+                            android:text="11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 

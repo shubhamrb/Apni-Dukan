@@ -159,5 +159,9 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.uploadFile(token, file, requestDocs);
     }
 
+    fun saveRating(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.saveRating(commonRequestObj);
+    }
+
 
 }

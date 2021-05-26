@@ -2,6 +2,7 @@ package com.mponline.userApp.utils
 
 import android.content.Context
 import android.text.format.DateFormat
+import com.mponline.userApp.model.TimerObj
 import com.mponline.userApp.util.CommonUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -185,6 +186,7 @@ class DateUtils {
 
             return formattedDate
         }
+
 
         fun getCurrentTime(pattern: String): String {
             var formattedDate = ""
@@ -411,10 +413,10 @@ class DateUtils {
             return false
         }
 
-        fun checkTimeDifference(time: String, endtime: String): Boolean {
-            val sdf = SimpleDateFormat(dd_slash_MMM_yyyy_HH_mm_ampm, Locale.getDefault())
-            val sdf1 = SimpleDateFormat(yyyy_MM_dd_HH_mm_ss_ampm, Locale.getDefault())
-            try {
+        fun checkTimeDifference(endtime: String, time: String): TimerObj {
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val sdf1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            var mTimerObj:TimerObj? = TimerObj("0","0","0",0)
                 val date1 = sdf.parse(time)
                 val date2 = sdf1.parse(endtime)
                 val difference = date1.time - date2.time
@@ -422,18 +424,52 @@ class DateUtils {
                 //            int hours = (int) ((difference - (1000 * 60 * 60 * 24) * days) / (1000 * 60 * 60)) * -1;
                 //            int min = (int) (difference - (1000 * 60 * 60 * 24) * days - (1000 * 60 * 60 * hours)) / (1000 * 60) * -1;
 
+                if(difference>0){
+                    val hours = (difference / (1000 * 60 * 60)).toInt()
+                    val Mins = (difference / (1000 * 60)).toInt() % 60
+                    val Secs = ((difference / 1000).toInt() % 60).toLong()
+                    mTimerObj = TimerObj(hours?.toString(), Mins.toString(), Secs?.toString(), totalMillis = difference)
+//                if (Mins > 30) {
+//                    return true
+//                }
+                    CommonUtils.printLog("TIME_DIFF", "${hours}-${Mins}-${Secs} = ${difference}")
+                }else{
+                    CommonUtils.printLog("TIME_DIFF_FINISHED", "")
+                }
+                return mTimerObj!!
+        }
+
+        fun addHrMinuteToDateStr(dateStr:String, ishr:Boolean, unit:Int):String{
+            val dateString = dateStr
+            val millisToAdd: Long = if(ishr) ((1000 * 60 * 60) * unit).toLong() else ((1000 * 60) * unit).toLong()
+            val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val d: Date = format.parse(dateString)
+            d.time = d.time + millisToAdd
+            var newDateStr = format.format(d)
+            println("New value: $newDateStr")
+            return newDateStr
+        }
+
+
+        fun getTimeObjFromMillis(difference:Long):TimerObj {
+            if (difference > 0) {
                 val hours = (difference / (1000 * 60 * 60)).toInt()
                 val Mins = (difference / (1000 * 60)).toInt() % 60
                 val Secs = ((difference / 1000).toInt() % 60).toLong()
-
-                if (Mins > 30) {
-                    return true
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                return TimerObj(
+                    hours?.toString(),
+                    Mins.toString(),
+                    Secs?.toString(),
+                    totalMillis = difference
+                )
+            }else{
+                return TimerObj(
+                    "0",
+                    "0",
+                    "0",
+                    totalMillis = difference
+                )
             }
-
-            return false
         }
 
         fun checkBeforeTimings(time: String, endtime: String): Boolean {

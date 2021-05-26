@@ -209,7 +209,9 @@ abstract class BaseFragment : Fragment() {
         longitude: String = "",
         category_id: String = "",
         store_id: String = "",
+        storeid: String = "",
         subcategory_id: String = "",
+        rating: String = "",
         product_id: String = ""
     ): CommonRequestObj {
         return CommonRequestObj(
@@ -219,8 +221,10 @@ abstract class BaseFragment : Fragment() {
             latitude = latitude,
             longitude = longitude,
             store_id = store_id,
+            storeid = storeid,
             category_id = category_id,
             subcategory_id = subcategory_id,
+            rating = rating,
             product_id = product_id,
             headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )

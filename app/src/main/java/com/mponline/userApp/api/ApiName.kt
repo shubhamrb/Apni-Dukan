@@ -32,6 +32,7 @@ class ApiName {
         const val APPLY_COUPON:String = "api/auth/applycoupon"
         const val PLACE_ORDER:String = "api/auth/placeOrder"
         const val UPLOAD_FILE:String = "api/auth/uploadFile"
+        const val SAVE_RATINGS:String = "api/auth/saveRatting"
 
     }
 }

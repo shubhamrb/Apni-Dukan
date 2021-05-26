@@ -2,6 +2,9 @@ package com.mponline.userApp.ui.fragment
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,25 +12,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
-import com.mponline.userApp.model.PrePlaceOrderPojo
-import com.mponline.userApp.ui.adapter.ServicesAdapter
-import com.mponline.userApp.ui.adapter.BannerPagerAdapter
-import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
-import com.mponline.userApp.ui.adapter.StoresAdapter
+import com.mponline.userApp.model.response.OrderHistoryDataItem
+import com.mponline.userApp.ui.activity.FormPreviewActivity
+import com.mponline.userApp.ui.adapter.*
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_chat_msg.view.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
+import kotlinx.android.synthetic.main.fragment_order_history.view.relative_frag
+import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
+
 
 @AndroidEntryPoint
 class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
@@ -134,7 +138,73 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             R.id.cv_store->{
                 mSwichFragmentListener?.onSwitchFragment(Constants.STORE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
             }
+            R.id.ll_submit_rating->{
+                if(obj is OrderHistoryDataItem) {
+                    callSaveRating(obj)
+                }
+            }
+            R.id.text_view_details->{
+                if(obj is OrderHistoryDataItem){
+                    var intent:Intent = Intent(activity!!, FormPreviewActivity::class.java)
+                    intent?.putExtra("data", obj?.orderDetail!!)
+                    activity?.startActivity(intent)
+                }
+            }
+            R.id.rl_chat->{
+                if(obj is OrderHistoryDataItem) {
+                    mSwichFragmentListener?.onSwitchFragment(
+                        Constants.CHAT_MSG_PAGE_FROM_DETAIL,
+                        Constants.WITH_NAV_DRAWER,
+                        obj?.id,
+                        obj.storedetail?.userId
+                    )
+                }
+            }
+            R.id.rl_call->{
+                if(obj is OrderHistoryDataItem) {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse("tel:${obj?.storedetail?.mobileNumber}")
+                    activity?.startActivity(intent)
+                }
+            }
+            R.id.rl_whatsapp->{
+                if(obj is OrderHistoryDataItem) {
+                    val url = "https://api.whatsapp.com/send?phone=${if(obj?.storedetail?.whatsappNo?.startsWith("+91")) obj?.storedetail?.whatsappNo else "+91"+obj?.storedetail?.whatsappNo}"
+                    try {
+                        val pm: PackageManager = activity?.packageManager!!
+                        pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+                        val i = Intent(Intent.ACTION_VIEW)
+                        i.data = Uri.parse(url)
+                        activity?.startActivity(i)
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        activity?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                    }
+                }
+            }
+        }
+    }
 
+    private fun callSaveRating(mOrderHistoryDataItem: OrderHistoryDataItem) {
+        if (CommonUtils.isOnline(activity!!)) {
+//            switchView(3, "")
+            var commonRequestObj = getCommonRequestObj(
+                orderid = mOrderHistoryDataItem?.id,
+                storeid = mOrderHistoryDataItem?.storeId,
+                rating = mOrderHistoryDataItem?.myrating
+            )
+            viewModel?.saveRating(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        message
+                    )
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
         }
     }
 

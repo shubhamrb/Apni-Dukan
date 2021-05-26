@@ -119,5 +119,11 @@ interface NetworkAPIService {
         ) name: RequestBody
     ): Response<UploadFileResponse>
 
+    @POST(ApiName.SAVE_RATINGS)
+    suspend fun saveRating(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
+
 
 }

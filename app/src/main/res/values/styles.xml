@@ -92,6 +92,26 @@
 
 
 <!--    //Montserrat-->
+    <style name="Text_mont_regular_cancelled" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="Text_mont_regular_accepted" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="Text_mont_regular_pending" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/spark_primary_color</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="Text_mont_regular_completed" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">@dimen/textsize14</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+    </style>
     <style name="Text_mont_regular" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/textsize14</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>

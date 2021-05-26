@@ -86,5 +86,6 @@
     <string name="empty_pin">Please enter valid pin</string>
     <string name="empty_device_token">Please wait until fetch valid device token</string>
     <string name="empty_device_type">Please wait until fetch valid device type</string>
+    <string name="u_view_details_u"><u>View Details</u></string>
 
 </resources>

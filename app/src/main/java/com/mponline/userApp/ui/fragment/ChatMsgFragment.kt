@@ -58,10 +58,12 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     val viewModel: UserListViewModel by viewModels()
     private var cameraUtils: CameraGalleryUtils = CameraGalleryUtils()
     var mPictureType = ""
+    var orderId = ""
+    var storeId = ""
     var mOrderHistoryDataItem: OrderHistoryDataItem? = null
     var chatMsgList: ArrayList<ChatListDataItem>? = ArrayList()
-    var mAdapter:ChatMsgAdapter? = null
-    var mHandler:Handler? = null
+    var mAdapter: ChatMsgAdapter? = null
+    var mHandler: Handler? = null
 
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
@@ -88,6 +90,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         val instance = CameraGalleryFragment.newInstance(2)
         instance.show(childFragmentManager, "camera_gallery")
     }
+
     var mTicker: Runnable? = null
 
     override fun onCreateView(
@@ -108,7 +111,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context!=null){
+        if (context != null) {
             mSwichFragmentListener = context as OnSwichFragmentListener
         }
     }
@@ -117,23 +120,30 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            if(arguments?.containsKey("data")!!){
+            if (arguments?.containsKey("data")!!) {
                 mOrderHistoryDataItem = arguments?.getParcelable("data")
                 callGetChatList()
             }
+            if (arguments?.containsKey("order")!! && arguments?.containsKey("store")!!) {
+                storeId = arguments?.getString("store")!!
+                orderId = arguments?.getString("order")!!
+                callGetChatList()
+            }
         }
-        view?.relative_frag?.setOnClickListener {  }
+        view?.relative_frag?.setOnClickListener { }
         view?.image_send_msg?.setOnClickListener {
-            if(!view?.edit_msg?.text?.toString()?.trim()?.isNullOrEmpty()!!){
+            if (!view?.edit_msg?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
                 //API hit
-                callSaveMsg("",
-                    orderId = mOrderHistoryDataItem?.id!!,
-                    vendorId = mOrderHistoryDataItem?.storedetail?.userId!!,
+                callSaveMsg(
+                    "",
+                    orderId = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
+                    vendorId = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId,
                     msg = edit_msg.text.toString().trim()!!,
-                    selectedPos = 0)
+                    selectedPos = 0
+                )
 
                 view?.edit_msg?.setText("")
-            }else{
+            } else {
                 //show error
             }
         }
@@ -150,19 +160,19 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 
     override fun onStart() {
         super.onStart()
-        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR, "", null)
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        if(obj is ChatListDataItem){
-            when(view?.id){
-                R.id.image_download_file_incomming->{
-                    var intent:Intent = Intent(activity!!, FilePreviewActivity::class.java)
+        if (obj is ChatListDataItem) {
+            when (view?.id) {
+                R.id.image_download_file_incomming -> {
+                    var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
                     activity?.startActivity(intent)
                 }
-                R.id.image_download_file->{
-                    var intent:Intent = Intent(activity!!, FilePreviewActivity::class.java)
+                R.id.image_download_file -> {
+                    var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
                     activity?.startActivity(intent)
                 }
@@ -176,8 +186,8 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 Constants.REQUEST_CAMERA -> {
                     var image = cameraUtils.mCurrentPhotoPath
                     CommonUtils.printLog("RESULT_PATH", image)
@@ -185,7 +195,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                         try {
                             ImageOrientationChecker.imagePreviewCamera(File(image))
                             mSwichFragmentListener?.onStartNewActivity(this@ChatMsgFragment, it)
-                        }catch (e: Exception){
+                        } catch (e: Exception) {
                         }
                     }
                 }
@@ -209,7 +219,14 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                                 )
                                 try {
                                     if (true/*CommonUtils.isFileLimitNotExceddedEarlySalary(fileRealPath)*/) {
-                                        if(extension?.equals(".jpg",true) || extension?.equals(".jpeg",true) || extension?.equals(".png",true)){
+                                        if (extension?.equals(
+                                                ".jpg",
+                                                true
+                                            ) || extension?.equals(
+                                                ".jpeg",
+                                                true
+                                            ) || extension?.equals(".png", true)
+                                        ) {
                                             val file = cameraUtils.createImageFile(
                                                 activity!!,
                                                 extension
@@ -219,11 +236,14 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                                                 file
                                             )
                                             cameraUtils.mCurrentPhotoPath = file.absolutePath
-                                        }else{
+                                        } else {
                                             cameraUtils.mCurrentPhotoPath = fileRealPath
                                         }
                                         var image = cameraUtils.mCurrentPhotoPath
-                                        mSwichFragmentListener?.onStartNewActivity(this@ChatMsgFragment, image)
+                                        mSwichFragmentListener?.onStartNewActivity(
+                                            this@ChatMsgFragment,
+                                            image
+                                        )
                                     } else {
 
                                     }
@@ -239,7 +259,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                     }
                 }
             }
-        }else{
+        } else {
 
         }
     }
@@ -277,11 +297,26 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
             mOrderHistoryDataItem: Any
         ): Fragment {
             val fragment = ChatMsgFragment()
-            if(mOrderHistoryDataItem is OrderHistoryDataItem){
+            if (mOrderHistoryDataItem is OrderHistoryDataItem) {
                 val bundle = Bundle()
                 bundle.putParcelable("data", mOrderHistoryDataItem)
                 fragment.arguments = bundle
             }
+            return fragment
+        }
+
+        fun newInstance(
+            context: Activity,
+            orderId: Any,
+            storeId: Any
+        ): Fragment {
+            val fragment = ChatMsgFragment()
+            val bundle = Bundle()
+            if (orderId is String && storeId is String) {
+                bundle.putString("order", orderId)
+                bundle.putString("store", storeId)
+            }
+            fragment.arguments = bundle
             return fragment
         }
     }
@@ -299,8 +334,10 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 val photoURI: Uri =
                     FileProvider.getUriForFile(activity, Constants.APP_FILEPROVIDER, photoFile)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent,
-                    Constants.REQUEST_CAMERA)
+                startActivityForResult(
+                    takePictureIntent,
+                    Constants.REQUEST_CAMERA
+                )
             } catch (e: java.lang.Exception) {
                 CommonUtils.printLog("zxfsdG", e.printStackTrace().toString())
             }
@@ -325,19 +362,24 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     }
 
     override fun onImgPreview(imgPreviewPojo: ImgPreviewPojo) {
-        CommonUtils.printLog("IMG_PREVIEW", "${imgPreviewPojo?.caption}, ${imgPreviewPojo?.filePath}")
-        callSaveMsg(imgPreviewPojo?.filePath,
-            orderId = mOrderHistoryDataItem?.id!!,
-            vendorId = mOrderHistoryDataItem?.storedetail?.userId!!,
+        CommonUtils.printLog(
+            "IMG_PREVIEW",
+            "${imgPreviewPojo?.caption}, ${imgPreviewPojo?.filePath}"
+        )
+        callSaveMsg(
+            imgPreviewPojo?.filePath,
+            orderId = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
+            vendorId = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId,
             msg = imgPreviewPojo?.caption,
-            selectedPos = 0)
+            selectedPos = 0
+        )
     }
 
     private fun callGetChatList() {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
-                orderid = mOrderHistoryDataItem?.id!!
+                orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId
             )
             viewModel?.getChatList(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
@@ -358,7 +400,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                         )
                         view?.rv_chat_msg?.adapter = mAdapter
                         chatMsgList = data
-                        view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! -1)
+                        view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(
@@ -375,12 +417,13 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
             )
         }
     }
+
     private fun callGetUpdatedChatlist() {
-        if (activity!=null && CommonUtils.isOnline(activity!!)) {
+        if (activity != null && CommonUtils.isOnline(activity!!)) {
 //            switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
-                orderid = mOrderHistoryDataItem?.id!!,
-                vendorid = mOrderHistoryDataItem?.storedetail?.userId!!
+                orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
+                vendorid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId
             )
             viewModel?.getUpdatedChatList(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
@@ -388,7 +431,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 //                        switchView(1, "")
                         chatMsgList = data!!
                         mAdapter?.refreshList(chatMsgList!!)
-                        view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! -1)
+                        view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
                     } else {
 //                        switchView(0, "")
 //                        CommonUtils.createSnackBar(
@@ -411,21 +454,22 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         orderId: String,
         vendorId: String,
         msg: String,
-        selectedPos:Int
+        selectedPos: Int
     ) {
         if (CommonUtils.isOnline(activity!!)) {
             chatMsgList?.add(
                 ChatListDataItem(
-                toUser = mOrderHistoryDataItem?.storedetail?.userId!!,
+                    toUser = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId,
                     fromUser = mPreferenceUtils?.getValue(Constants.USER_ID),
                     attachment = mFilePath,
                     updatedAt = DateUtils.getCurrentDate("dd MMM yyyy hh:mm a"),
-                    fileType = CommonUtils.getFileExt( mFilePath!!)!!,
+                    fileType = CommonUtils.getFileExt(mFilePath!!)!!,
                     message = msg,
                     orderId = orderId
-            ))
+                )
+            )
             mAdapter?.refreshList(chatMsgList!!)
-            view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! -1)
+            view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
             var multipartBody: MultipartBody.Part? = null
             var fileName = ""
             var orderIdStr = orderId
@@ -458,13 +502,19 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 }
                 multipartBody = MultipartBody.Part.createFormData("chatfile", fileName, requestFile)
             }
-            viewModel?.saveChat("Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN), multipartBody, orderIdObj, vendorIdObj, msgObj)?.observe(activity!!, androidx.lifecycle.Observer {
+            viewModel?.saveChat(
+                "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
+                multipartBody,
+                orderIdObj,
+                vendorIdObj,
+                msgObj
+            )?.observe(activity!!, androidx.lifecycle.Observer {
                 it?.run {
                     CommonUtils.printLog("RESPONSE", Gson().toJson(this))
                     if (status) {
                         chatMsgList = data
                         mAdapter?.refreshList(chatMsgList!!)
-                         } else {
+                    } else {
                         CommonUtils.createSnackBar(
                             activity?.findViewById(android.R.id.content)!!,
                             message!!

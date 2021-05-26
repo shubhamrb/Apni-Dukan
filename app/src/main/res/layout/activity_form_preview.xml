@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.ImgPreviewActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar_normal"/>
+
+    <include
+        layout="@layout/layout_back"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_semibold"
+        android:id="@+id/text_title"
+        android:text="Form Details"
+        android:layout_below="@+id/toolbar"
+        android:padding="@dimen/margin15"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_form_detail"
+        android:layout_below="@id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>

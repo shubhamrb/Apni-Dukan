@@ -20,6 +20,10 @@ data class CommonRequestObj(
     val store_id: String = "",
     @SerializedName("subcategory_id")
     val subcategory_id: String = "",
+   @SerializedName("storeid")
+    val storeid: String = "",
+    @SerializedName("rating")
+    val rating: String = "",
     @SerializedName("product_id")
     val product_id: String = "",
     var headerInfo:HeaderInfo?=null

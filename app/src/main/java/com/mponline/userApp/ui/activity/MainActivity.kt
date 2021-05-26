@@ -143,6 +143,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.addToBackStack(Constants.CHAT_MSG_PAGE)
                 ft.commit()
             }
+            Constants.CHAT_MSG_PAGE_FROM_DETAIL -> {
+                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                ft.add(R.id.rl_container_drawer, ChatMsgFragment.newInstance(this@MainActivity, obj!!, extras!!))
+                ft.addToBackStack(Constants.CHAT_MSG_PAGE)
+                ft.commit()
+            }
             Constants.COUPON_PAGE -> {
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, CouponFragment())

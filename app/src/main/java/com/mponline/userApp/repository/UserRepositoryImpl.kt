@@ -507,6 +507,25 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
+    override fun saveRating(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.saveRating(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
 
 
 }

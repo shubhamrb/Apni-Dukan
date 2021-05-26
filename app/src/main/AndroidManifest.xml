@@ -34,6 +34,7 @@
         <activity android:name=".ui.activity.RegisterActivity"></activity>
         <activity android:name=".ui.activity.NotificationActivity"></activity>
         <activity android:name=".ui.activity.FilePreviewActivity"></activity>
+        <activity android:name=".ui.activity.FormPreviewActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

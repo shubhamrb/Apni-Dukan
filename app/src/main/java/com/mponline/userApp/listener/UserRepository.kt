@@ -52,5 +52,6 @@ interface UserRepository {
     fun getCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
     fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): MutableLiveData<CommonResponse>
     fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): MutableLiveData<UploadFileResponse>
+    fun saveRating(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
 
 }

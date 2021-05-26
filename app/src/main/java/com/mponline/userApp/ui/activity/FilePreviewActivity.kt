@@ -1,9 +1,9 @@
 package com.mponline.userApp.ui.activity
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.mponline.userApp.R
 import com.mponline.userApp.ui.base.BaseActivity
 import com.mponline.userApp.utils.ImageGlideUtils
@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_file_preview.*
 import kotlinx.android.synthetic.main.activity_img_preview.*
 import kotlinx.android.synthetic.main.common_toolbar_normal.*
 import kotlinx.android.synthetic.main.item_service.view.*
+
 
 class FilePreviewActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,18 @@ class FilePreviewActivity : BaseActivity() {
         }else{
             imgview.visibility = View.GONE
             webview.visibility = View.VISIBLE
-            webview.loadUrl(imgPath)
+            webview.setWebViewClient(object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                    view.loadUrl(url)
+                    return false
+                }
+            })
+            webview.getSettings().setJavaScriptEnabled(true)
+            if(imgPath?.endsWith(".pdf")){
+                webview.loadUrl("http://docs.google.com/gview?embedded=true&url="+imgPath)
+            }else{
+                webview.loadUrl(imgPath)
+            }
         }
 
     }
