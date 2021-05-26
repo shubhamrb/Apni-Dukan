@@ -34,7 +34,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Text_mont_regular"
-            android:id="@+id/text_msg"
+            android:id="@+id/text_msg_incomming"
             android:textColor="@color/light_grey_text"
             android:text="sdfsdfsdf"
             android:layout_width="wrap_content"
@@ -46,29 +46,31 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_file_preview"
+                android:id="@+id/image_file_preview_incomming"
                 android:background="@color/grey_alpha"
+                app:srcCompat="@drawable/ic_file_preview"
+                android:padding="@dimen/margin10"
                 android:layout_marginTop="@dimen/textsize15"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin100"/>
 
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_download_file"
+                android:id="@+id/image_download_file_incomming"
                 android:background="@drawable/circle_white"
                 app:srcCompat="@drawable/ic_download"
                 android:tint="@color/blue"
                 android:padding="@dimen/margin5"
                 android:layout_alignParentRight="true"
-                android:layout_alignBottom="@id/image_file_preview"
+                android:layout_alignBottom="@id/image_file_preview_incomming"
               android:layout_margin="@dimen/margin15"
                 android:layout_width="@dimen/margin20"
                 android:layout_height="@dimen/margin20"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"
-                android:id="@+id/text_filename"
-                android:layout_below="@id/image_file_preview"
+                android:id="@+id/text_filename_incomming"
+                android:layout_below="@id/image_file_preview_incomming"
                 android:layout_marginTop="@dimen/textsize10"
                 android:layout_marginLeft="@dimen/textsize10"
                 android:text="SSC.pdf"
@@ -76,9 +78,9 @@
                 android:layout_height="wrap_content"/>
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"
-                android:id="@+id/text_filesize"
+                android:id="@+id/text_filesize_incomming"
                 android:layout_alignParentRight="true"
-                android:layout_below="@id/image_file_preview"
+                android:layout_below="@id/image_file_preview_incomming"
                 android:layout_marginTop="@dimen/textsize10"
                 android:layout_marginLeft="@dimen/textsize10"
                 android:layout_margin="@dimen/textsize10"
@@ -91,7 +93,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_regular"
-        android:id="@+id/text_msg_time"
+        android:id="@+id/text_msg_time_incommming"
         android:layout_alignLeft="@+id/image_incomming_tri"
         android:layout_below="@+id/image_incomming_tri"
         android:layout_marginTop="@dimen/margin5"

@@ -19,9 +19,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin15"
-            android:layout_marginBottom="@dimen/margin80" />
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/rl_send_msg"
+            android:layout_marginBottom="@dimen/margin15" />
 
         <RelativeLayout
+            android:id="@+id/rl_send_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/margin3"

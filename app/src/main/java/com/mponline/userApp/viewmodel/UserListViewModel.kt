@@ -140,8 +140,8 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.getUpdatedChatList(commonRequestObj);
     }
 
-    fun saveChat(commonRequestObj: CommonRequestObj): LiveData<GetChatListResponse> {
-        return userRepositoryImpl.saveChat(commonRequestObj);
+    fun saveChat(token:String, file: MultipartBody.Part?, orderId: RequestBody, vendorId: RequestBody, msg: RequestBody): LiveData<GetChatListResponse> {
+        return userRepositoryImpl.saveChat(token, file, orderId, vendorId, msg);
     }
 
     fun getCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {

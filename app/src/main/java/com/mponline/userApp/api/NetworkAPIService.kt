@@ -61,33 +61,60 @@ interface NetworkAPIService {
 
     //Listing
     @POST(ApiName.GET_ORDER_HISTORY)
-    suspend fun getOrderHistory(@Header("Authorization")token:String): Response<OrderHistoryResponse>
+    suspend fun getOrderHistory(@Header("Authorization") token: String): Response<OrderHistoryResponse>
 
     @POST(ApiName.NOTIFICATION_LIST)
-    suspend fun getNotificationList(@Header("Authorization")token:String): Response<NotificationListResponse>
+    suspend fun getNotificationList(@Header("Authorization") token: String): Response<NotificationListResponse>
 
     @POST(ApiName.GET_CHAT_LIST)
-    suspend fun getChatList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+    suspend fun getChatList(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<GetChatListResponse>
 
     @POST(ApiName.GET_UPDATED_CHAT_LIST)
-    suspend fun getUpdatedChatList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+    suspend fun getUpdatedChatList(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<GetChatListResponse>
 
+    @Multipart
     @POST(ApiName.SAVE_CHAT)
-    suspend fun saveChat(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetChatListResponse>
+    suspend fun saveChat(
+        @Header("Authorization") token: String, @Part file: MultipartBody.Part?,
+        @Part(
+            "orderid"
+        ) orderid: RequestBody,
+        @Part(
+            "vendorid"
+        ) vendorid: RequestBody,
+        @Part(
+            "message"
+        ) message: RequestBody
+    ): Response<GetChatListResponse>
 
     @POST(ApiName.APPLY_COUPON)
-    suspend fun applyCoupon(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<ApplyCouponResponse>
+    suspend fun applyCoupon(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<ApplyCouponResponse>
 
     @POST(ApiName.GET_COUPON_LIST)
-    suspend fun getCouponList(@Header("Authorization")token:String, @Body commonRequestObj: CommonRequestObj): Response<GetCouponListResponse>
+    suspend fun getCouponList(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<GetCouponListResponse>
 
     @POST(ApiName.PLACE_ORDER)
-    suspend fun placeOrder(@Header("Authorization")token:String, @Body placeOrderRequest: PlaceOrderRequest): Response<CommonResponse>
+    suspend fun placeOrder(
+        @Header("Authorization") token: String,
+        @Body placeOrderRequest: PlaceOrderRequest
+    ): Response<CommonResponse>
 
     @Multipart
     @POST(ApiName.UPLOAD_FILE)
     suspend fun callUploadDocuments(
-        @Header("Authorization")token:String, @Part file: MultipartBody.Part?, @Part(
+        @Header("Authorization") token: String, @Part file: MultipartBody.Part?, @Part(
             "name"
         ) name: RequestBody
     ): Response<UploadFileResponse>

@@ -47,7 +47,7 @@ interface UserRepository {
     fun getNotificationList(commonRequestObj: CommonRequestObj): MutableLiveData<NotificationListResponse>
     fun getChatList(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
     fun getUpdatedChatList(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
-    fun saveChat(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse>
+    fun saveChat(token:String, file: MultipartBody.Part?, orderId: RequestBody, vendorId: RequestBody, msg: RequestBody): MutableLiveData<GetChatListResponse>
     fun applyCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<ApplyCouponResponse>
     fun getCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
     fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): MutableLiveData<CommonResponse>

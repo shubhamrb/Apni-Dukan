@@ -8,6 +8,8 @@ data class CommonRequestObj(
     val apiKey: String = "",
     @SerializedName("orderid")
     val orderid: String = "",
+    @SerializedName("vendorid")
+    val vendorid: String = "",
     @SerializedName("latitude")
     val latitude: String = "",
     @SerializedName("longitude")

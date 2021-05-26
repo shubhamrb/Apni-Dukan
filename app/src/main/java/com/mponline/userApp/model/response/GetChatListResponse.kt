@@ -4,9 +4,9 @@ package com.mponline.userApp.model.response
 import com.google.gson.annotations.SerializedName
 
 data class GetChatListResponse(@SerializedName("data")
-                               val data: List<ChatListDataItem>?,
-                               @SerializedName("success")
-                               val success: Boolean = false,
+                               val data: ArrayList<ChatListDataItem>?,
+                               @SerializedName("status")
+                               val status: Boolean = false,
                                @SerializedName("messageId")
                                val messageId: Int = 0,
                                @SerializedName("message")

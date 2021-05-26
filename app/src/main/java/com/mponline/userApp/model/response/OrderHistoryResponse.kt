@@ -99,11 +99,11 @@ data class OrderHistoryDataItem(@SerializedName("offer_amount")
                     @SerializedName("orderdatetime")
                     val orderdatetime: String = "",
                     @SerializedName("id")
-                    val id: Int = 0,
+                    val id: String = "",
                     @SerializedName("commission_type")
                     val commissionType: String = "",
                     @SerializedName("store_id")
-                    val storeId: Int = 0,
+                    val storeId: String= "",
                     @SerializedName("updatedBy")
                     val updatedBy: String = "",
                     @SerializedName("payment_status")
@@ -185,7 +185,7 @@ data class Storedetail(@SerializedName("IsVerify")
                        @SerializedName("IsHomePage")
                        val isHomePage: Int = 0,
                        @SerializedName("user_id")
-                       val userId: Int = 0,
+                       val userId: String = "",
                        @SerializedName("ratting")
                        val ratting: Int = 0,
                        @SerializedName("IsAvailable")

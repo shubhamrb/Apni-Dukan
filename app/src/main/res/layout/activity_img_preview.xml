@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.activity.ImgPreviewActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar_normal"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_below="@id/toolbar"
+        android:id="@+id/image_preview"
+        app:srcCompat="@drawable/ic_file_preview"
+        android:layout_above="@+id/edt_caption"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        style="@style/Text_mont_medium"
+        android:id="@+id/edt_caption"
+        android:layout_margin="@dimen/margin15"
+        android:layout_above="@id/ll_btns"
+        android:textColor="@color/white"
+        android:hint="Caption"
+        android:focusable="true"
+        android:textColorHint="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <requestFocus/>
+
+    <LinearLayout
+        android:id="@+id/ll_btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_medium"
+            android:id="@+id/text_cancel"
+            android:text="Cancel"
+            android:layout_weight="1"
+            android:padding="@dimen/margin15"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/rect_stroke_white"
+            android:layout_width="@dimen/margin0"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_medium"
+            android:id="@+id/text_save"
+            android:text="Save"
+            android:layout_weight="1"
+            android:padding="@dimen/margin15"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/rect_stroke_white"
+            android:layout_width="@dimen/margin0"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>

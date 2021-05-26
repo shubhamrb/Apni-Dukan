@@ -406,12 +406,18 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
-    override fun saveChat(commonRequestObj: CommonRequestObj): MutableLiveData<GetChatListResponse> {
+    override fun saveChat(
+        token:String,
+        file: MultipartBody.Part?,
+        orderId: RequestBody,
+        vendorId: RequestBody,
+        msg: RequestBody
+    ): MutableLiveData<GetChatListResponse> {
         val data = MutableLiveData<GetChatListResponse>()
         val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService?.saveChat(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                val response = apiService?.saveChat(token, file, orderId, vendorId, msg)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

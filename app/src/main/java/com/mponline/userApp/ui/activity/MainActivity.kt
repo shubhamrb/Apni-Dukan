@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.mponline.userApp.R
+import com.mponline.userApp.listener.OnImgPreviewListener
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.ImgPreviewPojo
 import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.model.response.ProductListItem
@@ -33,6 +35,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNetworkChange(isConnected: Boolean) {
 
+    }
+
+    var mOnImgPreviewListener: OnImgPreviewListener? = null
+
+    override fun onStartNewActivity(listener: OnImgPreviewListener, imgPath: String) {
+        super.onStartNewActivity(listener, imgPath)
+        if(listener!=null && imgPath!=null){
+            mOnImgPreviewListener = listener
+            var intent:Intent = Intent(this@MainActivity, ImgPreviewActivity::class.java)
+            intent?.putExtra("img", imgPath)
+            startActivityForResult(intent, Constants.RESULT_IMG_PREVIEW)
+        }
     }
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
@@ -301,6 +315,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            when(requestCode){
+                Constants.RESULT_IMG_PREVIEW->{
+                    if(data?.hasExtra("img")!! && data?.hasExtra("txt")!!){
+                        var imgPreviewPojo:ImgPreviewPojo = ImgPreviewPojo(filePath = data?.getStringExtra("img"), caption = data?.getStringExtra("txt"))
+                        mOnImgPreviewListener?.onImgPreview(imgPreviewPojo)
+                    }
+                }
+            }
+        }
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {

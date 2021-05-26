@@ -80,7 +80,7 @@
     <string name="get_coupons_click"><u>Get Free Coupons, Click here</u></string>
     <string name="clk_to_proceed">Click to proceed</string>
 
-<!--    validations-->
+    <!--    validations-->
     <string name="empty_name">Please enter valid name</string>
     <string name="empty_mobile">Please enter valid mobile no</string>
     <string name="empty_pin">Please enter valid pin</string>
