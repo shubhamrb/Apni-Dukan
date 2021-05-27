@@ -52,7 +52,7 @@ class OrderHistoryAdapter(
             }
             holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name
             holder?.itemView?.text_to_date?.text =
-                "Application submitted as on ${mList?.get(position)?.createdAt}"
+                "Application submitted as on \n${DateUtils.changeDateFormat(mList?.get(position)?.createdAt, "yyyy-MM-dd HH:mm:ss", "dd MMM yyyy")}"
             when (mList?.get(position)?.status) {
                 1 -> {
                     holder.itemView.text_status.text = "Waiting for\nkiosk to accept"

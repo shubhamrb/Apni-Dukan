@@ -76,7 +76,7 @@ class NotificationActivity : BaseActivity(), OnItemClickListener {
             )
             viewModel?.getNotificationList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
-                    if (success) {
+                    if (status) {
                         switchView(1, "")
                         //UnRead
                         rv_unread_notification?.setHasFixedSize(true)

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/relative_frag"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/layout_back"/>
+
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/common_toolbar_normal" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:id="@+id/text_list_title"
+                    android:text="@string/update_profile"
+                    android:textColor="@color/light_black"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Text_mont_regular"
+                    android:id="@+id/edt_username"
+                    android:text=""
+                    android:inputType="text"
+                    android:hint="@string/full_name"
+                    android:background="@color/grey_back"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:padding="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Text_mont_regular"
+                    android:id="@+id/edt_email"
+                    android:text=""
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email"
+                    android:background="@color/grey_back"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:padding="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Text_mont_regular"
+                    android:id="@+id/edt_mobile_no"
+                    android:text=""
+                    android:editable="false"
+                    android:focusable="false"
+                    android:enabled="false"
+                    android:hint="@string/mobile_no"
+                    android:background="@color/grey_back"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:padding="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_update_profile"
+                    style="@style/Text_mont_medium"
+                    android:text="@string/update_profile"
+                    android:paddingTop="@dimen/margin10"
+                    android:paddingBottom="@dimen/margin10"
+                    android:paddingRight="@dimen/margin25"
+                    android:paddingLeft="@dimen/margin25"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/gradient_blue"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <include
+        layout="@layout/layout_progress"/>
+    <include
+        layout="@layout/layout_empty"/>
+</RelativeLayout>

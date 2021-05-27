@@ -54,4 +54,9 @@ interface UserRepository {
     fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): MutableLiveData<UploadFileResponse>
     fun saveRating(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
 
+    fun changePwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun updateProfile(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun getProdByStore(commonRequestObj: CommonRequestObj): MutableLiveData<ProductByStoreResponse>
+    fun homeSearch(commonRequestObj: CommonRequestObj): MutableLiveData<HomeSearchResponse>
+
 }

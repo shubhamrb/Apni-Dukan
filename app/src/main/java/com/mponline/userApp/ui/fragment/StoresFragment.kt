@@ -90,12 +90,21 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
             R.id.cv_store -> {
-                mSwichFragmentListener?.onSwitchFragment(
-                    Constants.STORE_DETAIL_PAGE_WITH_PROD,
-                    Constants.WITH_NAV_DRAWER,
-                    obj,
-                    mProductListItem
-                )
+                if(mProductListItem!=null){
+                    mSwichFragmentListener?.onSwitchFragment(
+                        Constants.STORE_DETAIL_PAGE_WITH_PROD,
+                        Constants.WITH_NAV_DRAWER,
+                        obj,
+                        mProductListItem
+                    )
+                }else{
+                    mSwichFragmentListener?.onSwitchFragment(
+                        Constants.STORE_DETAIL_PAGE,
+                        Constants.WITH_NAV_DRAWER,
+                        obj,
+                        null
+                    )
+                }
             }
         }
     }

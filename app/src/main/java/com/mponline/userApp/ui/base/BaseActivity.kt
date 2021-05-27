@@ -36,6 +36,7 @@ import com.mponline.userApp.db.AppDatabase
 import com.mponline.userApp.livedata.ConnectionLiveData
 import com.mponline.userApp.model.UserCurrentAddress
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.request.HeaderInfo
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.PreferenceUtils
@@ -498,27 +499,34 @@ open class BaseActivity : AppCompatActivity() {
         dpd.show()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
     fun getCommonRequestObj(
-        apiKey: String,
+        apiKey: String="",
+        orderid: String = "",
+        vendorid: String = "",
         latitude: String = "",
         longitude: String = "",
         category_id: String = "",
         store_id: String = "",
+        storeid: String = "",
+        search: String = "",
         subcategory_id: String = "",
+        rating: String = "",
         product_id: String = ""
     ): CommonRequestObj {
         return CommonRequestObj(
-            apiKey = apiKey,
+            apiKey = getApiKey(),
+            search = search,
+            orderid = orderid,
+            vendorid = vendorid,
             latitude = latitude,
             longitude = longitude,
             store_id = store_id,
+            storeid = storeid,
             category_id = category_id,
             subcategory_id = subcategory_id,
-            product_id = product_id
+            rating = rating,
+            product_id = product_id,
+            headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }
 

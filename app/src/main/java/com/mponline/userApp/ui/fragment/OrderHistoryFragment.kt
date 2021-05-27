@@ -66,14 +66,14 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
         arguments?.let {
             isPostApplnSubmit = it?.getBoolean("flag")
-            if(isPostApplnSubmit){
-                view?.text_title?.setText("Form submitted successfully")
-                view?.text_subtitle?.setText(activity?.resources?.getString(R.string.post_submit_desc))
-                view?.text_subtitle?.visibility = View.VISIBLE
-            }else{
-                view?.text_title?.setText("Order History")
-                view?.text_subtitle?.visibility = View.GONE
-            }
+        }
+        if(isPostApplnSubmit){
+            view?.text_title?.setText("Form submitted successfully")
+            view?.text_subtitle?.setText(activity?.resources?.getString(R.string.post_submit_desc))
+            view?.text_subtitle?.visibility = View.VISIBLE
+        }else{
+            view?.text_title?.setText("Order History")
+            view?.text_subtitle?.visibility = View.GONE
         }
 
         view?.relative_frag?.setOnClickListener {  }

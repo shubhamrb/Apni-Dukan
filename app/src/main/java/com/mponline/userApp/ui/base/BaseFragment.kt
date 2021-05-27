@@ -203,19 +203,30 @@ abstract class BaseFragment : Fragment() {
 
     fun getCommonRequestObj(
         apiKey: String="",
+        mobile: String="",
+        name: String="",
+        email: String="",
         orderid: String = "",
         vendorid: String = "",
         latitude: String = "",
         longitude: String = "",
         category_id: String = "",
+        category: String = "",
         store_id: String = "",
         storeid: String = "",
+        search: String = "",
         subcategory_id: String = "",
         rating: String = "",
+        oldpassword: String = "",
+        newpassword: String = "",
         product_id: String = ""
     ): CommonRequestObj {
         return CommonRequestObj(
             apiKey = apiKey,
+            mobile = mobile,
+            name = name,
+            email = email,
+            search = search,
             orderid = orderid,
             vendorid = vendorid,
             latitude = latitude,
@@ -223,9 +234,12 @@ abstract class BaseFragment : Fragment() {
             store_id = store_id,
             storeid = storeid,
             category_id = category_id,
+            category = category,
             subcategory_id = subcategory_id,
             rating = rating,
             product_id = product_id,
+            oldpassword = oldpassword,
+            newpassword = newpassword,
             headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }

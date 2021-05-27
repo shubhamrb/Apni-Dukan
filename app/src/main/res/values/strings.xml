@@ -26,6 +26,8 @@
     <string name="review_n_ratings">Review and ratings</string>
     <string name="read_reviews">Read Reviews</string>
     <string name="top_stores">Top Stores</string>
+    <string name="change_pwd">Change Password</string>
+    <string name="update_profile">Update Profile</string>
     <string name="top_exam_form">Top Exam Forms</string>
     <string name="unread">Unread</string>
     <string name="login">Login</string>
@@ -39,6 +41,10 @@
     <string name="dont_hav_acc"><u>Don\'t have an account? Sign up!</u></string>
     <string name="forgot_pin"><u>Forgot Pin? Reset Here</u></string>
     <string name="mobile_no">Mobile no.</string>
+    <string name="old_pwd">Old Password</string>
+    <string name="new_pwd">New Password</string>
+    <string name="email">Email</string>
+    <string name="confirm_pwd">Confirm pwd</string>
     <string name="full_name">Full name</string>
     <string name="read">Read</string>
     <string name="recent">Recent</string>

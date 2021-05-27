@@ -125,5 +125,29 @@ interface NetworkAPIService {
         @Body commonRequestObj: CommonRequestObj
     ): Response<CommonResponse>
 
+    @POST(ApiName.CHANGE_PWD)
+    suspend fun changePwd(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
+
+    @POST(ApiName.UPDATE_PROFILE)
+    suspend fun updateProfile(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
+
+    @POST(ApiName.GET_PRODUCT_BY_STORE)
+    suspend fun getProdByStore(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<ProductByStoreResponse>
+
+    @POST(ApiName.HOME_SEARCH)
+    suspend fun homeSearch(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<HomeSearchResponse>
+
 
 }

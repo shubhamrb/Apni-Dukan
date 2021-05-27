@@ -17,20 +17,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
+import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.DrawerModel
+import com.mponline.userApp.model.Login
+import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.adapter.DrawerAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_drawer.view.*
+import kotlinx.android.synthetic.main.item_drawer.*
+import kotlinx.android.synthetic.main.item_drawer.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class DrawerFragment : BaseFragment() {
+class DrawerFragment : BaseFragment(), OnItemClickListener{
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
@@ -72,7 +77,7 @@ class DrawerFragment : BaseFragment() {
         mPreferenceUtils = PreferenceUtils.getInstance(context!!)
 
         recyclerView = views!!.findViewById<View>(R.id.listview) as RecyclerView
-        drawerAdapter = DrawerAdapter(activity!!, populateList())
+        drawerAdapter = DrawerAdapter(activity!!, populateList(), this)
 
         recyclerView!!.adapter = drawerAdapter
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
@@ -107,12 +112,32 @@ class DrawerFragment : BaseFragment() {
         view?.image_drawer_close?.setOnClickListener {
             onSwichFragmentListener?.onSwitchFragment(Constants.CLOSE_NAV_DRAWER,"", null, null)
         }
+
+        view?.run {
+            text_username.text = mPreferenceUtils?.getValue(Constants.USER_NAME)
+            var letter = mPreferenceUtils?.getValue(Constants.USER_NAME)?.toCharArray()?.get(0)?.toString()+mPreferenceUtils?.getValue(Constants.USER_NAME)?.toCharArray()?.get(1)?.toString()
+            text_drawable.text = letter
+            if(!mPreferenceUtils?.getValue(Constants.USER_EMAIL)?.isNullOrEmpty()){
+                text_email?.visibility = View.VISIBLE
+                text_email.text = mPreferenceUtils?.getValue(Constants.USER_EMAIL)
+            }else{
+                text_email?.visibility = View.GONE
+            }
+            text_mobile.text = mPreferenceUtils?.getValue(Constants.USER_MOBILE)
+        }
+
+        view?.text_logout?.setOnClickListener {
+            mPreferenceUtils?.clear()
+            var intent:Intent = Intent(activity!!, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            activity?.startActivity(intent)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        drawerAdapter = DrawerAdapter(activity!!, populateList())
+        drawerAdapter = DrawerAdapter(activity!!, populateList(), this)
         recyclerView!!.adapter = drawerAdapter
     }
 
@@ -222,6 +247,20 @@ class DrawerFragment : BaseFragment() {
 
         override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
 
+        }
+    }
+
+    override fun onClick(pos: Int, view: View, obj: Any?) {
+        when(pos){
+            0->{
+                onSwichFragmentListener?.onSwitchFragmentFromDrawer(Constants.MY_ACCOUNT_PAGE, "", null, null)
+            }
+            1->{
+                onSwichFragmentListener?.onSwitchFragmentFromDrawer(Constants.STORE_PAGE, "", null, null)
+            }
+            2->{
+                onSwichFragmentListener?.onSwitchFragmentFromDrawer(Constants.ORDER_HISTORY_PAGE, "", null, null)
+            }
         }
     }
 

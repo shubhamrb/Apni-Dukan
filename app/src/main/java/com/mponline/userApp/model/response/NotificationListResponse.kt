@@ -25,8 +25,8 @@ data class NotificationDataItem(@SerializedName("is_read")
 
 data class NotificationListResponse(@SerializedName("data")
                                     val data: List<NotificationDataItem>?,
-                                    @SerializedName("success")
-                                    val success: Boolean = false,
+                                    @SerializedName("status")
+                                    val status: Boolean = false,
                                     @SerializedName("messageId")
                                     val messageId: Int = 0,
                                     @SerializedName("message")

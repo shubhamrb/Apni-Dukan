@@ -163,5 +163,18 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.saveRating(commonRequestObj);
     }
 
+    fun changePwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.changePwd(commonRequestObj);
+    }
+    fun updateProfile(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.updateProfile(commonRequestObj);
+    }
+    fun getProdByStore(commonRequestObj: CommonRequestObj): LiveData<ProductByStoreResponse> {
+        return userRepositoryImpl.getProdByStore(commonRequestObj);
+    }
+    fun homeSearch(commonRequestObj: CommonRequestObj): LiveData<HomeSearchResponse> {
+        return userRepositoryImpl.homeSearch(commonRequestObj);
+    }
+
 
 }

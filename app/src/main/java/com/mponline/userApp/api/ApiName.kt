@@ -20,8 +20,6 @@ class ApiName {
         const val SIGNIN:String = "api/signin"
         const val SEND_OTP:String = "api/sendOtp"
         const val VERIFY_MOBILE_OTP:String = "api/verifyMobileOtp"
-        const val CHANGE_PWD:String = "api/auth/changePassword"
-        const val UPDATE_PROFILE:String = "api/auth/update_profile"
 
         const val GET_ORDER_HISTORY:String = "api/auth/getOrderHistory"
         const val NOTIFICATION_LIST:String = "api/auth/getNotificationList"
@@ -33,6 +31,11 @@ class ApiName {
         const val PLACE_ORDER:String = "api/auth/placeOrder"
         const val UPLOAD_FILE:String = "api/auth/uploadFile"
         const val SAVE_RATINGS:String = "api/auth/saveRatting"
+
+        const val CHANGE_PWD:String = "api/auth/changePassword"
+        const val UPDATE_PROFILE:String = "api/auth/update_profile"
+        const val GET_PRODUCT_BY_STORE:String = "api/getProductByStore"
+        const val HOME_SEARCH:String = "api/search"
 
     }
 }

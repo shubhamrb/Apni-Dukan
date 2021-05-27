@@ -8,9 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
+import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.DrawerModel
+import kotlinx.android.synthetic.main.item_drawer.view.*
 
-class DrawerAdapter(private val context: Context, arrayList: ArrayList<DrawerModel>) : RecyclerView.Adapter<DrawerAdapter.ViewHolder>() {
+class DrawerAdapter(private val context: Context, arrayList: ArrayList<DrawerModel>, var listener:OnItemClickListener) : RecyclerView.Adapter<DrawerAdapter.ViewHolder>() {
 
     internal var arrayList = ArrayList<DrawerModel>()
     private val inflater: LayoutInflater
@@ -29,6 +31,10 @@ class DrawerAdapter(private val context: Context, arrayList: ArrayList<DrawerMod
 
         holder.title.setText(arrayList[position].getNames())
         holder.ivicon.setImageResource(arrayList[position].getImages())
+
+        holder.itemView.setOnClickListener {
+            listener?.onClick(position, holder?.itemView?.name, arrayList?.get(position))
+        }
     }
 
     override fun getItemCount(): Int {

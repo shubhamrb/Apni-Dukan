@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.item_sub_store.view.*
 class SubServiceAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList:ArrayList<ProductListItem>
+    var mList:ArrayList<ProductListItem>,
+    var isFromStore:Boolean =false
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -11,8 +11,9 @@
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_regular"
         android:id="@+id/text_service_name"
-        android:text="Form name change"
+        android:text=""
         android:textColor="@color/light_black"
+        android:padding="@dimen/margin10"
         android:textSize="@dimen/textsize14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -20,6 +21,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_alignParentRight="true"
         app:srcCompat="@drawable/ic_search_arrow"
+        android:layout_centerVertical="true"
         android:layout_width="@dimen/margin15"
         android:layout_height="@dimen/margin15"/>
 

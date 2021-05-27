@@ -526,6 +526,81 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
+    override fun changePwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.changePwd(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun updateProfile(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.updateProfile(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun getProdByStore(commonRequestObj: CommonRequestObj): MutableLiveData<ProductByStoreResponse> {
+        val data = MutableLiveData<ProductByStoreResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getProdByStore(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun homeSearch(commonRequestObj: CommonRequestObj): MutableLiveData<HomeSearchResponse> {
+        val data = MutableLiveData<HomeSearchResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.homeSearch(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
 
 
 }

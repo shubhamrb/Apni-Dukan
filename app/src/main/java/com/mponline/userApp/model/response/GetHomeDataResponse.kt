@@ -68,6 +68,8 @@ data class ProductItem(@SerializedName("id")
 @Parcelize
 data class CategorylistItem(@SerializedName("image")
                             val image: String = "",
+                           @SerializedName("storeId")
+                            var storeId: String = "",
                             @SerializedName("IsHomePage")
                             val isHomePage: Int = 0,
                             @SerializedName("name")

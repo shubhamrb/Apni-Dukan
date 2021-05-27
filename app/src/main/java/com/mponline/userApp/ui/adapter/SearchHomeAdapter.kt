@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.response.HomeSearchData
+import kotlinx.android.synthetic.main.item_search.view.*
 import kotlinx.android.synthetic.main.item_stores.view.*
 
 
 class SearchHomeAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mList: ArrayList<HomeSearchData>?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,7 +33,10 @@ class SearchHomeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder.itemView.text_service_name.text = mList?.get(position)?.name
+        holder.itemView.setOnClickListener {
+            listener?.onClick(position, holder.itemView.text_service_name, mList?.get(position))
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -39,7 +45,7 @@ class SearchHomeAdapter(
 
 
     override fun getItemCount(): Int {
-        return 5
+        return mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

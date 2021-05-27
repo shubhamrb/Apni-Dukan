@@ -7,6 +7,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,18 +24,10 @@ import com.mponline.userApp.utils.ImageGlideUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_store_detail.*
-import kotlinx.android.synthetic.main.fragment_store_detail.image_store
-import kotlinx.android.synthetic.main.fragment_store_detail.image_store_status
-import kotlinx.android.synthetic.main.fragment_store_detail.ratingbar_rating
-import kotlinx.android.synthetic.main.fragment_store_detail.ratingbar_store
-import kotlinx.android.synthetic.main.fragment_store_detail.text_rating
-import kotlinx.android.synthetic.main.fragment_store_detail.text_store_desc
-import kotlinx.android.synthetic.main.fragment_store_detail.text_store_location
-import kotlinx.android.synthetic.main.fragment_store_detail.text_store_name
-import kotlinx.android.synthetic.main.fragment_store_detail.text_store_status
 import kotlinx.android.synthetic.main.fragment_store_detail.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
+
 
 @AndroidEntryPoint
 class StoreDetailFragment : BaseFragment(), OnItemClickListener {
@@ -76,7 +69,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
         }
 
         view?.text_checkout?.setOnClickListener {
-            if(mProductListItem!=null){
+            if (mProductListItem != null) {
                 mSwichFragmentListener?.onSwitchFragment(
                     Constants.INSTRUCTION_PAGE,
                     Constants.WITH_NAV_DRAWER,
@@ -174,6 +167,74 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                         ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
                         text_rating.text = it?.data?.get(0)?.ratting
+                        text_total_users.text = it?.data?.get(0)?.totalrating
+                        if (it?.data?.get(0)?.rating != null) {
+                            val param5 = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                it?.data?.get(0)?.rating?.five?.toFloat()!!
+                            )
+                            text_users_5.text = it?.data?.get(0)?.rating?.five+" Rate"
+                            val param5grey = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                10 - (it?.data?.get(0)?.rating?.five?.toFloat()!!)
+                            )
+                            val param4 = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                it?.data?.get(0)?.rating?.four?.toFloat()!!
+                            )
+                            text_users_4.text = it?.data?.get(0)?.rating?.four+" Rate"
+                            val param4grey = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                10 - (it?.data?.get(0)?.rating?.four?.toFloat()!!)
+                            )
+                            val param3 = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                it?.data?.get(0)?.rating?.three?.toFloat()!!
+                            )
+                            text_users_3.text = it?.data?.get(0)?.rating?.three+" Rate"
+                            val param3grey = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                10 - (it?.data?.get(0)?.rating?.three?.toFloat()!!)
+                            )
+                            val param2 = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                it?.data?.get(0)?.rating?.two?.toFloat()!!
+                            )
+                            text_users_2.text = it?.data?.get(0)?.rating?.two+" Rate"
+                            val param2grey = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                10 - (it?.data?.get(0)?.rating?.two?.toFloat()!!)
+                            )
+                            val param1 = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                it?.data?.get(0)?.rating?.one?.toFloat()!!
+                            )
+                            text_users_1.text = it?.data?.get(0)?.rating?.one+" Rate"
+                            val param1grey = LinearLayout.LayoutParams(
+                                0,
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                10 - (it?.data?.get(0)?.rating?.one?.toFloat()!!)
+                            )
+                            ll_rating.setLayoutParams(param5)
+                            ll_grey.setLayoutParams(param5grey)
+                            ll_rating_4.setLayoutParams(param4)
+                            ll_grey_4.setLayoutParams(param4grey)
+                            ll_rating_3.setLayoutParams(param3)
+                            ll_grey_3.setLayoutParams(param3grey)
+                            ll_rating_2.setLayoutParams(param2)
+                            ll_grey_2.setLayoutParams(param2grey)
+                            ll_rating_1.setLayoutParams(param1)
+                            ll_grey_1.setLayoutParams(param1grey)
+                        }
                     }
                     text_store_desc.text = Html.fromHtml(it?.data?.get(0)?.description)
 
@@ -201,9 +262,16 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
             R.id.cv_service -> {
-
+                if(obj is CategorylistItem){
+                    obj?.storeId = mStoreDetailDataItem?.id!!
+                    mSwichFragmentListener?.onSwitchFragment(
+                        Constants.SUB_SERVICE_PAGE,
+                        Constants.WITH_NAV_DRAWER,
+                        null,
+                        obj
+                    )
+                }
             }
-
         }
     }
 
@@ -265,6 +333,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             fragment.arguments = bundle
             return fragment
         }
+
         fun newInstance(
             context: Activity,
             mStorelistItem: StorelistItem

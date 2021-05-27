@@ -228,6 +228,7 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             style="@style/Text_mont_regular"
+                                            android:id="@+id/text_r_5"
                                             android:text="5"
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
@@ -277,7 +278,8 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             style="@style/Text_mont_regular"
-                                            android:text="5"
+                                            android:id="@+id/text_r_4"
+                                            android:text="4"
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
@@ -326,6 +328,7 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             style="@style/Text_mont_regular"
+                                            android:id="@+id/text_r_3"
                                             android:text="3"
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
@@ -375,6 +378,7 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             style="@style/Text_mont_regular"
+                                            android:id="@+id/text_r_2"
                                             android:text="2"
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
@@ -424,6 +428,7 @@
 
                                         <androidx.appcompat.widget.AppCompatTextView
                                             style="@style/Text_mont_regular"
+                                            android:id="@+id/text_r_1"
                                             android:text="1"
                                             android:layout_gravity="center_vertical"
                                             android:layout_width="wrap_content"
