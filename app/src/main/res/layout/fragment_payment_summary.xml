@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/relative_frag"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
-    <include
-        layout="@layout/layout_back"/>
+    <include layout="@layout/layout_back" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/ll_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -24,311 +24,318 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_bold"
                     android:id="@+id/text_payment_mode"
-                    android:text="@string/apply_coupon_code"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:textColor="@color/light_black"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_marginLeft="@dimen/margin15"
+                    style="@style/Text_mont_bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="@string/apply_coupon_code"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
-                    android:text="@string/apply_coupon_code_desc"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:text="@string/apply_coupon_code_desc"
+                    android:textColor="@color/light_black" />
 
                 <LinearLayout
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <RelativeLayout
-                        android:layout_weight="1"
-                        android:background="@color/white"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white">
 
                         <EditText
-                            style="@style/Text_mont_regular"
                             android:id="@+id/edt_coupon_code"
+                            style="@style/Text_mont_regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin35"
                             android:background="@color/white"
-                            android:singleLine="true"
                             android:imeOptions="actionDone"
                             android:padding="@dimen/margin15"
-                            android:layout_marginRight="@dimen/margin35"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:singleLine="true" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/image_close"
-                            android:layout_marginRight="@dimen/margin15"
-                            app:srcCompat="@drawable/ic_file_close"
+                            android:layout_width="@dimen/margin20"
+                            android:layout_height="@dimen/margin20"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_width="@dimen/margin20"
-                            android:layout_height="@dimen/margin20"/>
+                            android:layout_marginRight="@dimen/margin15"
+                            app:srcCompat="@drawable/ic_file_close" />
                     </RelativeLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
                         android:id="@+id/text_apply"
-                        android:text="@string/apply"
+                        style="@style/Text_mont_regular"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin20"
-                        android:gravity="center"
+                        android:layout_weight="1"
                         android:background="@drawable/gradient_blue_180"
-                        android:textColor="@color/white"
+                        android:gravity="center"
                         android:padding="@dimen/margin15"
-                        android:layout_height="wrap_content"/>
+                        android:text="@string/apply"
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
                     android:id="@+id/text_free_coupons"
-                    android:text="@string/get_coupons_click"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
+                    style="@style/Text_mont_regular"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:text="@string/get_coupons_click"
+                    android:textColor="@color/light_black" />
 
 
                 <View
-                    android:layout_marginTop="@dimen/margin20"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"/>
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin20"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_bold"
-                    android:text="@string/payment_summary"
-                    android:layout_marginTop="@dimen/margin20"
-                    android:textColor="@color/light_black"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin20"
+                    android:text="@string/payment_summary"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
-                    android:text="@string/review_fee"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:text="@string/review_fee"
+                    android:textColor="@color/light_black" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_payment_details"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15" />
 
                 <View
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"/>
-
-                <RelativeLayout
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/sub_total"
                         android:textColor="@color/green"
-                        android:textSize="@dimen/textsize16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize16" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_bold"
                         android:id="@+id/text_subtotal_amt"
-                        android:text="$22"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/green"
-                        android:textSize="@dimen/textsize16"
+                        style="@style/Text_mont_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="$22"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/textsize16" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_coupon_applied"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/coupon_applied"
                         android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_bold"
                         android:id="@+id/text_coupon_amt"
-                        android:text="$22"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_marginLeft="@dimen/margin15"
+                        style="@style/Text_mont_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:text="$22"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_discount"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/discount"
                         android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_bold"
                         android:id="@+id/text_discount_amt"
-                        android:text="$22"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_marginLeft="@dimen/margin15"
+                        style="@style/Text_mont_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:text="$22"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rl_cart_val_discount"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/cart_value_discount"
                         android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_bold"
                         android:id="@+id/text_cart_discount_amt"
-                        android:text="$22"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/textsize14"
-                        android:layout_marginLeft="@dimen/margin15"
+                        style="@style/Text_mont_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:text="$22"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14" />
                 </RelativeLayout>
 
                 <View
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"/>
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
 
                 <RelativeLayout
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/total"
                         android:textColor="@color/green"
-                        android:textSize="@dimen/textsize16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize16" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_bold"
                         android:id="@+id/text_total_amt"
-                        android:text="$22"
-                        android:layout_alignParentRight="true"
-                        android:textColor="@color/green"
-                        android:textSize="@dimen/textsize16"
+                        style="@style/Text_mont_bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="$22"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/textsize16" />
 
                 </RelativeLayout>
 
                 <View
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/black"/>
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_bold"
-                    android:text="@string/payment_method"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:textColor="@color/light_black"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="@string/payment_method"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
-                    android:text="@string/select_payment_method"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:text="@string/select_payment_method"
+                    android:textColor="@color/light_black" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_payment_methods"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginBottom="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginBottom="@dimen/margin15" />
 
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+    <include layout="@layout/layout_progress" />
+
+    <include layout="@layout/layout_empty" />
 
 </RelativeLayout>

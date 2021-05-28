@@ -43,10 +43,10 @@ class OrderHistoryAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is OrderHistoryViewHolder){
-            if (!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()) {
+            if (!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()!!) {
                 ImageGlideUtils.loadUrlImage(
                     context!!,
-                    mList?.get(position)?.storedetail?.image,
+                    mList?.get(position)?.storedetail?.image!!,
                     holder.itemView.image_order_history
                 )
             }
@@ -77,7 +77,7 @@ class OrderHistoryAdapter(
                     holder.itemView.layout_order_pending.visibility = View.VISIBLE
                     holder.itemView.layout_order_complete.visibility = View.GONE
                     var currDateTime = DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
-                    var estimatedDateTime = DateUtils.addHrMinuteToDateStr(mList?.get(position)?.acceptedAt, if(mList?.get(position)?.timeType?.equals("hour")) true else false, mList?.get(position)?.orderCompletionTime)
+                    var estimatedDateTime = DateUtils.addHrMinuteToDateStr(mList?.get(position)?.acceptedAt!!, if(mList?.get(position)?.timeType?.equals("hour")!!) true else false, mList?.get(position)?.orderCompletionTime)
                     var timerObj = DateUtils.checkTimeDifference(currDateTime, estimatedDateTime)
                     holder?.itemView?.text_hour?.text = timerObj?.hour
                     holder?.itemView?.text_minute?.text = timerObj?.min
@@ -149,15 +149,7 @@ class OrderHistoryAdapter(
                 context?.startActivity(intent)
             }
             holder.itemView.text_make_payment.setOnClickListener {
-                if (context is OnSwichFragmentListener) {
-                    var mOnSwichFragmentListener = context as OnSwichFragmentListener
-                    mOnSwichFragmentListener.onSwitchFragment(
-                        Constants.PAYMENT_SUMMARY_PAGE,
-                        Constants.WITH_NAV_DRAWER,
-                        null,
-                        null
-                    )
-                }
+                listener?.onClick(position, holder.itemView.text_make_payment, mList?.get(position))
             }
             holder.itemView.ll_hide_opt.setOnClickListener {
                 holder.itemView.linear_bottom_layout.visibility = View.GONE

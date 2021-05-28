@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.PaymentSummaryObj
+import kotlinx.android.synthetic.main.item_payment_details.view.*
 
 
 class PaymentDetailAdapter(
     var context: Context?,
-    val listener: OnItemClickListener
+    val listener: OnItemClickListener,
+    var mList:ArrayList<PaymentSummaryObj>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -29,7 +32,8 @@ class PaymentDetailAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
+        holder?.itemView?.text_service_name?.text = mList?.get(position)?.formDetailName
+        holder?.itemView?.text_price?.text = context?.resources?.getString(R.string.rs)+" ${mList?.get(position)?.formDetailPrice}"
     }
 
     override fun getItemId(position: Int): Long {
@@ -38,7 +42,7 @@ class PaymentDetailAdapter(
 
 
     override fun getItemCount(): Int {
-        return 5
+        return mList?.size
     }
 
     override fun getItemViewType(position: Int): Int {

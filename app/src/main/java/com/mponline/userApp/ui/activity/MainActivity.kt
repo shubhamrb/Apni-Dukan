@@ -143,10 +143,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.PAYMENT_SUMMARY_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, PaymentSummaryFragment())
-                ft.addToBackStack(Constants.PAYMENT_SUMMARY_PAGE)
-                ft.commit()
+                if(obj is OrderHistoryDataItem) {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, PaymentSummaryFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.PAYMENT_SUMMARY_PAGE)
+                    ft.commit()
+                }
             }
             Constants.STORE_DETAIL_PAGE -> {
                 if (obj != null && obj is StorelistItem) {

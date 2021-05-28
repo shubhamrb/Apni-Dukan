@@ -17,6 +17,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_bold"
+        android:id="@+id/text_price"
         android:text="$22"
         android:layout_alignParentRight="true"
         android:textColor="@color/light_black"

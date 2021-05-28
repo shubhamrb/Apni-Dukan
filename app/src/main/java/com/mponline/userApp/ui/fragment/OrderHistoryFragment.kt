@@ -138,6 +138,16 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             R.id.cv_store->{
                 mSwichFragmentListener?.onSwitchFragment(Constants.STORE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
             }
+            R.id.text_make_payment->{
+                if(obj is OrderHistoryDataItem) {
+                    mSwichFragmentListener?.onSwitchFragment(
+                        Constants.PAYMENT_SUMMARY_PAGE,
+                        Constants.WITH_NAV_DRAWER,
+                        obj,
+                        null
+                    )
+                }
+            }
             R.id.ll_submit_rating->{
                 if(obj is OrderHistoryDataItem) {
                     callSaveRating(obj)
@@ -169,7 +179,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             }
             R.id.rl_whatsapp->{
                 if(obj is OrderHistoryDataItem) {
-                    val url = "https://api.whatsapp.com/send?phone=${if(obj?.storedetail?.whatsappNo?.startsWith("+91")) obj?.storedetail?.whatsappNo else "+91"+obj?.storedetail?.whatsappNo}"
+                    val url = "https://api.whatsapp.com/send?phone=${if(obj?.storedetail?.whatsappNo?.startsWith("+91")!!) obj?.storedetail?.whatsappNo!! else "+91"+obj?.storedetail?.whatsappNo!!}"
                     try {
                         val pm: PackageManager = activity?.packageManager!!
                         pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
@@ -188,9 +198,9 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
         if (CommonUtils.isOnline(activity!!)) {
 //            switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
-                orderid = mOrderHistoryDataItem?.id,
-                storeid = mOrderHistoryDataItem?.storeId,
-                rating = mOrderHistoryDataItem?.myrating
+                orderid = mOrderHistoryDataItem?.id!!,
+                storeid = mOrderHistoryDataItem?.storeId!!,
+                rating = mOrderHistoryDataItem?.myrating!!
             )
             viewModel?.saveRating(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {

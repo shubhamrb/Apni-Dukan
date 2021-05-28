@@ -20,6 +20,10 @@ data class CommonRequestObj(
     val newpassword: String = "",
     @SerializedName("orderid")
     val orderid: String = "",
+    @SerializedName("coupon")
+    val coupon: String = "",
+    @SerializedName("orderamount")
+    val orderamount: String = "",
     @SerializedName("vendorid")
     val vendorid: String = "",
     @SerializedName("latitude")
