@@ -74,6 +74,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/margin15"
+                            android:visibility="gone"
                             app:srcCompat="@drawable/ic_file_close" />
                     </RelativeLayout>
 
@@ -320,15 +321,55 @@
                     android:text="@string/select_payment_method"
                     android:textColor="@color/light_black" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_payment_methods"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginBottom="@dimen/margin15" />
+                    android:layout_margin="@dimen/margin15"
+                    android:orientation="horizontal">
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_pay_online"
+                        android:text="Online"
+                        android:padding="@dimen/margin15"
+                        android:background="@color/grey_alpha"
+                        android:gravity="center"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/margin5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_pay_to_shop"
+                        android:text="Pay To Shop"
+                        android:background="@color/grey_alpha"
+                        android:padding="@dimen/margin15"
+                        android:gravity="center"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_marginRight="@dimen/margin5"
+
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_upi"
+                        android:text="Upi"
+                        android:padding="@dimen/margin15"
+                        android:gravity="center"
+                        android:background="@color/grey_alpha"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

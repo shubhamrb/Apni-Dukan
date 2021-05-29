@@ -37,11 +37,40 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
+                    android:id="@+id/text_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="@string/app_name"
                     android:textColor="@color/navy_blue" />
+
+                <LinearLayout
+                    android:id="@+id/ll_location"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/text_logo"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:id="@+id/text_locationName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/textsize12"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/margin15"
+                        android:layout_height="@dimen/margin15"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin5"
+                        android:background="@drawable/ic_arrow_down"
+                        android:tint="@color/white"/>
+                </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_offer"

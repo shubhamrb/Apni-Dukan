@@ -17,7 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.listener.OnLocationFetchListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationObj
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.GetHomeDataResponse
 import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.ServicesAdapter
@@ -29,11 +32,12 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.layout_location_fetching.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(), OnItemClickListener {
+class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
@@ -64,7 +68,6 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         view?.nestedscroll?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (!isExamFormVisible) {
                 var flag = isViewVisible(view.rv_top_exam_forms)
@@ -96,33 +99,38 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun callHomeApi() {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126"
-            )
-            viewModel?.getHomeData(commonRequestObj)?.observe(activity!!, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        setDataToUI(this)
-                    } else {
-                        switchView(0, "")
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                            resources?.getString(R.string.no_net)!!
-                        )
+        if (LocationUtils.getCurrentLocation() == null) {
+            mSwichFragmentListener?.onStartLocationAccess(this@HomeFragment)
+            //Show waiting
+            switchView(4, "")
+        } else
+            if (CommonUtils.isOnline(activity!!)) {
+                switchView(3, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!
+                )
+                viewModel?.getHomeData(commonRequestObj)?.observe(activity!!, Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            setDataToUI(this)
+                        } else {
+                            switchView(0, "")
+                            CommonUtils.createSnackBar(
+                                activity?.findViewById(android.R.id.content)!!,
+                                resources?.getString(R.string.no_net)!!
+                            )
+                        }
                     }
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
-        }
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
     }
 
     fun setDataToUI(mGetHomeDataResponse: GetHomeDataResponse) {
@@ -294,17 +302,26 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
             when (i) {
                 0 -> {
                     relative_progress?.visibility = View.GONE
+                    rl_location_fetch?.visibility = View.GONE
                     nestedscroll?.visibility = View.VISIBLE
                 }
                 1 -> {
                     relative_progress?.visibility = View.GONE
+                    rl_location_fetch?.visibility = View.GONE
                     nestedscroll?.visibility = View.VISIBLE
                 }
                 2 -> {
                     relative_progress?.visibility = View.GONE
+                    rl_location_fetch?.visibility = View.GONE
                 }
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
+                    rl_location_fetch?.visibility = View.GONE
+                    nestedscroll?.visibility = View.GONE
+                }
+                4 -> {
+                    relative_progress?.visibility = View.GONE
+                    rl_location_fetch?.visibility = View.VISIBLE
                     nestedscroll?.visibility = View.GONE
                 }
             }
@@ -321,5 +338,15 @@ class HomeFragment : BaseFragment(), OnItemClickListener {
         } else {
             false //View is NOT visible.
         }
+    }
+
+    override fun onLocationSuccess(locationObj: LocationObj) {
+        if (locationObj != null) {
+            callHomeApi()
+        }
+    }
+
+    override fun onLocationFailure() {
+
     }
 }

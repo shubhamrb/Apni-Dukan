@@ -21,6 +21,10 @@
         android:theme="@style/AppTheme_NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q"/>
+
         <activity android:name=".ui.activity.ImgPreviewActivity"></activity>
         <activity android:name=".ui.activity.MainActivity"></activity>
         <activity android:name=".ui.activity.ChatHomeActivity"></activity>
@@ -36,6 +40,7 @@
         <activity android:name=".ui.activity.FilePreviewActivity"></activity>
         <activity android:name=".ui.activity.FormPreviewActivity"></activity>
         <activity android:name=".ui.activity.OffersActivity"></activity>
+        <activity android:name=".ui.activity.PaymentActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

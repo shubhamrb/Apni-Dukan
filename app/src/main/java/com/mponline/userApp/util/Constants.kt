@@ -7,6 +7,8 @@ package com.mponline.userApp.utils
 class Constants {
     companion object {
         const val REQUEST_PERMISSIONS = 200
+        const val REQUEST_LOC_PERMISSIONS = 201
+        const val REQUEST_AUTOCOMPLETE_PLACE = 1111
         const val DEVICE_TYPE = "ANDROID"
 
         //LinkedIn

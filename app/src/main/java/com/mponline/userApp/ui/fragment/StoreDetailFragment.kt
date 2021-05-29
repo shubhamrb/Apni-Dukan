@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.base.BaseFragment
@@ -116,8 +117,8 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
                 store_id = store_id,
-                latitude = "23.2599",
-                longitude = "77.4126"
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
             viewModel?.getStoreDetail(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {

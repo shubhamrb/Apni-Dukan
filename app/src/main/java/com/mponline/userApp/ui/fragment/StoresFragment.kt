@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.model.response.StorelistItem
@@ -114,8 +115,8 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126"
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
             viewModel?.getStoreAround(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {

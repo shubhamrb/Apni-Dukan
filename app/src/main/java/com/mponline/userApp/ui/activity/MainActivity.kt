@@ -1,6 +1,9 @@
 package com.mponline.userApp.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,12 +17,21 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.navigation.NavigationView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnImgPreviewListener
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.listener.OnLocationFetchListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.ImgPreviewPojo
+import com.mponline.userApp.model.LocationObj
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
@@ -33,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.common_toolbar.*
 import kotlinx.android.synthetic.main.fragment_chat_home.view.*
 import kotlinx.android.synthetic.main.item_search.view.*
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -44,7 +57,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     var mOnImgPreviewListener: OnImgPreviewListener? = null
+    var mOnLocationFetchListener: OnLocationFetchListener? = null
     val viewModel: UserListViewModel by viewModels()
+    var fusedLocationProviderClient: FusedLocationProviderClient? = null
 
     override fun onStartNewActivity(listener: OnImgPreviewListener, imgPath: String) {
         super.onStartNewActivity(listener, imgPath)
@@ -53,6 +68,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             var intent: Intent = Intent(this@MainActivity, ImgPreviewActivity::class.java)
             intent?.putExtra("img", imgPath)
             startActivityForResult(intent, Constants.RESULT_IMG_PREVIEW)
+        }
+    }
+
+    override fun onStartLocationAccess(listener: OnLocationFetchListener) {
+        super.onStartLocationAccess(listener)
+        if (listener != null) {
+            mOnLocationFetchListener = listener
+            checkForLocation()
         }
     }
 
@@ -101,7 +124,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     )
                     ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
                     ft.commit()
-                }else if (obj == null && extras != null && extras is CategorylistItem) {
+                } else if (obj == null && extras != null && extras is CategorylistItem) {
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                     ft.add(
                         R.id.rl_container_drawer,
@@ -137,15 +160,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.PAYMENT_DETAIL_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, PaymentDetailFragment())
-                ft.addToBackStack(Constants.PAYMENT_DETAIL_PAGE)
-                ft.commit()
+                if(obj!=null && obj is OrderHistoryDataItem) {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, PaymentDetailFragment.newInstance(this@MainActivity, obj))
+                    ft.addToBackStack(Constants.PAYMENT_DETAIL_PAGE)
+                    ft.commit()
+                }
             }
             Constants.PAYMENT_SUMMARY_PAGE -> {
-                if(obj is OrderHistoryDataItem) {
+                if (obj is OrderHistoryDataItem) {
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(R.id.rl_container_drawer, PaymentSummaryFragment.newInstance(this@MainActivity, obj))
+                    ft.add(
+                        R.id.rl_container_drawer,
+                        PaymentSummaryFragment.newInstance(this@MainActivity, obj)
+                    )
                     ft.addToBackStack(Constants.PAYMENT_SUMMARY_PAGE)
                     ft.commit()
                 }
@@ -170,7 +198,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     )
                     ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
                     ft.commit()
-                }else if(obj != null && obj is StorelistItem){
+                } else if (obj != null && obj is StorelistItem) {
 
                 }
             }
@@ -217,12 +245,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
     }
+
     override fun onSwitchFragmentFromDrawer(tag: String, type: String, obj: Any?, extras: Any?) {
         app_bar_common.visibility = View.VISIBLE
         val menu: Menu = bottom_navigation.getMenu()
         when (tag) {
-          Constants.STORE_PAGE -> {
-              menu?.getItem(3)?.setChecked(true)
+            Constants.STORE_PAGE -> {
+                menu?.getItem(3)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
                 ft.addToBackStack(Constants.STORE_PAGE)
@@ -299,6 +328,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
         }
 
+        image_offer?.setOnClickListener {
+            var intent:Intent = Intent(this, OffersActivity::class.java)
+            intent?.putExtra("type", "offer")
+            startActivity(intent)
+        }
+
+        ll_location.setOnClickListener {
+            if (!Places.isInitialized()) {
+                Places.initialize(getApplicationContext(), getString(R.string.api_key), Locale.UK);
+            }
+            var fields=Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this)
+            startActivityForResult(intent, Constants.REQUEST_AUTOCOMPLETE_PLACE)
+        }
+
         bottom_navigation.setOnNavigationItemSelectedListener {
             supportFragmentManager?.popBackStack();
             when (it.itemId) {
@@ -352,11 +397,73 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
         })
-
+//        checkForLocation()
     }
 
-    fun setDrawerInfo(){
+    @SuppressLint("MissingPermission")
+    fun checkForLocation() {
+        if (LocationUtils.getCurrentLocation() == null) {
+            //Access New Location
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+            if (isLocationPermissionGranted()) {
+                fusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
+                    it?.addOnFailureListener {
+                        if (mOnLocationFetchListener != null) {
+                            mOnLocationFetchListener?.onLocationFailure()
+                        }
+                    }
+                    it?.addOnSuccessListener {
+                        val geocoder: Geocoder
+                        val addresses: List<Address>
+                        geocoder = Geocoder(this, Locale.getDefault())
 
+                        addresses = geocoder.getFromLocation(
+                            it?.latitude!!,
+                            it?.longitude,
+                            1
+                        )
+                        CommonUtils.printLog("CURRENT_LOCATION", "${it?.latitude}")
+                        if (addresses != null && addresses?.size!! > 0) {
+                            val address: String =
+                                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                            val city: String = addresses[0].getLocality()
+                            val state: String = addresses[0].getAdminArea()
+                            val country: String = addresses[0].getCountryName()
+                            val postalCode: String = addresses[0].getPostalCode()
+                            val knownName: String = addresses[0].getFeatureName()
+                            var locationObj = LocationObj(
+                                lat = it?.latitude?.toString(), lng = it?.longitude?.toString(),
+                                address = address, city = city, state = state
+                            )
+                            LocationUtils.setCurrentLocation(locationObj)
+                            text_locationName?.text = locationObj?.city
+                            if (mOnLocationFetchListener != null) {
+                                mOnLocationFetchListener?.onLocationSuccess(locationObj)
+                            }
+                        }
+                    }
+                }
+            } else {
+                checkLocationPermissions()
+            }
+        } else {
+            if (mOnLocationFetchListener != null) {
+                mOnLocationFetchListener?.onLocationSuccess(LocationUtils.getCurrentLocation()!!)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            Constants.REQUEST_LOC_PERMISSIONS -> {
+                checkForLocation()
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -366,7 +473,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var isAvailable = false
         val homeFragment: HomeFragment? =
             supportFragmentManager.findFragmentByTag(Constants.HOME_PAGE) as HomeFragment?
-        if(homeFragment!=null && homeFragment?.isVisible){
+        if (homeFragment != null && homeFragment?.isVisible) {
             app_bar_common.visibility = View.VISIBLE
             menu?.getItem(0)?.setChecked(true)
         }
@@ -488,6 +595,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         mOnImgPreviewListener?.onImgPreview(imgPreviewPojo)
                     }
                 }
+                Constants.REQUEST_AUTOCOMPLETE_PLACE -> {
+                    data?.let {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        CommonUtils.printLog(
+                            "AUTOCOMPLETE_LOC",
+                            "Place: ${place.name}, ${place.id}"
+                        )
+                        if(place?.latLng!=null){
+                            text_locationName?.text = place?.name
+                            LocationUtils?.setSelectedLocation(
+                                LocationObj(
+                                    lat = place?.latLng?.latitude?.toString()!!,
+                                    lng = place?.latLng?.longitude?.toString()!!,
+                                    address = place?.name!!,
+                                    city = place?.name!!
+                                )
+                            )
+                        }
+                    }!!
+                }
             }
         }
     }
@@ -497,39 +624,39 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (view?.id) {
             R.id.text_service_name -> {
                 if (obj is HomeSearchData) {
-                   when(obj?.type){
-                       "category"->{
-                           onSwitchFragment(
-                               Constants.SERVICE_PAGE,
-                               Constants.WITH_NAV_DRAWER,
-                               CategorylistItem(id = obj?.value!!, name = obj?.name),
-                               null
-                           )
-                       }
-                       "subcategory"->{
-                           onSwitchFragment(
-                               Constants.SUB_SERVICE_PAGE,
-                               Constants.WITH_NAV_DRAWER,
-                               null,
-                               CategorylistItem(id = obj?.value!!, name = obj?.name)
-                           )
-                       }
-                       "product"->{
-                           onSwitchFragment(
-                               Constants.STORE_PAGE_BY_PROD,
-                               Constants.WITH_NAV_DRAWER,
-                               ProductListItem(id = obj?.value!!, name = obj?.name), null
-                           )
-                       }
-                       "store"->{
-                           onSwitchFragment(
-                               Constants.STORE_DETAIL_PAGE,
-                               Constants.WITH_NAV_DRAWER,
-                               StorelistItem(id = obj?.value!!, name = obj?.name),
-                               null
-                           )
-                       }
-                   }
+                    when (obj?.type) {
+                        "category" -> {
+                            onSwitchFragment(
+                                Constants.SERVICE_PAGE,
+                                Constants.WITH_NAV_DRAWER,
+                                CategorylistItem(id = obj?.value!!, name = obj?.name),
+                                null
+                            )
+                        }
+                        "subcategory" -> {
+                            onSwitchFragment(
+                                Constants.SUB_SERVICE_PAGE,
+                                Constants.WITH_NAV_DRAWER,
+                                null,
+                                CategorylistItem(id = obj?.value!!, name = obj?.name)
+                            )
+                        }
+                        "product" -> {
+                            onSwitchFragment(
+                                Constants.STORE_PAGE_BY_PROD,
+                                Constants.WITH_NAV_DRAWER,
+                                ProductListItem(id = obj?.value!!, name = obj?.name), null
+                            )
+                        }
+                        "store" -> {
+                            onSwitchFragment(
+                                Constants.STORE_DETAIL_PAGE,
+                                Constants.WITH_NAV_DRAWER,
+                                StorelistItem(id = obj?.value!!, name = obj?.name),
+                                null
+                            )
+                        }
+                    }
                 }
             }
         }

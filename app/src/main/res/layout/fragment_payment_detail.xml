@@ -26,7 +26,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_bold"
                     android:id="@+id/text_payment_mode"
-                    android:text="Phone Pay"
+                    android:text="Upi Pay"
                     android:layout_marginTop="@dimen/margin15"
                     android:textColor="@color/light_black"
                     android:textSize="@dimen/textsize16"
@@ -74,6 +74,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
                     android:gravity="center"
+                    android:id="@+id/text_instr"
                     android:text="Once payment is done kindly share it with\nthe kiosk on chat section."
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginBottom="@dimen/margin25"
@@ -88,6 +89,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
+                    android:visibility="gone"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/gradient_blue_180"
                     android:layout_width="match_parent"

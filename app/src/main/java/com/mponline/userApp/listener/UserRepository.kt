@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
-import com.mponline.userApp.model.request.CommonRequestObj
-import com.mponline.userApp.model.request.PlaceOrderRequest
-import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.request.*
 import com.mponline.userApp.model.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -58,5 +56,11 @@ interface UserRepository {
     fun updateProfile(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
     fun getProdByStore(commonRequestObj: CommonRequestObj): MutableLiveData<ProductByStoreResponse>
     fun homeSearch(commonRequestObj: CommonRequestObj): MutableLiveData<HomeSearchResponse>
+    fun cashfreeToken(token:String, cashfreeObj: CashfreeObj): MutableLiveData<CashfreeTokenResponse>
+
+    fun savePayment(token:String, savePaymentRequest: SavePaymentRequest): MutableLiveData<CommonResponse>
+    fun getInvoice(commonRequestObj: CommonRequestObj): MutableLiveData<GetInvoiceResponse>
+    fun forgotPwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun removeCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
 
 }

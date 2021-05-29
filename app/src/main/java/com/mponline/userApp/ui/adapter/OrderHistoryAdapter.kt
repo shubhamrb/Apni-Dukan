@@ -136,6 +136,16 @@ class OrderHistoryAdapter(
                     holder.itemView.layout_order_pending.visibility = View.GONE
                     holder.itemView.layout_order_complete.visibility = View.VISIBLE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_green);
+                    if(mList?.get(position)?.ratingStatus?.equals("1")!!){
+                        holder?.itemView?.ll_submit_rating?.visibility = View.GONE
+                        if(mList?.get(position)?.userratting!=null && (!mList?.get(position)?.userratting?.isNullOrEmpty()!!)){
+                            holder?.itemView?.ratingbar?.rating = mList?.get(position)?.userratting?.toFloat()!!
+                            holder?.itemView?.text_rating_msg?.text = "Your ratings"
+                        }
+                    }else{
+                        holder?.itemView?.text_rating_msg?.text = "Leave a rating"
+                        holder?.itemView?.ll_submit_rating?.visibility = View.VISIBLE
+                    }
                 }
             }
             holder.itemView.linear_upper_layout.setOnClickListener {
@@ -155,8 +165,14 @@ class OrderHistoryAdapter(
                 holder.itemView.linear_bottom_layout.visibility = View.GONE
             }
             holder.itemView.ll_submit_rating.setOnClickListener {
-                mList?.get(position)?.myrating = holder.itemView.ratingbar.rating.toString()!!
-                listener?.onClick(position, holder.itemView.ll_submit_rating, mList?.get(position))
+                if(holder.itemView.ratingbar.rating>0) {
+                    mList?.get(position)?.myrating = holder.itemView.ratingbar.rating.toString()!!
+                    listener?.onClick(
+                        position,
+                        holder.itemView.ll_submit_rating,
+                        mList?.get(position)
+                    )
+                }
             }
             holder.itemView.rl_chat.setOnClickListener {
                 listener?.onClick(position, holder.itemView.rl_chat, mList?.get(position))

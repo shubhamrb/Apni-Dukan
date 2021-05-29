@@ -28,6 +28,7 @@ class ApiName {
         const val SAVE_CHAT:String = "api/auth/saveChat"
         const val GET_COUPON_LIST:String = "api/auth/couponList"
         const val APPLY_COUPON:String = "api/auth/applycoupon"
+        const val REMOVE_COUPON:String = "api/auth/removecoupon"
         const val PLACE_ORDER:String = "api/auth/placeOrder"
         const val UPLOAD_FILE:String = "api/auth/uploadFile"
         const val SAVE_RATINGS:String = "api/auth/saveRatting"
@@ -36,6 +37,11 @@ class ApiName {
         const val UPDATE_PROFILE:String = "api/auth/update_profile"
         const val GET_PRODUCT_BY_STORE:String = "api/getProductByStore"
         const val HOME_SEARCH:String = "api/search"
+
+        const val CASHFREE_TOKEN:String = "api/auth/cashfreetoken"
+        const val SAVE_PAYMENT:String = "api/auth/paymentdone"
+        const val GET_INVOICE:String = "api/auth/getInvoice"
+        const val FORGOT_PWD:String = "api/forgotpassword"
 
     }
 }

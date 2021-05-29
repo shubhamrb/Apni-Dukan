@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.ui.adapter.NotificationAdapter
 import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
@@ -71,8 +72,8 @@ class NotificationActivity : BaseActivity(), OnItemClickListener {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126"
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
             viewModel?.getNotificationList(commonRequestObj)?.observe(this, Observer {
                 it?.run {

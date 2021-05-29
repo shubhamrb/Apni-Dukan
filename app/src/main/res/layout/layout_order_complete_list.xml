@@ -9,6 +9,8 @@
         android:id="@+id/ll_completed_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin15"
+        android:layout_marginRight="@dimen/margin15"
         android:orientation="vertical">
 
         <LinearLayout
@@ -37,6 +39,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Text_mont_semibold"
+            android:id="@+id/text_rating_msg"
             android:text="@string/leave_rating"
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"

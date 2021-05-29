@@ -20,9 +20,13 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.PaymentSummaryObj
+import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.model.response.DataItem
+import com.mponline.userApp.model.response.GetCouponListResponse
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.OffersActivity
+import com.mponline.userApp.ui.activity.PaymentActivity
+import com.mponline.userApp.ui.adapter.CouponsAdapter
 import com.mponline.userApp.ui.adapter.PaymentDetailAdapter
 import com.mponline.userApp.ui.adapter.PaymentMethodAdapter
 import com.mponline.userApp.ui.adapter.ServicesAdapter
@@ -31,6 +35,7 @@ import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_offers.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.*
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.relative_frag
@@ -47,10 +52,11 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
-    var mOrderHistoryDataItem:OrderHistoryDataItem?= null
+    var mOrderHistoryDataItem: OrderHistoryDataItem? = null
     val viewModel: UserListViewModel by viewModels()
-    var mCouponAmt:String = "0.0"
-    var mPayableAmt:String = "0.0"
+    var mCouponAmt: String = "0.0"
+    var mPayableAmt: String = "0.0"
+    var mGetCouponListResponse: GetCouponListResponse? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,8 +79,9 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            if(it?.containsKey("obj")){
+            if (it?.containsKey("obj")) {
                 mOrderHistoryDataItem = it?.getParcelable("obj")
+                callCouponList()
             }
         }
 
@@ -82,13 +89,12 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
         }
         view?.image_close?.setOnClickListener {
-            view?.edt_coupon_code?.setText("")
-            //Remove Coupon
+            callRemoveCoupon()
         }
         view?.text_apply?.setOnClickListener {
-          if(!view?.edt_coupon_code?.text?.toString()?.trim()?.isNullOrEmpty()!!){
-              callApplyCoupon(view?.edt_coupon_code?.text?.toString()?.trim()!!)
-          }
+            if (!view?.edt_coupon_code?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
+                callApplyCoupon(view?.edt_coupon_code?.text?.toString()?.trim()!!)
+            }
         }
 
         view?.edt_coupon_code.addTextChangedListener(object : TextWatcher {
@@ -100,7 +106,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
             override fun afterTextChanged(s: Editable) {
                 if (s.isNotEmpty()) {
-                   view?.image_close?.visibility = View.VISIBLE
+                    view?.image_close?.visibility = View.VISIBLE
                 } else {
                     view?.image_close?.visibility = View.GONE
                     mView?.text_coupon_amt?.text = ""
@@ -112,23 +118,21 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         })
 
         view?.text_free_coupons?.setOnClickListener {
-            var intent:Intent = Intent(activity, OffersActivity::class.java)
+            var intent: Intent = Intent(activity, OffersActivity::class.java)
             intent?.putExtra("order", mOrderHistoryDataItem)
-            intent?.putExtra("type","coupon")
+            intent?.putExtra("type", "coupon")
             startActivityForResult(intent, 1001)
-//            mSwichFragmentListener?.onSwitchFragment(
-//                Constants.COUPON_PAGE,
-//                Constants.WITH_NAV_DRAWER,
-//                null,
-//                null
-//            )
         }
 
         //Payment detail
-        if(mOrderHistoryDataItem!=null){
-            var arrayList:ArrayList<PaymentSummaryObj> = ArrayList()
-            arrayList?.add(PaymentSummaryObj(formDetailName = mOrderHistoryDataItem?.products?.name!!,
-            formDetailPrice = mOrderHistoryDataItem?.products?.price!!))
+        if (mOrderHistoryDataItem != null) {
+            var arrayList: ArrayList<PaymentSummaryObj> = ArrayList()
+            arrayList?.add(
+                PaymentSummaryObj(
+                    formDetailName = mOrderHistoryDataItem?.products?.name!!,
+                    formDetailPrice = mOrderHistoryDataItem?.orderAmount!!
+                )
+            )
             view?.rv_payment_details?.setHasFixedSize(true)
             view?.rv_payment_details?.layoutManager =
                 LinearLayoutManager(
@@ -141,29 +145,43 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 this,
                 arrayList
             )
-            mView?.text_coupon_amt?.text = activity?.resources?.getString(R.string.rs)+" ${mCouponAmt}"
-            view?.text_subtotal_amt?.text = mOrderHistoryDataItem?.products?.price!!
         }
 
-        //Payment method
-        view?.rv_payment_methods?.layoutManager =
-            GridLayoutManager(
-                activity, 2
+        view?.text_pay_online?.setOnClickListener {
+            var intent: Intent = Intent(activity!!, PaymentActivity::class.java)
+            intent?.putExtra("data", mOrderHistoryDataItem)
+            activity?.startActivity(intent)
+        }
+        view?.text_pay_to_shop?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(
+                Constants.PAYMENT_DETAIL_PAGE,
+                Constants.WITH_NAV_DRAWER,
+                mOrderHistoryDataItem,
+                null
             )
-        view?.rv_payment_methods?.adapter = PaymentMethodAdapter(
-            activity,
-            this
-        )
-
+        }
+        view?.text_upi?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(
+                Constants.PAYMENT_DETAIL_PAGE,
+                Constants.WITH_NAV_DRAWER,
+                mOrderHistoryDataItem,
+                null
+            )
+        }
+        calculateTotal()
     }
 
-    fun calculateTotal(){
+    fun calculateTotal() {
+        mView?.text_coupon_amt?.text =
+            activity?.resources?.getString(R.string.rs) + " ${mCouponAmt}"
+        view?.text_subtotal_amt?.text = mOrderHistoryDataItem?.orderAmount!!
         var totalAmt = 0f
-        totalAmt =  if(!mPayableAmt?.equals("0.0")) mPayableAmt?.toFloat() else mOrderHistoryDataItem?.orderAmount?.toFloat()!!
-        mView?.text_total_amt?.text = activity?.resources?.getString(R.string.rs)+" ${totalAmt}"
+        totalAmt =
+            if (!mPayableAmt?.equals("0.0")) mPayableAmt?.toFloat() else mOrderHistoryDataItem?.orderAmount?.toFloat()!!
+        mView?.text_total_amt?.text = activity?.resources?.getString(R.string.rs) + " ${totalAmt}"
     }
 
-    private fun callApplyCoupon(couponCode:String) {
+    private fun callApplyCoupon(couponCode: String) {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(4, "")
             var commonRequestObj = getCommonRequestObj(
@@ -178,14 +196,88 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                     if (status) {
                         mCouponAmt = data?.discountamount!!
                         mPayableAmt = data?.finalamountpay!!
-                        mView?.text_coupon_amt?.text = "- "+activity?.resources?.getString(R.string.rs)+" ${data?.discountamount!!}"
-                    }else{
+                        mView?.text_coupon_amt?.text =
+                            "- " + activity?.resources?.getString(R.string.rs) + " ${data?.discountamount!!}"
+                    } else {
                         view?.edt_coupon_code?.setText("")
                     }
                     CommonUtils.createSnackBar(
                         activity?.findViewById(android.R.id.content)!!,
                         message
                     )
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+
+    private fun callRemoveCoupon() {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(4, "")
+            var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey(),
+                orderid = mOrderHistoryDataItem?.id!!,
+                discountamount = mCouponAmt,
+                finalamountpay = mPayableAmt
+            )
+            viewModel?.removeCoupon(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    switchView(1, "")
+                    if(status){
+                        mView?.edt_coupon_code?.setText("")
+                    }
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        message
+                    )
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+
+    private fun callCouponList() {
+        if (CommonUtils.isOnline(activity!!)) {
+            switchView(3, "")
+            var commonRequestObj =
+                getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    orderid = mOrderHistoryDataItem?.id!!
+                )
+            viewModel?.getCouponList(commonRequestObj)?.observe(activity!!, Observer {
+                it?.run {
+                    if (status) {
+                        switchView(1, "")
+                        mGetCouponListResponse = this
+                        mGetCouponListResponse?.data?.forEach {
+                            if(it?.id?.equals(mOrderHistoryDataItem?.offerId)){
+                                mView?.edt_coupon_code?.setText(it?.coupon)
+                                if(mOrderHistoryDataItem?.offerAmount!=null && !mOrderHistoryDataItem?.offerAmount?.isNullOrEmpty()!!){
+                                    mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
+                                    var res = ((mOrderHistoryDataItem?.orderAmount?.toFloat()!!) + (mOrderHistoryDataItem?.offerAmount?.toFloat()!!))
+                                    mOrderHistoryDataItem?.orderAmount = res?.toString()
+                                    mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
+                                    mView?.text_coupon_amt?.text =
+                                        "- " + activity?.resources?.getString(R.string.rs) + " ${it?.discount_amount!!}"
+                                    calculateTotal()
+                                }
+                            }
+                        }
+                    } else {
+                        switchView(0, "")
+//                        CommonUtils.createSnackBar(
+//                            activity?.findViewById(android.R.id.content)!!,
+//                            message
+//                        )
+                    }
                 }
             })
         } else {
@@ -204,29 +296,23 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR, "", null)
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
             R.id.cv_service -> {
-                mSwichFragmentListener?.onSwitchFragment(
-                    Constants.SUB_SERVICE_PAGE,
-                    Constants.WITH_NAV_DRAWER,
-                    null,
-                    null
-                )
-            }
 
+            }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1001 && resultCode == Activity.RESULT_OK){
-            if(data!=null && data?.hasExtra("data")){
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK) {
+            if (data != null && data?.hasExtra("data")) {
                 var dataItem = data?.getParcelableExtra<DataItem>("data")!!
-                if(dataItem is DataItem){
+                if (dataItem is DataItem) {
                     view?.edt_coupon_code?.setText(dataItem?.coupon)
                 }
             }

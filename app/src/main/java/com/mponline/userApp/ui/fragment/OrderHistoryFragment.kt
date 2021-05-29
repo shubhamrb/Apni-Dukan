@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.FormPreviewActivity
 import com.mponline.userApp.ui.adapter.*
@@ -25,7 +26,6 @@ import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_chat_msg.view.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.relative_frag
 import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
@@ -86,8 +86,8 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126"
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
             viewModel?.getOrderHistory(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {

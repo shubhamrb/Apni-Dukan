@@ -32,7 +32,7 @@ data class DataItem(
     @SerializedName("coupon")
     val coupon: String = "",
     @SerializedName("id")
-    val id: Int = 0
+    val id: String
 ) : Parcelable
 
 

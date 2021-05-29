@@ -7,9 +7,7 @@ import com.mponline.userApp.db.dao.UserDao
 import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
-import com.mponline.userApp.model.request.CommonRequestObj
-import com.mponline.userApp.model.request.PlaceOrderRequest
-import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.request.*
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.util.CommonUtils
 import kotlinx.coroutines.*
@@ -589,6 +587,101 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = apiService?.homeSearch(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun cashfreeToken(token:String, cashfreeObj: CashfreeObj): MutableLiveData<CashfreeTokenResponse> {
+        val data = MutableLiveData<CashfreeTokenResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.cashfreeToken(token, cashfreeObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun savePayment(token:String, savePaymentRequest: SavePaymentRequest): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.savePayment(token, savePaymentRequest)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun getInvoice(commonRequestObj: CommonRequestObj): MutableLiveData<GetInvoiceResponse> {
+        val data = MutableLiveData<GetInvoiceResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getInvoice(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun forgotPwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.forgotPwd(commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun removeCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.removeCoupon(commonRequestObj)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

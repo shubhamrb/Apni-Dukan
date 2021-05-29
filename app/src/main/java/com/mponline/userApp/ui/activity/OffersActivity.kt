@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.model.request.FormDataItem
 import com.mponline.userApp.model.response.DataItem
 import com.mponline.userApp.model.response.OrderDetailItem
@@ -34,30 +35,34 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
 
     val viewModel: UserListViewModel by viewModels()
     var mOrderHistoryDataItem: OrderHistoryDataItem? = null
-    var mType:String = ""
+    var mType: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
         toolbar_title.text = ""
-        if(intent?.hasExtra("order")!!){
+        if (intent?.hasExtra("order")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("order")
-            if(mOrderHistoryDataItem!=null){
+            if (mOrderHistoryDataItem != null) {
                 callOfferList()
             }
         }
-        if(intent?.hasExtra("type")!!){
+        if (intent?.hasExtra("type")!!) {
             mType = intent?.getStringExtra("type")!!
+            if(mOrderHistoryDataItem==null && mType?.equals("offer")){
+                callOfferList()
+            }
         }
     }
 
     private fun callOfferList() {
         if (CommonUtils.isOnline(this!!)) {
             switchView(3, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                orderid = mOrderHistoryDataItem?.id!!
-            )
+            var commonRequestObj =
+                if (mType?.equals("offer")) CommonRequestObj() else getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    orderid = mOrderHistoryDataItem?.id!!
+                )
             viewModel?.getCouponList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
@@ -93,7 +98,7 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        if(obj is DataItem) {
+        if (obj is DataItem) {
             var intent: Intent = Intent()
             intent?.putExtra("data", obj)
             setResult(RESULT_OK, intent);

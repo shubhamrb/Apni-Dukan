@@ -10,9 +10,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.UserRepository
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.model.UserListResponse
-import com.mponline.userApp.model.request.CommonRequestObj
-import com.mponline.userApp.model.request.PlaceOrderRequest
-import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.request.*
 import com.mponline.userApp.model.response.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MultipartBody
@@ -174,6 +172,24 @@ public class UserListViewModel @ViewModelInject constructor(
     }
     fun homeSearch(commonRequestObj: CommonRequestObj): LiveData<HomeSearchResponse> {
         return userRepositoryImpl.homeSearch(commonRequestObj);
+    }
+    fun cashfreeToken(token:String, cashfreeObj: CashfreeObj): LiveData<CashfreeTokenResponse> {
+        return userRepositoryImpl.cashfreeToken(token, cashfreeObj);
+    }
+    fun savePayment(token: String, savePaymentRequest: SavePaymentRequest): LiveData<CommonResponse> {
+        return userRepositoryImpl.savePayment(token, savePaymentRequest);
+    }
+
+    fun getInvoice(commonRequestObj: CommonRequestObj): LiveData<GetInvoiceResponse> {
+        return userRepositoryImpl.getInvoice(commonRequestObj);
+    }
+
+    fun forgotPwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.forgotPwd(commonRequestObj);
+    }
+
+    fun removeCoupon(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.removeCoupon(commonRequestObj);
     }
 
 

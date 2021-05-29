@@ -283,7 +283,7 @@ open class BaseActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            Constants.REQUEST_PERMISSIONS
+            Constants.REQUEST_LOC_PERMISSIONS
         )
     }
 

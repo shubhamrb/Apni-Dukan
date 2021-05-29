@@ -113,7 +113,7 @@
                         android:id="@+id/image_status"
                         android:layout_gravity="right|center_vertical"
                         android:gravity="right"
-                        app:srcCompat="@drawable/circle_green"
+                        android:background="@drawable/circle_green"
                         android:layout_width="@dimen/margin10"
                         android:layout_height="@dimen/margin10"/>
 

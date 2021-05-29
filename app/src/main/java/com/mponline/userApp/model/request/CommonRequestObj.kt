@@ -42,6 +42,10 @@ data class CommonRequestObj(
     val storeid: String = "",
     @SerializedName("rating")
     val rating: String = "",
+     @SerializedName("discountamount")
+    val discountamount: String = "",
+     @SerializedName("finalamountpay")
+    val finalamountpay: String = "",
     @SerializedName("product_id")
     val product_id: String = "",
     var headerInfo: HeaderInfo? = null

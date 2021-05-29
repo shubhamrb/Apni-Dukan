@@ -161,6 +161,22 @@ abstract class BaseFragment : Fragment() {
         )
     }
 
+    fun isLocationPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun checkLocationPermissions() {
+        ActivityCompat.requestPermissions(
+            activity!!,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            Constants.REQUEST_LOC_PERMISSIONS
+        )
+    }
+
+
     @SuppressLint("SimpleDateFormat")
     fun createImageFile(
         activity: Activity,
@@ -221,6 +237,8 @@ abstract class BaseFragment : Fragment() {
         rating: String = "",
         oldpassword: String = "",
         newpassword: String = "",
+        discountamount: String = "",
+        finalamountpay: String = "",
         product_id: String = ""
     ): CommonRequestObj {
         return CommonRequestObj(
@@ -244,6 +262,8 @@ abstract class BaseFragment : Fragment() {
             product_id = product_id,
             oldpassword = oldpassword,
             newpassword = newpassword,
+            discountamount = discountamount,
+            finalamountpay = newpassword,
             headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }

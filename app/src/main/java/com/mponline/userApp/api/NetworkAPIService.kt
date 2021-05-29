@@ -1,9 +1,7 @@
 package com.mponline.userApp.api
 
 import com.mponline.userApp.model.UserListResponse
-import com.mponline.userApp.model.request.CommonRequestObj
-import com.mponline.userApp.model.request.PlaceOrderRequest
-import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.request.*
 import com.mponline.userApp.model.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -148,6 +146,34 @@ interface NetworkAPIService {
         @Header("Authorization") token: String,
         @Body commonRequestObj: CommonRequestObj
     ): Response<HomeSearchResponse>
+
+    @POST(ApiName.CASHFREE_TOKEN)
+    suspend fun cashfreeToken(
+        @Header("Authorization") token: String,
+        @Body mCashfreeObj: CashfreeObj
+    ): Response<CashfreeTokenResponse>
+
+    @POST(ApiName.SAVE_PAYMENT)
+    suspend fun savePayment(
+        @Header("Authorization") token: String,
+        @Body savePaymentRequest: SavePaymentRequest
+    ): Response<CommonResponse>
+
+    @POST(ApiName.GET_INVOICE)
+    suspend fun getInvoice(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<GetInvoiceResponse>
+
+    @POST(ApiName.FORGOT_PWD)
+    suspend fun forgotPwd(
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
+
+    @POST(ApiName.REMOVE_COUPON)
+    suspend fun removeCoupon(
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
 
 
 }

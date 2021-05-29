@@ -72,7 +72,9 @@ data class Products(
 @Parcelize
 data class OrderHistoryDataItem(
     @SerializedName("offer_amount")
-    val offerAmount: Int = 0,
+    val offerAmount: String? = "",
+    @SerializedName("userratting")
+    val userratting: String? = "",
     @SerializedName("time_type")
     val timeType: String? = "",
     @SerializedName("order_completion_time")
@@ -100,7 +102,7 @@ data class OrderHistoryDataItem(
     @SerializedName("product_id")
     val productId: Int = 0,
     @SerializedName("order_amount")
-    val orderAmount: String? = "",
+    var orderAmount: String? = "",
     @SerializedName("orderdatetime")
     val orderdatetime: String? = "",
     @SerializedName("id")
@@ -116,13 +118,13 @@ data class OrderHistoryDataItem(
     @SerializedName("deleted_at")
     val deletedAt: String? = "",
     @SerializedName("offer_id")
-    val offerId: Int = 0,
+    val offerId: String? ="",
     @SerializedName("completed_at")
     val completedAt: String? = "",
     @SerializedName("payment_type")
     val paymentType: String? = "",
     @SerializedName("rating_status")
-    val ratingStatus: Int = 0,
+    val ratingStatus: String?= "",
     @SerializedName("myrating")
     var myrating: String? = "",
     @SerializedName("user_id")
