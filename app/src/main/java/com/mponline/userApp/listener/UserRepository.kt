@@ -60,7 +60,7 @@ interface UserRepository {
 
     fun savePayment(token:String, savePaymentRequest: SavePaymentRequest): MutableLiveData<CommonResponse>
     fun getInvoice(commonRequestObj: CommonRequestObj): MutableLiveData<GetInvoiceResponse>
-    fun forgotPwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun forgotPwd(commonRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
     fun removeCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
 
 }

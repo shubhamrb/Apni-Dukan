@@ -167,7 +167,7 @@ interface NetworkAPIService {
 
     @POST(ApiName.FORGOT_PWD)
     suspend fun forgotPwd(
-        @Body commonRequestObj: CommonRequestObj
+        @Body commonRequestObj: UserAuthRequestObj
     ): Response<CommonResponse>
 
     @POST(ApiName.REMOVE_COUPON)

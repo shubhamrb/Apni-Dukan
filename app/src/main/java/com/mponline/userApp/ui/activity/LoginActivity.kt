@@ -30,18 +30,22 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.edit_mobile_no
+import kotlinx.android.synthetic.main.activity_login.text_register
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.common_toolbar.*
 import kotlinx.android.synthetic.main.common_toolbar_normal.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.bottom_navigation
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_instruction.view.*
 import kotlinx.android.synthetic.main.layout_otp.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
 @AndroidEntryPoint
-class LoginActivity : BaseActivity(), OnItemClickListener {
+class LoginActivity : BaseActivity(), OnItemClickListener,
+    ForgotPwdBottomsheetFragment.OtpListener {
 
     override fun onNetworkChange(isConnected: Boolean) {
 
@@ -63,10 +67,18 @@ class LoginActivity : BaseActivity(), OnItemClickListener {
         text_login.setOnClickListener {
             callLoginApi()
         }
+        text_forgot_pwd.setOnClickListener {
+            showForgotPwdDialog()
+        }
         text_register.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
         init()
+    }
+
+    fun showForgotPwdDialog() {
+        val instance = ForgotPwdBottomsheetFragment.newInstance()
+        instance.show(supportFragmentManager, "FORGOT_PWD")
     }
 
     fun init() {
@@ -210,6 +222,13 @@ class LoginActivity : BaseActivity(), OnItemClickListener {
 
     }
 
+    override fun onOtpverify(obj: Any?) {
+
+    }
+
+    override fun onResendOtp(obj: Any?) {
+
+    }
 
 
 }

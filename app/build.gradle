@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply plugin: 'dagger.hilt.android.plugin'
-
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -137,5 +137,27 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
+    //Cash free SDK
+    implementation 'com.cashfree.pg:android-sdk:1.6.1'
+
+
+    //Dependencies used by all payment modes
+    implementation 'com.android.volley:volley:1.1.1'
+
+    //doGPayPayment
+//    implementation files ("libs/google-pay-client-api-1.0.0.aar")
+    implementation 'com.google.android.gms:play-services-tasks:17.2.0'
+
+    //doAmazonPayment
+    implementation 'androidx.browser:browser:1.0.0'
+
+    implementation 'com.airbnb.android:lottie:3.4.0'
+    implementation 'com.google.android.libraries.places:places:1.1.0'
+
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
 }
 

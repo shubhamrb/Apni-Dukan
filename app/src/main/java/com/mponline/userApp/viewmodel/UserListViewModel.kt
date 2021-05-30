@@ -184,7 +184,7 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.getInvoice(commonRequestObj);
     }
 
-    fun forgotPwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+    fun forgotPwd(commonRequestObj: UserAuthRequestObj): LiveData<CommonResponse> {
         return userRepositoryImpl.forgotPwd(commonRequestObj);
     }
 

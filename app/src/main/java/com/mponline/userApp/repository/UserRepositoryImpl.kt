@@ -657,7 +657,7 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
-    override fun forgotPwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+    override fun forgotPwd(commonRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse> {
         val data = MutableLiveData<CommonResponse>()
         val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
