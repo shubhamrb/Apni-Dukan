@@ -40,10 +40,15 @@ class StoresAdapter(
         }
         holder.itemView.text_store_name.text = mList?.get(position)?.name!!
         holder.itemView.text_store_loc.text = "${mList?.get(position)?.distance}KM away from you"
-        holder.itemView.ratingbar_store.rating = mList?.get(position)?.ratting
-        holder.itemView.text_store_status.text = if(mList?.get(position)?.isAvailable == 1) "Open" else "Close"
-        if(mList?.get(position)?.isAvailable == 1) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)
-        holder.itemView.text_price.visibility = View.GONE
+        holder.itemView.ratingbar_store.rating = if(mList?.get(position)?.ratting!=null && !mList?.get(position)?.ratting?.isNullOrEmpty()) mList?.get(position)?.ratting?.toFloat() else 0f
+        holder.itemView.text_store_status.text = if(mList?.get(position)?.isAvailable?.equals("1")) "Open" else "Close"
+        if(mList?.get(position)?.isAvailable?.equals("1")) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)
+        if(mList?.get(position)?.price!=null && (!mList?.get(position)?.price?.isNullOrEmpty())){
+            holder.itemView.text_price.visibility = View.VISIBLE
+            holder.itemView.text_price.text = "\u20B9 ${mList?.get(position)?.price}"
+        }else{
+            holder.itemView.text_price.visibility = View.GONE
+        }
         holder.itemView.cv_store.setOnClickListener {
             listener?.onClick(position, holder.itemView.cv_store, mList?.get(position))
         }

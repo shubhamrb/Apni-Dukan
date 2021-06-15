@@ -6,23 +6,25 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 data class GetHomeDataResponse(@SerializedName("data")
-                               val data: HomeData,
+                               val data: HomeData? = null,
                                @SerializedName("status")
                                val status: Boolean = false,
                                @SerializedName("messageId")
-                               val messageId: Int = 0,
+                               val messageId: String = "",
                                @SerializedName("message")
                                val message: String = "")
 
 @Parcelize
-data class StorelistItem(@SerializedName("distance")
-                         val distance: Int = 0,
+data class StorelistItem(@SerializedName("price")
+                         val price: String = "",
+                         @SerializedName("distance")
+                         val distance: String = "",
                          @SerializedName("ratting")
-                         val ratting: Float = 0f,
+                         val ratting: String = "",
                          @SerializedName("latitude")
                          val latitude: String = "",
                          @SerializedName("IsAvailable")
-                         val isAvailable: Int = 0,
+                         val isAvailable: String = "",
                          @SerializedName("name")
                          val name: String = "",
                          @SerializedName("storelogo")
@@ -54,7 +56,7 @@ data class BannerlistItem(@SerializedName("url")
                           @SerializedName("image")
                           val image: String = "",
                           @SerializedName("id")
-                          val id: Int = 0):Parcelable
+                          val id: String = ""):Parcelable
 
 
 @Parcelize
@@ -70,15 +72,11 @@ data class CategorylistItem(@SerializedName("image")
                             val image: String = "",
                            @SerializedName("storeId")
                             var storeId: String = "",
-                            @SerializedName("IsHomePage")
-                            val isHomePage: Int = 0,
                             @SerializedName("name")
                             val name: String = "",
                             @SerializedName("id")
                             val id: String = "",
                             @SerializedName("banner_image")
-                            val bannerImage: String = "",
-                            @SerializedName("category_order")
-                            val categoryOrder: Int = 0):Parcelable
+                            val bannerImage: String = ""):Parcelable
 
 

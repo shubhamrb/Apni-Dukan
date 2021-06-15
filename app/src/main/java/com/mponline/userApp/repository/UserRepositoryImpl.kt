@@ -10,6 +10,7 @@ import com.mponline.userApp.model.UserListResponse
 import com.mponline.userApp.model.request.*
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.util.CommonUtils
+import com.mponline.userApp.utils.Constants.Companion.EXCEPTION_500
 import kotlinx.coroutines.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -62,18 +63,18 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
 
     override fun getHomeData(commonRequestObj: CommonRequestObj): MutableLiveData<GetHomeDataResponse> {
         val data = MutableLiveData<GetHomeDataResponse>()
-        val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService?.getHomeData(commonRequestObj)
+                var response = apiService?.getHomeData(commonRequestObj)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {
-                    errorOnAPI.postValue("${response.message()}")
+                    CommonUtils.printLog("EXCEPTION_API", "${response?.message()}")
+                    data.postValue(GetHomeDataResponse(status = false, message = EXCEPTION_500))
                 }
-
             } catch (e: Exception) {
-                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+                CommonUtils.printLog("EXCEPTION_API", "${e?.message}")
+                data.postValue(GetHomeDataResponse(status = false, message = EXCEPTION_500))
             }
         }
         return data;

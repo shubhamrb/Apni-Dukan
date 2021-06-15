@@ -35,17 +35,19 @@ class PaymentActivity : BaseActivity() {
 
     private var currentMode = SeamlessMode.CARD
     val viewModel: UserListViewModel by viewModels()
-    var mOrderHistoryDataItem:OrderHistoryDataItem? = null
+    var mOrderHistoryDataItem: OrderHistoryDataItem? = null
     var mToken = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        if(intent?.hasExtra("data")!!){
+        if (intent?.hasExtra("data")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("data")
-            if(mOrderHistoryDataItem!=null){
-                callCashfreeToken(orderId = mOrderHistoryDataItem?.id!!, orderAmt = mOrderHistoryDataItem?.orderAmount!!)
+            if (mOrderHistoryDataItem != null) {
+                callCashfreeToken(
+                    orderId = mOrderHistoryDataItem?.id!!,
+                    orderAmt = mOrderHistoryDataItem?.orderAmount!!
+                )
             }
         }
     }
@@ -58,52 +60,58 @@ class PaymentActivity : BaseActivity() {
         //Prints all extras. Replace with app logic.
         if (data != null) {
             val bundle = data.extras
+            var req: SavePaymentRequest = SavePaymentRequest()
             if (bundle != null) for (key in bundle.keySet()) {
-                var req:SavePaymentRequest = SavePaymentRequest()
                 if (bundle.getString(key) != null) {
+                    if(key?.equals("txStatus")!! && !(bundle.getString(key)?.equals("SUCCESS")!!)){
+                        finish()
+                    }
                     CommonUtils.printLog("PAYMENT_RES2", key + " : " + bundle.getString(key))
-                    when(key){
-                        "orderId"->{
+                    when (key) {
+                        "orderId" -> {
                             req.orderId = bundle.getString(key)!!
                         }
-                        "txTime"->{
+                        "txTime" -> {
                             req.txTime = bundle.getString(key)!!
                         }
-                        "referenceId"->{
+                        "referenceId" -> {
                             req.referenceId = bundle.getString(key)!!
                         }
-                        "txMsg"->{
+                        "txMsg" -> {
                             req.txMsg = bundle.getString(key)!!
                         }
-                        "paymentMode"->{
+                        "paymentMode" -> {
                             req.paymentMode = bundle.getString(key)!!
                         }
-                        "orderAmount"->{
+                        "orderAmount" -> {
                             req.orderAmount = bundle.getString(key)!!
                         }
-                        "txStatus"->{
+                        "txStatus" -> {
                             req.txStatus = bundle.getString(key)!!
                         }
                     }
                 }
-                callSavePayment(req)
             }
+            callSavePayment(req)
         }
     }
 
-    private fun callCashfreeToken(orderId:String, orderAmt:String) {
+    private fun callCashfreeToken(orderId: String, orderAmt: String) {
         if (CommonUtils.isOnline(this)) {
-            switchView(3,"")
-          var cashfreeObj:CashfreeObj = CashfreeObj(
-              orderId = orderId,
-              orderAmount = orderAmt
-          )
-            viewModel?.cashfreeToken("Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}", cashfreeObj)?.observe(this, androidx.lifecycle.Observer {
-                switchView(1,"")
-                if(it?.status!!){
+            switchView(3, "")
+            var cashfreeObj: CashfreeObj = CashfreeObj(
+                orderId = orderId,
+                orderAmount = orderAmt
+            )
+            viewModel?.cashfreeToken(
+                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}",
+                cashfreeObj
+            )?.observe(this, androidx.lifecycle.Observer {
+                switchView(1, "")
+                if (it?.status!!) {
                     mToken = it?.data
                     onClick(web)
-                }else{
+                } else {
                     finish()
                 }
             })
@@ -114,21 +122,25 @@ class PaymentActivity : BaseActivity() {
             )
         }
     }
+
     private fun callSavePayment(savePaymentRequest: SavePaymentRequest) {
         if (CommonUtils.isOnline(this)) {
-            switchView(3,"")
-            viewModel?.savePayment("Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}", savePaymentRequest)?.observe(this, androidx.lifecycle.Observer {
-                switchView(1,"")
+            switchView(3, "")
+            viewModel?.savePayment(
+                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}",
+                savePaymentRequest
+            )?.observe(this, androidx.lifecycle.Observer {
+                switchView(1, "")
                 CommonUtils.createSnackBar(
                     findViewById(android.R.id.content)!!,
                     it?.message!!
                 )
-                if(it?.status!!){
-                    var intent:Intent = Intent(this, MainActivity::class.java)
+                if (it?.status!!) {
+                    var intent: Intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
-                }else{
+                } else {
                     finish()
                 }
             })
@@ -186,7 +198,7 @@ class PaymentActivity : BaseActivity() {
          * READ THIS TO GENERATE TOKEN: https://bit.ly/2RGV3Pp
          */
         val token = mToken
-           // "QX9JCN4MzUIJiOicGbhJCLiQ1VKJiOiAXe0Jye.VM0nIhZTY3UDO4YjYwIGM2IiOiQHbhN3XiwCMwgTN4cDNyYTM6ICc4VmIsIiUOlkI6ISej5WZyJXdDJXZkJ3biwiIxIiOiQnb19WbBJXZkJ3biwiIxADMwIXZkJ3TiojIklkclRmcvJye.YsOmtLbQ4F4zhLcAx6Pjdtb7TExIsj9KqARiXuJOo0Zy-LpnpjC38UO8UlIK32H-MK"
+        // "QX9JCN4MzUIJiOicGbhJCLiQ1VKJiOiAXe0Jye.VM0nIhZTY3UDO4YjYwIGM2IiOiQHbhN3XiwCMwgTN4cDNyYTM6ICc4VmIsIiUOlkI6ISej5WZyJXdDJXZkJ3biwiIxIiOiQnb19WbBJXZkJ3biwiIxADMwIXZkJ3TiojIklkclRmcvJye.YsOmtLbQ4F4zhLcAx6Pjdtb7TExIsj9KqARiXuJOo0Zy-LpnpjC38UO8UlIK32H-MK"
         val cfPaymentService = CFPaymentService.getCFPaymentServiceInstance()
         cfPaymentService.setOrientation(0)
         cfPaymentService.doPayment(
@@ -253,7 +265,7 @@ class PaymentActivity : BaseActivity() {
 //            val appId = "134441f4914d787610a43c13f44431"
             val appId = "936476e4b0e75a0300a64fc14639"
             val orderId = mOrderHistoryDataItem?.id!!
-            val orderAmount =  mOrderHistoryDataItem?.orderAmount!!
+            val orderAmount = mOrderHistoryDataItem?.orderAmount!!
             val orderNote = "Test Order"
             val customerName = mPreferenceUtils?.getValue(Constants.USER_NAME)
             val customerPhone = mPreferenceUtils?.getValue(Constants.USER_MOBILE)
@@ -307,23 +319,23 @@ class PaymentActivity : BaseActivity() {
     }
 
     fun switchView(i: Int, msg: String) {
-            when (i) {
-                0 -> {
-                    relative_progress?.visibility = View.GONE
-                }
-                1 -> {
-                    relative_progress?.visibility = View.GONE
-                }
-                2 -> {
-                    relative_progress?.visibility = View.GONE
-                }
-                3 -> {
-                    relative_progress?.visibility = View.VISIBLE
-                }
-                4 -> {
-                    relative_progress?.visibility = View.GONE
-                }
+        when (i) {
+            0 -> {
+                relative_progress?.visibility = View.GONE
             }
+            1 -> {
+                relative_progress?.visibility = View.GONE
+            }
+            2 -> {
+                relative_progress?.visibility = View.GONE
+            }
+            3 -> {
+                relative_progress?.visibility = View.VISIBLE
+            }
+            4 -> {
+                relative_progress?.visibility = View.GONE
+            }
+        }
     }
 
 }
