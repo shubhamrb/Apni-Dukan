@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.activity.MainActivity">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Text_mont_semibold"
+        android:id="@+id/text_title"
+        android:text="Filter"
+        android:padding="@dimen/margin15"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin15"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/textsize18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_filter_cancel"
+        app:srcCompat="@drawable/ic_close"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/margin15"
+        android:padding="@dimen/margin10"
+        android:layout_width="@dimen/margin40"
+        android:layout_height="@dimen/margin40"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin15"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:text="By Location"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin15"
+                android:textSize="@dimen/textsize16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_location_filter"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:text="By Price"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin25"
+                android:textSize="@dimen/textsize16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_price_filter"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:text="By Rating"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/margin25"
+                android:textSize="@dimen/textsize16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_rating_filter"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_apply_filter"
+                style="@style/Text_mont_medium"
+                android:text="@string/apply_filter"
+                android:background="@drawable/gradient_blue_180"
+                android:padding="@dimen/margin15"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin25"
+                android:textColor="@color/white"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

@@ -99,4 +99,5 @@
     <string name="u_view_details_u"><u>View Details</u></string>
     <string name="rs">\u20B9</string>
     <string name="api_key">AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q</string>
+    <string name="apply_filter">Apply Filter</string>
 </resources>

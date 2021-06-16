@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Text_mont_medium"
+        android:id="@+id/text_filter_chip_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABS"
+        android:background="@drawable/rect_stroke_gray"
+        android:textSize="@dimen/textsize12"
+        android:layout_marginRight="@dimen/margin10"
+       android:paddingLeft="@dimen/margin15"
+    android:paddingRight="@dimen/margin15"
+    android:paddingTop="@dimen/margin10"
+    android:paddingBottom="@dimen/margin10"
+        android:layout_marginTop="@dimen/margin15"
+        android:orientation="vertical">
+</androidx.appcompat.widget.AppCompatTextView>
+

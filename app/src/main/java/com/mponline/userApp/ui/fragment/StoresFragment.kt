@@ -16,6 +16,7 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.CategorylistItem
+import com.mponline.userApp.model.response.FilterDataSelectedObj
 import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.model.response.StorelistItem
 import com.mponline.userApp.ui.adapter.StoresAdapter
@@ -24,13 +25,15 @@ import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_stores.view.*
 import kotlinx.android.synthetic.main.fragment_stores.view.ll_container
 import kotlinx.android.synthetic.main.fragment_stores.view.rv_stores
 import kotlinx.android.synthetic.main.layout_progress.*
 
 @AndroidEntryPoint
-class StoresFragment : BaseFragment(), OnItemClickListener {
+class StoresFragment : BaseFragment(), OnItemClickListener,
+    FilterBottomsheetFragment.FilterListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
@@ -41,6 +44,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     var mCategorylistItem: CategorylistItem? = null
     var mSubCategorylistItem: CategorylistItem? = null
     var mProductListItem: ProductListItem? = null
+    var mStoreList: ArrayList<StorelistItem>? = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +66,10 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view?.relative_frag?.setOnClickListener { }
+        view?.fab_filter?.setOnClickListener {
+            val instance = FilterBottomsheetFragment.newInstance("")
+            instance.show(childFragmentManager, "Filter")
+        }
         arguments?.let {
             if (it?.containsKey("obj") && it?.containsKey("subobj")) {
                 mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
@@ -121,6 +129,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
             viewModel?.getStoreAround(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
                     if (status) {
+                        mStoreList = data
                         switchView(1, "")
                         setDataToUI(this?.data!!)
                     } else {
@@ -145,14 +154,15 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126",
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!,
                 category_id = mCategorylistItem?.id!!
             )
             viewModel?.getStoreByCategory(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
+                        mStoreList = data?.stores!!
                         setDataToUI(this?.data?.stores!!)
                     } else {
                         switchView(0, "")
@@ -176,13 +186,14 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                latitude = "23.2599",
-                longitude = "77.4126",
+                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                longitude = LocationUtils?.getCurrentLocation()?.lng!!,
                 product_id = mProductListItem?.id!!
             )
             viewModel?.getStoreByProduct(commonRequestObj)?.observe(activity!!, Observer {
                 it?.run {
                     if (status) {
+                        mStoreList = data?.stores!!
                         switchView(1, "")
                         setDataToUI(this?.data?.stores!!)
                     } else {
@@ -274,6 +285,58 @@ class StoresFragment : BaseFragment(), OnItemClickListener {
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    override fun onApplyFilter(obj: Any?) {
+        if(obj != null && obj is FilterDataSelectedObj && mStoreList!=null && mStoreList?.size!!>0){
+            var filteredList:ArrayList<StorelistItem> = arrayListOf()
+            mStoreList?.forEach {
+                if(!obj?.mlocation?.equals("All")!!){
+                    var dist = 0f
+                    if(it?.distance!=null && !it?.distance?.isNullOrEmpty()){
+                         dist = it?.distance?.toFloat()
+                    }
+                    when(obj?.mlocation){
+                        "Within 5km"->{
+                           if(dist <= 5){
+                               filteredList?.add(it)
+                           }
+                        }
+                        "Within 10km"->{
+                            if(dist <= 10){
+                                filteredList?.add(it)
+                            }
+                        }
+                        "Within 15km"->{
+                            if(dist <= 15){
+                                filteredList?.add(it)
+                            }
+                        }
+                    }
+                }
+                if(!obj?.mprice?.equals("All")!!){
+                    var price = 0f
+                    if(it?.price!=null && !it?.price?.isNullOrEmpty()){
+                        price = it?.price?.toFloat()
+                    }
+                    when(obj?.mlocation){
+                        "Low to high"->{
+                            if(price <= 5){
+                                filteredList?.add(it)
+                            }
+                        }
+                        "High to low"->{
+                            if(price <= 10){
+                                filteredList?.add(it)
+                            }
+                        }
+                    }
+                }
+                if(!obj?.mrating?.equals("All")!!){
+
                 }
             }
         }

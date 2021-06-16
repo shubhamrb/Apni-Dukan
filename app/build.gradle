@@ -159,5 +159,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.google.firebase:firebase-core:18.0.0'
+
+    implementation 'com.google.android:flexbox:1.1.0'
+
 }
 
