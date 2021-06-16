@@ -20,6 +20,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.response.CommonResponse
 import com.mponline.userApp.ui.adapter.NotificationAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -207,7 +208,11 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
     }
 
     override fun onOtpverify(obj: Any?) {
+        if(obj!=null && obj is CommonResponse){
+            if(obj?.status){
 
+            }
+        }
     }
 
     override fun onResendOtp(obj: Any?) {

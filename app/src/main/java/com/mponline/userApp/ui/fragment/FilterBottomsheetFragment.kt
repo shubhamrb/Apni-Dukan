@@ -72,7 +72,9 @@ class FilterBottomsheetFragment : BottomSheetDialogFragment(), OnItemClickListen
         ratingList?.add("5 star")
 
         arguments?.let {
-
+            if(it?.containsKey("obj")){
+                mFilterDataSelectedObj = it.getParcelable("obj")
+            }
         }
         view?.run {
 
@@ -95,6 +97,7 @@ class FilterBottomsheetFragment : BottomSheetDialogFragment(), OnItemClickListen
                     context,
                     this@FilterBottomsheetFragment,
                     "location",
+                    mFilterDataSelectedObj?.mlocation,
                     locationList
                 )
 
@@ -107,6 +110,7 @@ class FilterBottomsheetFragment : BottomSheetDialogFragment(), OnItemClickListen
                     context,
                     this@FilterBottomsheetFragment,
                     "price",
+                    mFilterDataSelectedObj?.mprice,
                     priceList
                 )
 
@@ -119,6 +123,7 @@ class FilterBottomsheetFragment : BottomSheetDialogFragment(), OnItemClickListen
                     context,
                     this@FilterBottomsheetFragment,
                     "rating",
+                    mFilterDataSelectedObj?.mrating,
                     ratingList
                 )
         }
@@ -181,9 +186,10 @@ class FilterBottomsheetFragment : BottomSheetDialogFragment(), OnItemClickListen
 
 
     companion object {
-        fun newInstance(mobile:String): FilterBottomsheetFragment =
+        fun newInstance(mFilterDataSelectedObj:FilterDataSelectedObj): FilterBottomsheetFragment =
             FilterBottomsheetFragment().apply {
                     arguments = Bundle().apply {
+                        putParcelable("obj", mFilterDataSelectedObj)
                     }
                 }
     }

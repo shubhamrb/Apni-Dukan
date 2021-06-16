@@ -59,6 +59,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:maxWidth="@dimen/margin100"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/textsize12"
                         android:textColor="@color/white" />

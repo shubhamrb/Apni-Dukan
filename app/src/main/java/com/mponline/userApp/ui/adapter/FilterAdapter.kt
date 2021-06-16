@@ -19,8 +19,9 @@ import kotlinx.android.synthetic.main.item_unread_notification.view.text_noti_ti
 class FilterAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var type:String,
-    var mList:List<String>? = ArrayList()
+    var type: String,
+    var selectedStr: String?,
+    var mList: List<String>? = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -38,17 +39,42 @@ class FilterAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.text_filter_chip_name.text = mList?.get(position)
-        if (position == mSelectedPosition){
-            holder.itemView.text_filter_chip_name.setTextColor(ContextCompat.getColor(context!!, R.color.white))
+        if (position == mSelectedPosition) {
+            holder.itemView.text_filter_chip_name.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.white
+                )
+            )
             holder.itemView.text_filter_chip_name.setBackgroundResource(R.drawable.rounded_stroke_primary_25)
-        }else {
-            holder.itemView.text_filter_chip_name.setTextColor(ContextCompat.getColor(context!!, R.color.black))
+        } else {
+            holder.itemView.text_filter_chip_name.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.black
+                )
+            )
             holder.itemView.text_filter_chip_name.setBackgroundResource(R.drawable.rounded_stroke_normal_25)
+        }
+        if (mList?.get(position)?.equals(selectedStr)!!) {
+            holder.itemView.text_filter_chip_name.setTextColor(
+                ContextCompat.getColor(
+                    context!!,
+                    R.color.white
+                )
+            )
+            holder.itemView.text_filter_chip_name.setBackgroundResource(R.drawable.rounded_stroke_primary_25)
         }
 
         holder?.itemView?.setOnClickListener {
             mSelectedPosition = position
-            listener?.onClick(position, holder.itemView.text_filter_chip_name, mList?.get(position), type)
+            selectedStr = ""
+            listener?.onClick(
+                position,
+                holder.itemView.text_filter_chip_name,
+                mList?.get(position),
+                type
+            )
             notifyDataSetChanged()
         }
     }

@@ -13,6 +13,7 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.FilePreviewActivity
+import com.mponline.userApp.ui.activity.InvoicePreviewActivity
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.DateUtils
 import com.mponline.userApp.utils.ImageGlideUtils
@@ -64,6 +65,7 @@ class OrderHistoryAdapter(
                     holder.itemView.linear_bottom_layout.visibility = View.GONE
                     holder.itemView.layout_order_pending.visibility = View.GONE
                     holder.itemView.layout_order_complete.visibility = View.GONE
+                    holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_yellow);
                 }
                 2 -> {
@@ -76,6 +78,7 @@ class OrderHistoryAdapter(
                     holder.itemView.linear_bottom_layout.visibility = View.VISIBLE
                     holder.itemView.layout_order_pending.visibility = View.VISIBLE
                     holder.itemView.layout_order_complete.visibility = View.GONE
+                    holder.itemView.text_view_invoice.visibility = View.GONE
                     var currDateTime = DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
                     var estimatedDateTime = DateUtils.addHrMinuteToDateStr(mList?.get(position)?.acceptedAt!!, if(mList?.get(position)?.timeType?.equals("hour")!!) true else false, mList?.get(position)?.orderCompletionTime)
                     var timerObj = DateUtils.checkTimeDifference(currDateTime, estimatedDateTime)
@@ -111,6 +114,7 @@ class OrderHistoryAdapter(
                     holder.itemView.linear_bottom_layout.visibility = View.GONE
                     holder.itemView.layout_order_pending.visibility = View.GONE
                     holder.itemView.layout_order_complete.visibility = View.GONE
+                    holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_red);
                 }
                 4 -> {
@@ -123,6 +127,7 @@ class OrderHistoryAdapter(
                     holder.itemView.linear_bottom_layout.visibility = View.GONE
                     holder.itemView.layout_order_pending.visibility = View.GONE
                     holder.itemView.layout_order_complete.visibility = View.GONE
+                    holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_red);
                 }
                 5 -> {
@@ -135,6 +140,7 @@ class OrderHistoryAdapter(
                     holder.itemView.linear_bottom_layout.visibility = View.VISIBLE
                     holder.itemView.layout_order_pending.visibility = View.GONE
                     holder.itemView.layout_order_complete.visibility = View.VISIBLE
+                    holder.itemView.text_view_invoice.visibility = View.VISIBLE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_green);
                     if(mList?.get(position)?.ratingStatus?.equals("1")!!){
                         holder?.itemView?.ll_submit_rating?.visibility = View.GONE
@@ -147,6 +153,11 @@ class OrderHistoryAdapter(
                         holder?.itemView?.ll_submit_rating?.visibility = View.VISIBLE
                     }
                 }
+            }
+            holder.itemView.text_view_invoice.setOnClickListener {
+                var intent:Intent = Intent(context, InvoicePreviewActivity::class.java)
+                intent?.putExtra("order", mList?.get(position))
+                context?.startActivity(intent)
             }
             holder.itemView.linear_upper_layout.setOnClickListener {
                 if (mList?.get(position)?.status == 2 || mList?.get(position)?.status == 5) {

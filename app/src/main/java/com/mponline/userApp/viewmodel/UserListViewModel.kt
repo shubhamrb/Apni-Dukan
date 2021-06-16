@@ -145,6 +145,9 @@ public class UserListViewModel @ViewModelInject constructor(
     fun getCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {
         return userRepositoryImpl.getCouponList(commonRequestObj);
     }
+    fun getOfferCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {
+        return userRepositoryImpl.getOfferCouponList(commonRequestObj);
+    }
 
     fun applyCoupon(commonRequestObj: CommonRequestObj): LiveData<ApplyCouponResponse> {
         return userRepositoryImpl.applyCoupon(commonRequestObj);

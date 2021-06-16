@@ -25,22 +25,45 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q"/>
 
-        <activity android:name=".ui.activity.ImgPreviewActivity"></activity>
-        <activity android:name=".ui.activity.MainActivity"></activity>
-        <activity android:name=".ui.activity.ChatHomeActivity"></activity>
-        <activity android:name=".ui.activity.LoginActivity">
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.ImgPreviewActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.MainActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.ChatHomeActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.RegisterActivity"></activity>
-        <activity android:name=".ui.activity.NotificationActivity"></activity>
-        <activity android:name=".ui.activity.FilePreviewActivity"></activity>
-        <activity android:name=".ui.activity.FormPreviewActivity"></activity>
-        <activity android:name=".ui.activity.OffersActivity"></activity>
-        <activity android:name=".ui.activity.PaymentActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.RegisterActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.NotificationActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.FilePreviewActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.FormPreviewActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.OffersActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.PaymentActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.InvoicePreviewActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -198,7 +198,7 @@ data class Storedetail(
     @SerializedName("user_id")
     val userId: String? = "",
     @SerializedName("ratting")
-    val ratting: Int = 0,
+    val ratting: String? = "",
     @SerializedName("IsAvailable")
     val isAvailable: Int = 0,
     @SerializedName("name")

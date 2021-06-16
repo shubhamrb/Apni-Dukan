@@ -103,6 +103,10 @@ interface NetworkAPIService {
         @Body commonRequestObj: CommonRequestObj
     ): Response<GetCouponListResponse>
 
+    @POST(ApiName.GET_COUPON_LIST)
+    suspend fun getOfferCouponList(
+        @Header("Authorization") token: String): Response<GetCouponListResponse>
+
     @POST(ApiName.PLACE_ORDER)
     suspend fun placeOrder(
         @Header("Authorization") token: String,

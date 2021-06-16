@@ -429,33 +429,33 @@ open class FusedLocationActivity : BaseActivity() {
     //        return userCurrentAddress
     //    }
     companion object {
-        private val TAG = FusedLocationActivity::class.java.simpleName
+         val TAG = FusedLocationActivity::class.java.simpleName
 
         /**
          * Code used in requesting runtime permissions.
          */
-        private const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
+         const val REQUEST_PERMISSIONS_REQUEST_CODE = 34
 
         /**
          * Constant used in the location settings dialog.
          */
-        private const val REQUEST_CHECK_SETTINGS = 0x1
+         const val REQUEST_CHECK_SETTINGS = 0x1
 
         /**
          * The desired interval for location updates. Inexact. Updates may be more or less frequent.
          */
-        private const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
+        const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 1000
 
         /**
          * The fastest rate for active location updates. Exact. Updates will never be more frequent
          * than this value.
          */
-        private const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+         const val FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2
 
         // Keys for storing activity state in the Bundle.
-        private const val KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates"
-        private const val KEY_LOCATION = "location"
-        private const val KEY_LAST_UPDATED_TIME_STRING = "last-updated-time-string"
+         const val KEY_REQUESTING_LOCATION_UPDATES = "requesting-location-updates"
+         const val KEY_LOCATION = "location"
+         const val KEY_LAST_UPDATED_TIME_STRING = "last-updated-time-string"
     }
 }

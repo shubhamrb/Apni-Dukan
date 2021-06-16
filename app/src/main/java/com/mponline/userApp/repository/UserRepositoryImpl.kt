@@ -467,6 +467,24 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         }
         return data;
     }
+    override fun getOfferCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse> {
+        val data = MutableLiveData<GetCouponListResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getOfferCouponList(commonRequestObj?.headerInfo?.Authorization!!)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
 
     override fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): MutableLiveData<CommonResponse> {
         val data = MutableLiveData<CommonResponse>()

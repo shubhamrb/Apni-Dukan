@@ -13,6 +13,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.model.request.FormDataItem
+import com.mponline.userApp.model.request.HeaderInfo
 import com.mponline.userApp.model.response.DataItem
 import com.mponline.userApp.model.response.OrderDetailItem
 import com.mponline.userApp.model.response.OrderHistoryDataItem
@@ -22,6 +23,7 @@ import com.mponline.userApp.ui.adapter.OrderDetailAdapter
 import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
 import com.mponline.userApp.ui.base.BaseActivity
 import com.mponline.userApp.util.CommonUtils
+import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_notification.*
@@ -45,12 +47,14 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
             mOrderHistoryDataItem = intent?.getParcelableExtra("order")
             if (mOrderHistoryDataItem != null) {
                 callOfferList()
+                toolbar_title.text = "Coupons"
             }
         }
         if (intent?.hasExtra("type")!!) {
             mType = intent?.getStringExtra("type")!!
-            if(mOrderHistoryDataItem==null && mType?.equals("offer")){
+            if (mOrderHistoryDataItem == null && mType?.equals("offer")) {
                 callOfferList()
+                toolbar_title.text = "Offers"
             }
         }
     }
@@ -59,7 +63,10 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
         if (CommonUtils.isOnline(this!!)) {
             switchView(3, "")
             var commonRequestObj =
-                if (mType?.equals("offer")) CommonRequestObj() else getCommonRequestObj(
+                if (mType?.equals("offer")) CommonRequestObj(
+                    headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(
+                        Constants.USER_TOKEN))
+                ) else getCommonRequestObj(
                     apiKey = getApiKey(),
                     orderid = mOrderHistoryDataItem?.id!!
                 )

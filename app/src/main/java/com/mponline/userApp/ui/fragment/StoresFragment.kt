@@ -27,9 +27,8 @@ import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_stores.view.*
-import kotlinx.android.synthetic.main.fragment_stores.view.ll_container
-import kotlinx.android.synthetic.main.fragment_stores.view.rv_stores
 import kotlinx.android.synthetic.main.layout_progress.*
+import java.util.*
 
 @AndroidEntryPoint
 class StoresFragment : BaseFragment(), OnItemClickListener,
@@ -45,6 +44,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     var mSubCategorylistItem: CategorylistItem? = null
     var mProductListItem: ProductListItem? = null
     var mStoreList: ArrayList<StorelistItem>? = arrayListOf()
+    var mFilterDataSelectedObj: FilterDataSelectedObj? = FilterDataSelectedObj()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +67,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
         super.onViewCreated(view, savedInstanceState)
         view?.relative_frag?.setOnClickListener { }
         view?.fab_filter?.setOnClickListener {
-            val instance = FilterBottomsheetFragment.newInstance("")
+            val instance = FilterBottomsheetFragment.newInstance(mFilterDataSelectedObj!!)
             instance.show(childFragmentManager, "Filter")
         }
         arguments?.let {
@@ -99,14 +99,14 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
             R.id.cv_store -> {
-                if(mProductListItem!=null){
+                if (mProductListItem != null) {
                     mSwichFragmentListener?.onSwitchFragment(
                         Constants.STORE_DETAIL_PAGE_WITH_PROD,
                         Constants.WITH_NAV_DRAWER,
                         obj,
                         mProductListItem
                     )
-                }else{
+                } else {
                     mSwichFragmentListener?.onSwitchFragment(
                         Constants.STORE_DETAIL_PAGE,
                         Constants.WITH_NAV_DRAWER,
@@ -291,54 +291,89 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     }
 
     override fun onApplyFilter(obj: Any?) {
-        if(obj != null && obj is FilterDataSelectedObj && mStoreList!=null && mStoreList?.size!!>0){
-            var filteredList:ArrayList<StorelistItem> = arrayListOf()
+        if (obj != null && obj is FilterDataSelectedObj && mStoreList != null && mStoreList?.size!! > 0) {
+            mFilterDataSelectedObj = obj
+            var filteredList: ArrayList<StorelistItem> = arrayListOf()
+            filteredList?.addAll(mStoreList!!)
             mStoreList?.forEach {
-                if(!obj?.mlocation?.equals("All")!!){
+                if (!obj?.mlocation?.equals("All")!!) {
                     var dist = 0f
-                    if(it?.distance!=null && !it?.distance?.isNullOrEmpty()){
-                         dist = it?.distance?.toFloat()
+                    if (it?.distance != null && !it?.distance?.isNullOrEmpty()) {
+                        dist = it?.distance?.toFloat()
                     }
-                    when(obj?.mlocation){
-                        "Within 5km"->{
-                           if(dist <= 5){
-                               filteredList?.add(it)
-                           }
-                        }
-                        "Within 10km"->{
-                            if(dist <= 10){
-                                filteredList?.add(it)
+                    when (obj?.mlocation) {
+                        "Within 5km" -> {
+                            if (dist > 5) {
+                                filteredList?.remove(it)
                             }
                         }
-                        "Within 15km"->{
-                            if(dist <= 15){
-                                filteredList?.add(it)
+                        "Within 10km" -> {
+                            if (dist > 10) {
+                                filteredList?.remove(it)
                             }
                         }
-                    }
-                }
-                if(!obj?.mprice?.equals("All")!!){
-                    var price = 0f
-                    if(it?.price!=null && !it?.price?.isNullOrEmpty()){
-                        price = it?.price?.toFloat()
-                    }
-                    when(obj?.mlocation){
-                        "Low to high"->{
-                            if(price <= 5){
-                                filteredList?.add(it)
-                            }
-                        }
-                        "High to low"->{
-                            if(price <= 10){
-                                filteredList?.add(it)
+                        "Within 15km" -> {
+                            if (dist > 15) {
+                                filteredList?.remove(it)
                             }
                         }
                     }
                 }
-                if(!obj?.mrating?.equals("All")!!){
+                if (!obj?.mprice?.equals("All")!!) {
+                    when (obj?.mlocation) {
+                        "Low to high" -> {
+                            Collections.sort(filteredList, Comparator { obj1, obj2 ->
+                                obj1.price.compareTo(obj2.price) // To compare string values
+                            })
+                        }
+                        "High to low" -> {
+                            Collections.sort(filteredList, Comparator { obj1, obj2 ->
+                                obj2.price.compareTo(obj1.price) // To compare string values
+                            })
+                        }
+                    }
+                }
+                if (!obj?.mrating?.equals("All")!!) {
+                    var rating = 0f
+                    if (it?.ratting != null && !it?.ratting?.isNullOrEmpty()) {
+                        rating = it?.ratting?.toFloat()
+                    }
+                    when (obj?.mrating) {
+                        "No rating" -> {
+                            if (rating !=0f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                        "1 star" -> {
+                            if (rating !=1f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                        "2 star" -> {
+                            if (rating !=2f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                        "3 star" -> {
+                            if (rating !=3f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                        "4 star" -> {
+                            if (rating !=4f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                        "5 star" -> {
+                            if (rating !=5f) {
+                                filteredList?.remove(it)
+                            }
+                        }
+                    }
 
                 }
             }
+            setDataToUI(filteredList)
         }
     }
 

@@ -2,14 +2,18 @@ package com.mponline.userApp.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.IntentSender
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -17,13 +21,15 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnImgPreviewListener
 import com.mponline.userApp.listener.OnItemClickListener
@@ -36,6 +42,7 @@ import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
+import com.mponline.userApp.ui.base.FusedLocationActivity
 import com.mponline.userApp.ui.fragment.*
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
@@ -45,6 +52,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.common_toolbar.*
 import kotlinx.android.synthetic.main.fragment_chat_home.view.*
 import kotlinx.android.synthetic.main.item_search.view.*
+import java.text.DateFormat
 import java.util.*
 
 
@@ -60,6 +68,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     var mOnLocationFetchListener: OnLocationFetchListener? = null
     val viewModel: UserListViewModel by viewModels()
     var fusedLocationProviderClient: FusedLocationProviderClient? = null
+
+    /**
+     * Provides access to the Fused Location Provider API.
+     */
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var mSettingsClient: SettingsClient? = null
+    private var mLocationRequest: LocationRequest? = null
+    private var mLocationSettingsRequest: LocationSettingsRequest? = null
+    private var mLocationCallback: LocationCallback? = null
+    var mCurrentLocation: Location? = null
+    var mRequestingLocationUpdates = false
+    private var mLastUpdateTime: String? = ""
 
     override fun onStartNewActivity(listener: OnImgPreviewListener, imgPath: String) {
         super.onStartNewActivity(listener, imgPath)
@@ -160,9 +180,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 ft.commit()
             }
             Constants.PAYMENT_DETAIL_PAGE -> {
-                if(obj!=null && obj is OrderHistoryDataItem) {
+                if (obj != null && obj is OrderHistoryDataItem) {
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(R.id.rl_container_drawer, PaymentDetailFragment.newInstance(this@MainActivity, obj))
+                    ft.add(
+                        R.id.rl_container_drawer,
+                        PaymentDetailFragment.newInstance(this@MainActivity, obj)
+                    )
                     ft.addToBackStack(Constants.PAYMENT_DETAIL_PAGE)
                     ft.commit()
                 }
@@ -318,18 +341,139 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    //LOCATION RELATED FUN
+    private fun createLocationCallback() {
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                if (locationResult != null) {
+                    mCurrentLocation = locationResult.lastLocation
+                    mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
+                    CommonUtils.printLog("FetchedCurrLocation", Gson().toJson(mCurrentLocation))
+                    onLocationSuccess()
+                }
+            }
+        }
+    }
+
+    private fun createLocationRequest() {
+        mLocationRequest = LocationRequest()
+        mLocationRequest!!.interval =
+            FusedLocationActivity.UPDATE_INTERVAL_IN_MILLISECONDS
+        mLocationRequest!!.fastestInterval =
+            FusedLocationActivity.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
+        mLocationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    }
+
+    private fun buildLocationSettingsRequest() {
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest!!)
+        mLocationSettingsRequest = builder.build()
+    }
+
+    fun startLocationUpdates() {
+        // Begin by checking if the device has the necessary location settings.
+        mSettingsClient!!.checkLocationSettings(mLocationSettingsRequest)
+            .addOnSuccessListener(this) {
+                mFusedLocationClient!!.requestLocationUpdates(
+                    mLocationRequest,
+                    mLocationCallback, Looper.myLooper()
+                )
+            }
+            .addOnFailureListener(this) { e ->
+                val statusCode = (e as ApiException).statusCode
+                onLocationCancelled()
+                when (statusCode) {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
+                        // Show the dialog by calling startResolutionForResult(), and check the
+                        // result in onActivityResult().
+                        val rae = e as ResolvableApiException
+                        rae.startResolutionForResult(
+                            this@MainActivity,
+                            FusedLocationActivity.REQUEST_CHECK_SETTINGS
+                        )
+                    } catch (sie: IntentSender.SendIntentException) {
+                    }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                        val errorMessage = "Location settings are inadequate, and cannot be " +
+                                "fixed here. Fix in Settings."
+                        CommonUtils.printLog(FusedLocationActivity.TAG, errorMessage)
+                        Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+            }
+    }
+
+    fun stopLocationUpdates() {
+        if (!mRequestingLocationUpdates) {
+            return
+        }
+        mFusedLocationClient!!.removeLocationUpdates(mLocationCallback)
+            .addOnCompleteListener(this) {
+                mRequestingLocationUpdates = false;
+            }
+    }
+
+    fun onLocationCancelled(){
+
+    }
+
+    fun onLocationSuccess(){
+        if(mCurrentLocation!=null){
+            mCurrentLocation?.let {
+                val geocoder: Geocoder
+                var addresses: List<Address> = arrayListOf()
+                geocoder = Geocoder(this, Locale.getDefault())
+                CommonUtils.printLog(
+                    "CURRENT_LOCATION",
+                    "${it?.latitude}, ${it?.longitude}"
+                )
+                if (it != null) {
+                    addresses = geocoder.getFromLocation(
+                        it?.latitude!!,
+                        it?.longitude,
+                        1
+                    )
+                }
+                if (addresses != null && addresses?.size!! > 0) {
+                    val address: String =
+                        addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    val city: String = addresses[0].getLocality()
+                    val state: String = addresses[0].getAdminArea()
+                    val country: String = addresses[0].getCountryName()
+                    val postalCode: String = addresses[0].getPostalCode()
+                    val knownName: String = addresses[0].getFeatureName()
+                    var locationObj = LocationObj(
+                        lat = it?.latitude?.toString()!!, lng = it?.longitude?.toString(),
+                        address = address, city = city, state = state
+                    )
+                    LocationUtils.setCurrentLocation(locationObj)
+                    text_locationName?.text = locationObj?.city
+                    if (mOnLocationFetchListener != null) {
+                        mOnLocationFetchListener?.onLocationSuccess(locationObj)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        setNavigationDrawer()
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mSettingsClient = LocationServices.getSettingsClient(this)
+        createLocationCallback()
+        createLocationRequest()
+        buildLocationSettingsRequest()
 
         image_notification.setOnClickListener {
             startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
         }
 
         image_offer?.setOnClickListener {
-            var intent:Intent = Intent(this, OffersActivity::class.java)
+            var intent: Intent = Intent(this, OffersActivity::class.java)
             intent?.putExtra("type", "offer")
             startActivity(intent)
         }
@@ -338,7 +482,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (!Places.isInitialized()) {
                 Places.initialize(getApplicationContext(), getString(R.string.api_key), Locale.UK);
             }
-            var fields=Arrays.asList(Place.Field.ID,Place.Field.NAME,Place.Field.LAT_LNG)
+            var fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
             val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(this)
             startActivityForResult(intent, Constants.REQUEST_AUTOCOMPLETE_PLACE)
@@ -414,15 +558,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     }
                     it?.addOnSuccessListener {
                         val geocoder: Geocoder
-                        val addresses: List<Address>
+                        var addresses: List<Address> = arrayListOf()
                         geocoder = Geocoder(this, Locale.getDefault())
-
-                        addresses = geocoder.getFromLocation(
-                            it?.latitude!!,
-                            it?.longitude,
-                            1
+                        CommonUtils.printLog(
+                            "CURRENT_LOCATION",
+                            "${it?.latitude}, ${it?.longitude}"
                         )
-                        CommonUtils.printLog("CURRENT_LOCATION", "${it?.latitude}")
+                        if (it != null) {
+                            addresses = geocoder.getFromLocation(
+                                it?.latitude!!,
+                                it?.longitude,
+                                1
+                            )
+                        }
                         if (addresses != null && addresses?.size!! > 0) {
                             val address: String =
                                 addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
@@ -432,7 +580,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             val postalCode: String = addresses[0].getPostalCode()
                             val knownName: String = addresses[0].getFeatureName()
                             var locationObj = LocationObj(
-                                lat = it?.latitude?.toString(), lng = it?.longitude?.toString(),
+                                lat = it?.latitude?.toString()!!, lng = it?.longitude?.toString(),
                                 address = address, city = city, state = state
                             )
                             LocationUtils.setCurrentLocation(locationObj)
@@ -546,9 +694,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 
     /* private fun setNavigationDrawer() {
          val toggle = ActionBarDrawerToggle(
@@ -602,7 +747,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             "AUTOCOMPLETE_LOC",
                             "Place: ${place.name}, ${place.id}"
                         )
-                        if(place?.latLng!=null){
+                        if (place?.latLng != null) {
                             text_locationName?.text = place?.name
                             LocationUtils?.setSelectedLocation(
                                 LocationObj(
@@ -622,6 +767,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onClick(pos: Int, view: View, obj: Any?) {
         rv_search.visibility = View.GONE
         when (view?.id) {
+            R.id.rl_banner -> {
+                if (obj != null && obj is BannerlistItem) {
+                    if (obj?.url?.equals("product")) {
+                        onSwitchFragment(
+                            Constants.STORE_PAGE_BY_PROD,
+                            Constants.WITH_NAV_DRAWER,
+                            ProductListItem(id = obj?.product_id!!, name = ""), null
+                        )
+                    } else if (obj?.url?.equals("category")) {
+                        onSwitchFragment(
+                            Constants.SERVICE_PAGE,
+                            Constants.WITH_NAV_DRAWER,
+                            CategorylistItem(id = obj?.product_id!!, name = ""),
+                            null
+                        )
+                    }
+                }
+            }
             R.id.text_service_name -> {
                 if (obj is HomeSearchData) {
                     when (obj?.type) {

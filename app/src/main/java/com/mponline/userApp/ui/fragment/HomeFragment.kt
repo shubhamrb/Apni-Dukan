@@ -32,6 +32,7 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.item_banner.view.*
 import kotlinx.android.synthetic.main.layout_location_fetching.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
@@ -278,6 +279,8 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when (view?.id) {
+            R.id.rl_banner -> {
+            }
             R.id.cv_service -> {
                 mSwichFragmentListener?.onSwitchFragment(
                     Constants.SERVICE_PAGE,

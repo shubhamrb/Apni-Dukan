@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mponline.userApp.R
+import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.response.BannerlistItem
 import com.mponline.userApp.utils.ImageGlideUtils
 import kotlinx.android.synthetic.main.item_banner.view.*
@@ -24,6 +25,13 @@ class BannerPagerFragment : Fragment() {
                 val data: BannerlistItem? = arguments?.getParcelable<BannerlistItem>("obj")
                 data?.run {
                    ImageGlideUtils.loadUrlImage(activity!!, image, view?.image_banner!!)
+                }
+                var mOnItemClickListener: OnItemClickListener? = activity as OnItemClickListener
+
+                view?.rl_banner?.setOnClickListener {
+                    if(mOnItemClickListener!=null){
+                        mOnItemClickListener?.onClick(pos, view?.rl_banner!!, data)
+                    }
                 }
             }
             return view

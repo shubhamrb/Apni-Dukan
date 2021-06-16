@@ -53,6 +53,8 @@ data class HomeData(@SerializedName("bottom_bannerlist")
 @Parcelize
 data class BannerlistItem(@SerializedName("url")
                           val url: String = "",
+                          @SerializedName("product_id")
+                          val product_id: String = "",
                           @SerializedName("image")
                           val image: String = "",
                           @SerializedName("id")

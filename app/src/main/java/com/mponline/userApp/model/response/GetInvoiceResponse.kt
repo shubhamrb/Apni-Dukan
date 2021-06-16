@@ -159,6 +159,8 @@ data class GetInvoiceResponse(@SerializedName("data")
                               val messageId: Int = 0,
                               @SerializedName("message")
                               val message: String = "",
+                              @SerializedName("html")
+                              var html: String = "",
                               @SerializedName("status")
                               val status: Boolean = false)
 

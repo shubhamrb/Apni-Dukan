@@ -78,12 +78,13 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 it?.run {
                     if (status!!) {
                         progressDialogDismiss()
+                        mListener?.onOtpverify(it)
 //                        mPreferenceUtils?.setValue(Constants.USER_NAME, data?.user?.name!!)
 //                        mPreferenceUtils?.setValue(Constants.USER_MOBILE, data?.user?.phone!!)
 //                        mPreferenceUtils?.setValue(Constants.USER_ID, data?.user?.id!!)
 //                        mPreferenceUtils?.setValue(Constants.USER_TOKEN, data?.token!!)
 //                        mPreferenceUtils?.setValue(Constants.USER_INFO, Gson().toJson(this))
-                        startActivity(Intent(activity, MainActivity::class.java))
+//                        startActivity(Intent(activity, MainActivity::class.java))
                     } else {
                         progressDialogDismiss()
                         CommonUtils.createSnackBar(

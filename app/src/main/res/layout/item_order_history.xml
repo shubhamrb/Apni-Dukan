@@ -85,6 +85,18 @@
                         android:textSize="@dimen/textsize12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:id="@+id/text_view_invoice"
+                        android:text="@string/download_invoice"
+                        android:textColor="@color/red"
+                        android:visibility="gone"
+                        android:paddingTop="@dimen/margin8"
+                        android:paddingBottom="@dimen/margin5"
+                        android:paddingRight="@dimen/margin10"
+                        android:textSize="@dimen/textsize12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
                 <LinearLayout
