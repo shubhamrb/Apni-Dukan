@@ -42,7 +42,7 @@ data class HomeData(@SerializedName("bottom_bannerlist")
                 @SerializedName("bannerlist")
                 var bannerlist: ArrayList<BannerlistItem>?,
                 @SerializedName("productlist")
-                var productlist: ArrayList<ProductItem>?,
+                var productlist: ArrayList<ProductListItem>?,
                 @SerializedName("storelist")
                 val storelist: ArrayList<StorelistItem>?,
                  @SerializedName("top_storelist")

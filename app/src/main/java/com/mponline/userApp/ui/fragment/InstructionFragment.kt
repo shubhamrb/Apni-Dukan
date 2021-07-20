@@ -117,7 +117,7 @@ class InstructionFragment : BaseFragment(), OnItemClickListener {
                 store_id = storeId,
                 product_id = productId
             )
-            viewModel?.getProductDetail(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getProductDetail(commonRequestObj)?.observe(this@InstructionFragment, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

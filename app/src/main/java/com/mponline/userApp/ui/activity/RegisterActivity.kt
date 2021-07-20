@@ -62,6 +62,11 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
         text_register.setOnClickListener {
             callRegisterApi()
         }
+        text_makelogin.setOnClickListener {
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         init()
     }
 

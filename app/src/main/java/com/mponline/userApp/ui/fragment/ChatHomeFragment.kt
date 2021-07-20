@@ -107,7 +107,7 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
             var commonRequestObj = getCommonRequestObj(
                 orderid = ""
             )
-            viewModel?.getOrderHistory(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getOrderHistory(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

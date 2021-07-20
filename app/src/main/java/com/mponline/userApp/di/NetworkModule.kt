@@ -11,7 +11,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.security.SecureRandom
+import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.*
+
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -58,4 +62,5 @@ object NetworkingModule {
     fun provideRestApiService(retrofit: Retrofit): NetworkAPIService {
         return retrofit.create(NetworkAPIService::class.java)
     }
+
 }

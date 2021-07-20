@@ -133,6 +133,7 @@ class Constants {
         //Fragment TAGS
         var HOME_PAGE = "HOME_PAGE"
         var SERVICE_PAGE = "SERVICE_PAGE"
+        var PRODUCT_SERVICE_PAGE = "PRODUCT_SERVICE_PAGE"
         var STORE_PAGE = "STORE_PAGE"
         var STORE_PAGE_BY_PROD = "STORE_PAGE_BY_PROD"
         var SUB_SERVICE_PAGE = "SUB_SERVICE_PAGE"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.CustomFieldObj
 import kotlinx.android.synthetic.main.item_chkbox.view.*
 import kotlinx.android.synthetic.main.item_radiobtn.view.*
 import kotlinx.android.synthetic.main.item_stores.view.*
@@ -16,7 +17,7 @@ import kotlinx.android.synthetic.main.item_stores.view.*
 class ChkboxRadiobtnAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList: List<String>,
+    var mList: List<CustomFieldObj.ValueObj>,
     var type: String,
     var selectedItems:String,
     var parentPos:Int
@@ -52,14 +53,14 @@ class ChkboxRadiobtnAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ChkBoxViewHolder) {
-            holder.itemView.chkbox_item.text = mList?.get(position)?.trim()
-            holder.itemView.chkbox_item.isChecked = selectedItems?.contains(mList?.get(position)?.trim())
+            holder.itemView.chkbox_item.text = mList?.get(position)?.value
+            holder.itemView.chkbox_item.isChecked = selectedItems?.contains(mList?.get(position)?.value!!)
             holder.itemView.chkbox_item.setOnCheckedChangeListener { _, isChecked ->
                 listener?.onClick(parentPos, holder.itemView.chkbox_item, mList?.get(position))
             }
         } else if (holder is RadioBtnViewHolder) {
-            holder.itemView.rbtn_item.text = mList?.get(position)?.trim()
-            holder.itemView.rbtn_item.isChecked = selectedItems?.contains(mList?.get(position)?.trim())
+            holder.itemView.rbtn_item.text = mList?.get(position)?.value
+            holder.itemView.rbtn_item.isChecked = selectedItems?.contains(mList?.get(position)?.value!!)
             holder.itemView.rbtn_item.setOnCheckedChangeListener { compoundButton, b ->
                 listener?.onClick(parentPos, holder.itemView.rbtn_item, mList?.get(position))
             }

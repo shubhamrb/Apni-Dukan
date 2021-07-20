@@ -33,7 +33,7 @@ class CouponsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder?.itemView?.text_percentage?.text = if(mList?.get(position)?.discount_type?.equals("1")!!) "${mList?.get(position)?.discount_amount!!}\noff" else "${mList?.get(position)?.discount_amount!!}%\noff"
+        holder?.itemView?.text_percentage?.text = if(mList?.get(position)?.discount_type?.equals("1")!!) "${mList?.get(position)?.discount_amount!!}flat \noff" else "${mList?.get(position)?.discount_amount!!}%\noff"
         holder?.itemView?.text_coupon_title?.text = mList?.get(position)?.coupon
         holder?.itemView?.text_from_date?.text = Html.fromHtml(mList?.get(position)?.description)
         if(type?.equals("offer")){

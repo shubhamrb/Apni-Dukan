@@ -88,7 +88,7 @@ class ForgotPwdBottomsheetFragment : BottomSheetDialogFragment() {
         )
         if (CommonUtils.isOnline(activity!!)) {
             progressDialogShow()
-            viewModel?.forgotPwd(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.forgotPwd(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status!!) {
                         progressDialogDismiss()
@@ -116,7 +116,7 @@ class ForgotPwdBottomsheetFragment : BottomSheetDialogFragment() {
         )
         if (CommonUtils.isOnline(activity!!)) {
             progressDialogShow()
-            viewModel?.sendOtp(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.sendOtp(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status!!) {
                         progressDialogDismiss()

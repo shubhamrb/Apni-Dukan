@@ -126,7 +126,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                 latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
-            viewModel?.getStoreAround(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getStoreAround(commonRequestObj)?.observe(this@StoresFragment, Observer {
                 it?.run {
                     if (status) {
                         mStoreList = data
@@ -158,7 +158,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!,
                 category_id = mCategorylistItem?.id!!
             )
-            viewModel?.getStoreByCategory(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getStoreByCategory(commonRequestObj)?.observe(this@StoresFragment, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
@@ -190,7 +190,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!,
                 product_id = mProductListItem?.id!!
             )
-            viewModel?.getStoreByProduct(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getStoreByProduct(commonRequestObj)?.observe(this@StoresFragment, Observer {
                 it?.run {
                     if (status) {
                         mStoreList = data?.stores!!

@@ -60,19 +60,19 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragment.Listener  {
+class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragment.Listener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
 
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
-    var customFormList:ArrayList<CustomFieldObj> = ArrayList()
+    var customFormList: ArrayList<CustomFieldObj> = ArrayList()
     private var cameraUtils: CameraGalleryUtils = CameraGalleryUtils()
     var mPictureType = ""
     var mSelectedPos = -1
-    var mCustomFileAdapter:CustomFileAdapter? = null
-    var mPrePlaceOrderPojo:PrePlaceOrderPojo? = null
+    var mCustomFileAdapter: CustomFileAdapter? = null
+    var mPrePlaceOrderPojo: PrePlaceOrderPojo? = null
     val viewModel: UserListViewModel by viewModels()
 
     override fun onCameraGalleryClicked(position: Int) {
@@ -95,6 +95,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
             }
         }
     }
+
     fun showAttachOptions() {
         val instance = CameraGalleryFragment.newInstance(2)
         instance.show(childFragmentManager, "camera_gallery")
@@ -112,7 +113,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context!=null){
+        if (context != null) {
             mSwichFragmentListener = context as OnSwichFragmentListener
         }
     }
@@ -121,15 +122,34 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            if(it?.containsKey("obj")){
+            if (it?.containsKey("obj")) {
                 mPrePlaceOrderPojo = it?.getParcelable("obj")
-                if(mPrePlaceOrderPojo!=null && mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.size!!>0 && mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.form?.size!!>0){
+                if (mPrePlaceOrderPojo != null && mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.size!! > 0 && mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(
+                        0
+                    )?.form?.size!! > 0
+                ) {
                     customFormList?.clear()
                     mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.form?.forEachIndexed { index, formItem ->
+                        var viewControlList:ArrayList<String> = arrayListOf()
+                        formItem?.value?.forEach { valueObj->
+                            if(valueObj?.hidefield!=null && valueObj?.hidefield?.size!!>0){
+                                viewControlList?.addAll(valueObj?.hidefield)
+                            }
+                        }
                         customFormList?.add(
                             CustomFieldObj(
-                                name = formItem?.name,fieldType = formItem?.fieldType, hintName = formItem?.name, min = "3", max = "20", isRequired = formItem?.isRequired!!,value= formItem?.value, ansValue = ""
-                            ))
+                                id = formItem?.id,
+                                name = formItem?.name,
+                                fieldType = formItem?.fieldType,
+                                hintName = formItem?.name,
+                                min = "3",
+                                max = "20",
+                                isRequired = formItem?.isRequired!!,
+                                value = formItem?.value,
+                                visibilityControlfield = viewControlList,
+                                ansValue = ""
+                            )
+                        )
                     }
                     mCustomFileAdapter = CustomFileAdapter(
                         activity,
@@ -138,11 +158,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     var mLayoutMgr = LinearLayoutManager(
                         activity, RecyclerView.VERTICAL, false
                     )
-                    mLayoutMgr.setAutoMeasureEnabled(false);
-                    view?.rv_custom_form?.setHasFixedSize(true)
+//                    mLayoutMgr.setAutoMeasureEnabled(false);
+                    view?.rv_custom_form?.setHasFixedSize(false)
                     view?.rv_custom_form?.layoutManager = mLayoutMgr
 
-                    view?.rv_custom_form?.adapter = mCustomFileAdapter
+                    view?.rv_custom_form?.swapAdapter(mCustomFileAdapter, true)
                 }
             }
         }
@@ -152,16 +172,20 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         }
         view?.text_proceed?.setOnClickListener {
             var errormsg = isValidData()
-            if(errormsg?.isNullOrEmpty()){
-                var formData:ArrayList<FormDataItem> = ArrayList()
+            if (errormsg?.isNullOrEmpty()) {
+                var formData: ArrayList<FormDataItem> = ArrayList()
                 customFormList?.forEachIndexed { index, customFieldObj ->
-                    formData?.add(FormDataItem(isRequired = customFieldObj?.isRequired!!,
-                        name = customFieldObj?.name!!,
-                        fieldType = customFieldObj?.fieldType!!,
-                        ansValue = customFieldObj?.ansValue!!,
-                        ext = customFieldObj?.ext!!))
+                    formData?.add(
+                        FormDataItem(
+                            isRequired = customFieldObj?.isRequired!!,
+                            name = customFieldObj?.name!!,
+                            fieldType = customFieldObj?.fieldType!!,
+                            ansValue = customFieldObj?.ansValue!!,
+                            ext = customFieldObj?.ext!!
+                        )
+                    )
                 }
-                var placeOrderRequest:PlaceOrderRequest = PlaceOrderRequest(
+                var placeOrderRequest: PlaceOrderRequest = PlaceOrderRequest(
                     storeId = mPrePlaceOrderPojo?.storeDetailDataItem?.id!!,
                     productId = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.productId!!,
                     price = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.price!!,
@@ -169,7 +193,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     formData = formData
                 )
                 callPlaceOrder(placeOrderRequest)
-            }else{
+            } else {
                 CommonUtils.createSnackBar(
                     activity?.findViewById(android.R.id.content)!!,
                     errormsg!!
@@ -185,26 +209,34 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 
     override fun onStart() {
         super.onStart()
-        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR, "", null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 Constants.REQUEST_CAMERA -> {
                     var image = cameraUtils.mCurrentPhotoPath
                     CommonUtils.printLog("RESULT_PATH", image)
                     image?.let {
                         try {
 //                            ImageOrientationChecker.imagePreviewCamera(File(image))
-                            if(mCustomFileAdapter!=null){
+                            if (mCustomFileAdapter != null) {
                                 customFormList?.get(mSelectedPos)?.ansValue = image
                                 customFormList?.get(mSelectedPos)?.ansValue = image
-                                mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = mSelectedPos, flag = false)
-                                callUploadLkDocuments(customFormList?.get(mSelectedPos)?.name!!, customFormList?.get(mSelectedPos)?.ansValue!!, mSelectedPos)
+                                mCustomFileAdapter?.onRefreshAdapter(
+                                    customFormList,
+                                    pos = mSelectedPos,
+                                    flag = false
+                                )
+                                callUploadLkDocuments(
+                                    customFormList?.get(mSelectedPos)?.name!!,
+                                    customFormList?.get(mSelectedPos)?.ansValue!!,
+                                    mSelectedPos
+                                )
                             }
-                        }catch (e:Exception){
+                        } catch (e: Exception) {
                         }
                     }
                 }
@@ -228,7 +260,14 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                 )
                                 try {
                                     if (true/*CommonUtils.isFileLimitNotExceddedEarlySalary(fileRealPath)*/) {
-                                        if(extension?.equals(".jpg",true) || extension?.equals(".jpeg",true) || extension?.equals(".png",true)){
+                                        if (extension?.equals(
+                                                ".jpg",
+                                                true
+                                            ) || extension?.equals(
+                                                ".jpeg",
+                                                true
+                                            ) || extension?.equals(".png", true)
+                                        ) {
                                             val file = cameraUtils.createImageFile(
                                                 activity!!,
                                                 extension
@@ -238,14 +277,22 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                                 file
                                             )
                                             cameraUtils.mCurrentPhotoPath = file.absolutePath
-                                        }else{
+                                        } else {
                                             cameraUtils.mCurrentPhotoPath = fileRealPath
                                         }
                                         var image = cameraUtils.mCurrentPhotoPath
-                                        if(mCustomFileAdapter!=null){
+                                        if (mCustomFileAdapter != null) {
                                             customFormList?.get(mSelectedPos)?.ansValue = image
-                                            mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = mSelectedPos, flag = false)
-                                            callUploadLkDocuments(customFormList?.get(mSelectedPos)?.name!!, customFormList?.get(mSelectedPos)?.ansValue!!, mSelectedPos)
+                                            mCustomFileAdapter?.onRefreshAdapter(
+                                                customFormList,
+                                                pos = mSelectedPos,
+                                                flag = false
+                                            )
+                                            callUploadLkDocuments(
+                                                customFormList?.get(mSelectedPos)?.name!!,
+                                                customFormList?.get(mSelectedPos)?.ansValue!!,
+                                                mSelectedPos
+                                            )
                                         }
                                     } else {
 
@@ -262,95 +309,169 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     }
                 }
             }
-        }else{
+        } else {
 
         }
     }
 
-    fun isValidData():String{
+    fun isValidData(): String {
         var errorMsg = ""
         customFormList?.forEachIndexed { index, customFieldObj ->
-            if(customFieldObj?.isRequired?.equals("Yes",true) && (customFieldObj?.ansValue?.isNullOrEmpty()!!)){
-                errorMsg = "Missing ${customFieldObj?.name}"
+            if (customFieldObj?.isRequired?.equals(
+                    "Yes",
+                    true
+                ) && (customFieldObj?.ansValue?.isNullOrEmpty()!!&& (customFieldObj?.isVisible))
+            ) {
+                return "${customFieldObj?.name}"
             }
         }
         return errorMsg
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        if(obj !=null && obj is CustomFieldObj){
-            when(view?.id){
-                R.id.text_file_upload->{
+        if (obj != null && obj is CustomFieldObj) {
+            when (view?.id) {
+                R.id.text_file_upload -> {
                     mSelectedPos = pos
                     showAttachOptions()
                 }
-                R.id.image_file_close->{
+                R.id.image_file_close -> {
                     customFormList?.get(pos)?.ansValue = ""
                     mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = false)
                 }
-                R.id.edt_custom_field->{
-                    customFormList?.get(pos)?.ansValue = obj?.ansValue
-//                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
-                }
-                R.id.edt_custom_field_mult->{
-                    customFormList?.get(pos)?.ansValue = obj?.ansValue
-//                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
-                }
-                R.id.spn_opt->{
-                    if(pos < customFormList.size) {
+                R.id.edt_custom_field -> {
+                    if(customFormList?.get(pos)?.id?.equals(obj?.id)!!){
                         customFormList?.get(pos)?.ansValue = obj?.ansValue
                     }
-//                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
+//                    Handler().postDelayed(Runnable {
+//                        mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = true)
+//                    }, 1000)
                 }
-                R.id.btn->{
-                    if(obj?.fieldType?.equals("location")!!){
+                R.id.edt_custom_field_mult -> {
+                    if(customFormList?.get(pos)?.id?.equals(obj?.id)!!) {
+                        customFormList?.get(pos)?.ansValue = obj?.ansValue
+                    }
+//                    Handler().postDelayed(Runnable {
+//                        mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = true)
+//                    }, 1000)
+                }
+                R.id.btn -> {
+                    if (obj?.fieldType?.equals("location")!!) {
                         mSelectedPos = pos
                         //AutoComplete place
-                    }else if(obj?.fieldType?.equals("date")!!){
+                    } else if (obj?.fieldType?.equals("date")!!) {
                         //datePicker
                         val c = Calendar.getInstance()
                         val year = c.get(Calendar.YEAR)
                         val month = c.get(Calendar.MONTH)
                         val day = c.get(Calendar.DAY_OF_MONTH)
-                        val dpd = DatePickerDialog(activity!!, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                            // Display Selected date in textbox
-                            CommonUtils.printLog("DATE_SELECTED", "${dayOfMonth}/${(monthOfYear+1)}/${year}")
-                            customFormList?.get(pos)?.ansValue = "${dayOfMonth}/${(monthOfYear+1)}/${year}"
-                            mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = false)
-                        }, year, month, day)
+                        val dpd = DatePickerDialog(
+                            activity!!,
+                            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                                // Display Selected date in textbox
+                                CommonUtils.printLog(
+                                    "DATE_SELECTED",
+                                    "${dayOfMonth}/${(monthOfYear + 1)}/${year}"
+                                )
+                                customFormList?.get(pos)?.ansValue =
+                                    "${dayOfMonth}/${(monthOfYear + 1)}/${year}"
+                                mCustomFileAdapter?.onRefreshAdapter(
+                                    customFormList,
+                                    pos = pos,
+                                    flag = false
+                                )
+                            },
+                            year,
+                            month,
+                            day
+                        )
                         dpd.show()
                     }
                 }
             }
-        } else if(obj is String){
-            when(view?.id){
-                R.id.chkbox_item->{
+        } else if (obj is CustomFieldObj.ValueObj) {
+            when (view?.id) {
+                R.id.spn_opt -> {
+                    if (pos < customFormList.size) {
+                        customFormList?.get(pos)?.ansValue = obj?.value
+                        if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
+                            var visibilityControlFields = customFormList?.get(pos)?.visibilityControlfield
+                            customFormList?.forEachIndexed { index, customFieldObj ->
+                                if(visibilityControlFields?.contains(customFieldObj?.id)){
+                                    if (obj?.hidefield?.contains(customFieldObj?.id)) {
+                                        customFormList?.get(index)?.isVisible = false
+                                    }else{
+                                        customFormList?.get(index)?.isVisible = true
+                                    }
+                                }
+                            }
+                            mCustomFileAdapter?.onRefreshAdapter(
+                                customFormList,
+                                pos = pos,
+                                flag = true
+                            )
+                        }
+                    }
+
+//                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)
+                }
+                R.id.chkbox_item -> {
                     var itemOptList = customFormList?.get(pos)?.ansValue?.split(",")!!
                     var selectedAns = getItemCheckedPos(itemOptList, obj)
                     customFormList?.get(pos)?.ansValue = selectedAns
-                    mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = false)
+                    if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
+                        var visibilityControlFields = customFormList?.get(pos)?.visibilityControlfield
+                        customFormList?.forEachIndexed { index, customFieldObj ->
+                            if(visibilityControlFields?.contains(customFieldObj?.id)){
+                                if (obj?.hidefield?.contains(customFieldObj?.id)) {
+                                    customFormList?.get(index)?.isVisible = false
+                                }else{
+                                    customFormList?.get(index)?.isVisible = true
+                                }
+                            }
+                        }
+                    }
+                        mCustomFileAdapter?.onRefreshAdapter(
+                            customFormList,
+                            pos = pos,
+                            flag = false
+                        )
                 }
-                R.id.rbtn_item->{
-                    customFormList?.get(pos)?.ansValue = obj
+                R.id.rbtn_item -> {
+                    customFormList?.get(pos)?.ansValue = obj?.value
+                    if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
+                        var visibilityControlFields = customFormList?.get(pos)?.visibilityControlfield
+                        customFormList?.forEachIndexed { index, customFieldObj ->
+                            if(visibilityControlFields?.contains(customFieldObj?.id)){
+                                if (obj?.hidefield?.contains(customFieldObj?.id)) {
+                                    customFormList?.get(index)?.isVisible = false
+                                }else{
+                                    customFormList?.get(index)?.isVisible = true
+                                }
+                            }
+                        }
+                    }
                     mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = false)
                 }
             }
 
         }
+//        view?.rv_custom_form?.invalidate()
+//        view?.rv_custom_form?.adapter = mCustomFileAdapter
     }
 
-    fun getItemCheckedPos(itemList:List<String>, selectedOpt:String):String{
+    fun getItemCheckedPos(itemList: List<String>, selectedOpt: CustomFieldObj.ValueObj): String {
         var ansValue = ""
         var isItemAlreadySelected = false
         itemList?.forEachIndexed { index, s ->
-            if(s?.equals(selectedOpt)){
+            if (s?.equals(selectedOpt?.value)) {
                 isItemAlreadySelected = true
-            }else{
-                ansValue = ansValue+","+s
+            } else {
+                ansValue = ansValue + "," + s
             }
         }
-        if(!isItemAlreadySelected){
-            ansValue = ansValue+","+ selectedOpt
+        if (!isItemAlreadySelected) {
+            ansValue = ansValue + "," + selectedOpt?.value
         }
         return ansValue
     }
@@ -358,12 +479,20 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     private fun callPlaceOrder(placeOrderRequest: PlaceOrderRequest) {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
-            viewModel?.placeOrder("Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN), placeOrderRequest)?.observe(activity!!, androidx.lifecycle.Observer {
+            viewModel?.placeOrder(
+                "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
+                placeOrderRequest
+            )?.observe(this, androidx.lifecycle.Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
                         //Redirect to Order History
-                        mSwichFragmentListener?.onSwitchFragment(Constants.ORDER_HISTORY_PAGE, Constants.WITH_NAV_DRAWER, null, null)
+                        mSwichFragmentListener?.onSwitchFragment(
+                            Constants.ORDER_HISTORY_PAGE,
+                            Constants.WITH_NAV_DRAWER,
+                            null,
+                            null
+                        )
                     } else {
                         switchView(0, "")
                     }
@@ -384,7 +513,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     fun callUploadLkDocuments(
         docName: String,
         mFilePath: String,
-        selectedPos:Int
+        selectedPos: Int
     ) {
         if (CommonUtils.isOnline(activity!!)) {
             var multipartBody: MultipartBody.Part? = null
@@ -417,13 +546,21 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 }
                 multipartBody = MultipartBody.Part.createFormData("myfile", fileName, requestFile)
             }
-            viewModel?.uploadFile("Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN), multipartBody, requestDocs)?.observe(activity!!, androidx.lifecycle.Observer {
+            viewModel?.uploadFile(
+                "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
+                multipartBody,
+                requestDocs
+            )?.observe(this, androidx.lifecycle.Observer {
                 it?.run {
                     CommonUtils.printLog("RESPONSE", Gson().toJson(this))
                     if (status) {
                         customFormList?.get(selectedPos)?.ext = data?.ext
                         customFormList?.get(selectedPos)?.ansValue = data?.url
-                        mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = selectedPos, flag = false)
+                        mCustomFileAdapter?.onRefreshAdapter(
+                            customFormList,
+                            pos = selectedPos,
+                            flag = false
+                        )
                     } else {
                         CommonUtils.createSnackBar(
                             activity?.findViewById(android.R.id.content)!!,
@@ -452,8 +589,10 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 val photoURI: Uri =
                     FileProvider.getUriForFile(activity, Constants.APP_FILEPROVIDER, photoFile)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent,
-                    Constants.REQUEST_CAMERA)
+                startActivityForResult(
+                    takePictureIntent,
+                    Constants.REQUEST_CAMERA
+                )
             } catch (e: java.lang.Exception) {
                 CommonUtils.printLog("zxfsdG", e.printStackTrace().toString())
             }
@@ -515,8 +654,6 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
             }
         }
     }
-
-
 
 
 }

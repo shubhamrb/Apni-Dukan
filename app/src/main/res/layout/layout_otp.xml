@@ -17,7 +17,7 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_1"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:hint="*"
                 android:background="@drawable/round_rect_solid_gray"
@@ -36,7 +36,7 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_2"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:gravity="center"
                 android:textColor="@color/magento"
@@ -55,7 +55,7 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_3"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:background="@drawable/round_rect_solid_gray"
                 android:gravity="center"
@@ -74,7 +74,7 @@
             <EditText
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_4"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:gravity="center"
                 android:maxLength="1"
                 android:background="@drawable/round_rect_solid_gray"
@@ -94,7 +94,7 @@
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_5"
                 android:background="@drawable/round_rect_solid_gray"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:gravity="center"
                 android:maxLength="1"
                 android:textColor="@color/magento"
@@ -113,7 +113,7 @@
                 style="@style/Text_mont_regular"
                 android:id="@+id/edt_6"
                 android:background="@drawable/round_rect_solid_gray"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:gravity="center"
                 android:maxLength="1"
                 android:textColor="@color/magento"

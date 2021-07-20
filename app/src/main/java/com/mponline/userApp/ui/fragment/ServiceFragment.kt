@@ -82,7 +82,7 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
                 apiKey = getApiKey(),
                 category_id = category?.id!!
             )
-            viewModel?.getSubCategories(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getSubCategories(commonRequestObj)?.observe(this@ServiceFragment, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

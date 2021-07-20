@@ -110,7 +110,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
                 category_id = if(category!=null) category?.id!! else "",
                 subcategory_id = subcategory?.id!!
             )
-            viewModel?.getProductByCategory(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getProductByCategory(commonRequestObj)?.observe(this@SubServiceFragment, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
@@ -140,7 +140,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
                 category = categoryId,
                 store_id = storeId
             )
-            viewModel?.getProdByStore(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getProdByStore(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,17 +18,28 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.*
+import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.ServicesAdapter
+import com.mponline.userApp.ui.adapter.StoreDetailBannerPagerAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.ImageGlideUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_store_detail.*
 import kotlinx.android.synthetic.main.fragment_store_detail.view.*
+import kotlinx.android.synthetic.main.fragment_store_detail.view.image_store
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_container
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ratingbar_store
+import kotlinx.android.synthetic.main.fragment_store_detail.view.rv_services
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_name
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_status
+import kotlinx.android.synthetic.main.item_stores.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import java.text.DecimalFormat
 
 
 @AndroidEntryPoint
@@ -88,6 +100,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             if (it?.containsKey("store")) {
                 mStorelistItem = arguments?.getParcelable<StorelistItem>("store")
                 mStorelistItem?.let {
+                    if(it?.isAvailable?.equals("1")) image_store_status.setImageResource(R.drawable.circle_green) else image_store_status.setImageResource(R.drawable.circle_red)
                     callStoreDetail(mStorelistItem?.id!!)
                 }
             }
@@ -120,7 +133,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                 latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
-            viewModel?.getStoreDetail(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getStoreDetail(commonRequestObj)?.observe(this@StoreDetailFragment, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
@@ -167,9 +180,15 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     if (it?.data?.get(0)?.ratting != null) {
                         ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
-                        text_rating.text = it?.data?.get(0)?.ratting
+//                        text_rating.text = it?.data?.get(0)?.ratting
                         text_total_users.text = it?.data?.get(0)?.totalrating
+                        var totalRating = 0f
+                        if(it?.data?.get(0)?.totalrating!=null && it?.data?.get(0)?.totalrating?.isDigitsOnly()!!){
+                            totalRating = it?.data?.get(0)?.totalrating?.toFloat()!!
+                        }
+                        var maxRatings = 0f
                         if (it?.data?.get(0)?.rating != null) {
+                            maxRatings = maxRatings + (it?.data?.get(0)?.rating?.five?.toFloat()!! * 5)
                             val param5 = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -179,8 +198,10 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             val param5grey = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                10 - (it?.data?.get(0)?.rating?.five?.toFloat()!!)
+                                totalRating - (it?.data?.get(0)?.rating?.five?.toFloat()!!)
                             )
+
+                            maxRatings = maxRatings + (it?.data?.get(0)?.rating?.four?.toFloat()!! * 4)
                             val param4 = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -190,8 +211,10 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             val param4grey = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                10 - (it?.data?.get(0)?.rating?.four?.toFloat()!!)
+                                totalRating - (it?.data?.get(0)?.rating?.four?.toFloat()!!)
                             )
+
+                            maxRatings = maxRatings + (it?.data?.get(0)?.rating?.three?.toFloat()!! * 3)
                             val param3 = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -201,8 +224,10 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             val param3grey = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                10 - (it?.data?.get(0)?.rating?.three?.toFloat()!!)
+                                totalRating - (it?.data?.get(0)?.rating?.three?.toFloat()!!)
                             )
+
+                            maxRatings = maxRatings + (it?.data?.get(0)?.rating?.two?.toFloat()!! * 2)
                             val param2 = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -212,8 +237,10 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             val param2grey = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                10 - (it?.data?.get(0)?.rating?.two?.toFloat()!!)
+                                totalRating - (it?.data?.get(0)?.rating?.two?.toFloat()!!)
                             )
+
+                            maxRatings = maxRatings + (it?.data?.get(0)?.rating?.one?.toFloat()!! * 1)
                             val param1 = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -223,7 +250,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             val param1grey = LinearLayout.LayoutParams(
                                 0,
                                 ViewGroup.LayoutParams.MATCH_PARENT,
-                                10 - (it?.data?.get(0)?.rating?.one?.toFloat()!!)
+                                totalRating - (it?.data?.get(0)?.rating?.one?.toFloat()!!)
                             )
                             ll_rating.setLayoutParams(param5)
                             ll_grey.setLayoutParams(param5grey)
@@ -235,6 +262,13 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             ll_grey_2.setLayoutParams(param2grey)
                             ll_rating_1.setLayoutParams(param1)
                             ll_grey_1.setLayoutParams(param1grey)
+
+                            //Rating
+                            var rating = if(totalRating>0) (maxRatings/totalRating).toDouble() else 0.0
+                            var df = DecimalFormat("#.#");
+                            var formattedRating = df.format(rating);
+
+                            text_rating.text = formattedRating
                         }
                     }
                     text_store_desc.text = Html.fromHtml(it?.data?.get(0)?.description)
@@ -252,8 +286,9 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                         )
                     }
 
-                    //Rating
-                    text_rating.text = it?.data?.get(0)?.ratting
+                    val adapter =
+                        StoreDetailBannerPagerAdapter(activity!!, childFragmentManager, it?.data?.get(0)?.banner_image!!)
+                    viewpager_banner_storedetail.adapter = adapter
                 }
             }
         }

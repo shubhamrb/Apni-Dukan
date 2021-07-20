@@ -129,25 +129,66 @@
                     android:layout_marginRight="@dimen/margin15"
                     android:background="@color/black" />
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_help"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:text="@string/help"
-                    android:textColor="@color/light_black"
-                    android:textSize="@dimen/textsize16" />
+                    android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="@string/help"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize16" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Help and support"
+                        android:textColor="@color/light_black" />
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin8"
-                    android:text="Help and support"
-                    android:textColor="@color/light_black" />
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/ll_enquiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="@string/enquiry"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize16" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Support"
+                        android:textColor="@color/light_black" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -170,10 +211,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin15"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_semibold"
@@ -208,10 +249,8 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-    <include
-        layout="@layout/layout_progress"/>
+    <include layout="@layout/layout_progress" />
 
-    <include
-        layout="@layout/layout_empty"/>
+    <include layout="@layout/layout_empty" />
 
 </RelativeLayout>

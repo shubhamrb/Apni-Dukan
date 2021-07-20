@@ -9,6 +9,8 @@ import kotlinx.android.parcel.Parcelize
 data class StoreDetailDataItem(
     @SerializedName("category")
     val category: ArrayList<CategorylistItem>,
+    @SerializedName("banner_image")
+    val banner_image: ArrayList<String>,
     @SerializedName("openingtime")
     val openingtime: String = "",
     @SerializedName("distance")

@@ -176,6 +176,7 @@ interface NetworkAPIService {
 
     @POST(ApiName.REMOVE_COUPON)
     suspend fun removeCoupon(
+        @Header("Authorization") token: String,
         @Body commonRequestObj: CommonRequestObj
     ): Response<CommonResponse>
 

@@ -10,6 +10,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.response.CategorylistItem
 import com.mponline.userApp.model.response.ProductItem
+import com.mponline.userApp.model.response.ProductListItem
 import com.mponline.userApp.utils.ImageGlideUtils
 import kotlinx.android.synthetic.main.item_home_product.view.*
 
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.item_home_product.view.*
 class TopProductAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList:ArrayList<ProductItem> = ArrayList()
+    var mList:ArrayList<ProductListItem> = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -38,7 +39,7 @@ class TopProductAdapter(
         ImageGlideUtils.loadUrlImage(context!!, mList?.get(position)?.image, holder?.itemView?.image_service)
         holder.itemView.text_service.text = mList?.get(position)?.name
         holder.itemView?.setOnClickListener {
-            listener?.onClick(position, holder?.itemView?.cv_service, null)
+            listener?.onClick(position, holder?.itemView?.rl_product, mList?.get(position))
         }
     }
 

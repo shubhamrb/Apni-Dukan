@@ -6,18 +6,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/Text_mont_medium"
-        android:id="@+id/text_spn_title"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Spinner
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:id="@+id/spn_opt"
-        android:layout_marginTop="@dimen/margin8"
+    <LinearLayout
+        android:id="@+id/ll_spn_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:spinnerMode="dialog"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_medium"
+            android:id="@+id/text_spn_title"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Spinner
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:id="@+id/spn_opt"
+            android:layout_marginTop="@dimen/margin8"
+            android:layout_width="match_parent"
+            android:spinnerMode="dialog"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

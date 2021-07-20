@@ -6,6 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:id="@+id/ll_radio_checkbox_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <androidx.appcompat.widget.AppCompatTextView
         style="@style/Text_mont_medium"
         android:id="@+id/text_chkbox_title"
@@ -20,5 +26,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
-
+    </LinearLayout>
 </LinearLayout>

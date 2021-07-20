@@ -3,6 +3,7 @@ package com.mponline.userApp.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.mponline.userApp.model.CustomFieldObj
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -32,10 +33,15 @@ data class FormItem(@SerializedName("isRequired")
                     val isRequired: String = "",
                     @SerializedName("name")
                     val name: String = "",
+                    @SerializedName("label")
+                    val label: String = "",
+                     @SerializedName("id")
+                    val id: String = "",
                     @SerializedName("field_type")
                     val fieldType: String = "",
                     @SerializedName("value")
-                    val value: String = ""):Parcelable
+                    val value: ArrayList<CustomFieldObj.ValueObj> = ArrayList()
+):Parcelable
 
 @Parcelize
 data class GetProductDetailResponse(@SerializedName("data")

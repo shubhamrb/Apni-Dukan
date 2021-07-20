@@ -1,17 +1,18 @@
 package com.mponline.userApp.ui.adapter
 
-import android.R.array
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.model.CustomFieldObj
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.item_spinner.view.*
 class CustomFileAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList: ArrayList<CustomFieldObj>
+    public var mList: ArrayList<CustomFieldObj>
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -38,6 +39,7 @@ class CustomFileAdapter(
     var VIEWTYPE_RADIOBTN = 5;
     var VIEWTYPE_BUTTON = 6;
     var VIEWTYPE_FILEPICKER = 7;
+    var isAllowedForListener = false
 
     init {
         VIEWTYPE_TEXT = 1;
@@ -119,7 +121,10 @@ class CustomFileAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        holder.setIsRecyclable(false);
         if (holder is FilePickerViewHolder) {
+            holder.itemView.ll_file_upload_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
             if (!mList?.get(position)?.ansValue?.isNullOrEmpty()!!) {
                 holder.itemView.ll_selected_file.visibility = View.VISIBLE
                 holder.itemView.text_filename.text = mList?.get(position)?.ansValue
@@ -135,83 +140,85 @@ class CustomFileAdapter(
                 listener.onClick(position, holder.itemView.image_file_close, mList?.get(position))
             }
         } else if (holder is TextViewHolder) {
-            CommonUtils.printLog("ANS_TXT","${mList?.get(position)?.ansValue}")
+            holder.itemView.ll_edittext_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
+            CommonUtils.printLog("ANS_TXT", "${mList?.get(position)?.ansValue}")
             if (mList?.get(position)?.fieldType?.equals("text")!!) {
-                holder.itemView.edt_custom_field.visibility = View.VISIBLE
                 holder.itemView.edt_custom_field.setHint(mList?.get(position)?.name)
                 holder.itemView.edt_custom_field.setText(mList?.get(position)?.ansValue)
+                holder.itemView.edt_custom_field.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field_number.visibility = View.GONE
                 holder.itemView.edt_custom_field_mult.visibility = View.GONE
             } else if (mList?.get(position)?.fieldType?.equals("number")!!) {
-                holder.itemView.edt_custom_field.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field.visibility = View.GONE
                 holder.itemView.edt_custom_field.setHint(mList?.get(position)?.name)
                 holder.itemView.edt_custom_field.setText(mList?.get(position)?.ansValue)
+                holder.itemView.edt_custom_field_number.visibility = View.VISIBLE
                 holder.itemView.edt_custom_field_mult.visibility = View.GONE
-                holder.itemView.edt_custom_field_mult.inputType = InputType.TYPE_CLASS_NUMBER
+//                holder.itemView.edt_custom_field_mult.inputType = InputType.TYPE_CLASS_NUMBER
             } else {
                 holder.itemView.edt_custom_field.visibility = View.GONE
                 holder.itemView.edt_custom_field_mult.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field_number.visibility = View.GONE
                 holder.itemView.edt_custom_field_mult.setHint(mList?.get(position)?.name)
             }
-            if (mList?.get(position)?.fieldType?.equals("text")!! || mList?.get(position)?.fieldType?.equals("number")!!) {
-                holder.itemView.edt_custom_field.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable?) {
-                    }
-
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                      if(isAllowedForListener){
-                        CommonUtils.printLog("ANS_TXT_LISTNER","${s.toString()}")
-                        mList?.get(position)?.ansValue = s?.toString()
-                        listener.onClick(
-                              position,
-                              holder.itemView.edt_custom_field,
-                              mList?.get(position)
-                          )
-//                      }
-                    }
-                })
-            }else{
-                holder.itemView.edt_custom_field_mult.addTextChangedListener(object : TextWatcher {
-                    override fun afterTextChanged(s: Editable?) {
-                    }
-
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                    }
-
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                        if(isAllowedForListener) {
-                        CommonUtils.printLog("ANS_TXT_LISTNER","${s.toString()}")
-                        mList?.get(position)?.ansValue = s?.toString()
-                            listener.onClick(
-                                position,
-                                holder.itemView.edt_custom_field_mult,
-                                mList?.get(position)
-                            )
-//                        }
-                    }
-                })
-            }
+            holder.bind(context, mList?.get(position), position, listener)
         } else if (holder is DropdownViewHolder) {
-            CommonUtils.printLog("ANS_DROPDOWN","${mList?.get(position)?.ansValue}")
+            holder.itemView.ll_spn_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
+            CommonUtils.printLog("ANS_DROPDOWN", "${mList?.get(position)?.ansValue}")
             if (mList?.get(position)?.value != null && !mList?.get(position)?.value?.isNullOrEmpty()!!) {
-                var dropdownItemList = mList?.get(position)?.value?.split(",")
+//                var dropdownItemList = mList?.get(position)?.value?.split(",")
                 holder.itemView.text_spn_title.text = mList?.get(position)?.name!!
-                holder.bind(context, mList?.get(position), position, listener)
+                if (!isAllowedForListener) {
+                    holder.bind(context, mList?.get(position), position, listener)
+                    /* var dropdownItemList = mList?.get(position)?.value
+                     val adapter = CustomeSpinnerAdapter(context!!, dropdownItemList)*//*ArrayAdapter(
+                context!!,
+                android.R.layout.simple_spinner_item,
+                dropdownItemList!!
+            )*//*
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    holder.itemView.spn_opt.adapter = adapter
+                    holder.itemview.spn_opt.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                pos: Int,
+                                id: Long
+                            ) {
+//                        if(flag) {
+                                CommonUtils.printLog(
+                                    "ANS_DROPDOWN_LISTENER",
+                                    "${dropdownItemList?.get(pos)} ${pos}"
+                                )
+//                        customFieldObj?.ansValue = dropdownItemList?.get(pos)?.value
+                                listener?.onClick(
+                                    position,
+                                    holder.itemView.spn_opt,
+                                    dropdownItemList?.get(pos)//customFieldObj
+                                )
+//                        }
+                            }
+                        }
+                    if (!mList?.get(position)?.ansValue?.isNullOrEmpty()!!) {
+                        dropdownItemList?.forEachIndexed { index, s ->
+                            if (s?.value?.trim()?.equals(mList?.get(position)?.ansValue?.trim(), true)!!) {
+                                CommonUtils.printLog("ANS_DROPDOWN_CHECK", "${s} ${index}")
+                                holder.itemview.spn_opt.setSelection(index)
+                            }
+                        }
+                    }*/
+                }
             }
         } else if (holder is CheckboxViewHolder) {
-            var chkboxItemList = mList?.get(position)?.value?.split(",")
+            holder.itemView.ll_radio_checkbox_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
+            var chkboxItemList = mList?.get(position)?.value
             holder.itemView.text_chkbox_title.setText(mList?.get(position)?.name)
             holder.itemView.rv_chkbox?.layoutManager =
                 LinearLayoutManager(
@@ -225,8 +232,10 @@ class CustomFileAdapter(
                 position
             )
         } else if (holder is RadiobtnViewHolder) {
+            holder.itemView.ll_radio_checkbox_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
             holder.itemView.text_chkbox_title.setText(mList?.get(position)?.name)
-            var radiobtnItemList = mList?.get(position)?.value?.split(",")
+            var radiobtnItemList = mList?.get(position)?.value
             holder.itemView.rv_chkbox?.layoutManager =
                 LinearLayoutManager(
                     context, RecyclerView.VERTICAL, false
@@ -239,15 +248,21 @@ class CustomFileAdapter(
                 position
             )
         } else if (holder is ButtonViewHolder) {
-            holder.itemView.btn.setText(if(!mList?.get(position)?.ansValue?.isNullOrEmpty()!!) mList?.get(position)?.ansValue else mList?.get(position)?.name)
+            holder.itemView.ll_btn_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
+            holder.itemView.btn.setText(
+                if (!mList?.get(position)?.ansValue?.isNullOrEmpty()!!) mList?.get(
+                    position
+                )?.ansValue else mList?.get(position)?.name
+            )
             holder.itemView.btn?.setOnClickListener {
                 listener?.onClick(position, holder.itemView.btn, mList?.get(position))
             }
         } else {
 
         }
-        if(position == mList?.size-1){
-//            isAllowedForListener = false
+        if (position == mList?.size - 1) {
+            isAllowedForListener = false
         }
     }
 
@@ -287,24 +302,153 @@ class CustomFileAdapter(
         return VIEWTYPE_FILEPICKER
     }
 
-    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>, pos:Int, flag:Boolean) {
+    fun onRefreshAdapter(list: ArrayList<CustomFieldObj>, pos: Int, flag: Boolean) {
         mList = list
-//        isAllowedForListener = flag
+        isAllowedForListener = flag
         notifyDataSetChanged()
 //        notifyItemChanged(pos)
     }
 
-    class TextViewHolder(view: View) : RecyclerView.ViewHolder(view)
-    class TextMultViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class TextViewHolder(var holderview: View) : RecyclerView.ViewHolder(holderview) {
+        init {
+            CommonUtils.printLog("POSITION", "${position}- ${layoutPosition} - ${adapterPosition}")
+//            if (mList?.get(pos)?.fieldType?.equals("text")!! || mList?.get(pos)?.fieldType?.equals(
+//                    "number"
+//                )!!
+//            ) {
+                holderview.edt_custom_field.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                    }
 
-    class DropdownViewHolder(var itemview: View) : RecyclerView.ViewHolder(itemview){
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        //                        if(!isAllowedForListener) {
+                        CommonUtils.printLog(
+                            "ANS_TXT_LISTNER_SINGLE ${adapterPosition}",
+                            "${s.toString()}"
+                        )
+                        var customFieldObj = mList?.get(adapterPosition)
+                        customFieldObj?.ansValue = s?.toString()
+                        listener.onClick(
+                            adapterPosition,
+                            holderview.edt_custom_field_mult,
+                            customFieldObj
+                        )
+//                        notifyItemChanged(pos)
+                        //                        }
+                    }
+                })
+                /* holderview.edt_custom_field.setOnFocusChangeListener(OnFocusChangeListener { view, hasFocus ->
+                     CommonUtils.printLog("FOCUS_SINGLE","${hasFocus}")
+                 })*/
+//            } else {
+//                holderview.edt_custom_field_mult.addTextChangedListener(object : TextWatcher {
+//                    override fun afterTextChanged(s: Editable?) {
+//                    }
+//
+//                    override fun beforeTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        count: Int,
+//                        after: Int
+//                    ) {
+//                    }
+//
+//                    override fun onTextChanged(
+//                        s: CharSequence?,
+//                        start: Int,
+//                        before: Int,
+//                        count: Int
+//                    ) {
+//                        //                        if(!isAllowedForListener) {
+//                        CommonUtils.printLog(
+//                            "ANS_TXT_LISTNER_MULT ${pos}",
+//                            "${s.toString()}"
+//                        )
+//                        var customFieldObj = mList?.get(pos)
+//                        customFieldObj?.ansValue = s?.toString()
+//                        listener.onClick(
+//                            pos,
+//                            holderview.edt_custom_field_mult,
+//                            customFieldObj
+//                        )
+////                        notifyItemChanged(pos)
+//                        //                        }
+//                    }
+//                })
+//                /* holderview.edt_custom_field_mult.setOnFocusChangeListener(OnFocusChangeListener { view, hasFocus ->
+//                     CommonUtils.printLog("FOCUS_MULT","${hasFocus}")
+//                 })*/
+//            }
+
+        }
         fun bind(context: Context?, customFieldObj: CustomFieldObj, pos:Int, listener: OnItemClickListener){
-            var dropdownItemList = customFieldObj?.value?.split(",")
-            val adapter = ArrayAdapter(
+        }
+
+
+        }
+
+    inner class TextMultViewHolder(var holderview: View) : RecyclerView.ViewHolder(holderview) {
+        init {
+            holderview.edt_custom_field_mult.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+//                        if(!isAllowedForListener) {
+                    CommonUtils.printLog("ANS_TXT_LISTNER_MULT ${adapterPosition}", "${s.toString()}")
+                    var customFieldObj = mList?.get(adapterPosition)
+                    customFieldObj?.ansValue = s?.toString()
+                    listener.onClick(
+                        adapterPosition,
+                        holderview.edt_custom_field_mult,
+                        customFieldObj
+                    )
+//                    notifyItemChanged(adapterPosition)
+//                        }
+                }
+            })
+        }
+    }
+
+    class DropdownViewHolder(var itemview: View) : RecyclerView.ViewHolder(itemview) {
+        fun bind(
+            context: Context?,
+            customFieldObj: CustomFieldObj,
+            pos: Int,
+            listener: OnItemClickListener
+        ) {
+            var dropdownItemList = customFieldObj?.value
+            val adapter = CustomeSpinnerAdapter(context!!, dropdownItemList)/*ArrayAdapter(
                 context!!,
                 android.R.layout.simple_spinner_item,
                 dropdownItemList!!
-            )
+            )*/
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             itemView.spn_opt.adapter = adapter
             itemview.spn_opt.onItemSelectedListener =
@@ -319,20 +463,23 @@ class CustomFileAdapter(
                         id: Long
                     ) {
 //                        if(flag) {
-                        CommonUtils.printLog("ANS_DROPDOWN_LISTENER","${dropdownItemList?.get(pos)} ${pos}")
-                        customFieldObj?.ansValue = dropdownItemList?.get(pos)
-                            listener?.onClick(
-                                position,
-                                itemView.spn_opt,
-                                customFieldObj
-                            )
+                        CommonUtils.printLog(
+                            "ANS_DROPDOWN_LISTENER",
+                            "${dropdownItemList?.get(pos)} ${pos}"
+                        )
+//                        customFieldObj?.ansValue = dropdownItemList?.get(pos)?.value
+                        listener?.onClick(
+                            position,
+                            itemView.spn_opt,
+                            dropdownItemList?.get(pos)//customFieldObj
+                        )
 //                        }
                     }
                 }
-            if(!customFieldObj?.ansValue?.isNullOrEmpty()!!){
+            if (!customFieldObj?.ansValue?.isNullOrEmpty()!!) {
                 dropdownItemList?.forEachIndexed { index, s ->
-                    if(s?.trim()?.equals(customFieldObj?.ansValue?.trim(), true)){
-                        CommonUtils.printLog("ANS_DROPDOWN_CHECK","${s} ${index}")
+                    if (s?.value?.trim()?.equals(customFieldObj?.ansValue?.trim(), true)!!) {
+                        CommonUtils.printLog("ANS_DROPDOWN_CHECK", "${s} ${index}")
                         itemview.spn_opt.setSelection(index)
                     }
                 }

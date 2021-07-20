@@ -39,7 +39,7 @@ class OrderDetailAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.text_form_key.text = mList?.get(position)?.name
-        if (mList?.get(position)?.filedata!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {
+        if (mList?.get(position)?.filedata!=null && mList?.get(position)?.filedata?.type!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {
             holder.itemView.text_form_val.text =
                 context?.resources?.getString(R.string.u_view_details_u)
             if (Build.VERSION.SDK_INT < 23) {
@@ -50,7 +50,7 @@ class OrderDetailAdapter(
         }else{
             holder.itemView.text_form_val.text =  mList?.get(position)?.value
         }
-        if (mList?.get(position)?.filedata!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {
+        if (mList?.get(position)?.filedata!=null && mList?.get(position)?.filedata?.type!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {
             holder.itemView.text_form_val.setOnClickListener {
                 var intent: Intent = Intent(context, FilePreviewActivity::class.java)
                 intent?.putExtra("file", mList?.get(position)?.filedata?.url)

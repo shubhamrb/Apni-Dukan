@@ -43,6 +43,9 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offers)
         toolbar_title.text = ""
+        image_back.setOnClickListener {
+            finish()
+        }
         if (intent?.hasExtra("order")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("order")
             if (mOrderHistoryDataItem != null) {

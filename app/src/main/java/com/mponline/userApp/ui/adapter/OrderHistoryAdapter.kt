@@ -51,7 +51,7 @@ class OrderHistoryAdapter(
                     holder.itemView.image_order_history
                 )
             }
-            holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name
+            holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name+" (${mList?.get(position)?.orderId})"
             holder?.itemView?.text_to_date?.text =
                 "Application submitted as on \n${DateUtils.changeDateFormat(mList?.get(position)?.createdAt, "yyyy-MM-dd HH:mm:ss", "dd MMM yyyy")}"
             when (mList?.get(position)?.status) {

@@ -426,7 +426,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 var addresses: List<Address> = arrayListOf()
                 geocoder = Geocoder(this, Locale.getDefault())
                 CommonUtils.printLog(
-                    "CURRENT_LOCATION",
+                    "CURRENT_LOCATION_success",
                     "${it?.latitude}, ${it?.longitude}"
                 )
                 if (it != null) {

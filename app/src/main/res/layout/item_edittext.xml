@@ -5,33 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <androidx.appcompat.widget.AppCompatEditText
-        style="@style/Text_mont_regular"
-        android:id="@+id/edt_custom_field"
-        android:textColor="@color/black"
-        android:padding="@dimen/margin15"
-        android:background="@color/white"
-        android:singleLine="true"
-        android:imeOptions="actionDone"
-        android:textColorHint="@color/light_black"
-        android:hint="First Name*"
+    <RelativeLayout
+        android:id="@+id/ll_edittext_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        style="@style/Text_mont_regular"
-        android:id="@+id/edt_custom_field_mult"
-        android:textColor="@color/black"
-        android:visibility="gone"
-        android:padding="@dimen/margin15"
-        android:background="@color/white"
-        android:lines="3"
-        android:text=""
-        android:imeOptions="actionNext"
-        android:textColorHint="@color/light_black"
-        android:hint="First Name*"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/Text_mont_regular"
+            android:id="@+id/edt_custom_field"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin15"
+            android:background="@color/white"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textColorHint="@color/light_black"
+            android:hint="First Name*"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/Text_mont_regular"
+            android:id="@+id/edt_custom_field_number"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin15"
+            android:background="@color/white"
+            android:singleLine="true"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:textColorHint="@color/light_black"
+            android:hint="First Name*"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/Text_mont_regular"
+            android:id="@+id/edt_custom_field_mult"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:padding="@dimen/margin15"
+            android:background="@color/white"
+            android:lines="3"
+            android:text=""
+            android:imeOptions="actionNext"
+            android:textColorHint="@color/light_black"
+            android:hint="First Name*"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 </RelativeLayout>

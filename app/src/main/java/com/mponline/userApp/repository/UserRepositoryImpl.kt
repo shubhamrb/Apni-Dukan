@@ -700,7 +700,7 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService?.removeCoupon(commonRequestObj)
+                val response = apiService?.removeCoupon(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

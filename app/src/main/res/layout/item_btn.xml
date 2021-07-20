@@ -6,15 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-   <androidx.appcompat.widget.AppCompatTextView
-       style="@style/Text_mont_medium"
-       android:id="@+id/btn"
-       android:text="BTN"
-       android:gravity="center"
-       android:textColor="@color/black"
-       android:textAllCaps="false"
-       android:background="@drawable/round_rect_solid_gray"
+   <LinearLayout
+       android:id="@+id/ll_btn_container"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:padding="@dimen/margin15"/>
+      android:orientation="vertical">
+
+      <androidx.appcompat.widget.AppCompatTextView
+          style="@style/Text_mont_medium"
+          android:id="@+id/btn"
+          android:text="BTN"
+          android:gravity="center"
+          android:textColor="@color/black"
+          android:textAllCaps="false"
+          android:background="@drawable/round_rect_solid_gray"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="@dimen/margin15"/>
+   </LinearLayout>
 </LinearLayout>

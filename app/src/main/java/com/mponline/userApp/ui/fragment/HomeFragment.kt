@@ -112,7 +112,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                     longitude = LocationUtils?.getCurrentLocation()?.lng!!
                 )
-                viewModel?.getHomeData(commonRequestObj)?.observe(activity!!, Observer {
+                viewModel?.getHomeData(commonRequestObj)?.observe(this@HomeFragment, Observer {
                     it?.run {
                         if (status) {
                             switchView(1, "")
@@ -284,6 +284,14 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
             R.id.cv_service -> {
                 mSwichFragmentListener?.onSwitchFragment(
                     Constants.SERVICE_PAGE,
+                    Constants.WITH_NAV_DRAWER,
+                    obj,
+                    null
+                )
+            }
+            R.id.rl_product -> {
+                mSwichFragmentListener?.onSwitchFragment(
+                    Constants.STORE_PAGE_BY_PROD,
                     Constants.WITH_NAV_DRAWER,
                     obj,
                     null

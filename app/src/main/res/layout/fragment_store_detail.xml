@@ -31,10 +31,15 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/image_store"
+                        android:visibility="gone"
                         android:background="@color/grey_alpha"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin200"/>
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewpager_banner_storedetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin200"/>
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"

@@ -101,4 +101,5 @@
     <string name="api_key">AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q</string>
     <string name="apply_filter">Apply Filter</string>
     <string name="download_invoice"><u>Download Invoice</u></string>
+    <string name="enquiry">Enquiry</string>
 </resources>

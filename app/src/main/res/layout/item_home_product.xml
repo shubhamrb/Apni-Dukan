@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/rl_product"
             android:padding="@dimen/margin8"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -34,14 +35,14 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_service"
-                    style="@style/Text_mont_regular"
+                    style="@style/Text_mont_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin8"
                     android:gravity="center"
                     android:lines="2"
                     android:ellipsize="end"
-                    android:textSize="@dimen/textsize10"
+                    android:textSize="@dimen/textsize12"
                     android:text="Exam forms"
                     android:textColor="@color/light_black" />
 

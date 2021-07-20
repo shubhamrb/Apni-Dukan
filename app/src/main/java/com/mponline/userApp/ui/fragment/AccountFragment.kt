@@ -19,6 +19,7 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.OrderHistoryDataItem
+import com.mponline.userApp.ui.activity.FilePreviewActivity
 import com.mponline.userApp.ui.activity.FormPreviewActivity
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.adapter.BannerPagerAdapter
@@ -69,6 +70,16 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
         view?.image_back?.setOnClickListener {  }
         view?.toolbar_title?.text = "My Account"
 
+        view?.ll_help?.setOnClickListener {
+            var intent:Intent = Intent(context, FilePreviewActivity::class.java)
+            intent?.putExtra("file", "https://apnaonlines.com/helpsupport")
+            context?.startActivity(intent)
+        }
+        view?.ll_enquiry?.setOnClickListener {
+            var intent:Intent = Intent(context, FilePreviewActivity::class.java)
+            intent?.putExtra("file", "https://apnaonlines.com/enquiry")
+            context?.startActivity(intent)
+        }
         //Stores
         view?.rv_order_history?.setHasFixedSize(true)
         view?.rv_order_history?.layoutManager =
@@ -113,7 +124,7 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                 latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
-            viewModel?.getOrderHistory(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getOrderHistory(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

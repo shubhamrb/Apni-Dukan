@@ -21,14 +21,14 @@
             android:id="@+id/text_percentage"
             android:scaleType="fitXY"
             android:gravity="center"
-            android:text="20% off"
+            android:text="200 flat\noff"
             android:padding="@dimen/margin5"
             android:textColor="@color/white"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin15"
             android:background="@drawable/circle_gradient_navy_blue"
-            android:layout_width="@dimen/margin50"
-            android:layout_height="@dimen/margin50"/>
+            android:layout_width="@dimen/margin60"
+            android:layout_height="@dimen/margin60"/>
 
         <LinearLayout
             android:orientation="vertical"

@@ -39,6 +39,7 @@ class SubServiceAdapter(
             ImageGlideUtils.loadUrlImage(context!!, mList?.get(position)?.image, holder.itemView.image_service)
         }
         holder.itemView.text_service_title.text = mList?.get(position)?.name
+        holder.itemView.text_service_subtitle.text = mList?.get(position)?.shortDescription
         holder.itemView.setOnClickListener {
             listener?.onClick(position, holder.itemView.cv_sub_service, mList?.get(position))
         }

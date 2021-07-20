@@ -74,7 +74,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         )
         if (CommonUtils.isOnline(activity!!)) {
             progressDialogShow()
-            viewModel?.verifyOtp(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.verifyOtp(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status!!) {
                         progressDialogDismiss()

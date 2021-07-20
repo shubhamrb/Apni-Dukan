@@ -26,6 +26,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
+                    android:id="@+id/text_service_name"
                     android:text="RRB Group D exam"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"

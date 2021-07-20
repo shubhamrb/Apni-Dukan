@@ -381,7 +381,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
             var commonRequestObj = getCommonRequestObj(
                 orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId
             )
-            viewModel?.getChatList(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getChatList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
@@ -425,7 +425,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
                 vendorid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId
             )
-            viewModel?.getUpdatedChatList(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getUpdatedChatList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
 //                        switchView(1, "")
@@ -508,7 +508,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 orderIdObj,
                 vendorIdObj,
                 msgObj
-            )?.observe(activity!!, androidx.lifecycle.Observer {
+            )?.observe(this, androidx.lifecycle.Observer {
                 it?.run {
                     CommonUtils.printLog("RESPONSE", Gson().toJson(this))
                     if (status) {

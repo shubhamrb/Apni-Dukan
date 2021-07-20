@@ -89,7 +89,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                 latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                 longitude = LocationUtils?.getCurrentLocation()?.lng!!
             )
-            viewModel?.getOrderHistory(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getOrderHistory(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")
@@ -202,7 +202,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                 storeid = mOrderHistoryDataItem?.storeId!!,
                 rating = mOrderHistoryDataItem?.myrating!!
             )
-            viewModel?.saveRating(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.saveRating(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     CommonUtils.createSnackBar(
                         activity?.findViewById(android.R.id.content)!!,

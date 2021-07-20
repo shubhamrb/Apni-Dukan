@@ -93,7 +93,7 @@ class ChangePwdFragment : BaseFragment(), OnItemClickListener {
                 oldpassword = edt_old_pwd.text.toString().trim(),
                 newpassword = edt_confirm_pwd.text.toString().trim()
             )
-            viewModel?.changePwd(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.changePwd(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     switchView(1, "")
                     CommonUtils.createSnackBar(

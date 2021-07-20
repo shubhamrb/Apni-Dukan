@@ -190,7 +190,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 coupon = couponCode,
                 orderamount = mOrderHistoryDataItem?.orderAmount!!
             )
-            viewModel?.applyCoupon(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.applyCoupon(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     switchView(1, "")
                     if (status) {
@@ -224,7 +224,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 discountamount = mCouponAmt,
                 finalamountpay = mPayableAmt
             )
-            viewModel?.removeCoupon(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.removeCoupon(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     switchView(1, "")
                     if(status){
@@ -252,7 +252,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                     apiKey = getApiKey(),
                     orderid = mOrderHistoryDataItem?.id!!
                 )
-            viewModel?.getCouponList(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.getCouponList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
                         switchView(1, "")

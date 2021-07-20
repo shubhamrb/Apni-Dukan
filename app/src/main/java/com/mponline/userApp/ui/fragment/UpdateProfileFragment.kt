@@ -89,7 +89,7 @@ class UpdateProfileFragment : BaseFragment(), OnItemClickListener {
                 name = edt_username.text.toString().trim(),
                 email = edt_email.text.toString().trim()
             )
-            viewModel?.updateProfile(commonRequestObj)?.observe(activity!!, Observer {
+            viewModel?.updateProfile(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     switchView(1, "")
                     if(status){
