@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <androidx.viewpager.widget.ViewPager
+                <com.mponline.userApp.ui.customview.AutoScrollViewPager
                     android:id="@+id/viewpager_banner"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
@@ -110,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <androidx.viewpager.widget.ViewPager
+                <com.mponline.userApp.ui.customview.AutoScrollViewPager
                     android:id="@+id/viewpager_bottom_banner"
                     android:layout_marginTop="@dimen/margin20"
                     android:layout_marginLeft="@dimen/margin15"

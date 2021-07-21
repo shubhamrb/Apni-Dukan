@@ -21,6 +21,8 @@ data class OrderHistoryResponse(
 data class Products(
     @SerializedName("image")
     val image: String? = "",
+    @SerializedName("product_image")
+    val product_image: String? = "",
     @SerializedName("short_description")
     val shortDescription: String? = "",
     @SerializedName("IsVerify")

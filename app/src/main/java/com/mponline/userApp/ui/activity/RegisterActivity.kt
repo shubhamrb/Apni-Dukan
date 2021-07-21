@@ -170,7 +170,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
                 .trim() + edt_3.text.toString().trim() + edt_4.text.toString()
                 .trim() + edt_5.text.toString().trim() + edt_6.text.toString().trim(),
             device_type = Constants.DEVICE_TYPE,
-            device_token = mFcmToken
+            device_token = mPreferenceUtils?.getValue(Constants.FCM_TOKEN)
         )
         val messageId = viewModel?.validateRegister(commonRequestObj, this@RegisterActivity)
 

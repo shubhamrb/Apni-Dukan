@@ -72,12 +72,12 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
 
         view?.ll_help?.setOnClickListener {
             var intent:Intent = Intent(context, FilePreviewActivity::class.java)
-            intent?.putExtra("file", "https://apnaonlines.com/helpsupport")
+            intent?.putExtra("file", "http://apnaonlines.com/helpsupport")
             context?.startActivity(intent)
         }
         view?.ll_enquiry?.setOnClickListener {
             var intent:Intent = Intent(context, FilePreviewActivity::class.java)
-            intent?.putExtra("file", "https://apnaonlines.com/enquiry")
+            intent?.putExtra("file", "http://apnaonlines.com/enquiry")
             context?.startActivity(intent)
         }
         //Stores

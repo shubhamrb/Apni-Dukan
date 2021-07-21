@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
     val viewModel: UserListViewModel by viewModels()
     var isExamFormVisible = false
     var isBottomBannerVisible = false
+    var mHandler:Handler? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +71,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mHandler = Handler()
         view?.nestedscroll?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (!isExamFormVisible) {
                 var flag = isViewVisible(view.rv_top_exam_forms)
@@ -168,8 +171,12 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                         }
 
                         override fun onPageSelected(position: Int) {
+                            if(mGetHomeDataResponse?.data?.bannerlist!=null && mGetHomeDataResponse?.data?.bannerlist?.size!!>0){
+
+                            }
                         }
                     })
+                    viewpager_banner.startAutoScroll(3000)
                     translateViewToLeftAnim(viewpager_banner, 1500)
                 }
 
@@ -269,8 +276,11 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                         }
 
                         override fun onPageSelected(position: Int) {
+                            if(mGetHomeDataResponse?.data?.bottom_bannerlist!=null && mGetHomeDataResponse?.data?.bottom_bannerlist?.size!!>0){
+                            }
                         }
                     })
+                    viewpager_bottom_banner.startAutoScroll(3000)
                 }
             }
         }

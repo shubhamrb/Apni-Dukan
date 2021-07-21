@@ -26,12 +26,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_order_history"
                     android:scaleType="fitXY"
                     android:layout_margin="@dimen/margin15"
-                    android:background="@color/grey_alpha"
                     android:layout_gravity="center_vertical"
                     android:layout_width="@dimen/margin55"
                     android:layout_height="@dimen/margin55"/>
@@ -65,15 +63,56 @@
 
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
-                        android:id="@+id/text_to_date"
-                        android:text="Application submitted as on 1 Jan 2021"
-                        android:layout_marginTop="@dimen/margin8"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/textsize12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Text_mont_regular"
+                            android:id="@+id/text_to_date"
+                            android:text="Application submitted as on 1 Jan 2021"
+                            android:layout_marginTop="@dimen/margin8"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsize12"
+                            android:layout_marginRight="@dimen/margin5"
+                            android:layout_weight="3.5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:gravity="right|center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/margin15"
+                            android:layout_weight="3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_mont_regular"
+                                android:id="@+id/text_status"
+                                android:text="Waiting for\nkiosk to accept"
+                                android:layout_gravity="right|center_vertical"
+                                android:gravity="right"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:textColor="@color/purple"
+                                android:textSize="@dimen/textsize12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                style="@style/Text_mont_regular"
+                                android:id="@+id/image_status"
+                                android:layout_gravity="right|center_vertical"
+                                android:gravity="right"
+                                android:background="@drawable/circle_green"
+                                android:layout_width="@dimen/margin10"
+                                android:layout_height="@dimen/margin10"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Text_mont_regular"
                         android:id="@+id/text_view_details"
@@ -97,37 +136,6 @@
                         android:textSize="@dimen/textsize12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="right|center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_weight="3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
-                        android:id="@+id/text_status"
-                        android:text="Waiting for\nkiosk to accept"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="right"
-                        android:layout_marginRight="@dimen/margin5"
-                        android:textColor="@color/purple"
-                        android:textSize="@dimen/textsize12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        style="@style/Text_mont_regular"
-                        android:id="@+id/image_status"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="right"
-                        android:background="@drawable/circle_green"
-                        android:layout_width="@dimen/margin10"
-                        android:layout_height="@dimen/margin10"/>
 
                 </LinearLayout>
             </LinearLayout>

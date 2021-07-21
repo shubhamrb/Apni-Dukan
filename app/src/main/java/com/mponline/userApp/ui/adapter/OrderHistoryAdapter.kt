@@ -44,10 +44,10 @@ class OrderHistoryAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is OrderHistoryViewHolder){
-            if (!mList?.get(position)?.storedetail?.image?.isNullOrEmpty()!!) {
+            if (!mList?.get(position)?.products?.product_image?.isNullOrEmpty()!!) {
                 ImageGlideUtils.loadUrlImage(
                     context!!,
-                    mList?.get(position)?.storedetail?.image!!,
+                    mList?.get(position)?.products?.product_image!!,
                     holder.itemView.image_order_history
                 )
             }
