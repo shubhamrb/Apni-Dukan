@@ -541,6 +541,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
         })
+        if(intent.hasExtra("from")){
+            var from = intent?.getStringExtra("from")
+            when(from){
+                "notification"->{
+                    onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
+                }
+                "offer"->{
+                    var id = intent.getStringExtra("id")
+                    onSwitchFragment(
+                        Constants.STORE_DETAIL_PAGE,
+                        Constants.WITH_NAV_DRAWER,
+                        StorelistItem(id = id),
+                        null
+                    )
+                }
+            }
+        }
 //        checkForLocation()
     }
 

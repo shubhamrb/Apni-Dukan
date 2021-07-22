@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
@@ -68,6 +69,14 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
             finish()
         }
         init()
+        FirebaseMessaging.getInstance().token?.addOnSuccessListener {
+            it?.let {
+                mFcmToken = it
+                CommonUtils.printLog("FCM_TOKEN", "${it}")
+                mPreferenceUtils?.setValue(Constants.FCM_TOKEN, mFcmToken)
+            }
+        }
+
     }
 
     fun init() {

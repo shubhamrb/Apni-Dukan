@@ -401,6 +401,16 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                         view?.rv_chat_msg?.adapter = mAdapter
                         chatMsgList = data
                         view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
+                        if(mOrderHistoryDataItem!=null && mOrderHistoryDataItem?.status == 5){
+                            rl_send_msg.visibility = View.GONE
+                        }else{
+                            rl_send_msg.visibility = View.VISIBLE
+                        }
+                        if(data!=null && data?.size!! >0){
+                            view?.text_empty_chat?.visibility = View.GONE
+                        }else{
+                            view?.text_empty_chat?.visibility = View.VISIBLE
+                        }
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(

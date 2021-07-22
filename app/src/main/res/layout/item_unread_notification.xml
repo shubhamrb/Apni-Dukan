@@ -5,6 +5,7 @@
     android:layout_marginLeft="@dimen/margin15"
     android:layout_marginRight="@dimen/margin15"
     android:elevation="@dimen/margin3"
+    android:layout_marginBottom="@dimen/margin15"
     android:id="@+id/cv_notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

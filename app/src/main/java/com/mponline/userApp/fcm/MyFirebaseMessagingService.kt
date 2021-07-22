@@ -33,7 +33,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         token?.run {
             Log.d(TAG, "Refreshed token: $token")
-            PreferenceUtils.getFCMInstance(this@MyFirebaseMessagingService, "FCM").setValue(Constants.FCM_TOKEN, this)
+            PreferenceUtils.getInstance(this@MyFirebaseMessagingService).setValue(Constants.FCM_TOKEN, this)
         }
     }
 
@@ -56,7 +56,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 val title: String? = remoteMessage.data["title"]
                 val date: String? = remoteMessage.data["date"]
 
-                pushNotification(id, type, body, title, date)
+                pushNotification(id, "", body, title, "")
 
 //                }
 
@@ -90,7 +90,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, notificationID, mIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val channelId = "channel"
         val mBuilder = NotificationCompat.Builder(this, channelId)
-//            .setSmallIcon(CommonUtils.getNotificationSmallIcon())
+            .setSmallIcon(R.mipmap.ic_launcher)
 //            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
             .setContentTitle(Html.fromHtml(title))
             .setContentText(Html.fromHtml(message)) // <<commented

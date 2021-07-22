@@ -102,4 +102,8 @@
     <string name="apply_filter">Apply Filter</string>
     <string name="download_invoice"><u>Download Invoice</u></string>
     <string name="enquiry">Enquiry</string>
+    <string name="browse_by_category">Browse By Category</string>
+    <string name="best_provider">Best Provider</string>
+    <string name="latest_services">Latest Services</string>
+    <string name="recommended_provider">Recommended Provider</string>
 </resources>

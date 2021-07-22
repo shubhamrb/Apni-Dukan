@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_offers.*
 import kotlinx.android.synthetic.main.common_toolbar_normal.*
+import kotlinx.android.synthetic.main.item_coupons.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
@@ -108,11 +109,23 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        if (obj is DataItem) {
-            var intent: Intent = Intent()
-            intent?.putExtra("data", obj)
-            setResult(RESULT_OK, intent);
-            finish();
+        when(view?.id){
+            R.id.text_coupon_title->{
+                if (obj is DataItem && obj?.store_id!=null) {
+                    var intent:Intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("from", "offer")
+                    intent.putExtra("id", obj?.store_id)
+                    startActivity(intent)
+                }
+            }
+            else->{
+                if (obj is DataItem) {
+                    var intent: Intent = Intent()
+                    intent?.putExtra("data", obj)
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
         }
     }
 

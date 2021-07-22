@@ -21,6 +21,8 @@ data class GetCouponListResponse(
 data class DataItem(
     @SerializedName("discount_amount")
     val discount_amount: String = "",
+    @SerializedName("store_id")
+    val store_id: String? = "",
     @SerializedName("discount_type")
     val discount_type: String = "",
     @SerializedName("description")

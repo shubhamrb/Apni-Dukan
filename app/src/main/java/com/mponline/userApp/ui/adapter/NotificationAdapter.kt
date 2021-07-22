@@ -37,6 +37,9 @@ class NotificationAdapter(
         holder.itemView.text_noti_title.text = mList?.get(position)?.message
         holder.itemView.text_noti_type.text = mList?.get(position)?.notiType
         holder.itemView.text_notification_time.text = mList?.get(position)?.updatedAt
+        holder.itemView.setOnClickListener {
+            listener?.onClick(position, holder.itemView.text_noti_title, mList?.get(position))
+        }
     }
 
     override fun getItemId(position: Int): Long {

@@ -172,13 +172,13 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     text_store_status.text =
                         if (it?.data?.get(0)?.is_available != null && it?.data?.get(0)?.is_available!! == "1") "Open" else "Closed"
                     image_store_status.setImageResource(
-                        if (it?.data?.get(0)?.is_available != null && it?.data?.get(
-                                0
-                            )?.is_available!! == "1"
-                        ) R.drawable.circle_green else R.drawable.circle_red
+                            if (it?.data?.get(0)?.is_available != null && it?.data?.get(
+                                    0
+                                )?.is_available!! == "1"
+                            ) R.drawable.circle_green else R.drawable.circle_red
                     )
                     if (it?.data?.get(0)?.ratting != null) {
-                        ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
+//                        ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
 //                        text_rating.text = it?.data?.get(0)?.ratting
                         text_total_users.text = it?.data?.get(0)?.totalrating
@@ -269,6 +269,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                             var formattedRating = df.format(rating);
 
                             text_rating.text = formattedRating
+                            ratingbar_store.rating = rating.toFloat()
                         }
                     }
                     text_store_desc.text = Html.fromHtml(it?.data?.get(0)?.description)
@@ -289,6 +290,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     val adapter =
                         StoreDetailBannerPagerAdapter(activity!!, childFragmentManager, it?.data?.get(0)?.banner_image!!)
                     viewpager_banner_storedetail.adapter = adapter
+                    viewpager_banner_storedetail.startAutoScroll(3000)
                 }
             }
         }

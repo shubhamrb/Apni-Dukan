@@ -66,7 +66,7 @@ class UserListAdapter(
             mView.tv_email.text = "Email: ${usr?.email}"
             mView.tv_contact.text = usr?.location?.city+", "+usr?.location?.state+", "+usr?.location?.country
             mView.tv_userchoice.text = "You ${usr?.userChoice}"
-            Glide.with(context).load(usr?.picture?.large).placeholder(R.drawable.ic_sync)
+            Glide.with(context).load(usr?.picture?.large).placeholder(R.drawable.ic_arrow_back_ios)
                 .into(mView.imageView)
         }
     }

@@ -44,6 +44,11 @@ class CouponsAdapter(
         holder?.itemView?.text_apply?.setOnClickListener {
             listener?.onClick(position, holder?.itemView?.text_apply, mList?.get(position))
         }
+        holder?.itemView?.setOnClickListener {
+            if(type?.equals("offer")) {
+                listener?.onClick(position, holder?.itemView?.text_coupon_title, mList?.get(position))
+            }
+        }
     }
 
     override fun getItemId(position: Int): Long {

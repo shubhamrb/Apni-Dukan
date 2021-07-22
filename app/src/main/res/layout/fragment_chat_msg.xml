@@ -23,11 +23,22 @@
             android:layout_above="@+id/rl_send_msg"
             android:layout_marginBottom="@dimen/margin15" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_medium"
+            android:id="@+id/text_empty_chat"
+            android:text="No Chat Found"
+            android:visibility="gone"
+            android:textSize="@dimen/textsize18"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <RelativeLayout
             android:id="@+id/rl_send_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="@dimen/margin3"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:padding="@dimen/margin15">

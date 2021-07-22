@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_main.bottom_navigation
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_instruction.view.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
+import kotlinx.android.synthetic.main.item_unread_notification.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
@@ -65,7 +66,13 @@ class NotificationActivity : BaseActivity(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-
+        when(view?.id){
+            R.id.text_noti_title->{
+                var intent:Intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("from", "notification")
+                startActivity(intent)
+            }
+        }
     }
     private fun callNotificationList() {
         if (CommonUtils.isOnline(this!!)) {
