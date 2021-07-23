@@ -12,7 +12,7 @@ data class LoginResponse(@SerializedName("data")
                             @SerializedName("message")
                             val message: String? = "",
                             @SerializedName("status")
-                            val status: Boolean? = false)
+                            val status: Boolean = false)
 
 @Parcelize
 data class UserRes(@SerializedName("IsVerify")

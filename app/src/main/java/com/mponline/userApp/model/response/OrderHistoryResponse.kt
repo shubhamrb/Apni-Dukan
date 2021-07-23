@@ -73,6 +73,8 @@ data class Products(
 
 @Parcelize
 data class OrderHistoryDataItem(
+    @SerializedName("isPaytoShop")
+    var isPaytoShop: String? = "",
     @SerializedName("offer_amount")
     val offerAmount: String? = "",
     @SerializedName("userratting")
@@ -149,7 +151,7 @@ data class Storedetail(
     val isVerify: Int = 0,
     @SerializedName("city")
     val city: String? = "",
-    @SerializedName("qrcode")
+    @SerializedName("qr_image")
     val qrcode: String? = "",
     @SerializedName("latitude")
     val latitude: String? = "",

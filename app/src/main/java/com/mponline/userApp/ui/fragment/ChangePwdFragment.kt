@@ -56,6 +56,9 @@ class ChangePwdFragment : BaseFragment(), OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         view?.image_back?.setOnClickListener {  }
         view?.toolbar_title?.text = "Change Password"
+        view?.image_back?.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+        }
         view?.run {
             text_change_pwd.setOnClickListener {
                 if(edt_old_pwd.text.toString()?.isNullOrEmpty()){

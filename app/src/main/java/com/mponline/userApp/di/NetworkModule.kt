@@ -62,5 +62,4 @@ object NetworkingModule {
     fun provideRestApiService(retrofit: Retrofit): NetworkAPIService {
         return retrofit.create(NetworkAPIService::class.java)
     }
-
 }

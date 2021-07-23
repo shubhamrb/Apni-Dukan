@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MPonline</string>
+    <string name="app_name">Apna Onlines</string>
     <string name="no_net">No data found, please on wifi/mobile data !</string>
     <string name="failure_msg">Something went wrong, Please try again!</string>
     <string name="no_data">No data found</string>
@@ -89,6 +89,7 @@
     <string name="cart_value_discount">Cart Value Offer Discount</string>
     <string name="get_coupons_click"><u>Get Free Coupons, Click here</u></string>
     <string name="clk_to_proceed">Click to proceed</string>
+    <string name="resend"><u>Resend</u></string>
 
     <!--    validations-->
     <string name="empty_name">Please enter valid name</string>
@@ -106,4 +107,5 @@
     <string name="best_provider">Best Provider</string>
     <string name="latest_services">Latest Services</string>
     <string name="recommended_provider">Recommended Provider</string>
+    <string name="search_for_online_service">Search for online service...</string>
 </resources>

@@ -118,7 +118,7 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.sendOtp(userAuthRequestObj);
     }
 
-    fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): LiveData<CommonResponse> {
+    fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): LiveData<LoginResponse> {
         return userRepositoryImpl.verifyOtp(userAuthRequestObj);
     }
 

@@ -75,8 +75,8 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
 
     override fun onStart() {
         CommonUtils.printLog("ONRESUME","Called")
-        mSwichFragmentListener?.onSwichToolbar(Constants.HIDE_NAV_DRAWER_TOOLBAR,"",null)
-        mView?.app_bar_normal?.visibility = View.VISIBLE
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+//        mView?.app_bar_normal?.visibility = View.VISIBLE
         super.onStart()
     }
 
@@ -87,7 +87,7 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
 
     override fun onStop() {
         super.onStop()
-        mView?.app_bar_normal?.visibility = View.INVISIBLE
+//        mView?.app_bar_normal?.visibility = View.INVISIBLE
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {

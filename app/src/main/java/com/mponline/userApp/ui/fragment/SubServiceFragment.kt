@@ -75,6 +75,11 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
                     categoryObj?.let {
                         callSubCategory(it, subCategoryObj!!)
                     }
+                    if(categoryObj?.name!=null && subCategoryObj?.name!=null){
+                        view?.text_list_title?.text = "${categoryObj?.name} | ${subCategoryObj?.name}"
+                    }else{
+
+                    }
                 }else{
                     categoryObj?.let {
                         if(!it?.storeId?.isNullOrEmpty()){

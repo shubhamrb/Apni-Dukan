@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context=".ui.activity.ImgPreviewActivity">
 
     <include
@@ -14,6 +13,7 @@
     <WebView
         android:layout_below="@id/toolbar"
         android:id="@+id/webview"
+        android:background="@color/red_alpha"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

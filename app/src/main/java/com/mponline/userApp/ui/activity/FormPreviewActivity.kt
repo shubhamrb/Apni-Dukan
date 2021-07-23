@@ -24,6 +24,9 @@ class FormPreviewActivity : BaseActivity(), OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_preview)
         toolbar_title.text = ""
+        image_back?.setOnClickListener {
+            finish()
+        }
         var data = intent?.getParcelableArrayListExtra<OrderDetailItem>("data")
         if(!data?.isNullOrEmpty()!!){
             rv_form_detail?.setHasFixedSize(true)

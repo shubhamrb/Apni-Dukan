@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UploadImgData(@SerializedName("ext")
                 val ext: String = "",
+                val myfile: ArrayList<String>,
                 @SerializedName("url")
                 val url: String = "")
 

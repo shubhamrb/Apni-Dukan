@@ -54,9 +54,21 @@ class PaymentDetailFragment : BaseFragment(), OnItemClickListener {
         arguments?.let {
             if(it?.containsKey("obj")){
                 mOrderHistoryDataItem = it?.getParcelable("obj")
-                view?.text_payment_mode?.text = "Upi number: ${mOrderHistoryDataItem?.storedetail?.upiNumber}"
+                if(!mOrderHistoryDataItem?.isPaytoShop?.isNullOrEmpty()!! && mOrderHistoryDataItem?.isPaytoShop?.equals("Yes",true)!!){
+                    view?.text_payment_mode?.text = "Please visit ${mOrderHistoryDataItem?.storedetail?.name} shop & make payment of ${activity?.resources?.getString(R.string.rs)} ${mOrderHistoryDataItem?.payableAmount}"
+                    view?.text_store_name?.visibility = View.GONE
+                    view?.text_scan_instruction?.visibility = View.GONE
+                    view?.image_qr_code?.visibility = View.GONE
+                    view?.text_instruction?.visibility = View.GONE
+                }else{
+                    view?.image_qr_code?.visibility = View.VISIBLE
+                    view?.text_store_name?.visibility = View.VISIBLE
+                    view?.text_scan_instruction?.visibility = View.VISIBLE
+                    view?.text_instruction?.visibility = View.VISIBLE
+                    view?.text_payment_mode?.text = "Upi number: ${mOrderHistoryDataItem?.storedetail?.upiNumber}"
+                }
                 view?.text_store_name?.text = mOrderHistoryDataItem?.storedetail?.name
-                view?.text_instr?.text = "Once payment is done kindly share it with\\nthe kiosk on chat section."
+                view?.text_instr?.text = "Once payment is done kindly share it with\nthe kiosk on chat section."
                 ImageGlideUtils.loadUrlImage(activity!!, mOrderHistoryDataItem?.storedetail?.qrcode!!, view?.image_qr_code)
             }
         }

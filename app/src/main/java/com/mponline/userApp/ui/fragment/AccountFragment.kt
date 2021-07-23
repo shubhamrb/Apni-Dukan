@@ -70,6 +70,10 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
         view?.image_back?.setOnClickListener {  }
         view?.toolbar_title?.text = "My Account"
 
+        view?.image_back?.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+        }
+
         view?.ll_help?.setOnClickListener {
             var intent:Intent = Intent(context, FilePreviewActivity::class.java)
             intent?.putExtra("file", "http://apnaonlines.com/helpsupport")

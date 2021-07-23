@@ -50,6 +50,8 @@ import kotlinx.android.synthetic.main.item_radiobtn.view.*
 import kotlinx.android.synthetic.main.item_spinner.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -213,7 +215,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+//        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.REQUEST_CAMERA -> {
@@ -222,9 +224,18 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     image?.let {
                         try {
 //                            ImageOrientationChecker.imagePreviewCamera(File(image))
+                            val file = cameraUtils.createImageFile(
+                                activity!!,
+                                "jpg"
+                            )
+                            ImageOrientationChecker.getCopyOfImage(
+                                File(image),
+                                file
+                            )
+                            cameraUtils.mCurrentPhotoPath = file.absolutePath
                             if (mCustomFileAdapter != null) {
-                                customFormList?.get(mSelectedPos)?.ansValue = image
-                                customFormList?.get(mSelectedPos)?.ansValue = image
+                                customFormList?.get(mSelectedPos)?.ansValue = cameraUtils.mCurrentPhotoPath
+                                customFormList?.get(mSelectedPos)?.ansValue = cameraUtils.mCurrentPhotoPath
                                 mCustomFileAdapter?.onRefreshAdapter(
                                     customFormList,
                                     pos = mSelectedPos,
@@ -317,6 +328,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     fun isValidData(): String {
         var errorMsg = ""
         customFormList?.forEachIndexed { index, customFieldObj ->
+            if(customFieldObj?.fieldType?.equals("file")!! && !customFieldObj?.ansValue?.isNullOrEmpty()!!){
+                if(!(customFieldObj?.ansValue?.startsWith("http://")!!) && !(customFieldObj?.ansValue?.startsWith("https://")!!)){
+                    return "The file didn't uploaded correctly, please try again"
+                }
+            }
             if (customFieldObj?.isRequired?.equals(
                     "Yes",
                     true
@@ -529,11 +545,25 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                         ".jpeg"
                     )
                 ) {
-                    requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile)
-                    fileName =
-                        if (filePathName.contains(".jpg")) "Test.jpg"
-                        else if (filePathName.contains(".png")) "Test.png"
-                        else "Test.jpg"
+                        if (filePathName.contains(".jpg")){
+                            fileName ="Test.jpg"
+                            requestFile = RequestBody.create(
+                                "image/jpg".toMediaType(),
+                                imageFile
+                            )
+                        }
+                        else if (filePathName.contains(".png")){
+                            fileName ="Test.png"
+                            requestFile = RequestBody.create("image/png".toMediaType(), imageFile)
+                        }
+                        else {
+                            fileName ="Test.jpeg"
+                            requestFile = RequestBody.create("image/jpeg".toMediaType(), imageFile)
+                        }
+                    requestFile = RequestBody.create(
+                        "image/*".toMediaType(),
+                        imageFile
+                    )
                 } else {
                     fileName =
                         if (mFilePath.contains(".pdf")) "Test.pdf"
@@ -550,7 +580,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
                 multipartBody,
                 requestDocs
-            )?.observe(this, androidx.lifecycle.Observer {
+            )?.observe(activity!!, androidx.lifecycle.Observer {
                 it?.run {
                     CommonUtils.printLog("RESPONSE", Gson().toJson(this))
                     if (status) {
@@ -561,12 +591,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                             pos = selectedPos,
                             flag = false
                         )
-                    } else {
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                            message!!
-                        )
                     }
+                    CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                    message!!
+                    )
                 }
             })
         } else {

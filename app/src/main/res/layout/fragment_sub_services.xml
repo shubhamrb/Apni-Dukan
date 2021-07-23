@@ -27,7 +27,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
                     android:id="@+id/text_list_title"
-                    android:text="@string/top_stores"
+                    android:text="Services"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"

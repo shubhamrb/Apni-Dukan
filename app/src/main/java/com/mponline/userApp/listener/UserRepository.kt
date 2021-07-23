@@ -38,7 +38,7 @@ interface UserRepository {
     fun login(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<LoginResponse>
     fun register(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<SignupResponse>
     fun sendOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
-    fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
+    fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<LoginResponse>
 
     //Listing
     fun getOrderHistory(commonRequestObj: CommonRequestObj): MutableLiveData<OrderHistoryResponse>

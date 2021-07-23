@@ -43,9 +43,9 @@ class ChatHomeActivity : BaseActivity(), OnItemClickListener {
         image_back.setOnClickListener {
             onBackPressed()
         }
-        image_search.setOnClickListener {
-
-        }
+//        image_search.setOnClickListener {
+//
+//        }
         toolbar_title.text = resources?.getString(R.string.chat)
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {

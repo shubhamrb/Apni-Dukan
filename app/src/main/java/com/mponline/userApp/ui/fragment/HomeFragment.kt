@@ -1,14 +1,13 @@
 package com.mponline.userApp.ui.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -141,6 +140,12 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
         mGetHomeDataResponse?.let {
             mView?.run {
                 //Banner
+                val displayMetrics = DisplayMetrics()
+                activity?.getWindowManager()?.getDefaultDisplay()?.getMetrics(displayMetrics)
+                val height = displayMetrics.heightPixels
+                val width = displayMetrics.widthPixels
+                var estimatedImgWidth = width - (CommonUtils.convertDpToPixel(activity!!, 15) + CommonUtils.convertDpToPixel(activity!!, 200))
+                CommonUtils.printLog("SCREEN_WIDTH","${width}, ${estimatedImgWidth}")
                 if (it?.data?.bannerlist != null) {
                     val adapter =
                         BannerPagerAdapter(activity!!, childFragmentManager, it?.data?.bannerlist!!)
@@ -152,7 +157,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     viewpager_banner?.setPadding(
                         CommonUtils.convertDpToPixel(activity!!, 0),
                         0,
-                        CommonUtils.convertDpToPixel(activity!!, 120),
+                        estimatedImgWidth,
                         0
                     )
                     viewpager_banner.addOnPageChangeListener(object :
@@ -257,7 +262,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     viewpager_bottom_banner?.setPadding(
                         CommonUtils.convertDpToPixel(activity!!, 0),
                         0,
-                        CommonUtils.convertDpToPixel(activity!!, 120),
+                        estimatedImgWidth,//CommonUtils.convertDpToPixel(activity!!, 120),
                         0
                     )
                     viewpager_bottom_banner.addOnPageChangeListener(object :

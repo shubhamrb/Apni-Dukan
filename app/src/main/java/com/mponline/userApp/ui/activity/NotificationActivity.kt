@@ -55,14 +55,34 @@ class NotificationActivity : BaseActivity(), OnItemClickListener {
             onBackPressed()
         }
         toolbar_title.text = resources?.getString(R.string.notification)
-        bottom_navigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
 
+        callNotificationList()
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            supportFragmentManager?.popBackStack();
+            var intent = Intent()
+            when (it.itemId) {
+                R.id.nav_home -> {
+                    intent?.putExtra("from", "NOTI_home")
+                }
+                R.id.nav_chat -> {
+                    intent?.putExtra("from", "NOTI_chat")
+                }
+                R.id.nav_history -> {
+                    intent?.putExtra("from", "NOTI_history")
+                }
+                R.id.nav_nearby -> {
+                    intent?.putExtra("from", "NOTI_nearby")
+                }
+                R.id.nav_acc -> {
+                    intent?.putExtra("from", "NOTI_account")
+                }
             }
+            setResult(RESULT_OK)
+            finish()
             true
         }
 
-        callNotificationList()
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {

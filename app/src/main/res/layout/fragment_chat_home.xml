@@ -13,9 +13,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/app_bar_normal"
-            layout="@layout/common_toolbar_normal"/>
+<!--        <include-->
+<!--            android:id="@+id/app_bar_normal"-->
+<!--            layout="@layout/common_toolbar_normal"/>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_chat_list"

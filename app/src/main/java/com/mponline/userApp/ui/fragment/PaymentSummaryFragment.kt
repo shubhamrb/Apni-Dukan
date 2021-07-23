@@ -57,6 +57,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
     var mCouponAmt: String = "0.0"
     var mPayableAmt: String = "0.0"
     var mGetCouponListResponse: GetCouponListResponse? = null
+    var isCouponApplied = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,6 +82,12 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         arguments?.let {
             if (it?.containsKey("obj")) {
                 mOrderHistoryDataItem = it?.getParcelable("obj")
+                if(mOrderHistoryDataItem?.payableAmount!=null){
+                    mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
+                }
+                if(mOrderHistoryDataItem?.offerAmount!=null){
+                    mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
+                }
                 callCouponList()
             }
         }
@@ -89,7 +96,11 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
         }
         view?.image_close?.setOnClickListener {
-            callRemoveCoupon()
+            if(isCouponApplied){
+                callRemoveCoupon()
+            }else{
+                mView?.edt_coupon_code?.setText("")
+            }
         }
         view?.text_apply?.setOnClickListener {
             if (!view?.edt_coupon_code?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
@@ -153,14 +164,18 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
             activity?.startActivity(intent)
         }
         view?.text_pay_to_shop?.setOnClickListener {
+            var orderdetail = mOrderHistoryDataItem
+            orderdetail?.isPaytoShop = "Yes"
             mSwichFragmentListener?.onSwitchFragment(
                 Constants.PAYMENT_DETAIL_PAGE,
                 Constants.WITH_NAV_DRAWER,
-                mOrderHistoryDataItem,
+                orderdetail,
                 null
             )
         }
         view?.text_upi?.setOnClickListener {
+            var orderdetail = mOrderHistoryDataItem
+            orderdetail?.isPaytoShop = "No"
             mSwichFragmentListener?.onSwitchFragment(
                 Constants.PAYMENT_DETAIL_PAGE,
                 Constants.WITH_NAV_DRAWER,
@@ -173,7 +188,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
 
     fun calculateTotal() {
         mView?.text_coupon_amt?.text =
-            activity?.resources?.getString(R.string.rs) + " ${mCouponAmt}"
+            "- "+activity?.resources?.getString(R.string.rs) + " ${mCouponAmt}"
         view?.text_subtotal_amt?.text = mOrderHistoryDataItem?.orderAmount!!
         var totalAmt = 0f
         totalAmt =
@@ -198,6 +213,8 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                         mPayableAmt = data?.finalamountpay!!
                         mView?.text_coupon_amt?.text =
                             "- " + activity?.resources?.getString(R.string.rs) + " ${data?.discountamount!!}"
+                        isCouponApplied = true
+                        calculateTotal()
                     } else {
                         view?.edt_coupon_code?.setText("")
                     }
@@ -260,11 +277,17 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                         mGetCouponListResponse?.data?.forEach {
                             if(it?.id?.equals(mOrderHistoryDataItem?.offerId)){
                                 mView?.edt_coupon_code?.setText(it?.coupon)
+                                if(it?.coupon!=null && !it?.coupon?.isNullOrEmpty()){
+                                    isCouponApplied = true
+                                }else{
+                                    isCouponApplied = false
+                                }
                                 if(mOrderHistoryDataItem?.offerAmount!=null && !mOrderHistoryDataItem?.offerAmount?.isNullOrEmpty()!!){
                                     mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
                                     var res = ((mOrderHistoryDataItem?.orderAmount?.toFloat()!!) + (mOrderHistoryDataItem?.offerAmount?.toFloat()!!))
-                                    mOrderHistoryDataItem?.orderAmount = res?.toString()
+                                    mOrderHistoryDataItem?.orderAmount = mOrderHistoryDataItem?.orderAmount
                                     mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
+                                    mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
                                     mView?.text_coupon_amt?.text =
                                         "- " + activity?.resources?.getString(R.string.rs) + " ${it?.discount_amount!!}"
                                     calculateTotal()

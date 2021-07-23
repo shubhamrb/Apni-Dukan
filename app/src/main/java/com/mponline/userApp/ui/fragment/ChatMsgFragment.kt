@@ -141,7 +141,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                     msg = edit_msg.text.toString().trim()!!,
                     selectedPos = 0
                 )
-
+                view?.text_empty_chat?.visibility = View.GONE
                 view?.edit_msg?.setText("")
             } else {
                 //show error

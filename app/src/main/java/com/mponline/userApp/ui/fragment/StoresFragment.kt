@@ -26,6 +26,7 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.fragment_stores.*
 import kotlinx.android.synthetic.main.fragment_stores.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
 import java.util.*
@@ -130,8 +131,11 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                 it?.run {
                     if (status) {
                         mStoreList = data
+                        if(mStoreList!=null && mStoreList?.size!!>0){
+                            text_res_title?.text = "Search Result (${mStoreList?.size})"
+                        }
                         switchView(1, "")
-                        setDataToUI(this?.data!!)
+                        setDataToUI(this?.data!!, true)
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(
@@ -213,9 +217,15 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
         }
     }
 
-    fun setDataToUI(data: ArrayList<StorelistItem>) {
+    fun setDataToUI(data: ArrayList<StorelistItem>, isNearyby:Boolean = false) {
         data?.let {
             if (it?.size >= 0) {
+                if(mStoreList!=null && mStoreList?.size!!>0){
+                    text_res_title?.text = "Search Result (${mStoreList?.size})"
+                }
+                Collections.sort(mStoreList, Comparator { obj1, obj2 ->
+                    obj1.distance.compareTo(obj2.distance) // To compare string values
+                })
                 view?.rv_stores?.setHasFixedSize(true)
                 view?.rv_stores?.layoutManager =
                     LinearLayoutManager(
@@ -320,7 +330,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                     }
                 }
                 if (!obj?.mprice?.equals("All")!!) {
-                    when (obj?.mlocation) {
+                    when (obj?.mprice) {
                         "Low to high" -> {
                             Collections.sort(filteredList, Comparator { obj1, obj2 ->
                                 obj1.price.compareTo(obj2.price) // To compare string values

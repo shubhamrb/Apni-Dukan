@@ -19,7 +19,7 @@
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:textColorHint="@color/light_black"
-            android:hint="First Name*"
+            android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <androidx.appcompat.widget.AppCompatEditText
@@ -32,7 +32,7 @@
             android:inputType="number"
             android:imeOptions="actionDone"
             android:textColorHint="@color/light_black"
-            android:hint="First Name*"
+            android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -47,7 +47,7 @@
             android:text=""
             android:imeOptions="actionNext"
             android:textColorHint="@color/light_black"
-            android:hint="First Name*"
+            android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -249,7 +249,7 @@ abstract class BaseFragment : Fragment() {
             search = search,
             orderid = orderid,
             coupon = coupon,
-            orderamount = orderid,
+            orderamount = orderamount,
             vendorid = vendorid,
             latitude = latitude,
             longitude = longitude,
@@ -263,7 +263,7 @@ abstract class BaseFragment : Fragment() {
             oldpassword = oldpassword,
             newpassword = newpassword,
             discountamount = discountamount,
-            finalamountpay = newpassword,
+            finalamountpay = finalamountpay,
             headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }

@@ -198,6 +198,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
         if (CommonUtils.isOnline(activity!!)) {
 //            switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey(),
                 orderid = mOrderHistoryDataItem?.id!!,
                 storeid = mOrderHistoryDataItem?.storeId!!,
                 rating = mOrderHistoryDataItem?.myrating!!

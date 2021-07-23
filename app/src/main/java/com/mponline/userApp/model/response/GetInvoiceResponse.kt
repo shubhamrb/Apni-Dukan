@@ -193,8 +193,8 @@ data class InvoiceData(@SerializedName("offer_amount")
                 val adminCommission: String = "",
                 @SerializedName("updated_at")
                 val updatedAt: String = "",
-                @SerializedName("product_id")
-                val productId: Int = 0,
+//                @SerializedName("product_id")
+//                val productId: Int = 0,
                 @SerializedName("order_amount")
                 val orderAmount: String = "",
                 @SerializedName("orderdatetime")

@@ -36,6 +36,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
+                    android:id="@+id/text_scan_instruction"
                     android:text="Scan the QR Code to make payment."
                     android:layout_marginTop="@dimen/margin8"
                     android:textColor="@color/light_black"
@@ -64,6 +65,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_regular"
+                    android:id="@+id/text_instruction"
                     android:text="Scan to make payment."
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin25"

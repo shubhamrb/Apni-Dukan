@@ -22,6 +22,8 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.request.UserAuthRequestObj
 import com.mponline.userApp.model.response.CommonResponse
+import com.mponline.userApp.model.response.LoginResponse
+import com.mponline.userApp.model.response.RegisterResponse
 import com.mponline.userApp.ui.adapter.NotificationAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -222,9 +224,25 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
     }
 
     override fun onOtpverify(obj: Any?) {
-        if(obj!=null && obj is CommonResponse){
-            if(obj?.status){
-
+        if(obj!=null && obj is LoginResponse){
+            if(obj.status!!){
+                obj?.let {
+                    mPreferenceUtils?.setValue(Constants.USER_NAME, obj?.data?.user?.name!!)
+                    mPreferenceUtils?.setValue(Constants.USER_MOBILE, obj?.data?.user?.phone!!)
+                    mPreferenceUtils?.setValue(Constants.USER_ID, obj?.data?.user?.id!!)
+                    mPreferenceUtils?.setValue(Constants.USER_TOKEN, obj?.data?.token!!)
+                    mPreferenceUtils?.setValue(Constants.USER_INFO, Gson().toJson(obj))
+                    CommonUtils.createSnackBar(
+                        findViewById(android.R.id.content)!!,
+                        obj?.message!!
+                    )
+                    startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                }
+            }else{
+                CommonUtils.createSnackBar(
+                    findViewById(android.R.id.content)!!,
+                    obj?.message!!
+                )
             }
         }
     }

@@ -42,6 +42,15 @@
                 app:srcCompat="@android:drawable/ic_search_category_default"
                 android:layout_width="@dimen/margin60"
                 android:layout_height="@dimen/margin25"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_download"
+                android:layout_alignParentRight="true"
+                android:tint="@color/white"
+                android:visibility="gone"
+                android:padding="@dimen/margin5"
+                app:srcCompat="@drawable/ic_download"
+                android:layout_width="@dimen/margin60"
+                android:layout_height="@dimen/margin25"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_semibold"

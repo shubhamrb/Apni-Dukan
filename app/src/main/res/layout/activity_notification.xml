@@ -70,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:background="@drawable/gradient_blue_180"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"

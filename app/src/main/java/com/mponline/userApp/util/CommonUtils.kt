@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -36,6 +37,20 @@ class  CommonUtils{
                 toast?.run { this.cancel() }
                 toast = Toast.makeText(view.context, message, Toast.LENGTH_LONG)
                 toast?.run { this.show() }
+            }
+        }
+        fun convertPixelsToDp(px: Float, context: Context): Float {
+            return px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+        }
+        fun openKeyboard(mActivity: Activity) {
+            val imm = mActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        }
+
+        fun hideKeyboardView(mAcivity: Activity?, view: View) {
+            if (view != null) {
+                val imm = mAcivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm!!.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
             }
         }
 

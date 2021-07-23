@@ -66,6 +66,9 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
                 val data: CategorylistItem? = arguments?.getParcelable<CategorylistItem>("obj")
                 data?.let {
                     mCategoryObj = it
+                    if(mCategoryObj?.name!=null && !mCategoryObj?.name?.isNullOrEmpty()!!){
+                        view?.text_servicename?.text = mCategoryObj?.name
+                    }
                     callSubCategory(it)
                 }
             }

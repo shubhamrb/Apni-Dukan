@@ -58,6 +58,9 @@ class UpdateProfileFragment : BaseFragment(), OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         view?.image_back?.setOnClickListener {  }
         view?.toolbar_title?.text = "Update Profile"
+        view?.image_back?.setOnClickListener {
+            activity?.supportFragmentManager?.popBackStack()
+        }
         view?.run {
             edt_username?.setText(mPreferenceUtils?.getValue(Constants.USER_NAME))
             edt_email?.setText(mPreferenceUtils?.getValue(Constants.USER_EMAIL))

@@ -146,10 +146,12 @@ class OrderHistoryAdapter(
                         holder?.itemView?.ll_submit_rating?.visibility = View.GONE
                         if(mList?.get(position)?.userratting!=null && (!mList?.get(position)?.userratting?.isNullOrEmpty()!!)){
                             holder?.itemView?.ratingbar?.rating = mList?.get(position)?.userratting?.toFloat()!!
+                            holder?.itemView?.ratingbar?.setIsIndicator(true);
                             holder?.itemView?.text_rating_msg?.text = "Your ratings"
                         }
                     }else{
                         holder?.itemView?.text_rating_msg?.text = "Leave a rating"
+                        holder?.itemView?.ratingbar?.setIsIndicator(false);
                         holder?.itemView?.ll_submit_rating?.visibility = View.VISIBLE
                     }
                 }

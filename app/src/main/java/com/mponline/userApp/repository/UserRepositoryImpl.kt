@@ -309,8 +309,8 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
-    override fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse> {
-        val data = MutableLiveData<CommonResponse>()
+    override fun verifyOtp(userAuthRequestObj: UserAuthRequestObj): MutableLiveData<LoginResponse> {
+        val data = MutableLiveData<LoginResponse>()
         val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {

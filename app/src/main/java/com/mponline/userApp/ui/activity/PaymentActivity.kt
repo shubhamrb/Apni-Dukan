@@ -46,7 +46,7 @@ class PaymentActivity : BaseActivity() {
             if (mOrderHistoryDataItem != null) {
                 callCashfreeToken(
                     orderId = mOrderHistoryDataItem?.id!!,
-                    orderAmt = mOrderHistoryDataItem?.orderAmount!!
+                    orderAmt = mOrderHistoryDataItem?.payableAmount!!
                 )
             }
         }
@@ -69,7 +69,7 @@ class PaymentActivity : BaseActivity() {
                     CommonUtils.printLog("PAYMENT_RES2", key + " : " + bundle.getString(key))
                     when (key) {
                         "orderId" -> {
-                            req.orderId = bundle.getString(key)!!
+//                            req.orderId = bundle.getString(key)!!
                         }
                         "txTime" -> {
                             req.txTime = bundle.getString(key)!!
@@ -92,6 +92,8 @@ class PaymentActivity : BaseActivity() {
                     }
                 }
             }
+            req.orderId = mOrderHistoryDataItem?.orderId
+            req.paymentMethod = "CASHFREE"
             callSavePayment(req)
         }
     }
@@ -265,7 +267,7 @@ class PaymentActivity : BaseActivity() {
 //            val appId = "134441f4914d787610a43c13f44431"
             val appId = "936476e4b0e75a0300a64fc14639"
             val orderId = mOrderHistoryDataItem?.id!!
-            val orderAmount = mOrderHistoryDataItem?.orderAmount!!
+            val orderAmount = mOrderHistoryDataItem?.payableAmount!!
             val orderNote = "Test Order"
             val customerName = mPreferenceUtils?.getValue(Constants.USER_NAME)
             val customerPhone = mPreferenceUtils?.getValue(Constants.USER_MOBILE)

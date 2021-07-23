@@ -30,6 +30,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"
+                android:id="@+id/text_mobile_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"

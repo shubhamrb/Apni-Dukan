@@ -10,13 +10,18 @@ import android.os.Bundle
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,8 +55,10 @@ import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.common_toolbar.*
+import kotlinx.android.synthetic.main.common_toolbar.toolbar
 import kotlinx.android.synthetic.main.fragment_chat_home.view.*
 import kotlinx.android.synthetic.main.item_search.view.*
+import kotlinx.android.synthetic.main.layout_toolbar_search.*
 import java.text.DateFormat
 import java.util.*
 
@@ -79,6 +86,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var mLocationCallback: LocationCallback? = null
     var mCurrentLocation: Location? = null
     var mRequestingLocationUpdates = false
+    var mSearchActive = false
     private var mLastUpdateTime: String? = ""
 
     override fun onStartNewActivity(listener: OnImgPreviewListener, imgPath: String) {
@@ -101,8 +109,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
         app_bar_common.visibility = View.VISIBLE
+        val menu: Menu = bottom_navigation.getMenu()
         when (tag) {
             Constants.HOME_PAGE -> {
+                menu?.getItem(0)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.replace(R.id.rl_container_drawer, HomeFragment())
                 ft.commit()
@@ -119,6 +129,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             Constants.STORE_PAGE -> {
+                menu?.getItem(3)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
                 ft.addToBackStack(Constants.STORE_PAGE)
@@ -174,6 +185,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             Constants.ORDER_HISTORY_PAGE -> {
+                menu?.getItem(2)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, OrderHistoryFragment())
                 ft.addToBackStack(Constants.ORDER_HISTORY_PAGE)
@@ -226,6 +238,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             Constants.CHAT_MSG_PAGE -> {
+                menu?.getItem(1)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(
                     R.id.rl_container_drawer,
@@ -295,33 +308,39 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onSwitchFragmentParent(tag: String, type: String, obj: Any?, extras: Any?) {
-        app_bar_common.visibility = View.GONE
+        val menu: Menu = bottom_navigation.getMenu()
         when (tag) {
             Constants.DOWNLOAD_LIST_PAGE -> {
+                app_bar_common.visibility = View.GONE
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, DownloadListFragment())
                 ft.addToBackStack(Constants.DOWNLOAD_LIST_PAGE)
                 ft.commit()
             }
             Constants.CHAT_HOME_PAGE -> {
+                menu?.getItem(1)?.setChecked(true)
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, ChatHomeFragment())
                 ft.addToBackStack(Constants.CHAT_HOME_PAGE)
                 ft.commit()
             }
             Constants.MY_ACCOUNT_PAGE -> {
+                menu?.getItem(4)?.setChecked(true)
+                app_bar_common.visibility = View.GONE
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, AccountFragment())
                 ft.addToBackStack(Constants.MY_ACCOUNT_PAGE)
                 ft.commit()
             }
             Constants.UPDATE_PROFILE -> {
+                app_bar_common.visibility = View.GONE
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, UpdateProfileFragment())
                 ft.addToBackStack(Constants.UPDATE_PROFILE)
                 ft.commit()
             }
             Constants.CHANGE_PWD -> {
+                app_bar_common.visibility = View.GONE
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                 ft.add(R.id.rl_container_drawer, ChangePwdFragment())
                 ft.addToBackStack(Constants.CHANGE_PWD)
@@ -469,13 +488,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         buildLocationSettingsRequest()
 
         image_notification.setOnClickListener {
-            startActivity(Intent(this@MainActivity, NotificationActivity::class.java))
+            startActivityForResult(Intent(this@MainActivity, NotificationActivity::class.java), Constants.REQUEST_NOTIFICATION)
         }
 
         image_offer?.setOnClickListener {
             var intent: Intent = Intent(this, OffersActivity::class.java)
             intent?.putExtra("type", "offer")
-            startActivity(intent)
+            startActivityForResult(intent, Constants.REQUEST_OFFER)
         }
 
         ll_location.setOnClickListener {
@@ -526,7 +545,121 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         rv_search.visibility = View.GONE
 
-        edt_search.addTextChangedListener(object : TextWatcher {
+        val fragmentManager: FragmentManager = supportFragmentManager
+        fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+                CommonUtils.printLog("FRAGMENT_DESTROY", "${if(f is HomeFragment) "HOME" else "OTHER"},, REMAINIG-> ${supportFragmentManager?.backStackEntryCount}")
+                for (entry in 0 until fm.backStackEntryCount) {
+                    CommonUtils.printLog("FRAGMENT_FOUND-> ", "Found fragment: " + fm.getBackStackEntryAt(entry).id)
+                }
+                if(supportFragmentManager?.backStackEntryCount == 0){
+                    app_bar_common.visibility = View.VISIBLE
+                    val menu: Menu = bottom_navigation.getMenu()
+                    menu?.getItem(0)?.setChecked(true)
+                }
+                super.onFragmentDestroyed(fm, f)
+            }
+
+            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+                super.onFragmentResumed(fm, f)
+                CommonUtils.printLog("FRAGMENT_RESUME", "${if(f is HomeFragment) "HOME" else "OTHER"}")
+            }
+
+            override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
+                super.onFragmentStarted(fm, f)
+                CommonUtils.printLog("FRAGMENT_START", "${if(f is HomeFragment) "HOME" else "OTHER"}")
+            }
+            /*override fun onFragmentPreAttached(fm: FragmentManager?, f: Fragment, context: Context?) {
+                super.onFragmentPreAttached(fm, f, context)
+                Log.v("FragXX1", f.getTag())
+            }
+
+            fun onFragmentAttached(fm: FragmentManager?, f: Fragment, context: Context?) {
+                super.onFragmentAttached(fm, f, context)
+                Log.v("FragXX2", f.getTag())
+            }
+
+            fun onFragmentCreated(fm: FragmentManager?, f: Fragment, savedInstanceState: Bundle?) {
+                super.onFragmentCreated(fm, f, savedInstanceState)
+                Log.v("FragXX3", f.getTag())
+            }
+
+            fun onFragmentActivityCreated(
+                fm: FragmentManager?,
+                f: Fragment,
+                savedInstanceState: Bundle?
+            ) {
+                super.onFragmentActivityCreated(fm, f, savedInstanceState)
+                Log.v("FragXX4", f.getTag())
+            }
+
+            fun onFragmentViewCreated(
+                fm: FragmentManager?,
+                f: Fragment,
+                v: View?,
+                savedInstanceState: Bundle?
+            ) {
+                super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+                Log.v("FragXX5", f.getTag())
+            }
+
+            fun onFragmentStarted(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentStarted(fm, f)
+                Log.v("FragXX6", f.getTag())
+            }
+
+            fun onFragmentResumed(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentResumed(fm, f)
+                Log.v("FragXX7", f.getTag())
+            }
+
+            fun onFragmentPaused(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentPaused(fm, f)
+                Log.v("FragXX8", f.getTag())
+            }
+
+            fun onFragmentStopped(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentStopped(fm, f)
+                Log.v("FragXX9", f.getTag())
+            }
+
+            fun onFragmentSaveInstanceState(fm: FragmentManager?, f: Fragment, outState: Bundle?) {
+                super.onFragmentSaveInstanceState(fm, f, outState)
+                Log.v("FragXX10", f.getTag())
+            }
+
+            fun onFragmentViewDestroyed(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentViewDestroyed(fm, f)
+                Log.v("FragXX11", f.getTag())
+            }
+
+            fun onFragmentDestroyed(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentDestroyed(fm, f)
+                Log.v("FragXX12", f.getTag())
+            }
+
+            fun onFragmentDetached(fm: FragmentManager?, f: Fragment) {
+                super.onFragmentDetached(fm, f)
+                Log.v("FragXX13", f.getTag())
+            }*/
+        }, true)
+
+        /*edt_search.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().length!! > 0) {
+                    callHomeSearch(s.toString().trim())
+                } else {
+                    rv_search.visibility = View.GONE
+                }
+            }
+        })*/
+        edt_toolbar_title_search.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -541,11 +674,63 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
         })
+        image_search.setOnClickListener {
+            mSearchActive = true
+            toolbar_search.visibility = View.VISIBLE
+            val width = windowManager?.defaultDisplay?.width?.toFloat()
+            val animation = TranslateAnimation(
+                width!!,
+                CommonUtils.convertPixelsToDp(0f, this@MainActivity),
+                0f,
+                0f
+            ) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+            animation.duration = 300 // animation duration
+            animation.repeatCount = 0 // animation repeat count
+            animation.repeatMode = 0 // repeat animation (left to right, right to
+            toolbar_search.startAnimation(animation) // start animation
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    app_bar_common.visibility = View.GONE
+                    CommonUtils.openKeyboard(this@MainActivity)
+                    edt_toolbar_title_search.setText("")
+                    edt_toolbar_title_search.requestFocus()
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+                }
+            })
+        }
+        image_close_search.setOnClickListener {
+            edt_toolbar_title_search.setText("")
+        }
+        image_back_arrow_search.setOnClickListener {
+            closeSearchToolbarview()
+        }
+
+
         if(intent.hasExtra("from")){
             var from = intent?.getStringExtra("from")
             when(from){
                 "notification"->{
                     onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
+                }
+                "NOTI_home"->{
+                    onSwitchFragment(Constants.HOME_PAGE, "", null, null)
+                }
+                "NOTI_chat"->{
+                    onSwitchFragmentParent(Constants.CHAT_HOME_PAGE, "", null, null)
+                }
+                "NOTI_history"->{
+                    onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
+                }
+                "NOTI_nearby"->{
+                    onSwitchFragment(Constants.STORE_PAGE, "", null, null)
+                }
+                "NOTI_account"->{
+                    onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
                 }
                 "offer"->{
                     var id = intent.getStringExtra("id")
@@ -559,6 +744,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
 //        checkForLocation()
+    }
+
+    fun closeSearchToolbarview(){
+        app_bar_common.visibility = View.VISIBLE
+        mSearchActive = false
+//            animateViewVisibility(toolbar_search, false, 300)
+        val width = windowManager?.defaultDisplay?.width?.toFloat()
+        val animation = TranslateAnimation(
+            CommonUtils.convertPixelsToDp(0f, this@MainActivity),
+            width!!,
+            0f,
+            0f
+        ) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+        animation.duration = 200 // animation duration
+        animation.repeatCount = 0 // animation repeat count
+        animation.repeatMode = 0 // repeat animation (left to right, right to
+        toolbar_search.startAnimation(animation) // start animation
+        toolbar_search.visibility = View.GONE
+        edt_toolbar_title_search.setText("")
+        CommonUtils.hideKeyboardView(this@MainActivity, edt_toolbar_title_search)
     }
 
     @SuppressLint("MissingPermission")
@@ -638,9 +843,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var isAvailable = false
         val homeFragment: HomeFragment? =
             supportFragmentManager.findFragmentByTag(Constants.HOME_PAGE) as HomeFragment?
-        if (homeFragment != null && homeFragment?.isVisible) {
+        if(mSearchActive){
+            closeSearchToolbarview()
+        }else if (homeFragment != null && homeFragment?.isVisible) {
             app_bar_common.visibility = View.VISIBLE
             menu?.getItem(0)?.setChecked(true)
+            super.onBackPressed()
+        }else{
+            super.onBackPressed()
         }
 //        fragList?.forEach {
 //            if(it!=null && it?.getUs){
@@ -663,7 +873,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //                }
 //            }
 //        }
-        super.onBackPressed()
     }
 
     private fun callHomeSearch(searchKey: String) {
@@ -692,7 +901,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         } else {
                             rv_search.visibility = View.GONE
                         }
-                        if (edt_search?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
+                       /* if (edt_search?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
+                            rv_search.visibility = View.GONE
+                        }*/
+                        if (edt_toolbar_title_search?.text?.toString()?.trim()?.isNullOrEmpty()!!) {
                             rv_search.visibility = View.GONE
                         }
                     } else {
@@ -777,6 +989,47 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                     }!!
                 }
+                Constants.REQUEST_NOTIFICATION->{
+                    handleNavigationToFrag(data)
+                }
+                Constants.REQUEST_OFFER->{
+                    handleNavigationToFrag(data)
+                }
+            }
+        }
+    }
+
+    fun handleNavigationToFrag(intent:Intent?){
+        if(intent!=null && intent.hasExtra("from")){
+            var from = intent?.getStringExtra("from")
+            when(from){
+                "notification"->{
+                    onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
+                }
+                "NOTI_home"->{
+                    onSwitchFragment(Constants.HOME_PAGE, "", null, null)
+                }
+                "NOTI_chat"->{
+                    onSwitchFragmentParent(Constants.CHAT_HOME_PAGE, "", null, null)
+                }
+                "NOTI_history"->{
+                    onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
+                }
+                "NOTI_nearby"->{
+                    onSwitchFragment(Constants.STORE_PAGE, "", null, null)
+                }
+                "NOTI_account"->{
+                    onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
+                }
+                "offer"->{
+                    var id = intent.getStringExtra("id")
+                    onSwitchFragment(
+                        Constants.STORE_DETAIL_PAGE,
+                        Constants.WITH_NAV_DRAWER,
+                        StorelistItem(id = id),
+                        null
+                    )
+                }
             }
         }
     }
@@ -786,19 +1039,21 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (view?.id) {
             R.id.rl_banner -> {
                 if (obj != null && obj is BannerlistItem) {
-                    if (obj?.url?.equals("product")) {
-                        onSwitchFragment(
-                            Constants.STORE_PAGE_BY_PROD,
-                            Constants.WITH_NAV_DRAWER,
-                            ProductListItem(id = obj?.product_id!!, name = ""), null
-                        )
-                    } else if (obj?.url?.equals("category")) {
-                        onSwitchFragment(
-                            Constants.SERVICE_PAGE,
-                            Constants.WITH_NAV_DRAWER,
-                            CategorylistItem(id = obj?.product_id!!, name = ""),
-                            null
-                        )
+                    if(obj?.product_id!=null){
+                        if (obj?.url?.equals("product")) {
+                            onSwitchFragment(
+                                Constants.STORE_PAGE_BY_PROD,
+                                Constants.WITH_NAV_DRAWER,
+                                ProductListItem(id = obj?.product_id!!, name = ""), null
+                            )
+                        } else if (obj?.url?.equals("category")) {
+                            onSwitchFragment(
+                                Constants.SERVICE_PAGE,
+                                Constants.WITH_NAV_DRAWER,
+                                CategorylistItem(id = obj?.product_id!!, name = ""),
+                                null
+                            )
+                        }
                     }
                 }
             }

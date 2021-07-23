@@ -55,7 +55,7 @@ interface NetworkAPIService {
     suspend fun sendOtp(@Body userAuthRequestObj: UserAuthRequestObj): Response<CommonResponse>
 
     @POST(ApiName.VERIFY_MOBILE_OTP)
-    suspend fun verifyMobile(@Body userAuthRequestObj: UserAuthRequestObj): Response<CommonResponse>
+    suspend fun verifyMobile(@Body userAuthRequestObj: UserAuthRequestObj): Response<LoginResponse>
 
     //Listing
     @POST(ApiName.GET_ORDER_HISTORY)

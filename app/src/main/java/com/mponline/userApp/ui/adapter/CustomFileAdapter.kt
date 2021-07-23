@@ -144,6 +144,30 @@ class CustomFileAdapter(
                 if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
             CommonUtils.printLog("ANS_TXT", "${mList?.get(position)?.ansValue}")
             if (mList?.get(position)?.fieldType?.equals("text")!!) {
+                holder.itemView.edt_custom_field.setHint(mList?.get(position)?.hintName)
+                holder.itemView.edt_custom_field.setText(mList?.get(position)?.ansValue)
+                holder.itemView.edt_custom_field.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field_number.visibility = View.GONE
+                holder.itemView.edt_custom_field_mult.visibility = View.GONE
+            } else if (mList?.get(position)?.fieldType?.equals("number")!!) {
+                holder.itemView.edt_custom_field.visibility = View.GONE
+                holder.itemView.edt_custom_field.setHint(mList?.get(position)?.hintName)
+                holder.itemView.edt_custom_field.setText(mList?.get(position)?.ansValue)
+                holder.itemView.edt_custom_field_number.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field_mult.visibility = View.GONE
+//                holder.itemView.edt_custom_field_mult.inputType = InputType.TYPE_CLASS_NUMBER
+            } else {
+                holder.itemView.edt_custom_field.visibility = View.GONE
+                holder.itemView.edt_custom_field_mult.visibility = View.VISIBLE
+                holder.itemView.edt_custom_field_number.visibility = View.GONE
+                holder.itemView.edt_custom_field_mult.setHint(mList?.get(position)?.hintName)
+            }
+            holder.bind(context, mList?.get(position), position, listener)
+        }  else if (holder is TextMultViewHolder) {
+            holder.itemView.ll_edittext_container.visibility =
+                if (mList?.get(position)?.isVisible) View.VISIBLE else View.GONE
+            CommonUtils.printLog("ANS_TXT", "${mList?.get(position)?.ansValue}")
+            if (mList?.get(position)?.fieldType?.equals("text")!!) {
                 holder.itemView.edt_custom_field.setHint(mList?.get(position)?.name)
                 holder.itemView.edt_custom_field.setText(mList?.get(position)?.ansValue)
                 holder.itemView.edt_custom_field.visibility = View.VISIBLE
@@ -282,9 +306,14 @@ class CustomFileAdapter(
             )!! || mList?.get(position)?.fieldType?.equals(
                 "number",
                 true
-            )!! || mList?.get(position)?.fieldType?.equals("textarea", true)!!
-        ) {
+            )!!) {
             return VIEWTYPE_TEXT
+        }else if (mList?.get(position)?.fieldType?.equals(
+                "textarea",
+                true
+            )!!
+        ) {
+            return VIEWTYPE_MULT_TEXT
         } else if (mList?.get(position)?.fieldType?.equals("location", true)!! || mList?.get(
                 position
             )?.fieldType?.equals("date", true)!!
@@ -433,6 +462,8 @@ class CustomFileAdapter(
 //                        }
                 }
             })
+        }
+        fun bind(context: Context?, customFieldObj: CustomFieldObj, pos:Int, listener: OnItemClickListener){
         }
     }
 
