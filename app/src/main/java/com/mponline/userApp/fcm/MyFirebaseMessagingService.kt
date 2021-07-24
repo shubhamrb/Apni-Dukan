@@ -76,8 +76,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val mIntent = Intent(this, MainActivity::class.java)
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        mIntent.putExtra(Constants.FROM, "FCMCloudMessage")
-
+        when(notificationType){
+            "chat"->{
+                mIntent.putExtra("from", "NOTI_chat")
+            }
+            "order"->{
+                mIntent.putExtra("from", "NOTI_history")
+            }
+            "enquiry"->{
+                mIntent.putExtra("from", "NOTI_enquiry")
+            }
+            "home"->{
+//                mIntent.putExtra("from", )
+            }
+        }
         val mNotificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -86,11 +98,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         else
             0
 
-
         val pendingIntent = PendingIntent.getActivity(this, notificationID, mIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val channelId = "channel"
         val mBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_notification_icon)
 //            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
             .setContentTitle(Html.fromHtml(title))
             .setContentText(Html.fromHtml(message)) // <<commented

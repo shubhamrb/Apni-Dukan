@@ -1,8 +1,10 @@
 package com.mponline.userApp.ui.activity
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -18,6 +20,7 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -105,6 +108,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             mOnLocationFetchListener = listener
             checkForLocation()
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        checkForLocation()
     }
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
@@ -392,6 +400,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun startLocationUpdates() {
         // Begin by checking if the device has the necessary location settings.
+        mRequestingLocationUpdates = true
         mSettingsClient!!.checkLocationSettings(mLocationSettingsRequest)
             .addOnSuccessListener(this) {
                 mFusedLocationClient!!.requestLocationUpdates(
@@ -435,10 +444,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     fun onLocationCancelled(){
-
+        stopLocationUpdates()
     }
 
     fun onLocationSuccess(){
+        stopLocationUpdates()
         if(mCurrentLocation!=null){
             mCurrentLocation?.let {
                 val geocoder: Geocoder
@@ -448,12 +458,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     "CURRENT_LOCATION_success",
                     "${it?.latitude}, ${it?.longitude}"
                 )
-                if (it != null) {
-                    addresses = geocoder.getFromLocation(
-                        it?.latitude!!,
-                        it?.longitude,
-                        1
-                    )
+                if (mCurrentLocation != null) {
+                    try {
+                        addresses = geocoder.getFromLocation(
+                            mCurrentLocation?.latitude!!,
+                            mCurrentLocation?.longitude!!,
+                            1
+                        )
+                    }catch (e:Exception){
+                        CommonUtils.createSnackBar(findViewById(android.R.id.content), "Something went wrong, please check your network connection & try again")
+                    }
                 }
                 if (addresses != null && addresses?.size!! > 0) {
                     val address: String =
@@ -569,96 +583,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 super.onFragmentStarted(fm, f)
                 CommonUtils.printLog("FRAGMENT_START", "${if(f is HomeFragment) "HOME" else "OTHER"}")
             }
-            /*override fun onFragmentPreAttached(fm: FragmentManager?, f: Fragment, context: Context?) {
-                super.onFragmentPreAttached(fm, f, context)
-                Log.v("FragXX1", f.getTag())
-            }
 
-            fun onFragmentAttached(fm: FragmentManager?, f: Fragment, context: Context?) {
-                super.onFragmentAttached(fm, f, context)
-                Log.v("FragXX2", f.getTag())
-            }
-
-            fun onFragmentCreated(fm: FragmentManager?, f: Fragment, savedInstanceState: Bundle?) {
-                super.onFragmentCreated(fm, f, savedInstanceState)
-                Log.v("FragXX3", f.getTag())
-            }
-
-            fun onFragmentActivityCreated(
-                fm: FragmentManager?,
-                f: Fragment,
-                savedInstanceState: Bundle?
-            ) {
-                super.onFragmentActivityCreated(fm, f, savedInstanceState)
-                Log.v("FragXX4", f.getTag())
-            }
-
-            fun onFragmentViewCreated(
-                fm: FragmentManager?,
-                f: Fragment,
-                v: View?,
-                savedInstanceState: Bundle?
-            ) {
-                super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-                Log.v("FragXX5", f.getTag())
-            }
-
-            fun onFragmentStarted(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentStarted(fm, f)
-                Log.v("FragXX6", f.getTag())
-            }
-
-            fun onFragmentResumed(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentResumed(fm, f)
-                Log.v("FragXX7", f.getTag())
-            }
-
-            fun onFragmentPaused(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentPaused(fm, f)
-                Log.v("FragXX8", f.getTag())
-            }
-
-            fun onFragmentStopped(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentStopped(fm, f)
-                Log.v("FragXX9", f.getTag())
-            }
-
-            fun onFragmentSaveInstanceState(fm: FragmentManager?, f: Fragment, outState: Bundle?) {
-                super.onFragmentSaveInstanceState(fm, f, outState)
-                Log.v("FragXX10", f.getTag())
-            }
-
-            fun onFragmentViewDestroyed(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentViewDestroyed(fm, f)
-                Log.v("FragXX11", f.getTag())
-            }
-
-            fun onFragmentDestroyed(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentDestroyed(fm, f)
-                Log.v("FragXX12", f.getTag())
-            }
-
-            fun onFragmentDetached(fm: FragmentManager?, f: Fragment) {
-                super.onFragmentDetached(fm, f)
-                Log.v("FragXX13", f.getTag())
-            }*/
         }, true)
 
-        /*edt_search.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().length!! > 0) {
-                    callHomeSearch(s.toString().trim())
-                } else {
-                    rv_search.visibility = View.GONE
-                }
-            }
-        })*/
         edt_toolbar_title_search.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -732,6 +659,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 "NOTI_account"->{
                     onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
                 }
+                "NOTI_enquiry"->{
+                    //Launch webview with enquiry
+                    var intent:Intent = Intent(this@MainActivity, FilePreviewActivity::class.java)
+                    intent?.putExtra("file", "http://apnaonlines.com/enquiry")
+                    startActivity(intent)
+                }
                 "offer"->{
                     var id = intent.getStringExtra("id")
                     onSwitchFragment(
@@ -770,16 +703,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun checkForLocation() {
         if (LocationUtils.getCurrentLocation() == null) {
             //Access New Location
-            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
             if (isLocationPermissionGranted()) {
-                fusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
+                startLocationUpdates()
+                /*fusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
                     it?.addOnFailureListener {
                         if (mOnLocationFetchListener != null) {
                             mOnLocationFetchListener?.onLocationFailure()
                         }
                     }
                     it?.addOnSuccessListener {
-                        val geocoder: Geocoder
+                       *//* val geocoder: Geocoder
                         var addresses: List<Address> = arrayListOf()
                         geocoder = Geocoder(this, Locale.getDefault())
                         CommonUtils.printLog(
@@ -810,15 +744,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             if (mOnLocationFetchListener != null) {
                                 mOnLocationFetchListener?.onLocationSuccess(locationObj)
                             }
-                        }
+                        }*//*
                     }
-                }
+                }*/
             } else {
                 checkLocationPermissions()
             }
         } else {
             if (mOnLocationFetchListener != null) {
                 mOnLocationFetchListener?.onLocationSuccess(LocationUtils.getCurrentLocation()!!)
+                text_locationName?.text = LocationUtils.getCurrentLocation()?.city
             }
         }
     }
@@ -831,7 +766,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             Constants.REQUEST_LOC_PERMISSIONS -> {
-                checkForLocation()
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    checkForLocation()
+                    startLocationUpdates()
+                }else{
+                    CommonUtils.showPermissionDialog(this@MainActivity)
+                }
             }
         }
     }
@@ -955,11 +895,26 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+    fun checkPermissions(): Boolean {
+        val permissionState = ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        return permissionState == PackageManager.PERMISSION_GRANTED
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             when (requestCode) {
+                FusedLocationActivity.REQUEST_CHECK_SETTINGS -> when (resultCode) {
+                    RESULT_OK ->                         // Nothing to do. startLocationupdates() gets called in onResume again.
+                        if (checkPermissions()) {
+                            startLocationUpdates()
+                        }
+                    RESULT_CANCELED -> //                        mRequestingLocationUpdates = false;
+                        onLocationCancelled()
+                }
                 Constants.RESULT_IMG_PREVIEW -> {
                     if (data?.hasExtra("img")!! && data?.hasExtra("txt")!!) {
                         var imgPreviewPojo: ImgPreviewPojo = ImgPreviewPojo(

@@ -112,10 +112,11 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
         when(view?.id){
             R.id.text_coupon_title->{
                 if (obj is DataItem && obj?.store_id!=null) {
-                    var intent:Intent = Intent(this, MainActivity::class.java)
+                    var intent: Intent = Intent()
                     intent.putExtra("from", "offer")
                     intent.putExtra("id", obj?.store_id)
-                    startActivity(intent)
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
             else->{

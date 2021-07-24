@@ -88,9 +88,10 @@ class NotificationActivity : BaseActivity(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
             R.id.text_noti_title->{
-                var intent:Intent = Intent(this, MainActivity::class.java)
+                var intent:Intent = Intent()
                 intent.putExtra("from", "notification")
-                startActivity(intent)
+                setResult(RESULT_OK, intent);
+                finish();
             }
         }
     }

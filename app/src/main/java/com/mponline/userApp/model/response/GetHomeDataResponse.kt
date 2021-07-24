@@ -16,7 +16,7 @@ data class GetHomeDataResponse(@SerializedName("data")
 
 @Parcelize
 data class StorelistItem(@SerializedName("price")
-                         val price: String = "",
+                         val price: Double = 0.0,
                          @SerializedName("distance")
                          val distance: String = "",
                          @SerializedName("ratting")

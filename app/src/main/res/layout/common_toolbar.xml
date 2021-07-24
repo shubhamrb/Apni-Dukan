@@ -47,7 +47,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_logo"
-                    app:srcCompat="@drawable/logo"
+                    app:srcCompat="@drawable/ic_notification_icon"
                     android:maxWidth="@dimen/margin50"
                     android:layout_centerVertical="true"
                     android:layout_width="@dimen/margin50"

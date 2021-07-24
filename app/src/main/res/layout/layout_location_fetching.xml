@@ -11,9 +11,9 @@
     <com.airbnb.lottie.LottieAnimationView
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_fileName="location_fetch.json"
-        android:layout_width="@dimen/margin150"
+        app:lottie_fileName="location_fetch2.json"
+        android:layout_width="@dimen/margin60"
         android:layout_centerInParent="true"
-        android:layout_height="@dimen/margin150" />
+        android:layout_height="@dimen/margin90" />
 
 </RelativeLayout>

@@ -138,7 +138,7 @@ data class OrderHistoryDataItem(
     @SerializedName("order_completed_by")
     val orderCompletedBy: Int = 0,
     @SerializedName("payable_amount")
-    val payableAmount: String? = "",
+    var payableAmount: String? = "",
     @SerializedName("order_id")
     val orderId: String? = "",
     @SerializedName("status")

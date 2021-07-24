@@ -61,6 +61,8 @@ class PaymentDetailFragment : BaseFragment(), OnItemClickListener {
                     view?.image_qr_code?.visibility = View.GONE
                     view?.text_instruction?.visibility = View.GONE
                 }else{
+                    view?.text_scan_instruction?.text = "Scan the QR Code to make payment of ${activity?.resources?.getString(R.string.rs)} ${mOrderHistoryDataItem?.payableAmount}"
+                    view?.text_instruction?.text = "Scan the QR Code to make payment of ${activity?.resources?.getString(R.string.rs)} ${mOrderHistoryDataItem?.payableAmount}"
                     view?.image_qr_code?.visibility = View.VISIBLE
                     view?.text_store_name?.visibility = View.VISIBLE
                     view?.text_scan_instruction?.visibility = View.VISIBLE

@@ -628,6 +628,35 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            Constants.REQUEST_PERMISSIONS -> {
+                if(mPictureType == Constants.CAMERA){
+                    if (isCameraStoragePermissionGranted(activity!!)) {
+                        mPictureType = Constants.CAMERA
+                        dispatchTakePictureIntent(activity!!)
+                    } else {
+                        checkCameraStoragePermissions(activity!!)
+                    }
+                }else if(mPictureType == Constants.GALLERY){
+                    if (isCameraStoragePermissionGranted(activity!!)) {
+                        mPictureType = Constants.GALLERY
+                        choosePhotoFromGallary(activity!!)
+                    } else {
+                        checkCameraStoragePermissions(activity!!)
+                    }
+                }else {
+
+                }
+            }
+        }
+    }
+
     fun choosePhotoFromGallary(activity: Activity) {
 //        val gallery = Intent(
 //            Intent.ACTION_PICK,

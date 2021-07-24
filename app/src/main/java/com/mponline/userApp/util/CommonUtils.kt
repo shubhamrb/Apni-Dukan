@@ -2,10 +2,14 @@ package com.mponline.userApp.util;
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.provider.Settings
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
@@ -135,6 +139,41 @@ class  CommonUtils{
                 return ""
             }
         }
+
+        fun showPermissionDialog(context: Activity) {
+            // build alert dialog
+            val dialogBuilder = AlertDialog.Builder(context)
+
+            // set message of alert dialog
+            dialogBuilder.setMessage(
+                "You have forcefully denied some of the required permissions " +
+                        "for this action. Please open settings, go to permissions and allow them."
+            )
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Proceed", DialogInterface.OnClickListener { dialog, id ->
+                    var intent: Intent = Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts("package", context.getPackageName(), null)
+                    )
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    dialog.cancel()
+                })
+                // negative button text and action
+                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Permissions Required")
+            // show alert dialog
+            alert.show()
+        }
+
 
 
     }

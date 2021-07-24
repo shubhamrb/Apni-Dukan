@@ -159,13 +159,16 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         }
 
         view?.text_pay_online?.setOnClickListener {
+            var orderdetail = mOrderHistoryDataItem
+            orderdetail?.payableAmount = mPayableAmt
             var intent: Intent = Intent(activity!!, PaymentActivity::class.java)
-            intent?.putExtra("data", mOrderHistoryDataItem)
+            intent?.putExtra("data", orderdetail)
             activity?.startActivity(intent)
         }
         view?.text_pay_to_shop?.setOnClickListener {
             var orderdetail = mOrderHistoryDataItem
             orderdetail?.isPaytoShop = "Yes"
+            orderdetail?.payableAmount = mPayableAmt
             mSwichFragmentListener?.onSwitchFragment(
                 Constants.PAYMENT_DETAIL_PAGE,
                 Constants.WITH_NAV_DRAWER,
@@ -176,6 +179,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
         view?.text_upi?.setOnClickListener {
             var orderdetail = mOrderHistoryDataItem
             orderdetail?.isPaytoShop = "No"
+            orderdetail?.payableAmount = mPayableAmt
             mSwichFragmentListener?.onSwitchFragment(
                 Constants.PAYMENT_DETAIL_PAGE,
                 Constants.WITH_NAV_DRAWER,
