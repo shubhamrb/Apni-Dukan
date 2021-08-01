@@ -22,6 +22,7 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.utils.ImageGlideUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_service.*
 import kotlinx.android.synthetic.main.fragment_service.view.*
 import kotlinx.android.synthetic.main.fragment_service.view.rv_services
 import kotlinx.android.synthetic.main.layout_empty.*
@@ -109,6 +110,14 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
 
     fun setDataToUI(mGetCategoriesResponse: GetCategoriesResponse) {
         mGetCategoriesResponse?.let {
+            if(it?.data?.size!!>0){
+                relative_empty?.visibility = View.GONE
+                ll_container?.visibility = View.VISIBLE
+            }else{
+                text_empty?.text = "No Service found"
+                relative_empty?.visibility = View.VISIBLE
+                ll_container?.visibility = View.GONE
+            }
             view?.rv_services?.layoutManager =
                 GridLayoutManager(
                     activity, 3

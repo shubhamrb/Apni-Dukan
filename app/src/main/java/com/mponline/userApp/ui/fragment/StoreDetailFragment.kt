@@ -181,8 +181,9 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
 //                        ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()
 //                        text_rating.text = it?.data?.get(0)?.ratting
-                        text_total_users.text = it?.data?.get(0)?.totalrating
+                        text_total_users.text = "Total ${it?.data?.get(0)?.totalrating} users"
                         var totalRating = 0f
+
                         if(it?.data?.get(0)?.totalrating!=null && it?.data?.get(0)?.totalrating?.isDigitsOnly()!!){
                             totalRating = it?.data?.get(0)?.totalrating?.toFloat()!!
                         }
@@ -270,6 +271,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
 
                             text_rating.text = formattedRating
                             ratingbar_store.rating = rating.toFloat()
+                            ratingbar_rating.rating = rating.toFloat()
                         }
                     }
                     text_store_desc.text = Html.fromHtml(it?.data?.get(0)?.description)

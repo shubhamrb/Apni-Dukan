@@ -64,4 +64,10 @@ interface UserRepository {
     fun forgotPwd(commonRequestObj: UserAuthRequestObj): MutableLiveData<CommonResponse>
     fun removeCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
 
+    fun getPaytmChecksum(userid:String, orderid:String, amount:String): MutableLiveData<PaytmChecksumResponse>
+
+    fun updatePwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun getHelpSupportWebview(token: String): MutableLiveData<String>
+    fun getEnquiryWebview(token: String): MutableLiveData<String>
+
 }

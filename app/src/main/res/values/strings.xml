@@ -65,7 +65,7 @@
 
     <string name="nearby_stores">Nearby Stores</string>
     <string name="process_timer">Process Timer</string>
-    <string name="process_timer_desc">The timer indicates that the assigned\ntask will be done in that time.</string>
+    <string name="process_timer_desc">The task will be done in a given time.</string>
     <string name="call_kiosk">Call At Kiosk</string>
     <string name="chat_kiosk">Chat At Kiosk</string>
     <string name="whatapp_kiosk">WhatsApp At Kiosk</string>

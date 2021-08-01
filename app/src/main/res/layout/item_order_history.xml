@@ -30,7 +30,6 @@
                     android:id="@+id/image_order_history"
                     android:scaleType="fitXY"
                     android:layout_margin="@dimen/margin15"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="@dimen/margin55"
                     android:layout_height="@dimen/margin55"/>
 
@@ -68,17 +67,35 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/Text_mont_regular"
-                            android:id="@+id/text_to_date"
-                            android:text="Application submitted as on 1 Jan 2021"
-                            android:layout_marginTop="@dimen/margin8"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsize12"
-                            android:layout_marginRight="@dimen/margin5"
+                        <LinearLayout
                             android:layout_weight="3.5"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_mont_regular"
+                                android:id="@+id/text_vendor_name"
+                                android:text="Vendor"
+                                android:layout_marginTop="@dimen/margin8"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/textsize12"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Text_mont_regular"
+                                android:id="@+id/text_to_date"
+                                android:text="Application submitted as on 1 Jan 2021"
+                                android:layout_marginTop="@dimen/margin8"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/textsize12"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -114,10 +131,10 @@
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
+                        style="@style/Text_mont_semibold"
                         android:id="@+id/text_view_details"
                         android:text="@string/u_view_details_u"
-                        android:textColor="@color/red"
+                        android:textColor="@color/black"
                         android:paddingTop="@dimen/margin8"
                         android:paddingBottom="@dimen/margin5"
                         android:paddingRight="@dimen/margin10"
@@ -125,10 +142,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
+                        style="@style/Text_mont_semibold"
                         android:id="@+id/text_view_invoice"
                         android:text="@string/download_invoice"
-                        android:textColor="@color/red"
+                        android:textColor="@color/black"
                         android:visibility="gone"
                         android:paddingTop="@dimen/margin8"
                         android:paddingBottom="@dimen/margin5"

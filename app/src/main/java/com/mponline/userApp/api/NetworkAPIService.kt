@@ -180,5 +180,26 @@ interface NetworkAPIService {
         @Body commonRequestObj: CommonRequestObj
     ): Response<CommonResponse>
 
+    @GET(ApiName.PAYTM_CHECKSUM)
+    suspend fun getPaytmChecksum(
+        @Query("userid") userid:String, @Query("orderid") orderid:String, @Query("amount") amount:String
+    ): Response<PaytmChecksumResponse>
+
+    @POST(ApiName.UPDATE_PWD)
+    suspend fun updatePwd(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<CommonResponse>
+
+    @POST(ApiName.HELP_SUPPORT_WEBVIEW)
+    suspend fun getHelpSupportWebview(
+        @Header("Authorization") token: String
+    ): Response<String>
+
+    @POST(ApiName.ENQUIRY_WEBVIEW)
+    suspend fun getEnquiryWebview(
+        @Header("Authorization") token: String
+    ): String
+
 
 }

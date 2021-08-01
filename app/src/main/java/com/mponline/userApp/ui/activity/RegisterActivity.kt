@@ -220,6 +220,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
 
     fun showOtpDialog() {
         val instance = OtpBottomsheetFragment.newInstance(edit_mobile_no.text.toString().trim())
+        instance.isCancelable = false
         instance.show(supportFragmentManager, "OTP")
     }
 
@@ -236,7 +237,10 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
                         findViewById(android.R.id.content)!!,
                         obj?.message!!
                     )
-                    startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                    var intent:Intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 }
             }else{
                 CommonUtils.createSnackBar(

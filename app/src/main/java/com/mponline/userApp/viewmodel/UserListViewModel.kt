@@ -138,13 +138,20 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.getUpdatedChatList(commonRequestObj);
     }
 
-    fun saveChat(token:String, file: MultipartBody.Part?, orderId: RequestBody, vendorId: RequestBody, msg: RequestBody): LiveData<GetChatListResponse> {
+    fun saveChat(
+        token: String,
+        file: MultipartBody.Part?,
+        orderId: RequestBody,
+        vendorId: RequestBody,
+        msg: RequestBody
+    ): LiveData<GetChatListResponse> {
         return userRepositoryImpl.saveChat(token, file, orderId, vendorId, msg);
     }
 
     fun getCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {
         return userRepositoryImpl.getCouponList(commonRequestObj);
     }
+
     fun getOfferCouponList(commonRequestObj: CommonRequestObj): LiveData<GetCouponListResponse> {
         return userRepositoryImpl.getOfferCouponList(commonRequestObj);
     }
@@ -152,11 +159,16 @@ public class UserListViewModel @ViewModelInject constructor(
     fun applyCoupon(commonRequestObj: CommonRequestObj): LiveData<ApplyCouponResponse> {
         return userRepositoryImpl.applyCoupon(commonRequestObj);
     }
-    fun placeOrder(token:String, postOrderRequest: PlaceOrderRequest): LiveData<CommonResponse> {
+
+    fun placeOrder(token: String, postOrderRequest: PlaceOrderRequest): LiveData<CommonResponse> {
         return userRepositoryImpl.placeOrder(token, postOrderRequest);
     }
 
-    fun uploadFile(token:String, file: MultipartBody.Part?, requestDocs: RequestBody): LiveData<UploadFileResponse> {
+    fun uploadFile(
+        token: String,
+        file: MultipartBody.Part?,
+        requestDocs: RequestBody
+    ): LiveData<UploadFileResponse> {
         return userRepositoryImpl.uploadFile(token, file, requestDocs);
     }
 
@@ -167,19 +179,27 @@ public class UserListViewModel @ViewModelInject constructor(
     fun changePwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
         return userRepositoryImpl.changePwd(commonRequestObj);
     }
+
     fun updateProfile(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
         return userRepositoryImpl.updateProfile(commonRequestObj);
     }
+
     fun getProdByStore(commonRequestObj: CommonRequestObj): LiveData<ProductByStoreResponse> {
         return userRepositoryImpl.getProdByStore(commonRequestObj);
     }
+
     fun homeSearch(commonRequestObj: CommonRequestObj): LiveData<HomeSearchResponse> {
         return userRepositoryImpl.homeSearch(commonRequestObj);
     }
-    fun cashfreeToken(token:String, cashfreeObj: CashfreeObj): LiveData<CashfreeTokenResponse> {
+
+    fun cashfreeToken(token: String, cashfreeObj: CashfreeObj): LiveData<CashfreeTokenResponse> {
         return userRepositoryImpl.cashfreeToken(token, cashfreeObj);
     }
-    fun savePayment(token: String, savePaymentRequest: SavePaymentRequest): LiveData<CommonResponse> {
+
+    fun savePayment(
+        token: String,
+        savePaymentRequest: SavePaymentRequest
+    ): LiveData<CommonResponse> {
         return userRepositoryImpl.savePayment(token, savePaymentRequest);
     }
 
@@ -193,6 +213,26 @@ public class UserListViewModel @ViewModelInject constructor(
 
     fun removeCoupon(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
         return userRepositoryImpl.removeCoupon(commonRequestObj);
+    }
+
+    fun getPaytmChecksum(
+        userid: String,
+        orderid: String,
+        amount: String
+    ): LiveData<PaytmChecksumResponse> {
+        return userRepositoryImpl.getPaytmChecksum(userid, orderid, amount);
+    }
+
+    fun updatePwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {
+        return userRepositoryImpl.updatePwd(commonRequestObj);
+    }
+
+    fun getHelpSupportWebview(token: String): LiveData<String> {
+        return userRepositoryImpl.getHelpSupportWebview(token);
+    }
+
+    fun getEnquiryWebview(token: String): LiveData<String> {
+        return userRepositoryImpl.getEnquiryWebview(token);
     }
 
 

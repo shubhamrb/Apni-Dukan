@@ -54,7 +54,7 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context!=null){
+        if (context != null) {
             mSwichFragmentListener = context as OnSwichFragmentListener
         }
     }
@@ -62,8 +62,8 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view?.relative_frag?.setOnClickListener {  }
-        view?.image_back?.setOnClickListener {  }
+        view?.relative_frag?.setOnClickListener { }
+        view?.image_back?.setOnClickListener { }
         view?.toolbar_title?.text = "Chat"
         callOrderHistoryApi()
     }
@@ -74,8 +74,8 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onStart() {
-        CommonUtils.printLog("ONRESUME","Called")
-        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+        CommonUtils.printLog("ONRESUME", "Called")
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR, "", null)
 //        mView?.app_bar_normal?.visibility = View.VISIBLE
         super.onStart()
     }
@@ -91,10 +91,22 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        when(view?.id){
-            R.id.rl_chat->{
-                if(obj!=null && obj is OrderHistoryDataItem){
-                    mSwichFragmentListener?.onSwitchFragment(Constants.CHAT_MSG_PAGE, Constants.WITH_NAV_DRAWER, obj, null)
+        when (view?.id) {
+            R.id.rl_chat -> {
+                if (obj != null && obj is OrderHistoryDataItem) {
+                    if(obj?.status == 1){
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            "Please wait till vendor accept your order request"
+                        )
+                    }else{
+                        mSwichFragmentListener?.onSwitchFragment(
+                            Constants.CHAT_MSG_PAGE,
+                            Constants.WITH_NAV_DRAWER,
+                            obj,
+                            null
+                        )
+                    }
                 }
             }
 
@@ -110,20 +122,24 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
             viewModel?.getOrderHistory(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
-                        switchView(1, "")
-                        //Chat home
-                        view?.rv_chat_list?.setHasFixedSize(true)
-                        view?.rv_chat_list?.layoutManager =
-                            LinearLayoutManager(
+                        if (data != null && data?.size!! > 0) {
+                            switchView(1, "")
+                            //Chat home
+                            view?.rv_chat_list?.setHasFixedSize(true)
+                            view?.rv_chat_list?.layoutManager =
+                                LinearLayoutManager(
+                                    activity,
+                                    RecyclerView.VERTICAL,
+                                    false
+                                )
+                            view?.rv_chat_list?.adapter = ChatAdapter(
                                 activity,
-                                RecyclerView.VERTICAL,
-                                false
+                                this@ChatHomeFragment,
+                                data
                             )
-                        view?.rv_chat_list?.adapter = ChatAdapter(
-                            activity,
-                            this@ChatHomeFragment,
-                            data!!
-                        )
+                        } else {
+                            switchView(0, "No Chat Found")
+                        }
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(
@@ -148,6 +164,7 @@ class ChatHomeFragment : BaseFragment(), OnItemClickListener {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.VISIBLE
                     rv_chat_msg?.visibility = View.GONE
+                    text_empty.text = msg
                 }
                 1 -> {
                     relative_progress?.visibility = View.GONE

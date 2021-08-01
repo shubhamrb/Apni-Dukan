@@ -86,6 +86,7 @@ class LoginActivity : BaseActivity(), OnItemClickListener,
 
     fun showForgotPwdDialog() {
         val instance = ForgotPwdBottomsheetFragment.newInstance()
+        instance.isCancelable = false
         instance.show(supportFragmentManager, "FORGOT_PWD")
     }
 
@@ -207,7 +208,10 @@ class LoginActivity : BaseActivity(), OnItemClickListener,
                         mPreferenceUtils?.setValue(Constants.USER_ID, data?.user?.id!!)
                         mPreferenceUtils?.setValue(Constants.USER_TOKEN, data?.token!!)
                         mPreferenceUtils?.setValue(Constants.USER_INFO, Gson().toJson(this))
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        var intent:Intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
                     } else {
                         relative_progress.visibility = View.GONE
                         CommonUtils.createSnackBar(

@@ -31,7 +31,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_service"
-                    style="@style/Text_mont_regular"
+                    style="@style/Text_mont_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin8"
@@ -40,7 +40,7 @@
                     android:ellipsize="end"
                     android:textSize="@dimen/textsize10"
                     android:text="Exam forms"
-                    android:textColor="@color/light_black" />
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 

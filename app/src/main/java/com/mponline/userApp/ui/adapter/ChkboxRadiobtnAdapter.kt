@@ -53,13 +53,13 @@ class ChkboxRadiobtnAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ChkBoxViewHolder) {
-            holder.itemView.chkbox_item.text = mList?.get(position)?.value
+            holder.itemView.chkbox_item.text = Html.fromHtml(mList?.get(position)?.value)
             holder.itemView.chkbox_item.isChecked = selectedItems?.contains(mList?.get(position)?.value!!)
             holder.itemView.chkbox_item.setOnCheckedChangeListener { _, isChecked ->
                 listener?.onClick(parentPos, holder.itemView.chkbox_item, mList?.get(position))
             }
         } else if (holder is RadioBtnViewHolder) {
-            holder.itemView.rbtn_item.text = mList?.get(position)?.value
+            holder.itemView.rbtn_item.text = Html.fromHtml(mList?.get(position)?.value)
             holder.itemView.rbtn_item.isChecked = selectedItems?.contains(mList?.get(position)?.value!!)
             holder.itemView.rbtn_item.setOnCheckedChangeListener { compoundButton, b ->
                 listener?.onClick(parentPos, holder.itemView.rbtn_item, mList?.get(position))

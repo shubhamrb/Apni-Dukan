@@ -19,6 +19,7 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.OrderHistoryDataItem
+import com.mponline.userApp.ui.activity.EnquirySupportWebviewActivity
 import com.mponline.userApp.ui.activity.FilePreviewActivity
 import com.mponline.userApp.ui.activity.FormPreviewActivity
 import com.mponline.userApp.ui.adapter.ServicesAdapter
@@ -75,13 +76,13 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
         }
 
         view?.ll_help?.setOnClickListener {
-            var intent:Intent = Intent(context, FilePreviewActivity::class.java)
-            intent?.putExtra("file", "http://apnaonlines.com/helpsupport")
+            var intent:Intent = Intent(context, EnquirySupportWebviewActivity::class.java)
+            intent?.putExtra("type", "help")
             context?.startActivity(intent)
         }
         view?.ll_enquiry?.setOnClickListener {
-            var intent:Intent = Intent(context, FilePreviewActivity::class.java)
-            intent?.putExtra("file", "http://apnaonlines.com/enquiry")
+            var intent:Intent = Intent(context, EnquirySupportWebviewActivity::class.java)
+            intent?.putExtra("type", "enquiry")
             context?.startActivity(intent)
         }
         //Stores
@@ -132,18 +133,23 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                 it?.run {
                     if (status) {
                         switchView(1, "")
-                        view?.rv_order_history?.setHasFixedSize(true)
-                        view?.rv_order_history?.layoutManager =
-                            LinearLayoutManager(
+                        if(data!=null && data?.size>0){
+                            view?.text_order_title?.visibility = View.VISIBLE
+                            view?.rv_order_history?.setHasFixedSize(true)
+                            view?.rv_order_history?.layoutManager =
+                                LinearLayoutManager(
+                                    activity,
+                                    RecyclerView.VERTICAL,
+                                    false
+                                )
+                            view?.rv_order_history?.adapter = OrderHistoryAdapter(
                                 activity,
-                                RecyclerView.VERTICAL,
-                                false
+                                this@AccountFragment,
+                                data!!
                             )
-                        view?.rv_order_history?.adapter = OrderHistoryAdapter(
-                            activity,
-                            this@AccountFragment,
-                            data!!
-                        )
+                        }else{
+                            view?.text_order_title?.visibility = View.GONE
+                        }
                     } else {
                         switchView(0, "")
                         CommonUtils.createSnackBar(

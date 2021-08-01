@@ -12,6 +12,7 @@ class Constants {
         const val REQUEST_LOC_PERMISSIONS = 201
         const val REQUEST_AUTOCOMPLETE_PLACE = 1111
         const val DEVICE_TYPE = "ANDROID"
+        const val USER_SELECTED_LOCATION = "USER_SELECTED_LOCATION"
 
         //LinkedIn
         const val API_KEY_linkedin_CONST = "815wbplzyjdkp4"

@@ -25,6 +25,9 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q"/>
 
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification_icon" />
+
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.activity.ImgPreviewActivity"></activity>
@@ -47,16 +50,13 @@
         </activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".ui.activity.PaytmMainActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:name=".ui.activity.RegisterActivity"></activity>
         <activity
             android:screenOrientation="portrait"
-            android:name=".ui.activity.RegisterActivity"></activity>
+            android:name=".ui.activity.ChangePwdActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ui.activity.EnquirySupportWebviewActivity"></activity>
         <activity
             android:screenOrientation="portrait"
             android:name=".ui.activity.NotificationActivity"></activity>

@@ -219,13 +219,13 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
 
     fun setDataToUI(data: ArrayList<StorelistItem>, isNearyby:Boolean = false) {
         data?.let {
+            text_res_title?.text = "Search Result (${data?.size})"
             if (it?.size >= 0) {
-                if(mStoreList!=null && mStoreList?.size!!>0){
-                    text_res_title?.text = "Search Result (${mStoreList?.size})"
+                if(isNearyby){
+                    Collections.sort(data, Comparator { obj1, obj2 ->
+                        obj1.distance.compareTo(obj2.distance) // To compare string values
+                    })
                 }
-                Collections.sort(mStoreList, Comparator { obj1, obj2 ->
-                    obj1.distance.compareTo(obj2.distance) // To compare string values
-                })
                 view?.rv_stores?.setHasFixedSize(true)
                 view?.rv_stores?.layoutManager =
                     LinearLayoutManager(

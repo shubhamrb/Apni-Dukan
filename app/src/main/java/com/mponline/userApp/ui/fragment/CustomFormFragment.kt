@@ -22,11 +22,17 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.CustomFieldObj
+import com.mponline.userApp.model.LocationObj
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.request.FormDataItem
 import com.mponline.userApp.model.request.PlaceOrderRequest
@@ -41,6 +47,8 @@ import com.mponline.userApp.util.FileUtils.getLocalPath
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.common_toolbar.*
+import kotlinx.android.synthetic.main.fragment_custom_form.*
 import kotlinx.android.synthetic.main.fragment_custom_form.view.*
 import kotlinx.android.synthetic.main.fragment_custom_form.view.relative_frag
 import kotlinx.android.synthetic.main.item_btn.view.*
@@ -76,6 +84,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     var mCustomFileAdapter: CustomFileAdapter? = null
     var mPrePlaceOrderPojo: PrePlaceOrderPojo? = null
     val viewModel: UserListViewModel by viewModels()
+    var mSelectedLocPos = -1
 
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
@@ -131,6 +140,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     )?.form?.size!! > 0
                 ) {
                     customFormList?.clear()
+                    view?.text_service_name?.text = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.name
                     mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.form?.forEachIndexed { index, formItem ->
                         var viewControlList:ArrayList<String> = arrayListOf()
                         formItem?.value?.forEach { valueObj->
@@ -144,6 +154,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                 name = formItem?.name,
                                 fieldType = formItem?.fieldType,
                                 hintName = formItem?.name,
+                                label = formItem?.label,
                                 min = "3",
                                 max = "20",
                                 isRequired = formItem?.isRequired!!,
@@ -187,10 +198,17 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                         )
                     )
                 }
+                var finalOrderPrice = ""
+                if(mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.product_type?.equals("1",true)!!){
+                    finalOrderPrice = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.selectedPrice!!
+                }else{
+                    finalOrderPrice = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.price!!
+                }
+                CommonUtils.printLog("FINAL_PRICE", "${finalOrderPrice}")
                 var placeOrderRequest: PlaceOrderRequest = PlaceOrderRequest(
                     storeId = mPrePlaceOrderPojo?.storeDetailDataItem?.id!!,
                     productId = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.productId!!,
-                    price = mPrePlaceOrderPojo?.mGetProductDetailResponse?.data?.get(0)?.price!!,
+                    price = finalOrderPrice,
                     type = "form",
                     formData = formData
                 )
@@ -218,6 +236,23 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 //        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                Constants.REQUEST_AUTOCOMPLETE_PLACE -> {
+                    data?.let {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        CommonUtils.printLog(
+                            "AUTOCOMPLETE_LOC",
+                            "Place: ${place.name}, ${place.id}"
+                        )
+                        if (place?.latLng != null) {
+                            customFormList?.get(mSelectedPos)?.ansValue = place?.name
+                            mCustomFileAdapter?.onRefreshAdapter(
+                                customFormList,
+                                pos = mSelectedPos,
+                                flag = false
+                            )
+                        }
+                    }!!
+                }
                 Constants.REQUEST_CAMERA -> {
                     var image = cameraUtils.mCurrentPhotoPath
                     CommonUtils.printLog("RESULT_PATH", image)
@@ -372,9 +407,17 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 //                    }, 1000)
                 }
                 R.id.btn -> {
-                    if (obj?.fieldType?.equals("location")!!) {
+                    if (obj?.id?.equals("location")!! || obj?.fieldType?.equals("location")!!) {
                         mSelectedPos = pos
+                        mSelectedLocPos = pos
                         //AutoComplete place
+                        if (!Places.isInitialized()) {
+                            Places.initialize(requireActivity(), getString(R.string.api_key), Locale.UK);
+                        }
+                        var fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+                        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                            .build(requireContext())
+                        startActivityForResult(intent, Constants.REQUEST_AUTOCOMPLETE_PLACE)
                     } else if (obj?.fieldType?.equals("date")!!) {
                         //datePicker
                         val c = Calendar.getInstance()
@@ -410,7 +453,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 R.id.spn_opt -> {
                     if (pos < customFormList.size) {
                         customFormList?.get(pos)?.ansValue = obj?.value
-                        if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
+//                        if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
                             var visibilityControlFields = customFormList?.get(pos)?.visibilityControlfield
                             customFormList?.forEachIndexed { index, customFieldObj ->
                                 if(visibilityControlFields?.contains(customFieldObj?.id)){
@@ -421,12 +464,13 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                     }
                                 }
                             }
+                            CommonUtils.printLog("SPN_CHANGE","${Gson().toJson(customFormList)}")
                             mCustomFileAdapter?.onRefreshAdapter(
                                 customFormList,
                                 pos = pos,
                                 flag = true
                             )
-                        }
+//                        }
                     }
 
 //                    mCustomFileAdapter?.onRefreshAdapter(customFilesList)

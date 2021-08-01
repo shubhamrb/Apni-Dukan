@@ -11,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
@@ -48,12 +49,17 @@ object NetworkingModule {
     fun provideConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create()
     }
+    @Provides
+    fun provideScalarConverterFactory(): ScalarsConverterFactory {
+        return ScalarsConverterFactory.create()
+    }
 
     @Provides
-    fun provideRetrofitClient(okHttpClient: OkHttpClient, baseUrl: String, converterFactory: Converter.Factory): Retrofit {
+    fun provideRetrofitClient(okHttpClient: OkHttpClient, baseUrl: String, converterFactory: Converter.Factory, scalarConverterFactory: ScalarsConverterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
+            .addConverterFactory(scalarConverterFactory)
             .addConverterFactory(converterFactory)
             .build()
     }

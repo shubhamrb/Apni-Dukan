@@ -15,7 +15,11 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
+import com.mponline.userApp.model.FcmNotificationObj
+import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.ui.activity.MainActivity
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
@@ -45,18 +49,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         try {
             Log.d(TAG, "From: ${remoteMessage?.from}")
             remoteMessage?.data?.isNotEmpty()?.let {
-                CommonUtils.printLog(TAG, "Message data payload: " + remoteMessage.data.toString())
-                CommonUtils.printLog(TAG, "From: " + remoteMessage.from!!)
+                CommonUtils.printLog("FCM_PUSHH", "Message data payload: " + remoteMessage.data.toString())
+                CommonUtils.printLog("FCM_PUSHH", "From: " + Gson().toJson(remoteMessage))
 
+                val listType = object : TypeToken<FcmNotificationObj>() {}.type
+                var fcmObj = Gson().fromJson<FcmNotificationObj>(Gson().toJson(remoteMessage), listType)
 //                if (mPreferenceUtils.getValue(Constants.MOBILE_NO).isNotEmpty()) {
 //                "{id=65, date=2019/06/14, text=Test's status mark as completed, type=0, title=Patient process completed}"
                 val id: String? = remoteMessage.data["id"]
                 val type: String? = remoteMessage.data["type"]
-                val body: String? = remoteMessage.data["text"]
-                val title: String? = remoteMessage.data["title"]
+                val body: String? = fcmObj?.bundle?.mMap?.gcmNotificationBody//remoteMessage.data["text"]
+                val title: String? = fcmObj?.bundle?.mMap?.gcmNotificationTitle//remoteMessage.data["title"]
                 val date: String? = remoteMessage.data["date"]
 
-                pushNotification(id, "", body, title, "")
+                pushNotification(id, type, body, title, "")
 
 //                }
 
@@ -73,7 +79,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationId: String?, notificationType: String?,
         message: String?, title: String?, date: String?
     ) {
-
+        CommonUtils.printLog("GOT_FCM_PUSH", "${notificationType}, ${title}, ${message}")
         val mIntent = Intent(this, MainActivity::class.java)
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         when(notificationType){

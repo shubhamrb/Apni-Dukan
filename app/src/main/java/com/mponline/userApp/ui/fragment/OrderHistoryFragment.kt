@@ -1,11 +1,16 @@
 package com.mponline.userApp.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,10 +32,13 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
+import kotlinx.android.synthetic.main.fragment_order_history.view.ll_container
 import kotlinx.android.synthetic.main.fragment_order_history.view.relative_frag
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
 import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import java.io.File
 
 
 @AndroidEntryPoint
@@ -43,6 +51,9 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     val viewModel: UserListViewModel by viewModels()
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     var isPostApplnSubmit = false
+    var mOrderlist:ArrayList<OrderHistoryDataItem> = arrayListOf()
+    var mAdapter:OrderHistoryAdapter? = null
+    var downloadID:Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,21 +103,27 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             viewModel?.getOrderHistory(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
-                        switchView(1, "")
-                        view?.rv_order_history?.setHasFixedSize(true)
-                        view?.rv_order_history?.layoutManager =
-                            LinearLayoutManager(
+                        if(data!=null && data?.size>0){
+                            switchView(1, "")
+                            mOrderlist = this?.data!!
+                            view?.rv_order_history?.setHasFixedSize(true)
+                            view?.rv_order_history?.layoutManager =
+                                LinearLayoutManager(
+                                    activity,
+                                    RecyclerView.VERTICAL,
+                                    false
+                                )
+                            mAdapter = OrderHistoryAdapter(
                                 activity,
-                                RecyclerView.VERTICAL,
-                                false
+                                this@OrderHistoryFragment,
+                                data!!
                             )
-                        view?.rv_order_history?.adapter = OrderHistoryAdapter(
-                            activity,
-                            this@OrderHistoryFragment,
-                            data!!
-                        )
+                            view?.rv_order_history?.adapter = mAdapter
+                        }else{
+                            switchView(0, "No Orders Found")
+                        }
                     } else {
-                        switchView(0, "")
+                        switchView(2, "No Network connection")
                         CommonUtils.createSnackBar(
                             activity?.findViewById(android.R.id.content)!!,
                             resources?.getString(R.string.no_net)!!
@@ -138,19 +155,31 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             R.id.cv_store->{
                 mSwichFragmentListener?.onSwitchFragment(Constants.STORE_PAGE, Constants.WITH_NAV_DRAWER, null, null)
             }
+            R.id.ll_download_files->{
+                if(obj is OrderHistoryDataItem){
+                    donwloadFile(obj?.paymentFile!!)
+                }
+            }
             R.id.text_make_payment->{
                 if(obj is OrderHistoryDataItem) {
-                    mSwichFragmentListener?.onSwitchFragment(
-                        Constants.PAYMENT_SUMMARY_PAGE,
-                        Constants.WITH_NAV_DRAWER,
-                        obj,
-                        null
-                    )
+                    if(obj?.paymentStatus == 1){
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            "You have already paid for this order!"
+                        )
+                    }else{
+                        mSwichFragmentListener?.onSwitchFragment(
+                            Constants.PAYMENT_SUMMARY_PAGE,
+                            Constants.WITH_NAV_DRAWER,
+                            obj,
+                            null
+                        )
+                    }
                 }
             }
             R.id.ll_submit_rating->{
                 if(obj is OrderHistoryDataItem) {
-                    callSaveRating(obj)
+                    callSaveRating(obj, pos)
                 }
             }
             R.id.text_view_details->{
@@ -194,7 +223,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    private fun callSaveRating(mOrderHistoryDataItem: OrderHistoryDataItem) {
+    private fun callSaveRating(mOrderHistoryDataItem: OrderHistoryDataItem, pos:Int) {
         if (CommonUtils.isOnline(activity!!)) {
 //            switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
@@ -205,6 +234,9 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
             )
             viewModel?.saveRating(commonRequestObj)?.observe(this, Observer {
                 it?.run {
+                    mOrderlist?.get(pos)?.ratingStatus = "1"
+                    mOrderlist?.get(pos)?.userratting = mOrderHistoryDataItem?.myrating!!
+                    mAdapter?.refreshAdapter(mOrderlist)
                     CommonUtils.createSnackBar(
                         activity?.findViewById(android.R.id.content)!!,
                         message
@@ -219,22 +251,108 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
+    fun donwloadFile(url:String){
+        if (isCameraStoragePermissionGranted(activity!!)) {
+            var extention = CommonUtils.getFileExtentionFromStrPath(url)
+            if(extention?.contains(".png", true) || extention?.contains(".jpg", true) || extention?.contains(".jpeg", true)){
+                /*CommonUtils.downloadImgFromUrl(context!!, url, extention)
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    "Donwload successfully"
+                )*/
+                beginDownload(url, CommonUtils.getFileExtentionFromStrPath(url))
+            }else{
+                beginDownload(url, CommonUtils.getFileExtentionFromStrPath(url))
+            }
+        } else {
+            checkCameraStoragePermissions(requireActivity())
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun beginDownload(donwloadUrl:String, type:String) {
+        val file =
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                "ApnaOnline_"+System.currentTimeMillis()+"${type}"
+            )
+        CommonUtils.printLog("AGGREMENT_URL", "${donwloadUrl}")
+        val request =
+            DownloadManager.Request(Uri.parse(donwloadUrl))
+                .setTitle("Apna Online File")// Title of the Download Notification
+                .setDescription("Downloading...")// Description of the Download Notification
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)// Visibility of the download Notification
+                .setDestinationUri(Uri.fromFile(file))// Uri of the destination file
+                .setRequiresCharging(false)// Set if charging is required to begin the download
+                .setAllowedOverMetered(true)// Set if download is allowed on Mobile network
+                .setAllowedOverRoaming(true)// Set if download is allowed on roaming network
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "ApnaOnline_"+System.currentTimeMillis()+"${type}");
+        val downloadManager = activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+//        request.setMimeType("*/${type?.replace(".","")}");
+        downloadID =
+            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+        CommonUtils.createSnackBar(
+            activity?.findViewById(android.R.id.content)!!,
+            "Download started..."
+        )
+
+        //Broadcast reciever for download complete msg
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val action = intent.action
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE != action) {
+                    return
+                }
+                context.applicationContext.unregisterReceiver(this)
+                val query = DownloadManager.Query()
+                query.setFilterById(downloadID)
+                val c = downloadManager.query(query)
+                if (c.moveToFirst()) {
+                    val columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
+                        val uriString =
+                            c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
+                        CommonUtils.printLog("LK_AGGRE_DONWLOADED", "downloaded file $uriString")
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            "Donwload successfully"
+                        )
+                    } else {
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            "Donwload failed!"
+                        )
+                        CommonUtils.printLog("LK_AGGRE_DONWLOADED", "download failed " + c.getInt(columnIndex))
+                    }
+                }
+            }
+        }
+        activity?.applicationContext?.registerReceiver(receiver,  IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+    }
+
     fun switchView(i: Int, msg: String) {
         mView?.run {
             when (i) {
                 0 -> {
                     relative_progress?.visibility = View.GONE
-                    ll_container?.visibility = View.VISIBLE
+                    relative_empty?.visibility = View.VISIBLE
+                    ll_container?.visibility = View.GONE
+                    text_empty?.text = msg
                 }
                 1 -> {
                     relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
                 2 -> {
                     relative_progress?.visibility = View.GONE
+                    relative_empty?.visibility = View.VISIBLE
+                    text_empty?.text = msg
                 }
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
+                    relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.GONE
                 }
             }

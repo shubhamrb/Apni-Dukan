@@ -42,6 +42,10 @@ class ApiName {
         const val SAVE_PAYMENT:String = "api/auth/paymentdone"
         const val GET_INVOICE:String = "api/auth/getInvoice"
         const val FORGOT_PWD:String = "api/forgotpassword"
+        const val PAYTM_CHECKSUM:String = "paytmchecksum/index.php"
+        const val UPDATE_PWD:String = "api/updatepassword"
+        const val ENQUIRY_WEBVIEW:String = "api/auth/getenquirylist"
+        const val HELP_SUPPORT_WEBVIEW:String = "api/auth/gethelpsupport"
 
     }
 }

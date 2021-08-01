@@ -5,10 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ll_edittext_container"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Text_mont_medium"
+            android:id="@+id/text_edt_upload_label"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/margin8"
+            android:layout_marginBottom="@dimen/margin8"
+            android:textColor="@color/black"
+            android:text="Choose Aadhar File"/>
+
 
         <androidx.appcompat.widget.AppCompatEditText
             style="@style/Text_mont_regular"
@@ -51,5 +63,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

@@ -50,12 +50,13 @@
 
              <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
-                    android:text="Price"
+                 android:id="@+id/text_spn_title"
+                 android:text="Price"
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginRight="@dimen/margin15"
                     android:textColor="@color/black"
                     android:layout_marginLeft="@dimen/margin15"
-                    android:textSize="@dimen/textsize16"
+                 android:textSize="@dimen/textsize16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -63,13 +64,23 @@
                     style="@style/Text_mont_regular"
                     android:id="@+id/text_price"
                     android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat."
+                    android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
-                    android:textColor="@color/light_black"
                     android:layout_marginLeft="@dimen/margin15"
                     android:textSize="@dimen/textsize14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <Spinner
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:id="@+id/spn_opt"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin5"
+                    android:layout_width="match_parent"
+                    android:spinnerMode="dialog"
+                    android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_steps"

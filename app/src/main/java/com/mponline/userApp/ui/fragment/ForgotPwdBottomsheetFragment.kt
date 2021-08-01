@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.ui.activity.ChangePwdActivity
 import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.activity.MainActivity
 import com.mponline.userApp.ui.activity.RegisterActivity
@@ -92,6 +93,9 @@ class ForgotPwdBottomsheetFragment : BottomSheetDialogFragment() {
                 it?.run {
                     if (status!!) {
                         progressDialogDismiss()
+                        var intent = Intent(context, ChangePwdActivity::class.java)
+                        intent.putExtra("mobile", edit_mobile_no?.text?.toString()?.trim())
+                        context?.startActivity(intent)
                         dismiss()
                     } else {
                         progressDialogDismiss()

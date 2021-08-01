@@ -1,14 +1,18 @@
 package com.mponline.userApp.util;
 
+import android.R.attr.bitmap
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
+import android.os.Environment
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.DisplayMetrics
@@ -23,8 +27,13 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.mponline.userApp.BuildConfig
 import com.mponline.userApp.utils.Constants
+import java.io.File
+import java.io.FileOutputStream
+
 
 class  CommonUtils{
 
@@ -174,7 +183,75 @@ class  CommonUtils{
             alert.show()
         }
 
+        fun getFileExtentionFromStrPath(path:String):String{
+            var extension = ""
+            if (path.contains("."))
+                extension = path.substring(path.lastIndexOf("."));
+            CommonUtils.printLog("EXTENTION_FOUND", "${extension}")
+            return extension
+        }
 
+        fun downloadImgFromUrl(mContext: Context, mUrl: String, extention:String) {
+            Glide.with(mContext)
+                .asBitmap()
+                .load(mUrl)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+//                        imageView.setImageBitmap(resource)
+                        SaveImage(mContext, resource, extention)
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // this is called when imageView is cleared on lifecycle call or for
+                        // some other reason.
+                        // if you are referencing the bitmap somewhere else too other than this imageView
+                        // clear it here as you can no longer have the bitmap
+                    }
+                })
+        }
+
+        fun SaveImage(mContext: Context, finalBitmap: Bitmap, extention:String) {
+            /*val file =
+                File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    "ApnaOnline_"+System.currentTimeMillis()+"${extention}"
+                )*/
+//            CommonUtils.printLog("FILEPATH", "${file.absoluteFile}")
+            val root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+            ).toString()
+            val myDir = File(root + "/ApnaOnline")
+            myDir.mkdirs()
+
+            val fname = "IMG_"+System.currentTimeMillis()+".jpg"
+            val file = File(myDir, fname)
+            if (file.exists()) file.delete()
+            try {
+                val out = FileOutputStream(file)
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+                out.flush()
+                out.close()
+
+                if(file?.exists()){
+                    file?.delete()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            // Tell the media scanner about the new file so that it is
+            // immediately available to the user.
+            /*  MediaScannerConnection.scanFile(mContext, arrayOf<String>(file.toString()), null,
+                  object : MediaScannerConnection.OnScanCompletedListener {
+                      override fun onScanCompleted(path: String, uri: Uri) {
+                          CommonUtils.printLog("ExternalStorage", "Scanned $path:")
+                          CommonUtils.printLog("ExternalStorage", "-> uri=$uri")
+                      }
+                  })*/
+        }
 
     }
 }

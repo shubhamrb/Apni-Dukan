@@ -502,6 +502,7 @@ open class BaseActivity : AppCompatActivity() {
     fun getCommonRequestObj(
         apiKey: String="",
         mobile: String="",
+        password: String="",
         name: String="",
         email: String="",
         orderid: String = "",
@@ -524,6 +525,7 @@ open class BaseActivity : AppCompatActivity() {
         return CommonRequestObj(
             apiKey = apiKey,
             mobile = mobile,
+            password = password,
             name = name,
             email = email,
             search = search,

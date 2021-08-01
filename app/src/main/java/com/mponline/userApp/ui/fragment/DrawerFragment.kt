@@ -131,6 +131,7 @@ class DrawerFragment : BaseFragment(), OnItemClickListener{
             var intent:Intent = Intent(activity!!, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity?.startActivity(intent)
+            activity?.finish()
         }
     }
 

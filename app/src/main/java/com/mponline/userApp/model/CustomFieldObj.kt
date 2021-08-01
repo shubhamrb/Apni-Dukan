@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class CustomFieldObj(
     var fieldType:String? = "",
     var hintName:String? = "",
+    var label:String? = "",
     var max:String? = "",
     var min:String? = "",
     var isRequired:String = "",

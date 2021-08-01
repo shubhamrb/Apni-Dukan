@@ -1,5 +1,6 @@
 package com.mponline.userApp.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,12 +21,19 @@ import kotlinx.android.synthetic.main.fragment_order_history.view.*
 import kotlinx.android.synthetic.main.item_service.view.*
 
 class FormPreviewActivity : BaseActivity(), OnItemClickListener {
+
+    var from = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_preview)
         toolbar_title.text = ""
         image_back?.setOnClickListener {
-            finish()
+           onBackPressed()
+        }
+        if(intent?.hasExtra("paymentdone")!!){
+            from = intent?.getStringExtra("paymentdone")!!
+            text_title?.text = "Payment Done"
         }
         var data = intent?.getParcelableArrayListExtra<OrderDetailItem>("data")
         if(!data?.isNullOrEmpty()!!){
@@ -47,5 +55,16 @@ class FormPreviewActivity : BaseActivity(), OnItemClickListener {
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
 
+    }
+
+    override fun onBackPressed() {
+        if(from?.equals("paymentdone")){
+            var intent: Intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }else{
+            super.onBackPressed()
+        }
     }
 }

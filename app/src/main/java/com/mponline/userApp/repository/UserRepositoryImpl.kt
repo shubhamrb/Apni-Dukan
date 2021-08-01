@@ -714,5 +714,79 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
+    override fun getPaytmChecksum(userid:String, orderid:String, amount:String): MutableLiveData<PaytmChecksumResponse> {
+        val data = MutableLiveData<PaytmChecksumResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getPaytmChecksum(userid, orderid, amount)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun updatePwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse> {
+        val data = MutableLiveData<CommonResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.updatePwd(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    data.postValue(CommonResponse(message = "Something went wrong, please try again later", status = false))
+                }
+
+            } catch (e: Exception) {
+                data.postValue(CommonResponse(message = "Something went wrong, please try again later", status = false))
+            }
+        }
+        return data;
+    }
+
+    override fun getHelpSupportWebview(token: String): MutableLiveData<String> {
+        val data = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getHelpSupportWebview(token)
+//                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+//                } else {
+//                    data.postValue("Something went wrong, please try again later!")
+//                }
+
+            } catch (e: Exception) {
+                data.postValue("Something went wrong, please try again later!")
+            }
+        }
+        return data;
+    }
+
+    override fun getEnquiryWebview(token: String): MutableLiveData<String> {
+        val data = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getEnquiryWebview(token)
+//                if (response?.isSuccessful!!) {
+                    data.postValue(response)
+//                } else {
+//                    data.postValue("Something went wrong, please try again later!")
+//                }
+
+            } catch (e: Exception) {
+                data.postValue("Something went wrong, please try again later!")
+            }
+        }
+        return data;
+    }
+
 
 }

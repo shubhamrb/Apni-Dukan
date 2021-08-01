@@ -19,6 +19,16 @@
             android:visibility="visible"
             android:orientation="vertical">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_medium"
+                android:id="@+id/text_file_upload_label"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/margin8"
+                android:layout_marginBottom="@dimen/margin8"
+                android:textColor="@color/black"
+                android:text="Choose Aadhar File"/>
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

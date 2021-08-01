@@ -27,7 +27,7 @@ import kotlin.collections.ArrayList
 class OrderHistoryAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList: List<OrderHistoryDataItem> = ArrayList()
+    var mList: ArrayList<OrderHistoryDataItem> = ArrayList()
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -42,6 +42,11 @@ class OrderHistoryAdapter(
         )
     }
 
+    fun refreshAdapter(list:ArrayList<OrderHistoryDataItem>){
+        mList = list
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is OrderHistoryViewHolder){
             if (!mList?.get(position)?.products?.product_image?.isNullOrEmpty()!!) {
@@ -52,6 +57,7 @@ class OrderHistoryAdapter(
                 )
             }
             holder?.itemView?.text_order_title?.text = mList?.get(position)?.products?.name+" (${mList?.get(position)?.orderId})"
+            holder?.itemView?.text_vendor_name?.text = mList?.get(position)?.storedetail?.name
             holder?.itemView?.text_to_date?.text =
                 "Application submitted as on \n${DateUtils.changeDateFormat(mList?.get(position)?.createdAt, "yyyy-MM-dd HH:mm:ss", "dd MMM yyyy")}"
             when (mList?.get(position)?.status) {
@@ -142,6 +148,11 @@ class OrderHistoryAdapter(
                     holder.itemView.layout_order_complete.visibility = View.VISIBLE
                     holder.itemView.text_view_invoice.visibility = View.VISIBLE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_green);
+                    if(mList?.get(position)?.paymentFile!=null && !mList?.get(position)?.paymentFile?.isNullOrEmpty()!!){
+                        holder.itemView.ll_download_files.visibility = View.VISIBLE
+                    }else{
+                        holder.itemView.ll_download_files.visibility = View.GONE
+                    }
                     if(mList?.get(position)?.ratingStatus?.equals("1")!!){
                         holder?.itemView?.ll_submit_rating?.visibility = View.GONE
                         if(mList?.get(position)?.userratting!=null && (!mList?.get(position)?.userratting?.isNullOrEmpty()!!)){
@@ -167,9 +178,7 @@ class OrderHistoryAdapter(
                 }
             }
             holder.itemView.ll_download_files.setOnClickListener {
-                var intent:Intent = Intent(context, FilePreviewActivity::class.java)
-                intent?.putExtra("file", mList?.get(position)?.paymentFile)
-                context?.startActivity(intent)
+                listener?.onClick(position, holder.itemView.ll_download_files, mList?.get(position))
             }
             holder.itemView.text_make_payment.setOnClickListener {
                 listener?.onClick(position, holder.itemView.text_make_payment, mList?.get(position))

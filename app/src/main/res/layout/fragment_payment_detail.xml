@@ -49,6 +49,8 @@
                     android:id="@+id/text_store_name"
                     android:text="KIOSK STORE"
                     android:layout_marginTop="@dimen/margin45"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
                     android:textColor="@color/light_black"
                     android:layout_gravity="center_horizontal"
                     android:textSize="@dimen/textsize22"

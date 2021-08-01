@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class OrderHistoryResponse(
     @SerializedName("data")
-    val data: List<OrderHistoryDataItem>?,
+    val data: ArrayList<OrderHistoryDataItem>?,
     @SerializedName("status")
     val status: Boolean = false,
     @SerializedName("messageId")
@@ -78,7 +78,7 @@ data class OrderHistoryDataItem(
     @SerializedName("offer_amount")
     val offerAmount: String? = "",
     @SerializedName("userratting")
-    val userratting: String? = "",
+    var userratting: String? = "",
     @SerializedName("time_type")
     val timeType: String? = "",
     @SerializedName("order_completion_time")
@@ -128,7 +128,7 @@ data class OrderHistoryDataItem(
     @SerializedName("payment_type")
     val paymentType: String? = "",
     @SerializedName("rating_status")
-    val ratingStatus: String?= "",
+    var ratingStatus: String?= "",
     @SerializedName("myrating")
     var myrating: String? = "",
     @SerializedName("user_id")

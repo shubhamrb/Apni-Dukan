@@ -38,15 +38,13 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnImgPreviewListener
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnLocationFetchListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
-import com.mponline.userApp.model.ImgPreviewPojo
-import com.mponline.userApp.model.LocationObj
-import com.mponline.userApp.model.LocationUtils
-import com.mponline.userApp.model.PrePlaceOrderPojo
+import com.mponline.userApp.model.*
 import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.SearchHomeAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -110,9 +108,28 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
+    override fun onStart() {
+        CommonUtils?.printLog("MAINACTIVITY_START","called")
+        super.onStart()
+        /*if(!mPreferenceUtils?.getValue(Constants.USER_SELECTED_LOCATION)?.isNullOrEmpty()){
+            mRequestingLocationUpdates = true
+            CommonUtils?.printLog("MAINACTIVITY_START","called_IF ${mRequestingLocationUpdates}")
+            val listType = object : TypeToken<LocationObj>() {}.type
+            var mLocationObj = Gson().fromJson<LocationObj>(mPreferenceUtils?.getValue(Constants.USER_SELECTED_LOCATION)!!, listType)
+            if(mLocationObj!=null){
+                LocationUtils.setCurrentLocation(mLocationObj)
+                text_locationName?.text = mLocationObj?.city
+                onLocationSuccess()
+            }
+        }else{
+            CommonUtils?.printLog("MAINACTIVITY_START","called_ELSE")
+            createLocationCallback()
+            createLocationRequest()
+            buildLocationSettingsRequest()
+        }*/
+    }
     override fun onRestart() {
         super.onRestart()
-        checkForLocation()
     }
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
@@ -483,12 +500,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     )
                     LocationUtils.setCurrentLocation(locationObj)
                     text_locationName?.text = locationObj?.city
+                    mPreferenceUtils?.setValue(Constants.USER_SELECTED_LOCATION, Gson().toJson(locationObj))
                     if (mOnLocationFetchListener != null) {
                         mOnLocationFetchListener?.onLocationSuccess(locationObj)
                     }
                 }
             }
         }
+        onSwitchFragment(Constants.HOME_PAGE, "", null, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -497,9 +516,24 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mSettingsClient = LocationServices.getSettingsClient(this)
-        createLocationCallback()
-        createLocationRequest()
-        buildLocationSettingsRequest()
+        CommonUtils?.printLog("MAINACTIVITY_ONCREATE","called")
+        if(!mPreferenceUtils?.getValue(Constants.USER_SELECTED_LOCATION)?.isNullOrEmpty()){
+            CommonUtils?.printLog("MAINACTIVITY_ONCREATE","called_IF")
+            val listType = object : TypeToken<LocationObj>() {}.type
+            var mLocationObj = Gson().fromJson<LocationObj>(mPreferenceUtils?.getValue(Constants.USER_SELECTED_LOCATION)!!, listType)
+            if(mLocationObj!=null){
+                LocationUtils.setCurrentLocation(mLocationObj)
+                text_locationName?.text = mLocationObj?.city
+                onLocationSuccess()
+            }
+        }else{
+            mRequestingLocationUpdates = true
+            CommonUtils?.printLog("MAINACTIVITY_ONCREATE","called_ELSE ${mRequestingLocationUpdates}")
+            createLocationCallback()
+            createLocationRequest()
+            buildLocationSettingsRequest()
+            checkForLocation()
+        }
 
         image_notification.setOnClickListener {
             startActivityForResult(Intent(this@MainActivity, NotificationActivity::class.java), Constants.REQUEST_NOTIFICATION)
@@ -661,8 +695,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
                 "NOTI_enquiry"->{
                     //Launch webview with enquiry
-                    var intent:Intent = Intent(this@MainActivity, FilePreviewActivity::class.java)
-                    intent?.putExtra("file", "http://apnaonlines.com/enquiry")
+                    var intent:Intent = Intent(this@MainActivity, EnquirySupportWebviewActivity::class.java)
+                    intent?.putExtra("type", "enquiry")
                     startActivity(intent)
                 }
                 "offer"->{
@@ -703,50 +737,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     fun checkForLocation() {
         if (LocationUtils.getCurrentLocation() == null) {
             //Access New Location
-//            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
             if (isLocationPermissionGranted()) {
                 startLocationUpdates()
-                /*fusedLocationProviderClient?.lastLocation?.addOnCompleteListener {
-                    it?.addOnFailureListener {
-                        if (mOnLocationFetchListener != null) {
-                            mOnLocationFetchListener?.onLocationFailure()
-                        }
-                    }
-                    it?.addOnSuccessListener {
-                       *//* val geocoder: Geocoder
-                        var addresses: List<Address> = arrayListOf()
-                        geocoder = Geocoder(this, Locale.getDefault())
-                        CommonUtils.printLog(
-                            "CURRENT_LOCATION",
-                            "${it?.latitude}, ${it?.longitude}"
-                        )
-                        if (it != null) {
-                            addresses = geocoder.getFromLocation(
-                                it?.latitude!!,
-                                it?.longitude,
-                                1
-                            )
-                        }
-                        if (addresses != null && addresses?.size!! > 0) {
-                            val address: String =
-                                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                            val city: String = addresses[0].getLocality()
-                            val state: String = addresses[0].getAdminArea()
-                            val country: String = addresses[0].getCountryName()
-                            val postalCode: String = addresses[0].getPostalCode()
-                            val knownName: String = addresses[0].getFeatureName()
-                            var locationObj = LocationObj(
-                                lat = it?.latitude?.toString()!!, lng = it?.longitude?.toString(),
-                                address = address, city = city, state = state
-                            )
-                            LocationUtils.setCurrentLocation(locationObj)
-                            text_locationName?.text = locationObj?.city
-                            if (mOnLocationFetchListener != null) {
-                                mOnLocationFetchListener?.onLocationSuccess(locationObj)
-                            }
-                        }*//*
-                    }
-                }*/
             } else {
                 checkLocationPermissions()
             }
@@ -933,14 +925,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         )
                         if (place?.latLng != null) {
                             text_locationName?.text = place?.name
-                            LocationUtils?.setSelectedLocation(
-                                LocationObj(
-                                    lat = place?.latLng?.latitude?.toString()!!,
-                                    lng = place?.latLng?.longitude?.toString()!!,
-                                    address = place?.name!!,
-                                    city = place?.name!!
-                                )
+                            var locationObj = LocationObj(
+                                lat = place?.latLng?.latitude?.toString()!!,
+                                lng = place?.latLng?.longitude?.toString()!!,
+                                address = place?.name!!,
+                                city = place?.name!!
                             )
+                            LocationUtils?.setSelectedLocation(
+                                locationObj
+                            )
+                            mPreferenceUtils?.setValue(Constants.USER_SELECTED_LOCATION, Gson().toJson(locationObj))
+                            onLocationSuccess()
                         }
                     }!!
                 }

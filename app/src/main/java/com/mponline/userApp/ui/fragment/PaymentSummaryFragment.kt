@@ -121,8 +121,11 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 } else {
                     view?.image_close?.visibility = View.GONE
                     mView?.text_coupon_amt?.text = ""
+                    if(isCouponApplied) {
+                        callRemoveCoupon()
+                    }
                     mCouponAmt = "0.0"
-                    mPayableAmt = "0.0"
+                    mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
                     calculateTotal()
                 }
             }
@@ -249,6 +252,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 it?.run {
                     switchView(1, "")
                     if(status){
+                        isCouponApplied = false
                         mView?.edt_coupon_code?.setText("")
                     }
                     CommonUtils.createSnackBar(

@@ -21,7 +21,7 @@
         <Spinner
             style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:id="@+id/spn_opt"
-            android:layout_marginTop="@dimen/margin8"
+            android:layout_marginTop="@dimen/margin5"
             android:layout_width="match_parent"
             android:spinnerMode="dialog"
             android:layout_height="wrap_content" />
