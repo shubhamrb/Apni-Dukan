@@ -21,9 +21,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.request.UserAuthRequestObj
-import com.mponline.userApp.model.response.CommonResponse
-import com.mponline.userApp.model.response.LoginResponse
-import com.mponline.userApp.model.response.RegisterResponse
+import com.mponline.userApp.model.response.*
 import com.mponline.userApp.ui.adapter.NotificationAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseActivity
@@ -195,7 +193,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
                 it?.run {
                     if (status!!) {
                         relative_progress.visibility = View.GONE
-                        showOtpDialog()
+                        showOtpDialog(it?.data)
                     } else {
                         relative_progress.visibility = View.GONE
                     }
@@ -218,8 +216,8 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
 
     }
 
-    fun showOtpDialog() {
-        val instance = OtpBottomsheetFragment.newInstance(edit_mobile_no.text.toString().trim())
+    fun showOtpDialog(mSignupResponse: Data) {
+        val instance = OtpBottomsheetFragment.newInstance(edit_mobile_no.text.toString().trim(), mSignupResponse)
         instance.isCancelable = false
         instance.show(supportFragmentManager, "OTP")
     }

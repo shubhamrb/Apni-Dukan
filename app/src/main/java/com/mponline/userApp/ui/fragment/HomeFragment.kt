@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.mponline.userApp.R
@@ -35,6 +37,12 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.item_banner.view.*
 import kotlinx.android.synthetic.main.layout_location_fetching.*
 import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.*
+import java.util.Timer
 
 
 @AndroidEntryPoint
@@ -107,7 +115,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
             //Show waiting
             switchView(4, "")
         } else
-            if (CommonUtils.isOnline(activity!!)) {
+            if (CommonUtils.isOnline(requireContext())) {
                 switchView(3, "")
                 var commonRequestObj = getCommonRequestObj(
                     apiKey = getApiKey(),
@@ -216,18 +224,60 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
 
                 //Top Products
                 if (it?.data?.productlist != null) {
-                    rv_top_exam_forms?.setHasFixedSize(true)
-                    rv_top_exam_forms?.layoutManager =
-                        LinearLayoutManager(
-                            activity,
-                            RecyclerView.HORIZONTAL,
-                            false
-                        )
-                    rv_top_exam_forms?.adapter = TopProductAdapter(
+                    var scrolltime = 3000
+                    var listadapter = TopProductAdapter(
                         activity,
                         this@HomeFragment,
                         it?.data?.productlist!!
                     )
+                    rv_top_exam_forms?.setHasFixedSize(true)
+                    var linearLayoutManager = LinearLayoutManager(
+                        activity,
+                        RecyclerView.HORIZONTAL,
+                        false
+                    )
+                    rv_top_exam_forms?.layoutManager = linearLayoutManager
+                    rv_top_exam_forms?.adapter = listadapter
+
+                    lifecycleScope.launch(Dispatchers.Main, start = CoroutineStart.DEFAULT) {
+                       var MINIMUM_POSITION = 0
+                       var AUTO_SCROLL_REPEATING_TIMES = 2
+                        var position = MINIMUM_POSITION
+                        repeat(AUTO_SCROLL_REPEATING_TIMES) {inst->
+                            delay(3000)
+                            rv_top_exam_forms.smoothScrollToPosition(position)
+                            when {
+                                position+1 == it?.data?.productlist?.size -> position = 0
+                                position == 0 -> position = MINIMUM_POSITION
+                                else -> position++
+                            }
+                        }
+                    }
+                   /* val linearSnapHelper = LinearSnapHelper()
+                    linearSnapHelper.attachToRecyclerView(rv_top_exam_forms)
+                    val timer = Timer()
+                    *//*timer.schedule(object : TimerTask() {
+                        override fun run() {
+
+                        }
+                    },0, scrolltime)*//*
+                    timer.schedule(object : TimerTask() {
+                        override fun run() {
+                            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < listadapter.getItemCount() - 1) {
+                                linearLayoutManager.smoothScrollToPosition(
+                                    rv_top_exam_forms,
+                                    RecyclerView.State(),
+                                    linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
+                                )
+                            } else if (linearLayoutManager.findLastCompletelyVisibleItemPosition() === listadapter.getItemCount() - 1) {
+                                linearLayoutManager.smoothScrollToPosition(
+                                    rv_top_exam_forms,
+                                    RecyclerView.State(),
+                                    0
+                                )
+                            }
+                        }
+                    }, 2000)*/
                 }
 
                 //Nearby Stores

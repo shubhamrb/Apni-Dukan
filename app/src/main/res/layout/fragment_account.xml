@@ -197,6 +197,33 @@
                     android:layout_marginTop="@dimen/margin10"
                     android:layout_marginRight="@dimen/margin15"
                     android:background="@color/black" />
+    <LinearLayout
+                    android:id="@+id/ll_shareapp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:text="Share Application"
+                        android:gravity="center"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize16" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -22,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.model.request.UserAuthRequestObj
+import com.mponline.userApp.model.response.Data
 import com.mponline.userApp.ui.activity.MainActivity
 import com.mponline.userApp.ui.activity.RegisterActivity
 import com.mponline.userApp.util.CommonUtils
@@ -48,6 +49,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
     var mUserMobile = ""
     var progressDialog: ProgressDialog? = null
     private var countDownTimer: CountDownTimer? = null
+    var mSignupdata:Data? = null
     var mView:View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +61,9 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         mView = view
         initProgressDialog()
         arguments?.let {
+            if(it?.containsKey("data")){
+                mSignupdata = it?.getParcelable("data")
+            }
             mUserMobile = it?.getString(Constants.USER_MOBILE)!!
             view?.text_mobile_text?.text = "Kindly check your SMS sent on ${mUserMobile}"
             startTimer()
@@ -70,8 +75,12 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
             text_verify_otp.setOnClickListener {
                 if(edt_otp.text.toString().trim()?.isNullOrEmpty() || edt_otp.text.toString().trim()?.length!! < 4){
                     CommonUtils.createSnackBar(activity?.findViewById(android.R.id.content)!!, "Please enter valid OTP")
-                }else{
+                }else if(!edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)){
+                    CommonUtils.createSnackBar(activity?.findViewById(android.R.id.content)!!, "Invalid OTP")
+                }else if(edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)){
                     callVerifyOtp(mUserMobile)
+                } else{
+
                 }
             }
 
@@ -98,9 +107,13 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         }
 
         override fun onFinish() {
-            mView?.text_resend?.text = Html.fromHtml(activity?.resources?.getString(R.string.resend))
-            mView?.text_resend?.isClickable = true
-            mView?.text_resend?.setTextColor(ContextCompat.getColor(activity!!, R.color.white))
+            try {
+                mView?.text_resend?.text = Html.fromHtml("<u>Resend</u>")
+                mView?.text_resend?.isClickable = true
+                mView?.text_resend?.setTextColor(ContextCompat.getColor(activity!!, R.color.white))
+            }catch (e:java.lang.Exception){
+                CommonUtils.printLog("EXCEPTION_RESENT", "${e?.message}")
+            }
         }
     }
 
@@ -194,10 +207,11 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(mobile:String): OtpBottomsheetFragment =
+        fun newInstance(mobile:String, data:Data): OtpBottomsheetFragment =
             OtpBottomsheetFragment().apply {
                     arguments = Bundle().apply {
                         putString(Constants.USER_MOBILE, mobile)
+                        putParcelable("data", data)
                     }
                 }
 

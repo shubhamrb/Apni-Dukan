@@ -15,6 +15,7 @@ import com.mponline.userApp.model.response.NotificationDataItem
 import com.mponline.userApp.model.response.OrderDetailItem
 import com.mponline.userApp.ui.activity.FilePreviewActivity
 import com.mponline.userApp.ui.activity.FormPreviewActivity
+import com.mponline.userApp.util.CommonUtils
 import kotlinx.android.synthetic.main.item_form_detail.view.*
 import kotlinx.android.synthetic.main.item_order_history.view.*
 
@@ -39,6 +40,13 @@ class OrderDetailAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.text_form_key.text = mList?.get(position)?.name
+       /* if(mList?.get(position)?.value?.isNullOrEmpty()!! && (mList?.get(position)?.filedata==null)){
+            CommonUtils.printLog("VISI","1")
+            holder.itemView.ll_form_content.visibility = View.GONE
+        }else{
+            CommonUtils.printLog("VISI","2")
+            holder.itemView.ll_form_content.visibility = View.VISIBLE
+        }*/
         if (mList?.get(position)?.filedata!=null && mList?.get(position)?.filedata?.type!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {
             holder.itemView.text_form_val.text =
                 context?.resources?.getString(R.string.u_view_details_u)
@@ -48,6 +56,11 @@ class OrderDetailAdapter(
                 holder.itemView.text_form_val.setTextAppearance(R.style.Text_mont_regular_cancelled);
             }
         }else{
+            if(mList?.get(position)?.value== null || mList?.get(position)?.value?.isNullOrEmpty()!!){
+                holder.itemView.ll_content.visibility = View.GONE
+            }else{
+                holder.itemView.ll_content.visibility = View.VISIBLE
+            }
             holder.itemView.text_form_val.text =  mList?.get(position)?.value
         }
         if (mList?.get(position)?.filedata!=null && mList?.get(position)?.filedata?.type!=null && (!mList?.get(position)?.filedata?.type?.isNullOrEmpty()!!)) {

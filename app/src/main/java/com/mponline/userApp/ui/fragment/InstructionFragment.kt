@@ -161,38 +161,54 @@ class InstructionFragment : BaseFragment(), OnItemClickListener {
                 text_title.text = Html.fromHtml(it?.data?.get(0)?.description)
                 text_desc.text = Html.fromHtml(it?.data?.get(0)?.shortDescription)
                 if (it?.data?.get(0)?.product_type?.equals("1")!!) {
-                    text_price.visibility = View.GONE
-                    spn_opt.visibility = View.VISIBLE
-                    text_spn_title.text = "Select Price"
                     var dropdownItemList = arrayListOf<String>()
+                    var isAllNullPrice = true
                     it?.data?.get(0)?.variation_price?.forEach {
-                        dropdownItemList?.add("${it?.name} ("+activity?.resources?.getString(R.string.rs)+"${it?.value})")
-                    }
-                    val adapter = ArrayAdapter(
-                        context!!,
-                        android.R.layout.simple_spinner_item,
-                        dropdownItemList!!
-                    )/*CustomeSpinnerAdapter(context!!, dropdownItemList)*/
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spn_opt.adapter = adapter
-                    spn_opt.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-                            }
-
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                pos: Int,
-                                id: Long
-                            ) {
-                                mGetProductDetailResponse?.data?.get(0)?.selectedPrice = mGetProductDetailResponse?.data?.get(0)?.variation_price?.get(pos)?.value
-                                CommonUtils.printLog(
-                                    "ANS_DROPDOWN_LISTENER",
-                                    "${ mGetProductDetailResponse?.data?.get(0)?.selectedPrice} -- > ${dropdownItemList?.get(pos)} ${pos}"
-                                )
-                            }
+                        if(it?.value!=null){
+                            isAllNullPrice = false
                         }
+                        dropdownItemList?.add("${it?.name} ("+activity?.resources?.getString(R.string.rs)+"${if(it?.value!=null) it?.value else "Best price after acceptance"})")
+                    }
+                    if(isAllNullPrice){
+                        text_price.visibility = View.VISIBLE
+                        spn_opt.visibility = View.GONE
+                        text_spn_title.text = "Price"
+                        text_price.text = "After order Confirmation Get Best Price"
+                        mGetProductDetailResponse?.data?.get(0)?.selectedPrice = "0.00"
+                    }else{
+                        text_price.visibility = View.GONE
+                        spn_opt.visibility = View.VISIBLE
+                        text_spn_title.text = "Select Price"
+                        val adapter = ArrayAdapter(
+                            context!!,
+                            android.R.layout.simple_spinner_item,
+                            dropdownItemList!!
+                        )/*CustomeSpinnerAdapter(context!!, dropdownItemList)*/
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spn_opt.adapter = adapter
+                        spn_opt.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
+                                }
+
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    pos: Int,
+                                    id: Long
+                                ) {
+                                    if(mGetProductDetailResponse?.data?.get(0)?.variation_price?.get(pos)?.value!=null){
+                                        mGetProductDetailResponse?.data?.get(0)?.selectedPrice = mGetProductDetailResponse?.data?.get(0)?.variation_price?.get(pos)?.value
+                                    }else{
+                                        mGetProductDetailResponse?.data?.get(0)?.selectedPrice = "0.00"
+                                    }
+                                    CommonUtils.printLog(
+                                        "ANS_DROPDOWN_LISTENER",
+                                        "${ mGetProductDetailResponse?.data?.get(0)?.selectedPrice} -- > ${dropdownItemList?.get(pos)} ${pos}"
+                                    )
+                                }
+                            }
+                    }
                 } else {
                     text_price.visibility = View.VISIBLE
                     spn_opt.visibility = View.GONE

@@ -197,7 +197,11 @@ class OrderHistoryAdapter(
                 }
             }
             holder.itemView.rl_chat.setOnClickListener {
-                listener?.onClick(position, holder.itemView.rl_chat, mList?.get(position))
+                if(mList?.get(position)?.status == 2){
+                    listener?.onClick(position, holder.itemView.rl_chat, mList?.get(position))
+                }else{
+
+                }
             }
             holder.itemView.rl_call.setOnClickListener {
                 listener?.onClick(position, holder.itemView.rl_call, mList?.get(position))

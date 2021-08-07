@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.model.request.FormDataItem
 import com.mponline.userApp.model.request.HeaderInfo
@@ -72,6 +73,8 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
                         Constants.USER_TOKEN))
                 ) else getCommonRequestObj(
                     apiKey = getApiKey(),
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!,
                     orderid = mOrderHistoryDataItem?.id!!
                 )
             viewModel?.getCouponList(commonRequestObj)?.observe(this, Observer {

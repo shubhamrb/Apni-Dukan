@@ -10,22 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
+import com.mponline.userApp.BuildConfig
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.EnquirySupportWebviewActivity
-import com.mponline.userApp.ui.activity.FilePreviewActivity
 import com.mponline.userApp.ui.activity.FormPreviewActivity
-import com.mponline.userApp.ui.adapter.ServicesAdapter
-import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
-import com.mponline.userApp.ui.adapter.StoresAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
@@ -33,8 +28,6 @@ import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.common_toolbar_normal.view.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import kotlinx.android.synthetic.main.fragment_account.view.relative_frag
-import kotlinx.android.synthetic.main.fragment_account.view.rv_order_history
 import kotlinx.android.synthetic.main.layout_progress.*
 
 @AndroidEntryPoint
@@ -75,6 +68,22 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
 
+        view?.ll_shareapp?.setOnClickListener {
+            try {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Apna Online")
+                var shareMessage = "\nLet me recommend you Apna Online application\n\n"
+                shareMessage =
+                    """
+                   ${shareMessage}https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}
+                   """.trimIndent()
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+                startActivity(Intent.createChooser(shareIntent, "choose one"))
+            } catch (e: Exception) {
+                //e.toString();
+            }
+        }
         view?.ll_help?.setOnClickListener {
             var intent:Intent = Intent(context, EnquirySupportWebviewActivity::class.java)
             intent?.putExtra("type", "help")

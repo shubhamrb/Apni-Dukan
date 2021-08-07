@@ -254,6 +254,13 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                     if(status){
                         isCouponApplied = false
                         mView?.edt_coupon_code?.setText("")
+                        if(!mPayableAmt?.isNullOrEmpty() && !mCouponAmt?.isNullOrEmpty()){
+                            var payamt = mPayableAmt?.toFloat()
+                            var cpnAmt = mCouponAmt?.toFloat()
+                            mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
+                            mCouponAmt = "0.00"
+                            calculateTotal()
+                        }
                     }
                     CommonUtils.createSnackBar(
                         activity?.findViewById(android.R.id.content)!!,

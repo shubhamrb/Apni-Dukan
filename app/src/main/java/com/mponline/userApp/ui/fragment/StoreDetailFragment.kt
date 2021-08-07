@@ -100,7 +100,6 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             if (it?.containsKey("store")) {
                 mStorelistItem = arguments?.getParcelable<StorelistItem>("store")
                 mStorelistItem?.let {
-                    if(it?.isAvailable?.equals("1")) image_store_status.setImageResource(R.drawable.circle_green) else image_store_status.setImageResource(R.drawable.circle_red)
                     callStoreDetail(mStorelistItem?.id!!)
                 }
             }
