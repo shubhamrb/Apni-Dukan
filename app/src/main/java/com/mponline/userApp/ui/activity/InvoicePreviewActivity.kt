@@ -63,7 +63,7 @@ class InvoicePreviewActivity : BaseActivity(), OnItemClickListener {
                 it?.run {
                     if (status) {
                        if(html!=null && !html?.isNullOrEmpty()){
-                           var htmlStr = html?.replace("\n","")//"<html><body><p>WHITE (default)</p></body></html>";//html?.replace("\n","")
+                           var htmlStr = html?.replace("\n","").replace("\\","")//"<html><body><p>WHITE (default)</p></body></html>";//html?.replace("\n","")
                            CommonUtils.printLog("HTML_STR", "${htmlStr}")
                            webview.visibility = View.VISIBLE
                            val settings: WebSettings = webview.getSettings()

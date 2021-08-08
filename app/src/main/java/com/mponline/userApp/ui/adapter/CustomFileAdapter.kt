@@ -281,7 +281,7 @@ class CustomFileAdapter(
             )!!
         ) {
             return VIEWTYPE_MULT_TEXT
-        } else if ((mList?.get(position)?.id?.equals("location", true)!!) || mList?.get(position)?.fieldType?.equals("location", true)!! || mList?.get(
+        } else if (/*(mList?.get(position)?.id?.equals("location", true)!!) || */mList?.get(position)?.fieldType?.equals("location", true)!! || mList?.get(
                 position
             )?.fieldType?.equals("date", true)!!
         ) {

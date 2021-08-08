@@ -217,7 +217,10 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
     }
 
     fun showOtpDialog(mSignupResponse: Data) {
-        val instance = OtpBottomsheetFragment.newInstance(edit_mobile_no.text.toString().trim(), mSignupResponse)
+        val instance = OtpBottomsheetFragment.newInstance(edit_mobile_no.text.toString().trim(), mSignupResponse,
+            edt_1.text.toString().trim() + edt_2.text.toString()
+                .trim() + edt_3.text.toString().trim() + edt_4.text.toString()
+                .trim() + edt_5.text.toString().trim() + edt_6.text.toString().trim(), edt_name.text.toString().trim())
         instance.isCancelable = false
         instance.show(supportFragmentManager, "OTP")
     }

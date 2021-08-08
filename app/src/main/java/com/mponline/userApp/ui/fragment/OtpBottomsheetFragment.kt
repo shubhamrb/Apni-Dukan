@@ -1,5 +1,6 @@
 package com.mponline.userApp.ui.fragment
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -19,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.mponline.userApp.R
 import com.mponline.userApp.model.request.UserAuthRequestObj
@@ -45,8 +47,11 @@ const val ARG_ITEM_COUNT = "item_count"
 class OtpBottomsheetFragment : BottomSheetDialogFragment() {
     private var mListener: OtpListener? = null
     val viewModel: UserListViewModel by viewModels()
-    var mPreferenceUtils: PreferenceUtils = PreferenceUtils()
+    var mPreferenceUtils: PreferenceUtils? = null
     var mUserMobile = ""
+    var mUserPin = ""
+    var username = ""
+    var mFcmToken = ""
     var progressDialog: ProgressDialog? = null
     private var countDownTimer: CountDownTimer? = null
     var mSignupdata:Data? = null
@@ -57,6 +62,11 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.layout_bottom_otp, container, false)
     }
 
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        mPreferenceUtils = PreferenceUtils(activity)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mView = view
         initProgressDialog()
@@ -65,6 +75,8 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 mSignupdata = it?.getParcelable("data")
             }
             mUserMobile = it?.getString(Constants.USER_MOBILE)!!
+            mUserPin = it?.getString("pin")!!
+            username = it?.getString("name")!!
             view?.text_mobile_text?.text = "Kindly check your SMS sent on ${mUserMobile}"
             startTimer()
         }
@@ -88,6 +100,14 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
+        FirebaseMessaging.getInstance().token?.addOnSuccessListener {
+            it?.let {
+                mFcmToken = it
+                CommonUtils.printLog("FCM_TOKEN", "${it}")
+                mPreferenceUtils?.setValue(Constants.FCM_TOKEN, mFcmToken)
+            }
+        }
+
     }
 
     fun startTimer() {
@@ -121,7 +141,11 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         var commonRequestObj = UserAuthRequestObj(
             apiKey = getApiKey(),
             mobile = mobile,
-            otp = edt_otp.text.toString().trim()
+            name = username,
+            device_type = Constants.DEVICE_TYPE,
+            device_token = mPreferenceUtils?.getValue(Constants.FCM_TOKEN)!!,
+            otp = edt_otp.text.toString().trim(),
+            pin = mUserPin
         )
         if (CommonUtils.isOnline(activity!!)) {
             progressDialogShow()
@@ -207,10 +231,12 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
 
     companion object {
 
-        fun newInstance(mobile:String, data:Data): OtpBottomsheetFragment =
+        fun newInstance(mobile:String, data:Data, pin:String, name:String): OtpBottomsheetFragment =
             OtpBottomsheetFragment().apply {
                     arguments = Bundle().apply {
                         putString(Constants.USER_MOBILE, mobile)
+                        putString("pin", pin)
+                        putString("name", name)
                         putParcelable("data", data)
                     }
                 }

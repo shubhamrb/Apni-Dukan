@@ -374,6 +374,7 @@ class EnquirySupportWebviewActivity : BaseActivity() {
         ): Boolean {
             //This method will be called when the Auth proccess redirect to our RedirectUri.
             //We will check the url looking for our RedirectUri.
+            view?.loadUrl(authorizationUrl)
             return true
         }
 

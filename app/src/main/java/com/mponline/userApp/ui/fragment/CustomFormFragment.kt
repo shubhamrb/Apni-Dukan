@@ -407,7 +407,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 //                    }, 1000)
                 }
                 R.id.btn -> {
-                    if (obj?.id?.equals("location")!! || obj?.fieldType?.equals("location")!!) {
+                    if (/*obj?.id?.equals("location")!! || */obj?.fieldType?.equals("location")!!) {
                         mSelectedPos = pos
                         mSelectedLocPos = pos
                         //AutoComplete place

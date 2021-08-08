@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Data(@SerializedName("user_id")
-                val userId: Int = 0,
+                val userId: String = "0",
                 @SerializedName("otp")
-                val otp: Int = 0,
+                val otp: String = "",
                 @SerializedName("phone_number")
                 val phoneNumber: String = ""):Parcelable
 

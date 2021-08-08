@@ -153,11 +153,7 @@ data class SubCategoryList(@SerializedName("image")
                            val bannerImage: String = "")
 
 
-data class GetInvoiceResponse(@SerializedName("data")
-                              val data: InvoiceData,
-                              @SerializedName("messageId")
-                              val messageId: Int = 0,
-                              @SerializedName("message")
+data class GetInvoiceResponse(@SerializedName("message")
                               val message: String = "",
                               @SerializedName("html")
                               var html: String = "",

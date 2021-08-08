@@ -746,8 +746,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         } else {
             if (mOnLocationFetchListener != null) {
+                CommonUtils.printLog("ADDRESS_ISSUE", "${LocationUtils.getCurrentLocation()?.address}")
                 mOnLocationFetchListener?.onLocationSuccess(LocationUtils.getCurrentLocation()!!)
-                text_locationName?.text = LocationUtils.getCurrentLocation()?.city
+                text_locationName?.text = LocationUtils.getCurrentLocation()?.address
             }
         }
     }

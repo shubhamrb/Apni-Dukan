@@ -20,6 +20,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.DrawerModel
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.Login
 import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.adapter.DrawerAdapter
@@ -128,6 +129,7 @@ class DrawerFragment : BaseFragment(), OnItemClickListener{
 
         view?.text_logout?.setOnClickListener {
             mPreferenceUtils?.clear()
+            LocationUtils.setCurrentLocation(null)
             var intent:Intent = Intent(activity!!, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             activity?.startActivity(intent)

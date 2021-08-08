@@ -222,7 +222,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
             text_res_title?.text = "Search Result (${data?.size})"
             if (it?.size >= 0) {
                 if(isNearyby){
-                    Collections.sort(data, Comparator { obj1, obj2 ->
+                    Collections.sort(it, Comparator { obj1, obj2 ->
                         obj1.distance.compareTo(obj2.distance) // To compare string values
                     })
                 }

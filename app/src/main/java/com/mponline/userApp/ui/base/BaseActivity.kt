@@ -531,7 +531,7 @@ open class BaseActivity : AppCompatActivity() {
             search = search,
             orderid = orderid,
             coupon = coupon,
-            orderamount = orderid,
+            orderamount = orderamount,
             vendorid = vendorid,
             latitude = latitude,
             longitude = longitude,

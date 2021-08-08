@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
 import com.mponline.userApp.model.FcmNotificationObj
 import com.mponline.userApp.model.ResultUserItem
+import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.activity.MainActivity
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
@@ -80,7 +81,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         message: String?, title: String?, date: String?
     ) {
         CommonUtils.printLog("GOT_FCM_PUSH", "${notificationType}, ${title}, ${message}")
-        val mIntent = Intent(this, MainActivity::class.java)
+        var mIntent:Intent? = null
+        if(notificationType?.equals("block")!!){
+            mIntent = Intent(this, LoginActivity::class.java)
+        }else{
+            mIntent = Intent(this, MainActivity::class.java)
+        }
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         when(notificationType){
             "chat"->{
