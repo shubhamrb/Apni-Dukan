@@ -70,7 +70,9 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
             var commonRequestObj =
                 if (mType?.equals("offer")) CommonRequestObj(
                     headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(
-                        Constants.USER_TOKEN))
+                        Constants.USER_TOKEN)),
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!
                 ) else getCommonRequestObj(
                     apiKey = getApiKey(),
                     latitude = LocationUtils?.getCurrentLocation()?.lat!!,

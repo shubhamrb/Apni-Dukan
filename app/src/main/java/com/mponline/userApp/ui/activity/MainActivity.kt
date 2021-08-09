@@ -667,7 +667,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             })
         }
         image_close_search.setOnClickListener {
-            edt_toolbar_title_search.setText("")
+            closeSearchToolbarview()
         }
         image_back_arrow_search.setOnClickListener {
             closeSearchToolbarview()
@@ -1012,6 +1012,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.text_service_name -> {
                 if (obj is HomeSearchData) {
+                    CommonUtils.hideKeyboardView(this@MainActivity, edt_toolbar_title_search)
                     when (obj?.type) {
                         "category" -> {
                             onSwitchFragment(

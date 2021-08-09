@@ -7,6 +7,8 @@ data class HomeSearchData(@SerializedName("name")
                     val name: String = "",
                     @SerializedName("type")
                     val type: String = "",
+                    @SerializedName("label")
+                    val label: String = "",
                     @SerializedName("value")
                     val value: String = "")
 

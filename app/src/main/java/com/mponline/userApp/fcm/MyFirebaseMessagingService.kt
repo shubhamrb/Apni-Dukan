@@ -19,6 +19,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mponline.userApp.R
 import com.mponline.userApp.model.FcmNotificationObj
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.ResultUserItem
 import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.activity.MainActivity
@@ -65,6 +66,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 pushNotification(id, type, body, title, "")
 
+                if(type?.equals("block")!!) {
+                    mPreferenceUtils?.clear()
+                    LocationUtils.setCurrentLocation(null)
+                    var mIntent = Intent(this, LoginActivity::class.java)
+                    mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    mIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(mIntent)
+                }
 //                }
 
             }

@@ -18,7 +18,7 @@ data class GetHomeDataResponse(@SerializedName("data")
 data class StorelistItem(@SerializedName("price")
                          val price: Double = 0.0,
                          @SerializedName("distance")
-                         val distance: String = "",
+                         val distance: Double = 0.0,
                          @SerializedName("ratting")
                          val ratting: String = "",
                          @SerializedName("latitude")

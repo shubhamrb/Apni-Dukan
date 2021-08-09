@@ -27,7 +27,8 @@ import kotlin.collections.ArrayList
 class OrderHistoryAdapter(
     var context: Context?,
     val listener: OnItemClickListener,
-    var mList: ArrayList<OrderHistoryDataItem> = ArrayList()
+    var mList: ArrayList<OrderHistoryDataItem> = ArrayList(),
+    var isFromAccount:Boolean = false
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -221,7 +222,7 @@ class OrderHistoryAdapter(
 
 
     override fun getItemCount(): Int {
-        return mList?.size!!
+        return if(isFromAccount && mList?.size!! >5) 5 else mList?.size!!
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -17,6 +17,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
+import com.mponline.userApp.model.response.OrderDetailItem
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.EnquirySupportWebviewActivity
 import com.mponline.userApp.ui.activity.FormPreviewActivity
@@ -66,6 +67,10 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
 
         view?.image_back?.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
+        }
+
+        view?.text_viewmore?.setOnClickListener {
+            mSwichFragmentListener?.onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
         }
 
         view?.ll_shareapp?.setOnClickListener {
@@ -151,10 +156,12 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                                     RecyclerView.VERTICAL,
                                     false
                                 )
+                            var orderlist:ArrayList<OrderDetailItem> = arrayListOf()
                             view?.rv_order_history?.adapter = OrderHistoryAdapter(
                                 activity,
                                 this@AccountFragment,
-                                data!!
+                                data!!,
+                                isFromAccount = true
                             )
                         }else{
                             view?.text_order_title?.visibility = View.GONE

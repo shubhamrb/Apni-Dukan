@@ -242,6 +242,8 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
         }
     }
 
+
+
     companion object {
         fun newInstance(
             context: Activity,
@@ -308,7 +310,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
             mStoreList?.forEach {
                 if (!obj?.mlocation?.equals("All")!!) {
                     var dist = 0f
-                    if (it?.distance != null && !it?.distance?.isNullOrEmpty()) {
+                    if (it?.distance != null) {
                         dist = it?.distance?.toFloat()
                     }
                     when (obj?.mlocation) {

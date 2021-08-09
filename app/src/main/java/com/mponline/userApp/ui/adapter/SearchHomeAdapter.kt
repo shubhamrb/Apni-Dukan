@@ -33,7 +33,7 @@ class SearchHomeAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.text_service_name.text = mList?.get(position)?.name
+        holder.itemView.text_service_name.text = if(!mList?.get(position)?.name?.isNullOrEmpty()!!) mList?.get(position)?.name else mList?.get(position)?.label
         holder.itemView.setOnClickListener {
             listener?.onClick(position, holder.itemView.text_service_name, mList?.get(position))
         }

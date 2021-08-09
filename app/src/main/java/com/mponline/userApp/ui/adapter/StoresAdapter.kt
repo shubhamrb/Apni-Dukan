@@ -39,7 +39,7 @@ class StoresAdapter(
             ImageGlideUtils.loadUrlImage(context!!, mList?.get(position)?.image, holder.itemView.image_store)
         }
         holder.itemView.text_store_name.text = mList?.get(position)?.name!!
-        holder.itemView.text_store_loc.text = "${mList?.get(position)?.distance}KM away from you"
+        holder.itemView.text_store_loc.text = "${if(mList?.get(position)?.distance!! %1 == 0.0) mList?.get(position)?.distance?.toInt() else mList?.get(position)?.distance}KM away from you"
         holder.itemView.ratingbar_store.rating = if(mList?.get(position)?.ratting!=null && !mList?.get(position)?.ratting?.isNullOrEmpty() && !mList?.get(position)?.ratting?.equals("zero")) mList?.get(position)?.ratting?.toFloat() else 0f
         holder.itemView.text_store_status.text = if(mList?.get(position)?.isAvailable?.equals("1")) "Open" else "Close"
         if(mList?.get(position)?.isAvailable?.equals("1")) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)

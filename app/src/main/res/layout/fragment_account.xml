@@ -273,6 +273,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginBottom="@dimen/margin15" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Text_mont_semibold"
+                    android:id="@+id/text_viewmore"
+                    android:text="@string/view_more"
+                    android:padding="@dimen/margin8"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsize16"
+                    android:layout_marginBottom="@dimen/margin25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
