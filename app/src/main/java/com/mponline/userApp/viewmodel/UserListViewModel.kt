@@ -216,11 +216,13 @@ public class UserListViewModel @ViewModelInject constructor(
     }
 
     fun getPaytmChecksum(
+        mobile: String,
+        email: String,
         userid: String,
         orderid: String,
         amount: String
     ): LiveData<PaytmChecksumResponse> {
-        return userRepositoryImpl.getPaytmChecksum(userid, orderid, amount);
+        return userRepositoryImpl.getPaytmChecksum(mobile, email, userid, orderid, amount);
     }
 
     fun updatePwd(commonRequestObj: CommonRequestObj): LiveData<CommonResponse> {

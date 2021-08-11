@@ -51,18 +51,18 @@ class PaymentActivity : BaseActivity() {
         if (intent?.hasExtra("data")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("data")
             if (mOrderHistoryDataItem != null) {
-                callCashfreeToken(
+               /* callCashfreeToken(
                     orderId = mOrderHistoryDataItem?.orderId!!,
                     orderAmt = mOrderHistoryDataItem?.payableAmount!!
-                )
-                /*if(mPaymentGateway?.equals("cashfree")){
+                )*/
+                if(mPaymentGateway?.equals("cashfree")){
                     callCashfreeToken(
                         orderId = mOrderHistoryDataItem?.orderId!!,
                         orderAmt = mOrderHistoryDataItem?.payableAmount!!
                     )
                 }else{
                     getPaytmChecksum()
-                }*/
+                }
             }
         }
     }
@@ -185,7 +185,7 @@ class PaymentActivity : BaseActivity() {
     private fun getPaytmChecksum() {
         if (CommonUtils.isOnline(this)) {
             switchView(3, "")
-            viewModel?.getPaytmChecksum(mPreferenceUtils?.getValue(Constants.USER_ID), mOrderHistoryDataItem?.orderId!!, mOrderHistoryDataItem?.payableAmount!!)?.observe(this, androidx.lifecycle.Observer {
+            viewModel?.getPaytmChecksum(mPreferenceUtils?.getValue(Constants.USER_MOBILE), "test@gmail.com", mPreferenceUtils?.getValue(Constants.USER_ID), mOrderHistoryDataItem?.orderId!!, mOrderHistoryDataItem?.payableAmount!!)?.observe(this, androidx.lifecycle.Observer {
                 it?.let {
                     if(it?.status){
                         paytmProcess(it?.data)
@@ -212,67 +212,20 @@ class PaymentActivity : BaseActivity() {
         Log.i(TAG, "paytmProcess_orderID = " + orderID);
         Log.i(TAG, "paytmProcess_customerID = " + customerID);
         Log.i(TAG, "paytmProcess_callbackURL = " + callbackURL);
-       /* val paytmParams = TreeMap<String, String>()
-        paytmParams["MID"] = "eRKZ%4P2n#_MoDCb"
-        paytmParams["ORDERID"] = mOrderHistoryDataItem?.orderId!!*/
-       /* *
-         * Generate checksum by parameters we have
-         * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys
-
-        *
-         * Generate checksum by parameters we have
-         * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys*/
-
-//        val paytmChecksum: String =
-//            PaytmChecksum.generateSignature(paytmParams, "YOUR_MERCHANT_KEY")
-//        println("generateSignature Returns: $paytmChecksum")
-
-       /* var paytmModel =  PaytmModel(
-            "eRKZ%4P2n#_MoDCb",
-            mOrderHistoryDataItem?.orderId!!,
-            customerID,
-            "WAP",
-            mOrderHistoryDataItem?.payableAmount!!,
-            "WEBSTAGING",
-            callbackURL,
-            "Retail",
-            checksum);
-
-
-        var paramMap =  HashMap<String, String>();
-        paramMap.put("MID", paytmModel.mId!!);
-        // Key in your staging and production MID available in your dashboard
-        paramMap.put("ORDER_ID", paytmModel.orderId);
-        paramMap.put("CUST_ID", paytmModel.custId);
-        paramMap.put("MOBILE_NO", "7777777777");
-        paramMap.put("EMAIL", "username@emailprovider.com");
-        paramMap.put("CHANNEL_ID", "WAP");
-        paramMap.put("TXN_AMOUNT", mOrderHistoryDataItem?.payableAmount!!);
-        paramMap.put("WEBSITE", "WEBSTAGING");
-        // This is the staging value. Production value is available in your dashboard
-        paramMap.put("INDUSTRY_TYPE_ID", "Retail");
-        // This is the staging value. Production value is available in your dashboard
-        paramMap.put("CALLBACK_URL", paytmModel.callbackURL);
-        paramMap.put("CHECKSUMHASH", paytmModel.checkSumHash);
-
-
-        var paytmOrder =  PaytmOrder(paramMap);
-        var pgService = PaytmPGService.getPreProductionService()
-        pgService.initialize(paytmOrder, null);*/
 
         var varifyurl = "https://pguat.paytm.com/paytmchecksum/paytmCallback.jsp"
         val pgService = PaytmPGService.getStagingService()
         val paramMap = HashMap<String, String>()
         //these are mandatory parameters
-        paramMap["MID"] = "eRKZ%4P2n#_MoDCb" //MID provided by paytm
+        paramMap["MID"] = "CAvRVp59211200813874" //MID provided by paytm
         paramMap["ORDER_ID"] = mOrderHistoryDataItem?.orderId!!
         paramMap["CUST_ID"] = mPreferenceUtils?.getValue(Constants.USER_ID)
         paramMap["CHANNEL_ID"] = "WAP"
         paramMap["TXN_AMOUNT"] = mOrderHistoryDataItem?.payableAmount!!
         paramMap["WEBSITE"] = "WEBSTAGING"
-        paramMap["CALLBACK_URL"] = varifyurl//"https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=${mOrderHistoryDataItem?.orderId}"
-        //paramMap.put( "EMAIL" , "abc@gmail.com");   // no need
-        // paramMap.put( "MOBILE_NO" , "9144040888");  // no need
+        paramMap["CALLBACK_URL"] = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=${mOrderHistoryDataItem?.orderId}"
+        paramMap.put( "EMAIL" , "test@gmail.com");   // no need
+         paramMap.put( "MOBILE_NO" , mPreferenceUtils?.getValue(Constants.USER_MOBILE));  // no need
         paramMap["CHECKSUMHASH"] = checksum
         //paramMap.put("PAYMENT_TYPE_ID" ,"CC");    // no need
         paramMap["INDUSTRY_TYPE_ID"] = "Retail"
@@ -283,6 +236,42 @@ class PaymentActivity : BaseActivity() {
         pgService.startPaymentTransaction(this, true, true,
             object : PaytmPaymentTransactionCallback {
                 override fun onTransactionResponse(bundle: Bundle?) {
+                    var req: SavePaymentRequest = SavePaymentRequest()
+                    if (bundle != null) for (key in bundle.keySet()) {
+                        if (bundle.getString(key) != null) {
+                            if(key?.equals("STATUS")!! && !(bundle.getString(key)?.equals("TXN_SUCCESS")!!)){
+                                finish()
+                            }
+                            mPaymentResList?.clear()
+                            CommonUtils.printLog("PAYMENT_RES2", key + " : " + bundle.getString(key))
+                            when (key) {
+                                "orderId" -> {
+//                            req.orderId = bundle.getString(key)!!
+                                }
+                                "TXNDATE" -> {
+                                    req.txTime = bundle.getString(key)!!
+                                }
+                                "TXNID" -> {
+                                    req.referenceId = bundle.getString(key)!!
+                                }
+                                "RESPMSG" -> {
+                                    req.txMsg = bundle.getString(key)!!
+                                }
+                                "PAYMENTMODE" -> {
+                                    req.paymentMode = bundle.getString(key)!!
+                                }
+                                "TXNAMOUNT" -> {
+                                    req.orderAmount = bundle.getString(key)!!
+                                }
+                                "STATUS" -> {
+                                    req.txStatus = bundle.getString(key)!!
+                                }
+                            }
+                        }
+                    }
+                    req.orderId = mOrderHistoryDataItem?.orderId
+                    req.paymentMethod = "PAYTM"
+                    callSavePayment(req)
                     Toast.makeText(getApplicationContext(), "Payment Transaction response " + bundle.toString(), Toast.LENGTH_LONG).show();
                     Log.e("PAYTM_RES ", "${bundle.toString()}")
                 }

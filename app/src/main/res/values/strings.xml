@@ -109,4 +109,5 @@
     <string name="recommended_provider">Recommended Provider</string>
     <string name="search_for_online_service">Search for online service...</string>
     <string name="view_more"><u>View more orders</u></string>
+    <string name="default_notification_channel_id">com.mponline.userApp.urgent</string>
 </resources>

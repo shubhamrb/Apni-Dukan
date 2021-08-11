@@ -64,6 +64,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     var chatMsgList: ArrayList<ChatListDataItem>? = ArrayList()
     var mAdapter: ChatMsgAdapter? = null
     var mHandler: Handler? = null
+    var isChatLoaded = false
 
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
@@ -151,6 +152,18 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         view?.image_file_picker?.setOnClickListener {
             showAttachOptions()
         }
+
+        /*  rv_chat_msg.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+              override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                  if(isLastVisible()){
+                      isChatLoaded = true
+                  }else{
+                      isChatLoaded = false
+                  }
+                  CommonUtils.printLog("SCROLL_1", "${isChatLoaded}, ${isLastVisible()}")
+              }
+          })*/
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -169,19 +182,19 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 R.id.image_download_file_incomming -> {
                     var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
+                    intent?.putExtra("from", "file")
                     activity?.startActivity(intent)
                 }
                 R.id.image_download_file -> {
                     var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
+                    intent?.putExtra("from", "file")
                     activity?.startActivity(intent)
                 }
 
             }
         }
     }
-
-    //Download file
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -384,6 +397,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
             viewModel?.getChatList(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status) {
+                        isChatLoaded = true
                         switchView(1, "")
                         view?.rv_chat_msg?.setHasFixedSize(true)
                         view?.rv_chat_msg?.layoutManager =
@@ -400,15 +414,16 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                         )
                         view?.rv_chat_msg?.adapter = mAdapter
                         chatMsgList = data
+                        CommonUtils.printLog("SCROLL_2", "${isChatLoaded}, ${isLastVisible()}")
                         view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
-                        if(mOrderHistoryDataItem!=null && mOrderHistoryDataItem?.status == 5){
+                        if (mOrderHistoryDataItem != null && mOrderHistoryDataItem?.status == 5) {
                             rl_send_msg.visibility = View.GONE
-                        }else{
+                        } else {
                             rl_send_msg.visibility = View.VISIBLE
                         }
-                        if(data!=null && data?.size!! >0){
+                        if (data != null && data?.size!! > 0) {
                             view?.text_empty_chat?.visibility = View.GONE
-                        }else{
+                        } else {
                             view?.text_empty_chat?.visibility = View.VISIBLE
                         }
                     } else {
@@ -441,7 +456,10 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 //                        switchView(1, "")
                         chatMsgList = data!!
                         mAdapter?.refreshList(chatMsgList!!)
-                        view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
+                        CommonUtils.printLog("SCROLL_3", "${isChatLoaded}, ${isLastVisible()}")
+                        if (isLastVisible()) {
+                            view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
+                        }
                     } else {
 //                        switchView(0, "")
 //                        CommonUtils.createSnackBar(
@@ -479,6 +497,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 )
             )
             mAdapter?.refreshList(chatMsgList!!)
+            CommonUtils.printLog("SCROLL_4", "${isChatLoaded}, ${isLastVisible()}")
             view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
             var multipartBody: MultipartBody.Part? = null
             var fileName = ""
@@ -542,5 +561,13 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
 
 
 //    callGetUpdatedChatlist()
+
+    fun isLastVisible(): Boolean {
+        val layoutManager = rv_chat_msg.getLayoutManager() as LinearLayoutManager
+        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+        val numItems: Int = rv_chat_msg?.adapter?.itemCount!!
+        CommonUtils.printLog("VISIBILITY_ITEM", "$pos , ${pos >= numItems - 1}")
+        return pos >= numItems - 1
+    }
 
 }

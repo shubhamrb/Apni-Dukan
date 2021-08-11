@@ -351,7 +351,6 @@
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/textsize14"
                         android:layout_marginRight="@dimen/margin5"
-
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>

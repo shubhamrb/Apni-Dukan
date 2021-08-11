@@ -21,6 +21,7 @@ import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.PaymentSummaryObj
 import com.mponline.userApp.model.request.CommonRequestObj
+import com.mponline.userApp.model.response.Data
 import com.mponline.userApp.model.response.DataItem
 import com.mponline.userApp.model.response.GetCouponListResponse
 import com.mponline.userApp.model.response.OrderHistoryDataItem
@@ -36,6 +37,7 @@ import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_offers.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.*
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.relative_frag
@@ -45,7 +47,8 @@ import kotlinx.android.synthetic.main.layout_otp.*
 import kotlinx.android.synthetic.main.layout_progress.*
 
 @AndroidEntryPoint
-class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
+class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
+    PaymentOptBottomsheetFragment.PaymentListener {
     override fun onNetworkChange(isConnected: Boolean) {
 
     }
@@ -160,13 +163,28 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
                 arrayList
             )
         }
-
+        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Online",true)!!){
+            view?.text_pay_online?.visibility = View.VISIBLE
+        }else{
+            view?.text_pay_online?.visibility = View.GONE
+        }
+        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Offline",true)!!){
+            view?.text_pay_to_shop?.visibility = View.VISIBLE
+        }else{
+            view?.text_pay_to_shop?.visibility = View.GONE
+        }
+        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Upi",true)!!){
+            view?.text_upi?.visibility = View.VISIBLE
+        }else{
+            view?.text_upi?.visibility = View.GONE
+        }
         view?.text_pay_online?.setOnClickListener {
             var orderdetail = mOrderHistoryDataItem
             orderdetail?.payableAmount = mPayableAmt
-            var intent: Intent = Intent(activity!!, PaymentActivity::class.java)
-            intent?.putExtra("data", orderdetail)
-            activity?.startActivity(intent)
+            showPaymentDialog(orderdetail!!)
+//            var intent: Intent = Intent(activity!!, PaymentActivity::class.java)
+//            intent?.putExtra("data", orderdetail)
+//            activity?.startActivity(intent)
         }
         view?.text_pay_to_shop?.setOnClickListener {
             var orderdetail = mOrderHistoryDataItem
@@ -191,6 +209,12 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
             )
         }
         calculateTotal()
+    }
+
+    fun showPaymentDialog(orderData: OrderHistoryDataItem) {
+        val instance = PaymentOptBottomsheetFragment.newInstance(orderData)
+        instance.isCancelable = false
+        instance.show(childFragmentManager, "Payment")
     }
 
     fun calculateTotal() {
@@ -394,6 +418,10 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    override fun onOptSelected(obj: Any?) {
+        TODO("Not yet implemented")
     }
 
 }

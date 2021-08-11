@@ -714,12 +714,12 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
-    override fun getPaytmChecksum(userid:String, orderid:String, amount:String): MutableLiveData<PaytmChecksumResponse> {
+    override fun getPaytmChecksum(mobile:String, email:String, userid:String, orderid:String, amount:String): MutableLiveData<PaytmChecksumResponse> {
         val data = MutableLiveData<PaytmChecksumResponse>()
         val errorOnAPI = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = apiService?.getPaytmChecksum(userid, orderid, amount)
+                val response = apiService?.getPaytmChecksum(mobile, email, userid, orderid, amount)
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())
                 } else {

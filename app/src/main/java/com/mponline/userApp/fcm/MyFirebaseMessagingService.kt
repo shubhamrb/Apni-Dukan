@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -45,11 +46,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+        CommonUtils.printLog("FCM_PUSHH_0", "Message data payload: " + remoteMessage?.notification?.title)
 
         mPreferenceUtils = PreferenceUtils.getInstance(this)
 
         try {
+            remoteMessage?.notification?.title
             Log.d(TAG, "From: ${remoteMessage?.from}")
+            CommonUtils.printLog("FCM_PUSHH_1", "Message data payload: " + Gson().toJson(remoteMessage))
             remoteMessage?.data?.isNotEmpty()?.let {
                 CommonUtils.printLog("FCM_PUSHH", "Message data payload: " + remoteMessage.data.toString())
                 CommonUtils.printLog("FCM_PUSHH", "From: " + Gson().toJson(remoteMessage))
@@ -78,9 +82,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             }
             remoteMessage?.notification?.let {
+                CommonUtils.printLog("FCM_PUSHH_NOTIF", "Message data payload: " + Gson().toJson(it))
                 Log.d(TAG, "Message Notification Body: ${it.body}")
             }
         } catch (e: Exception) {
+            CommonUtils.printLog("FCM_PUSHH_EXCEPTION", "Message data payload: " + e?.message)
             e.printStackTrace()
         }
     }
@@ -147,8 +153,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //        }
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            var channelId = "com.mponline.userApp.urgent"
+            var channelName = "Urgent";
             val channel =
-                NotificationChannel(channelId, "Projects Related", NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
             mNotificationManager.createNotificationChannel(channel)
         }
 

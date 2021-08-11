@@ -182,7 +182,7 @@ interface NetworkAPIService {
 
     @GET(ApiName.PAYTM_CHECKSUM)
     suspend fun getPaytmChecksum(
-        @Query("userid") userid:String, @Query("orderid") orderid:String, @Query("amount") amount:String
+        @Query("mobile") mobile:String, @Query("email") email:String, @Query("userid") userid:String, @Query("orderid") orderid:String, @Query("amount") amount:String
     ): Response<PaytmChecksumResponse>
 
     @POST(ApiName.UPDATE_PWD)

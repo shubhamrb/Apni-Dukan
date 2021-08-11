@@ -31,6 +31,7 @@ import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_chat_msg.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.item_banner.view.*
@@ -245,24 +246,25 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     )
                     rv_top_exam_forms?.layoutManager = linearLayoutManager
                     rv_top_exam_forms?.adapter = listadapter
-
-                    rv_top_exam_forms.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                            super.onScrolled(recyclerView, dx, dy)
-                            val lastItem: Int =
-                                linearLayoutManager.findLastCompletelyVisibleItemPosition()
-                            if (lastItem == linearLayoutManager.getItemCount() - 1) {
-                                mHandler!!.removeCallbacks(SCROLLING_RUNNABLE)
-                                val postHandler = Handler()
-                                postHandler.postDelayed({
-                                    rv_top_exam_forms.setAdapter(null)
-                                    rv_top_exam_forms.setAdapter(listadapter)
-                                    mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
-                                }, 2000)
+                    /*if(!isLastVisible()){
+                        rv_top_exam_forms.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                                super.onScrolled(recyclerView, dx, dy)
+                                val lastItem: Int =
+                                    linearLayoutManager.findLastCompletelyVisibleItemPosition()
+                                if (lastItem == linearLayoutManager.getItemCount() - 1) {
+                                    mHandler!!.removeCallbacks(SCROLLING_RUNNABLE)
+                                    val postHandler = Handler()
+                                    postHandler.postDelayed({
+//                                    rv_top_exam_forms.setAdapter(null)
+                                        rv_top_exam_forms.setAdapter(listadapter)
+                                        mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
+                                    }, 2000)
+                                }
                             }
-                        }
-                    })
-                    mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
+                        })
+                        mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
+                    }*/
                    /* val linearSnapHelper = LinearSnapHelper()
                     linearSnapHelper.attachToRecyclerView(rv_top_exam_forms)
                     val timer = Timer()
@@ -440,4 +442,12 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
         super.onDetach()
         mHandler!!.removeCallbacks(SCROLLING_RUNNABLE)
     }
+
+    fun isLastVisible(): Boolean {
+        val layoutManager = rv_top_exam_forms.getLayoutManager() as LinearLayoutManager
+        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
+        val numItems: Int = rv_top_exam_forms?.adapter?.itemCount!!
+        return pos >= numItems - 1
+    }
+
 }
