@@ -57,6 +57,27 @@
                     android:layout_height="wrap_content"/>
 
 
+                <LinearLayout
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        style="@style/Text_mont_medium"
+                        android:id="@+id/chkbox_tnc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_medium"
+                        android:id="@+id/text_chkbox"
+                        android:text="@string/i_have_agree_terms_amp_conditions"
+                        android:layout_marginLeft="@dimen/margin8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
                     android:id="@+id/text_proceed"

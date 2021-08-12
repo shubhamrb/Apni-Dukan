@@ -213,7 +213,6 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
 
     fun showPaymentDialog(orderData: OrderHistoryDataItem) {
         val instance = PaymentOptBottomsheetFragment.newInstance(orderData)
-        instance.isCancelable = false
         instance.show(childFragmentManager, "Payment")
     }
 

@@ -67,6 +67,8 @@ class ChatMsgAdapter(
                    }else{
                        ImageGlideUtils.loadLocalImage(context!!, mList?.get(position)?.attachment!!, holder.itemView.image_file_preview_incomming!!)
                    }
+                }else{
+                    holder.itemView.image_file_preview_incomming.setImageResource(R.drawable.ic_file_preview)
                 }
             }
             holder.itemView.rl_incomming_file_part.setOnClickListener {
@@ -83,6 +85,8 @@ class ChatMsgAdapter(
                 holder.itemView.text_filesize.text = mList?.get(position)?.fileType!!
                 if(mList?.get(position)?.attachment?.endsWith("jpg",true)!! || mList?.get(position)?.attachment?.endsWith("jpeg",true)!! || mList?.get(position)?.attachment?.endsWith("png",true)!!){
                     ImageGlideUtils.loadLocalImage(context!!, mList?.get(position)?.attachment!!, holder.itemView.image_file_preview!!)
+                }else{
+                    holder.itemView.image_file_preview.setImageResource(R.drawable.ic_file_preview)
                 }
             }
             holder.itemView.rl_outgoing_file_part.setOnClickListener {

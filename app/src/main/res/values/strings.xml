@@ -110,4 +110,5 @@
     <string name="search_for_online_service">Search for online service...</string>
     <string name="view_more"><u>View more orders</u></string>
     <string name="default_notification_channel_id">com.mponline.userApp.urgent</string>
+    <string name="i_have_agree_terms_amp_conditions">I have agree <u>terms &amp; conditions</u></string>
 </resources>

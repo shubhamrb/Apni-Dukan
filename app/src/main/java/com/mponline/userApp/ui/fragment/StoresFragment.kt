@@ -357,22 +357,22 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                             }
                         }
                         "1 star" -> {
-                            if (rating !=1f) {
+                            if (rating > 2f || rating <=0f) {
                                 filteredList?.remove(it)
                             }
                         }
                         "2 star" -> {
-                            if (rating !=2f) {
+                            if (rating <2f || rating > 2.9f) {
                                 filteredList?.remove(it)
                             }
                         }
                         "3 star" -> {
-                            if (rating !=3f) {
+                            if (rating <3 || rating > 3.9f) {
                                 filteredList?.remove(it)
                             }
                         }
                         "4 star" -> {
-                            if (rating !=4f) {
+                            if (rating < 4 || rating > 4.9f) {
                                 filteredList?.remove(it)
                             }
                         }

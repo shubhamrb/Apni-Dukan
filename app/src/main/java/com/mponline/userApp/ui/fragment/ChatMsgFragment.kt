@@ -454,11 +454,13 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                 it?.run {
                     if (status) {
 //                        switchView(1, "")
-                        chatMsgList = data!!
-                        mAdapter?.refreshList(chatMsgList!!)
-                        CommonUtils.printLog("SCROLL_3", "${isChatLoaded}, ${isLastVisible()}")
-                        if (isLastVisible()) {
-                            view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
+                        if(chatMsgList!=null && chatMsgList?.size != data?.size){
+                            chatMsgList = data!!
+                            mAdapter?.refreshList(chatMsgList!!)
+                            CommonUtils.printLog("SCROLL_3", "${isChatLoaded}, ${isLastVisible()}")
+                            if (isLastVisible()) {
+                                view?.rv_chat_msg?.scrollToPosition(chatMsgList?.size!! - 1)
+                            }
                         }
                     } else {
 //                        switchView(0, "")

@@ -6,20 +6,22 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.observe
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.libraries.places.api.Places
@@ -31,26 +33,18 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.CustomFieldObj
-import com.mponline.userApp.model.LocationObj
-import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.PrePlaceOrderPojo
 import com.mponline.userApp.model.request.FormDataItem
 import com.mponline.userApp.model.request.PlaceOrderRequest
-import com.mponline.userApp.model.response.ProductListItem
-import com.mponline.userApp.model.response.StoreDetailDataItem
 import com.mponline.userApp.ui.adapter.CustomFileAdapter
-import com.mponline.userApp.ui.adapter.CustomFormAdapter
-import com.mponline.userApp.ui.adapter.InstructionAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.*
-import com.mponline.userApp.util.FileUtils.getLocalPath
 import com.mponline.userApp.utils.Constants
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.common_toolbar.*
 import kotlinx.android.synthetic.main.fragment_custom_form.*
 import kotlinx.android.synthetic.main.fragment_custom_form.view.*
-import kotlinx.android.synthetic.main.fragment_custom_form.view.relative_frag
 import kotlinx.android.synthetic.main.item_btn.view.*
 import kotlinx.android.synthetic.main.item_chkbox.view.*
 import kotlinx.android.synthetic.main.item_edittext.view.*
@@ -58,15 +52,12 @@ import kotlinx.android.synthetic.main.item_radiobtn.view.*
 import kotlinx.android.synthetic.main.item_spinner.view.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.lang.Exception
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -85,6 +76,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
     var mPrePlaceOrderPojo: PrePlaceOrderPojo? = null
     val viewModel: UserListViewModel by viewModels()
     var mSelectedLocPos = -1
+    var isCheckedTnc = false
 
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
@@ -183,6 +175,12 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         view?.relative_frag?.setOnClickListener {
 
         }
+
+        view?.chkbox_tnc?.setOnCheckedChangeListener { compoundButton, b ->
+            isCheckedTnc = b
+        }
+        setClickableHighLightedText(view?.text_chkbox, "terms & conditions")
+
         view?.text_proceed?.setOnClickListener {
             var errormsg = isValidData()
             if (errormsg?.isNullOrEmpty()) {
@@ -220,6 +218,11 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 )
             }
         }
+    }
+
+    fun viewTnc(){
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://apnaonlines.com/terms-and-conditions"))
+        startActivity(browserIntent)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -538,30 +541,37 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
 
     private fun callPlaceOrder(placeOrderRequest: PlaceOrderRequest) {
         if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            viewModel?.placeOrder(
-                "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
-                placeOrderRequest
-            )?.observe(this, androidx.lifecycle.Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        //Redirect to Order History
-                        mSwichFragmentListener?.onSwitchFragment(
-                            Constants.ORDER_HISTORY_PAGE,
-                            Constants.WITH_NAV_DRAWER,
-                            null,
-                            null
+            if(isCheckedTnc){
+                switchView(3, "")
+                viewModel?.placeOrder(
+                    "Bearer " + mPreferenceUtils?.getValue(Constants.USER_TOKEN),
+                    placeOrderRequest
+                )?.observe(this, androidx.lifecycle.Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            //Redirect to Order History
+                            mSwichFragmentListener?.onSwitchFragment(
+                                Constants.ORDER_HISTORY_PAGE,
+                                Constants.WITH_NAV_DRAWER,
+                                null,
+                                null
+                            )
+                        } else {
+                            switchView(0, "")
+                        }
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            message!!
                         )
-                    } else {
-                        switchView(0, "")
                     }
-                    CommonUtils.createSnackBar(
-                        activity?.findViewById(android.R.id.content)!!,
-                        message!!
-                    )
-                }
-            })
+                })
+            }else{
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    "Please agree on terms & conditions"
+                )
+            }
         } else {
             CommonUtils.createSnackBar(
                 activity?.findViewById(android.R.id.content)!!,
@@ -754,6 +764,45 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                     ll_container?.visibility = View.GONE
                 }
             }
+        }
+    }
+
+    private fun setClickableHighLightedText(
+        tv: TextView,
+        textToHighlight: String
+    ) {
+        val tvt = tv.text.toString()
+        var ofe = tvt.indexOf(textToHighlight, 0)
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+                viewTnc()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                //set color of the text
+                ds.color = getColor(requireContext(), R.color.black)
+                //draw underline base on true/false
+                ds.isUnderlineText = true
+            }
+        }
+        val wordToSpan = SpannableString(tv.text)
+        var ofs = 0
+        while (ofs < tvt.length && ofe != -1) {
+            ofe = tvt.indexOf(textToHighlight, ofs)
+            if (ofe == -1)
+                break
+            else {
+                wordToSpan.setSpan(
+                    clickableSpan,
+                    ofe,
+                    ofe + textToHighlight.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                tv.setText(wordToSpan, TextView.BufferType.SPANNABLE)
+                tv.movementMethod = LinkMovementMethod.getInstance()
+            }
+            ofs = ofe + 1
         }
     }
 
