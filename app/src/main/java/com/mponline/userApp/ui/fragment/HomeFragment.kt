@@ -246,7 +246,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     )
                     rv_top_exam_forms?.layoutManager = linearLayoutManager
                     rv_top_exam_forms?.adapter = listadapter
-                    /*if(!isLastVisible()){
+                    if(it?.data?.productlist?.size!! > 3){
                         rv_top_exam_forms.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                                 super.onScrolled(recyclerView, dx, dy)
@@ -264,32 +264,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                             }
                         })
                         mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
-                    }*/
-                   /* val linearSnapHelper = LinearSnapHelper()
-                    linearSnapHelper.attachToRecyclerView(rv_top_exam_forms)
-                    val timer = Timer()
-                    *//*timer.schedule(object : TimerTask() {
-                        override fun run() {
-
-                        }
-                    },0, scrolltime)*//*
-                    timer.schedule(object : TimerTask() {
-                        override fun run() {
-                            if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < listadapter.getItemCount() - 1) {
-                                linearLayoutManager.smoothScrollToPosition(
-                                    rv_top_exam_forms,
-                                    RecyclerView.State(),
-                                    linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
-                                )
-                            } else if (linearLayoutManager.findLastCompletelyVisibleItemPosition() === listadapter.getItemCount() - 1) {
-                                linearLayoutManager.smoothScrollToPosition(
-                                    rv_top_exam_forms,
-                                    RecyclerView.State(),
-                                    0
-                                )
-                            }
-                        }
-                    }, 2000)*/
+                    }
                 }
 
                 //Nearby Stores

@@ -116,10 +116,16 @@ class OffersActivity : BaseActivity(), OnItemClickListener {
     override fun onClick(pos: Int, view: View, obj: Any?) {
         when(view?.id){
             R.id.text_coupon_title->{
-                if (obj is DataItem && obj?.store_id!=null) {
+                if (obj is DataItem && obj?.store_id!=null && !obj?.store_id?.isNullOrEmpty()) {
                     var intent: Intent = Intent()
                     intent.putExtra("from", "offer")
                     intent.putExtra("id", obj?.store_id)
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }else{
+                    var intent: Intent = Intent()
+                    intent.putExtra("from", "NOTI_nearby")
+                    intent.putExtra("id", "")
                     setResult(RESULT_OK, intent);
                     finish();
                 }
