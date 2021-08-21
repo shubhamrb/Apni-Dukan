@@ -328,7 +328,7 @@ class PaymentActivity : BaseActivity() {
          *      integrated the CashFree PG, use this value for stage variable. This will
          *      enable live transactions
          */
-        val stage = "TEST"
+        val stage = "PROD"
 
         //Show the UI for doGPayPayment and phonePePayment only after checking if the apps are ready for payment
         if (view.id == R.id.phonePe_exists) {
@@ -424,10 +424,11 @@ class PaymentActivity : BaseActivity() {
          * credentials before publishing your app.
          */
 //            val appId = "134441f4914d787610a43c13f44431"
-            val appId = "936476e4b0e75a0300a64fc14639"
+//            val appId = "936476e4b0e75a0300a64fc14639"
+            val appId = "1196792a604ee2098128120f1d976911"
             val orderId = mOrderHistoryDataItem?.orderId!!
             val orderAmount = mOrderHistoryDataItem?.payableAmount!!
-            val orderNote = "Test Order"
+            val orderNote = "Order"
             val customerName = mPreferenceUtils?.getValue(Constants.USER_NAME)
             val customerPhone = mPreferenceUtils?.getValue(Constants.USER_MOBILE)
             val customerEmail = "test@gmail.com"

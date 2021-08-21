@@ -170,7 +170,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
 
     }
 
-    private fun callRegisterApi() {
+    private fun callRegisterApi(isResendOtp:Boolean = false) {
         var commonRequestObj = UserAuthRequestObj(
             apiKey = getApiKey(),
             name = edt_name.text.toString().trim(),
@@ -188,12 +188,20 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
                 CommonUtils.createSnackBar(findViewById(android.R.id.content), it2)
             }
         } else if (CommonUtils.isOnline(this)) {
-            relative_progress.visibility = View.VISIBLE
+            if(!isResendOtp) {
+                relative_progress.visibility = View.VISIBLE
+            }else{
+                progressDialogShow()
+            }
             viewModel?.register(commonRequestObj)?.observe(this, Observer {
                 it?.run {
                     if (status!!) {
-                        relative_progress.visibility = View.GONE
-                        showOtpDialog(it?.data)
+                        if(!isResendOtp) {
+                            showOtpDialog(it?.data)
+                            relative_progress.visibility = View.GONE
+                        }else{
+                            progressDialogDismiss()
+                        }
                     } else {
                         relative_progress.visibility = View.GONE
                     }
@@ -253,7 +261,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
     }
 
     override fun onResendOtp(obj: Any?) {
-
+        callRegisterApi(true)
     }
 
 }

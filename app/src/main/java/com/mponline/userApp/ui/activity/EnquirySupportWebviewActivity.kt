@@ -64,7 +64,7 @@ class EnquirySupportWebviewActivity : BaseActivity() {
         }
         imgview.visibility = View.GONE
         if (intent.hasExtra("type")) {
-            mType = intent.getStringExtra("type")
+            mType = intent.getStringExtra("type")!!
             if(mType?.equals("help")){
                 toolbar_title.text = "Help & Support"
                 callHelpSupportWebview()
@@ -131,7 +131,7 @@ class EnquirySupportWebviewActivity : BaseActivity() {
         }
         webview?.setWebViewClient(Callback())
 //        webview?.loadData(mLink, "text/html", "UTF-8")
-        webview.loadDataWithBaseURL(null, mLink, "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, mLink!!, "text/html", "utf-8", null);
         webview?.setWebChromeClient(object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 CommonUtils.printLog("WEBVIEW:", consoleMessage?.message()!!)

@@ -103,9 +103,9 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         val mHandler = Handler()
         mTicker = Runnable {
             callGetUpdatedChatlist()
-            mHandler.postDelayed(mTicker, 10000)
+            mHandler.postDelayed(mTicker!!, 10000)
         }
-        mHandler.postDelayed(mTicker, 10000)
+        mHandler.postDelayed(mTicker!!, 10000)
 
         return mView
     }

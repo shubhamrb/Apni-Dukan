@@ -9,6 +9,8 @@ data class GetHomeDataResponse(@SerializedName("data")
                                val data: HomeData? = null,
                                @SerializedName("status")
                                val status: Boolean = false,
+                               @SerializedName("code")
+                               val code: String = "",
                                @SerializedName("messageId")
                                val messageId: String = "",
                                @SerializedName("message")

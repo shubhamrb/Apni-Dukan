@@ -1,6 +1,7 @@
 package com.mponline.userApp.ui.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
@@ -22,6 +23,7 @@ import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationObj
 import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.response.GetHomeDataResponse
+import com.mponline.userApp.ui.activity.LoginActivity
 import com.mponline.userApp.ui.adapter.BannerPagerAdapter
 import com.mponline.userApp.ui.adapter.ServicesAdapter
 import com.mponline.userApp.ui.adapter.StoresAdapter
@@ -53,8 +55,8 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
     var isExamFormVisible = false
     var isBottomBannerVisible = false
     var mHandler:Handler? = null
-    val duration = 10
-    val pixelsToMove = 30
+    val duration = 2000
+    val pixelsToMove = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,14 +79,14 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
         super.onViewCreated(view, savedInstanceState)
         mHandler = Handler()
         view?.nestedscroll?.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
-            if (!isExamFormVisible) {
+           /* if (!isExamFormVisible) {
                 var flag = isViewVisible(view.rv_top_exam_forms)
                 CommonUtils.printLog("VIEW_VISIBLE", "${flag}")
                 if (flag) {
                     isExamFormVisible = true
                     translateViewToLeftAnim(view?.rv_top_exam_forms)
                 }
-            }
+            }*/
             if (!isBottomBannerVisible) {
                 var flag = isViewVisible(view.viewpager_bottom_banner)
                 CommonUtils.printLog("VIEW_VISIBLE2", "${flag}")
@@ -99,7 +101,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
     private val SCROLLING_RUNNABLE: Runnable = object : Runnable {
         override fun run() {
             try{
-                rv_top_exam_forms.smoothScrollBy(pixelsToMove, 0)
+                rv_top_exam_forms.smoothScrollBy(CommonUtils.convertDpToPixel(activity!!, pixelsToMove), 0)
                 mHandler!!.postDelayed(this, duration.toLong())
             }catch (e:Exception){
                 e?.printStackTrace()
@@ -137,6 +139,14 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                             setDataToUI(this)
                         } else {
                             switchView(0, "")
+                            if(code?.equals("111")){
+                                mPreferenceUtils?.clear()
+                                LocationUtils.setCurrentLocation(null)
+                                var mIntent = Intent(activity, LoginActivity::class.java)
+                                mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                mIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(mIntent)
+                            }
                             CommonUtils.createSnackBar(
                                 activity?.findViewById(android.R.id.content)!!,
                                 resources?.getString(R.string.no_net)!!

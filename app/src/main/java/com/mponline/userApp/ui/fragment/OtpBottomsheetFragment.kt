@@ -33,6 +33,8 @@ import com.mponline.userApp.utils.PreferenceUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.edit_mobile_no
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.layout_bottom_otp.*
 import kotlinx.android.synthetic.main.layout_bottom_otp.edt_otp
 import kotlinx.android.synthetic.main.layout_bottom_otp.text_edit_phone
@@ -54,11 +56,13 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
     var mFcmToken = ""
     var progressDialog: ProgressDialog? = null
     private var countDownTimer: CountDownTimer? = null
-    var mSignupdata:Data? = null
-    var mView:View? = null
+    var mSignupdata: Data? = null
+    var mView: View? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.layout_bottom_otp, container, false)
     }
 
@@ -71,7 +75,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         mView = view
         initProgressDialog()
         arguments?.let {
-            if(it?.containsKey("data")){
+            if (it?.containsKey("data")) {
                 mSignupdata = it?.getParcelable("data")
             }
             mUserMobile = it?.getString(Constants.USER_MOBILE)!!
@@ -82,16 +86,26 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         }
         view?.run {
             text_resend?.setOnClickListener {
-                startTimer()
+                if (text_resend.text.contains("resend", true)) {
+                    callResendOtp()
+                }
             }
             text_verify_otp.setOnClickListener {
-                if(edt_otp.text.toString().trim()?.isNullOrEmpty() || edt_otp.text.toString().trim()?.length!! < 4){
-                    CommonUtils.createSnackBar(activity?.findViewById(android.R.id.content)!!, "Please enter valid OTP")
-                }else if(!edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)){
-                    CommonUtils.createSnackBar(activity?.findViewById(android.R.id.content)!!, "Invalid OTP")
-                }else if(edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)){
+                if (edt_otp.text.toString().trim()?.isNullOrEmpty() || edt_otp.text.toString()
+                        .trim()?.length!! < 4
+                ) {
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        "Please enter valid OTP"
+                    )
+                } else if (!edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)) {
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        "Invalid OTP"
+                    )
+                } else if (edt_otp.text.toString().trim()?.equals(mSignupdata?.otp)) {
                     callVerifyOtp(mUserMobile)
-                } else{
+                } else {
 
                 }
             }
@@ -117,7 +131,8 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         countDownTimer?.start()
     }
 
-    inner class MyCountDownTimer(startTime: Long, interval: Long) : CountDownTimer(startTime, interval) {
+    inner class MyCountDownTimer(startTime: Long, interval: Long) :
+        CountDownTimer(startTime, interval) {
         override fun onTick(millisUntilFinished: Long) {
             var sec = (millisUntilFinished / 1000).toString()
             if (millisUntilFinished / 1000 < 10 && millisUntilFinished / 1000 >= 0) {
@@ -131,9 +146,40 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 mView?.text_resend?.text = Html.fromHtml("<u>Resend</u>")
                 mView?.text_resend?.isClickable = true
                 mView?.text_resend?.setTextColor(ContextCompat.getColor(activity!!, R.color.white))
-            }catch (e:java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 CommonUtils.printLog("EXCEPTION_RESENT", "${e?.message}")
             }
+        }
+    }
+
+    private fun callResendOtp() {
+        var commonRequestObj = UserAuthRequestObj(
+            apiKey = getApiKey(),
+            name = username,
+            mobile = mUserMobile,
+            pin = mUserPin,
+            device_type = Constants.DEVICE_TYPE,
+            device_token = mFcmToken
+        )
+        if (CommonUtils.isOnline(activity!!)) {
+            progressDialogShow()
+            viewModel?.register(commonRequestObj)?.observe(this, Observer {
+                it?.run {
+                    progressDialogDismiss()
+                    if (status!!) {
+                        startTimer()
+                    }
+                    CommonUtils.createSnackBar(
+                        activity?.findViewById(android.R.id.content)!!,
+                        message!!
+                    )
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                activity?.findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
         }
     }
 
@@ -195,7 +241,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    fun getApiKey():String{
+    fun getApiKey(): String {
         return Constants.DUMMY_API_KEY
     }
 
@@ -224,22 +270,27 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
     }
 
     interface OtpListener {
-        fun onOtpverify(obj:Any?)
-        fun onResendOtp(obj:Any?)
+        fun onOtpverify(obj: Any?)
+        fun onResendOtp(obj: Any?)
     }
 
 
     companion object {
 
-        fun newInstance(mobile:String, data:Data, pin:String, name:String): OtpBottomsheetFragment =
+        fun newInstance(
+            mobile: String,
+            data: Data,
+            pin: String,
+            name: String
+        ): OtpBottomsheetFragment =
             OtpBottomsheetFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(Constants.USER_MOBILE, mobile)
-                        putString("pin", pin)
-                        putString("name", name)
-                        putParcelable("data", data)
-                    }
+                arguments = Bundle().apply {
+                    putString(Constants.USER_MOBILE, mobile)
+                    putString("pin", pin)
+                    putString("name", name)
+                    putParcelable("data", data)
                 }
+            }
 
     }
 

@@ -559,20 +559,33 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             supportFragmentManager?.popBackStack();
+            val menu: Menu = bottom_navigation.getMenu()
             when (it.itemId) {
                 R.id.nav_home -> {
                     onSwitchFragment(Constants.HOME_PAGE, "", null, null)
                 }
                 R.id.nav_chat -> {
+                    if (LocationUtils.getCurrentLocation() == null) {
+                        menu?.getItem(0)?.setChecked(true)
+                    }else
                     onSwitchFragmentParent(Constants.CHAT_HOME_PAGE, "", null, null)
                 }
                 R.id.nav_history -> {
+                    if (LocationUtils.getCurrentLocation() == null) {
+                        menu?.getItem(0)?.setChecked(true)
+                    }else
                     onSwitchFragment(Constants.ORDER_HISTORY_PAGE, "", null, null)
                 }
                 R.id.nav_nearby -> {
+                    if (LocationUtils.getCurrentLocation() == null) {
+                        menu?.getItem(0)?.setChecked(true)
+                    }else
                     onSwitchFragment(Constants.STORE_PAGE, "", null, null)
                 }
                 R.id.nav_acc -> {
+                    if (LocationUtils.getCurrentLocation() == null) {
+                        menu?.getItem(0)?.setChecked(true)
+                    }else
                     onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
                 }
             }
@@ -706,7 +719,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     onSwitchFragment(
                         Constants.STORE_DETAIL_PAGE,
                         Constants.WITH_NAV_DRAWER,
-                        StorelistItem(id = id),
+                        StorelistItem(id = id!!),
                         null
                     )
                 }
@@ -913,8 +926,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 Constants.RESULT_IMG_PREVIEW -> {
                     if (data?.hasExtra("img")!! && data?.hasExtra("txt")!!) {
                         var imgPreviewPojo: ImgPreviewPojo = ImgPreviewPojo(
-                            filePath = data?.getStringExtra("img"),
-                            caption = data?.getStringExtra("txt")
+                            filePath = data?.getStringExtra("img")!!,
+                            caption = data?.getStringExtra("txt")!!
                         )
                         mOnImgPreviewListener?.onImgPreview(imgPreviewPojo)
                     }
@@ -979,7 +992,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     onSwitchFragment(
                         Constants.STORE_DETAIL_PAGE,
                         Constants.WITH_NAV_DRAWER,
-                        StorelistItem(id = id),
+                        StorelistItem(id = id!!),
                         null
                     )
                 }

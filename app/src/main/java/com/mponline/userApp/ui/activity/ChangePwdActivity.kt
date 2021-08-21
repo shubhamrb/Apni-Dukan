@@ -51,7 +51,7 @@ class ChangePwdActivity : BaseActivity(), OnItemClickListener {
             finish()
         }
         if(intent?.hasExtra("mobile")!!){
-            mMobile = intent.getStringExtra("mobile")
+            mMobile = intent.getStringExtra("mobile")!!
             edt_old_pwd.visibility = View.GONE
         }
 
