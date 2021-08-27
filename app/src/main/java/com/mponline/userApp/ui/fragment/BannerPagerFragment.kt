@@ -21,7 +21,9 @@ class BannerPagerFragment : Fragment() {
 
             val view = inflater.inflate(R.layout.item_banner, container, false)
             arguments?.let {
-                val pos: Int = arguments!!.getInt("pos")
+                var pos = 0
+                if(arguments?.containsKey("pos")!!)
+                 pos = arguments?.getInt("pos")!!
                 val data: BannerlistItem? = arguments?.getParcelable<BannerlistItem>("obj")
                 data?.run {
                    ImageGlideUtils.loadUrlImage(activity!!, image, view?.image_banner!!)

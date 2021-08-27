@@ -538,13 +538,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //        }
 
         image_notification.setOnClickListener {
-            startActivityForResult(Intent(this@MainActivity, NotificationActivity::class.java), Constants.REQUEST_NOTIFICATION)
+            if (LocationUtils.getCurrentLocation() != null) {
+                startActivityForResult(
+                    Intent(this@MainActivity, NotificationActivity::class.java),
+                    Constants.REQUEST_NOTIFICATION
+                )
+            }
         }
 
         image_offer?.setOnClickListener {
-            var intent: Intent = Intent(this, OffersActivity::class.java)
-            intent?.putExtra("type", "offer")
-            startActivityForResult(intent, Constants.REQUEST_OFFER)
+            if (LocationUtils.getCurrentLocation() != null) {
+                var intent: Intent = Intent(this, OffersActivity::class.java)
+                intent?.putExtra("type", "offer")
+                startActivityForResult(intent, Constants.REQUEST_OFFER)
+            }
         }
 
         ll_location.setOnClickListener {
@@ -651,33 +658,35 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         })
         image_search.setOnClickListener {
-            mSearchActive = true
-            toolbar_search.visibility = View.VISIBLE
-            val width = windowManager?.defaultDisplay?.width?.toFloat()
-            val animation = TranslateAnimation(
-                width!!,
-                CommonUtils.convertPixelsToDp(0f, this@MainActivity),
-                0f,
-                0f
-            ) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
-            animation.duration = 300 // animation duration
-            animation.repeatCount = 0 // animation repeat count
-            animation.repeatMode = 0 // repeat animation (left to right, right to
-            toolbar_search.startAnimation(animation) // start animation
-            animation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
+            if (LocationUtils.getCurrentLocation() != null) {
+                mSearchActive = true
+                toolbar_search.visibility = View.VISIBLE
+                val width = windowManager?.defaultDisplay?.width?.toFloat()
+                val animation = TranslateAnimation(
+                    width!!,
+                    CommonUtils.convertPixelsToDp(0f, this@MainActivity),
+                    0f,
+                    0f
+                ) // new TranslateAnimation(xFrom,xTo, yFrom,yTo)
+                animation.duration = 300 // animation duration
+                animation.repeatCount = 0 // animation repeat count
+                animation.repeatMode = 0 // repeat animation (left to right, right to
+                toolbar_search.startAnimation(animation) // start animation
+                animation.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationRepeat(animation: Animation?) {
+                    }
 
-                override fun onAnimationEnd(animation: Animation?) {
-                    app_bar_common.visibility = View.GONE
-                    CommonUtils.openKeyboard(this@MainActivity)
-                    edt_toolbar_title_search.setText("")
-                    edt_toolbar_title_search.requestFocus()
-                }
+                    override fun onAnimationEnd(animation: Animation?) {
+                        app_bar_common.visibility = View.GONE
+                        CommonUtils.openKeyboard(this@MainActivity)
+                        edt_toolbar_title_search.setText("")
+                        edt_toolbar_title_search.requestFocus()
+                    }
 
-                override fun onAnimationStart(animation: Animation?) {
-                }
-            })
+                    override fun onAnimationStart(animation: Animation?) {
+                    }
+                })
+            }
         }
         image_close_search.setOnClickListener {
             closeSearchToolbarview()
@@ -688,6 +697,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
 
         if(intent.hasExtra("from")){
+            if(text_locationName.text.isNullOrEmpty()){
+                if(LocationUtils.getCurrentLocation()!=null){
+                    text_locationName.text = LocationUtils?.getCurrentLocation()?.address
+                }else {
+                    checkForLocation()
+                }
+            }
             var from = intent?.getStringExtra("from")
             when(from){
                 "notification"->{
@@ -778,7 +794,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     checkForLocation()
                     startLocationUpdates()
                 }else{
-                    CommonUtils.showPermissionDialog(this@MainActivity)
+                    CommonUtils.printLog("DENIED_ALL_PERMISSIONs", "")
+//                    CommonUtils.showPermissionDialog(this@MainActivity)
                 }
             }
         }

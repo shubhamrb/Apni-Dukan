@@ -3,6 +3,7 @@ package com.mponline.userApp.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -82,6 +83,38 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                     choosePhotoFromGallary(activity!!)
                 } else {
                     checkCameraStoragePermissions(activity!!)
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            Constants.REQUEST_PERMISSIONS -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                   if(mPictureType == Constants.CAMERA){
+                       if (isCameraStoragePermissionGranted(activity!!)) {
+                           mPictureType = Constants.CAMERA
+                           dispatchTakePictureIntent(activity!!)
+                       } else {
+                           checkCameraStoragePermissions(activity!!)
+                       }
+                   }else if(mPictureType == Constants.GALLERY){
+                       if (isCameraStoragePermissionGranted(activity!!)) {
+                           mPictureType = Constants.GALLERY
+                           choosePhotoFromGallary(activity!!)
+                       } else {
+                           checkCameraStoragePermissions(activity!!)
+                       }
+                   }
+                }else{
+                    CommonUtils.printLog("DENIED_ALL_PERMISSIONs", "")
+                    CommonUtils.showPermissionDialog(activity!!)
                 }
             }
         }

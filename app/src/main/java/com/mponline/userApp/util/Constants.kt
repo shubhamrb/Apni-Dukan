@@ -13,6 +13,7 @@ class Constants {
         const val REQUEST_AUTOCOMPLETE_PLACE = 1111
         const val DEVICE_TYPE = "ANDROID"
         const val USER_SELECTED_LOCATION = "USER_SELECTED_LOCATION"
+        const val WEBVIEW_FILE_URL_REPLACE = "https://apnaonlines.com/?filepath="
 
         //LinkedIn
         const val API_KEY_linkedin_CONST = "815wbplzyjdkp4"

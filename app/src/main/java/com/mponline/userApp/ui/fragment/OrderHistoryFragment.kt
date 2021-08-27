@@ -10,7 +10,9 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Environment
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +25,14 @@ import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
 import com.mponline.userApp.model.LocationUtils
+import com.mponline.userApp.model.TimerObj
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.activity.FormPreviewActivity
 import com.mponline.userApp.ui.adapter.*
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.utils.DateUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_order_history.view.*
@@ -39,6 +43,7 @@ import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
 import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
 import java.io.File
+import java.util.HashMap
 
 
 @AndroidEntryPoint
@@ -54,6 +59,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     var mOrderlist:ArrayList<OrderHistoryDataItem> = arrayListOf()
     var mAdapter:OrderHistoryAdapter? = null
     var downloadID:Long = 0
+    var timerMap = HashMap<Int, CountDownTimer>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,7 +110,6 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                 it?.run {
                     if (status) {
                         if(data!=null && data?.size>0){
-                            switchView(1, "")
                             mOrderlist = this?.data!!
                             view?.rv_order_history?.setHasFixedSize(true)
                             view?.rv_order_history?.layoutManager =
@@ -113,12 +118,27 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                                     RecyclerView.VERTICAL,
                                     false
                                 )
+                            data?.forEachIndexed { index, order ->
+                                if (order?.status == 2) {
+                                    var currDateTime = DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
+                                    var estimatedDateTime = DateUtils.addHrMinuteToDateStr(
+                                        order?.acceptedAt!!,
+                                        if (order?.timeType?.equals("hour")!!) true else false,
+                                        order?.orderCompletionTime
+                                    )
+                                    var timerObj = DateUtils.checkTimeDifference(currDateTime, estimatedDateTime)
+                                    data?.get(index)?.timerObj = timerObj
+                                }
+                            }
                             mAdapter = OrderHistoryAdapter(
                                 activity,
                                 this@OrderHistoryFragment,
                                 data!!
                             )
                             view?.rv_order_history?.adapter = mAdapter
+                            Handler().postDelayed(Runnable {
+                                switchView(1, "")
+                            },500)
                         }else{
                             switchView(0, "No Orders Found")
                         }
@@ -137,6 +157,44 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                 resources?.getString(R.string.no_net)!!
             )
         }
+    }
+
+    fun startTimerForOrders(pos:Int, timerObj:TimerObj){
+        var timer = timerMap?.get(pos)
+      /*  if (timer == null) {
+            timer = object : CountDownTimer(timerObj?.totalMillis!!, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    var remainingTimeObj = DateUtils.getTimeObjFromMillis(millisUntilFinished)
+                    itemView?.text_hour?.text = remainingTimeObj?.hour
+                    itemView?.text_minute?.text = remainingTimeObj?.min
+                    itemView?.text_sec?.text = remainingTimeObj?.sec
+                }
+
+                override fun onFinish() {
+                    itemView?.text_hour?.text = "0"
+                    itemView?.text_minute?.text = "0"
+                    itemView?.text_sec?.text = "0"
+                }
+            }.start()
+        }else{
+
+        }*/
+       /* if(timer==null){
+             timer = object : CountDownTimer(orderHistoryDataItem?.timerObj?.totalMillis!!, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    var remainingTimeObj = DateUtils.getTimeObjFromMillis(millisUntilFinished)
+                    itemView?.text_hour?.text = remainingTimeObj?.hour
+                    itemView?.text_minute?.text = remainingTimeObj?.min
+                    itemView?.text_sec?.text = remainingTimeObj?.sec
+                }
+
+                override fun onFinish() {
+                    itemView?.text_hour?.text = "0"
+                    itemView?.text_minute?.text = "0"
+                    itemView?.text_sec?.text = "0"
+                }
+            }.start()
+        }*/
     }
 
 

@@ -30,7 +30,6 @@
             android:background="@color/white"
             android:singleLine="true"
             android:imeOptions="actionDone"
-            android:textColorHint="@color/light_black"
             android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -43,7 +42,6 @@
             android:singleLine="true"
             android:inputType="number"
             android:imeOptions="actionDone"
-            android:textColorHint="@color/light_black"
             android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -58,7 +56,6 @@
             android:lines="3"
             android:text=""
             android:imeOptions="actionNext"
-            android:textColorHint="@color/light_black"
             android:hint=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

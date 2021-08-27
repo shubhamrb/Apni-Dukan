@@ -45,6 +45,9 @@ android {
     androidExtensions {
         experimental = true
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {

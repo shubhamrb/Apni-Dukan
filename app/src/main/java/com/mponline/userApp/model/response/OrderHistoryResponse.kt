@@ -1,8 +1,10 @@
 package com.mponline.userApp.model.response
 
 
+import android.os.CountDownTimer
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.mponline.userApp.model.TimerObj
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -73,6 +75,10 @@ data class Products(
 
 @Parcelize
 data class OrderHistoryDataItem(
+    var estimatedDateTime: String? = "",
+    var isDataShown: Boolean = false,
+    var isBottomPartHidden: Boolean = false,
+    var timerObj: TimerObj? = null,
     @SerializedName("isPaytoShop")
     var isPaytoShop: String? = "",
     @SerializedName("offer_amount")

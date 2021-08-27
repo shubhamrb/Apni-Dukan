@@ -239,6 +239,7 @@ class RegisterActivity : BaseActivity(), OnItemClickListener, OtpBottomsheetFrag
                 obj?.let {
                     mPreferenceUtils?.setValue(Constants.USER_NAME, obj?.data?.user?.name!!)
                     mPreferenceUtils?.setValue(Constants.USER_MOBILE, obj?.data?.user?.phone!!)
+                    mPreferenceUtils?.setValue(Constants.USER_EMAIL, obj?.data?.user?.email!!)
                     mPreferenceUtils?.setValue(Constants.USER_ID, obj?.data?.user?.id!!)
                     mPreferenceUtils?.setValue(Constants.USER_TOKEN, obj?.data?.token!!)
                     mPreferenceUtils?.setValue(Constants.USER_INFO, Gson().toJson(obj))

@@ -752,6 +752,24 @@ class UserRepositoryImpl @Inject constructor(val apiService: NetworkAPIService, 
         return data;
     }
 
+    override fun getSetting(commonRequestObj: CommonRequestObj): MutableLiveData<GetSettingResponse> {
+        val data = MutableLiveData<GetSettingResponse>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService?.getSetting(commonRequestObj?.headerInfo?.Authorization!!, commonRequestObj)
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    data.postValue(GetSettingResponse(message = "Something went wrong, please try again later", status = false))
+                }
+            } catch (e: Exception) {
+                data.postValue(GetSettingResponse(message = "Something went wrong, please try again later", status = false))
+            }
+        }
+        return data;
+    }
+
     override fun getHelpSupportWebview(token: String): MutableLiveData<String> {
         val data = MutableLiveData<String>()
         CoroutineScope(Dispatchers.IO).launch {

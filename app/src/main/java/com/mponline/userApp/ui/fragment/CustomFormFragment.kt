@@ -502,7 +502,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                 }
                 R.id.rbtn_item -> {
                     customFormList?.get(pos)?.ansValue = obj?.value
-                    if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
+//                    if (obj?.hidefield != null && obj?.hidefield?.size > 0) {
                         var visibilityControlFields = customFormList?.get(pos)?.visibilityControlfield
                         customFormList?.forEachIndexed { index, customFieldObj ->
                             if(visibilityControlFields?.contains(customFieldObj?.id)){
@@ -513,7 +513,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
                                 }
                             }
                         }
-                    }
+//                    }
                     mCustomFileAdapter?.onRefreshAdapter(customFormList, pos = pos, flag = false)
                 }
             }

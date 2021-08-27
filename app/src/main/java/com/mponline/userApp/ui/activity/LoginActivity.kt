@@ -205,6 +205,7 @@ class LoginActivity : BaseActivity(), OnItemClickListener,
                         relative_progress.visibility = View.GONE
                         mPreferenceUtils?.setValue(Constants.USER_NAME, data?.user?.name!!)
                         mPreferenceUtils?.setValue(Constants.USER_MOBILE, data?.user?.phone!!)
+                        mPreferenceUtils?.setValue(Constants.USER_EMAIL, data?.user?.email!!)
                         mPreferenceUtils?.setValue(Constants.USER_ID, data?.user?.id!!)
                         mPreferenceUtils?.setValue(Constants.USER_TOKEN, data?.token!!)
                         mPreferenceUtils?.setValue(Constants.USER_INFO, Gson().toJson(this))

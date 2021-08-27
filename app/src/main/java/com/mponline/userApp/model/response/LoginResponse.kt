@@ -19,6 +19,8 @@ data class UserRes(@SerializedName("IsVerify")
                 val isVerify: Int = 0,
                 @SerializedName("Phone")
                 val phone: String = "",
+               @SerializedName("email")
+                val email: String = "",
                 @SerializedName("IsActive")
                 val isActive: Int = 0,
                 @SerializedName("name")

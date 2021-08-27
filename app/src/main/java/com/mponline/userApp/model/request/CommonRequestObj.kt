@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class CommonRequestObj(
     @SerializedName("api_key")
     val apiKey: String = "",
+     @SerializedName("userid")
+    val userid: String = "",
      @SerializedName("password")
     val password: String = "",
      @SerializedName("name")

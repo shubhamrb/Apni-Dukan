@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ import com.mponline.userApp.ui.adapter.OrderHistoryAdapter
 import com.mponline.userApp.ui.base.BaseFragment
 import com.mponline.userApp.util.CommonUtils
 import com.mponline.userApp.utils.Constants
+import com.mponline.userApp.utils.DateUtils
 import com.mponline.userApp.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.common_toolbar_normal.view.*
@@ -157,12 +159,27 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                                     false
                                 )
                             var orderlist:ArrayList<OrderDetailItem> = arrayListOf()
+                            data?.forEachIndexed { index, order ->
+                                if (order?.status == 2) {
+                                    var currDateTime = DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
+                                    var estimatedDateTime = DateUtils.addHrMinuteToDateStr(
+                                        order?.acceptedAt!!,
+                                        if (order?.timeType?.equals("hour")!!) true else false,
+                                        order?.orderCompletionTime
+                                    )
+                                    var timerObj = DateUtils.checkTimeDifference(currDateTime, estimatedDateTime)
+                                    data?.get(index)?.timerObj = timerObj
+                                }
+                            }
                             view?.rv_order_history?.adapter = OrderHistoryAdapter(
                                 activity,
                                 this@AccountFragment,
                                 data!!,
                                 isFromAccount = true
                             )
+                            Handler().postDelayed(Runnable {
+                                switchView(1, "")
+                            },500)
                         }else{
                             view?.text_order_title?.visibility = View.GONE
                         }

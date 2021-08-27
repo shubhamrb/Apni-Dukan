@@ -27,10 +27,11 @@
                 android:textColor="@color/black" />
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_marginTop="@dimen/margin25"
                 android:layout_marginLeft="@dimen/margin15"
                 android:layout_marginRight="@dimen/margin15"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -74,8 +75,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_medium"
+                        android:id="@+id/text_resend"
+                        android:text="Send again 2:00"
+                        android:textColor="@color/black"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:paddingRight="@dimen/margin15"
+                        android:paddingTop="@dimen/margin5"
+                        android:paddingBottom="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin15"
+                        android:textSize="@dimen/textsize14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_submit_btn"

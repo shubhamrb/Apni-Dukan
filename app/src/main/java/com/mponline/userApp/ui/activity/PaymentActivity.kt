@@ -12,6 +12,7 @@ import com.mponline.userApp.R
 import com.mponline.userApp.model.PaytmModel
 import com.mponline.userApp.model.request.CashfreeObj
 import com.mponline.userApp.model.request.SavePaymentRequest
+import com.mponline.userApp.model.response.GetSettingResponse
 import com.mponline.userApp.model.response.OrderDetailItem
 import com.mponline.userApp.model.response.OrderHistoryDataItem
 import com.mponline.userApp.ui.base.BaseActivity
@@ -24,6 +25,7 @@ import com.paytm.pgsdk.PaytmPaymentTransactionCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment.*
 import kotlinx.android.synthetic.main.common_toolbar.*
+import kotlinx.android.synthetic.main.fragment_change_pwd.*
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.*
 import kotlinx.android.synthetic.main.layout_progress.*
 import java.util.*
@@ -38,31 +40,25 @@ class PaymentActivity : BaseActivity() {
     val viewModel: UserListViewModel by viewModels()
     var mOrderHistoryDataItem: OrderHistoryDataItem? = null
     var mToken = ""
-    var mPaymentResList:ArrayList<OrderDetailItem> = arrayListOf()
+    var mPaymentResList: ArrayList<OrderDetailItem> = arrayListOf()
     var mPaymentGateway = ""
+    var mGetSettingResponse: GetSettingResponse? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
-        if(intent?.hasExtra("paymentgateway")!!){
+        if (intent?.hasExtra("paymentgateway")!!) {
             mPaymentGateway = intent?.getStringExtra("paymentgateway")!!
         }
         if (intent?.hasExtra("data")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("data")
             if (mOrderHistoryDataItem != null) {
-               /* callCashfreeToken(
-                    orderId = mOrderHistoryDataItem?.orderId!!,
-                    orderAmt = mOrderHistoryDataItem?.payableAmount!!
-                )*/
-                if(mPaymentGateway?.equals("cashfree")){
-                    callCashfreeToken(
-                        orderId = mOrderHistoryDataItem?.orderId!!,
-                        orderAmt = mOrderHistoryDataItem?.payableAmount!!
-                    )
-                }else{
-                    getPaytmChecksum()
-                }
+                /* callCashfreeToken(
+                     orderId = mOrderHistoryDataItem?.orderId!!,
+                     orderAmt = mOrderHistoryDataItem?.payableAmount!!
+                 )*/
+                callGetting()
             }
         }
     }
@@ -78,7 +74,9 @@ class PaymentActivity : BaseActivity() {
             var req: SavePaymentRequest = SavePaymentRequest()
             if (bundle != null) for (key in bundle.keySet()) {
                 if (bundle.getString(key) != null) {
-                    if(key?.equals("txStatus")!! && !(bundle.getString(key)?.equals("SUCCESS")!!)){
+                    if (key?.equals("txStatus")!! && !(bundle.getString(key)
+                            ?.equals("SUCCESS")!!)
+                    ) {
                         finish()
                     }
                     mPaymentResList?.clear()
@@ -114,6 +112,42 @@ class PaymentActivity : BaseActivity() {
         }
     }
 
+    private fun callGetting() {
+        if (CommonUtils.isOnline(this)) {
+            switchView(3, "")
+            var commonRequestObj = getCommonRequestObj(
+                apiKey = getApiKey()
+            )
+            viewModel?.getSetting(commonRequestObj)?.observe(this, androidx.lifecycle.Observer {
+                it?.run {
+                    switchView(1, "")
+                    if (status) {
+                        mGetSettingResponse = this
+                        if (mPaymentGateway?.equals("cashfree")) {
+                            callCashfreeToken(
+                                orderId = mOrderHistoryDataItem?.orderId!!,
+                                orderAmt = mOrderHistoryDataItem?.payableAmount!!
+                            )
+                        } else {
+                            getPaytmChecksum()
+                        }
+                    } else {
+                        finish()
+                        CommonUtils.createSnackBar(
+                            findViewById(android.R.id.content)!!,
+                            message
+                        )
+                    }
+                }
+            })
+        } else {
+            CommonUtils.createSnackBar(
+                findViewById(android.R.id.content)!!,
+                resources?.getString(R.string.no_net)!!
+            )
+        }
+    }
+
     private fun callCashfreeToken(orderId: String, orderAmt: String) {
         if (CommonUtils.isOnline(this)) {
             switchView(3, "")
@@ -125,7 +159,8 @@ class PaymentActivity : BaseActivity() {
                 "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}",
                 cashfreeObj
             )?.observe(this, androidx.lifecycle.Observer {
-                switchView(1, "")
+                if (mGetSettingResponse != null)
+                    switchView(1, "")
                 if (it?.status!!) {
                     mToken = it?.data
                     onClick(web)
@@ -155,13 +190,48 @@ class PaymentActivity : BaseActivity() {
                 )
                 if (it?.status!!) {
                     mPaymentResList?.clear()
-                    mPaymentResList?.add(OrderDetailItem(name = "Order ID", value = savePaymentRequest?.orderId))
-                    mPaymentResList?.add(OrderDetailItem(name = "Order Amount", value = savePaymentRequest?.orderAmount))
-                    mPaymentResList?.add(OrderDetailItem(name = "Reference ID", value = savePaymentRequest?.referenceId))
-                    mPaymentResList?.add(OrderDetailItem(name = "Transaction Status", value = savePaymentRequest?.txStatus))
-                    mPaymentResList?.add(OrderDetailItem(name = "Payment Mode", value = savePaymentRequest?.paymentMethod))
-                    mPaymentResList?.add(OrderDetailItem(name = "Message", value = savePaymentRequest?.txMsg))
-                    mPaymentResList?.add(OrderDetailItem(name = "Transaction Time", value = savePaymentRequest?.txTime))
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Order ID",
+                            value = savePaymentRequest?.orderId
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Order Amount",
+                            value = savePaymentRequest?.orderAmount
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Reference ID",
+                            value = savePaymentRequest?.referenceId
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Transaction Status",
+                            value = savePaymentRequest?.txStatus
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Payment Mode",
+                            value = savePaymentRequest?.paymentMethod
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Message",
+                            value = savePaymentRequest?.txMsg
+                        )
+                    )
+                    mPaymentResList?.add(
+                        OrderDetailItem(
+                            name = "Transaction Time",
+                            value = savePaymentRequest?.txTime
+                        )
+                    )
                     var intent: Intent = Intent(this, FormPreviewActivity::class.java)
                     intent?.putExtra("paymentdone", "paymentdone")
                     intent?.putExtra("data", mPaymentResList)
@@ -185,11 +255,17 @@ class PaymentActivity : BaseActivity() {
     private fun getPaytmChecksum() {
         if (CommonUtils.isOnline(this)) {
             switchView(3, "")
-            viewModel?.getPaytmChecksum(mPreferenceUtils?.getValue(Constants.USER_MOBILE), "test@gmail.com", mPreferenceUtils?.getValue(Constants.USER_ID), mOrderHistoryDataItem?.orderId!!, mOrderHistoryDataItem?.payableAmount!!)?.observe(this, androidx.lifecycle.Observer {
+            viewModel?.getPaytmChecksum(
+                mPreferenceUtils?.getValue(Constants.USER_MOBILE),
+                "test@gmail.com",
+                mPreferenceUtils?.getValue(Constants.USER_ID),
+                mOrderHistoryDataItem?.orderId!!,
+                mOrderHistoryDataItem?.payableAmount!!
+            )?.observe(this, androidx.lifecycle.Observer {
                 it?.let {
-                    if(it?.status){
+                    if (it?.status) {
                         paytmProcess(it?.data)
-                    }else{
+                    } else {
                         CommonUtils.createSnackBar(
                             findViewById(android.R.id.content)!!,
                             "Something went wrong, please try again"
@@ -204,7 +280,8 @@ class PaymentActivity : BaseActivity() {
             )
         }
     }
-    fun paytmProcess(checksum:String) {
+
+    fun paytmProcess(checksum: String) {
         var orderID = mOrderHistoryDataItem?.orderId
         var customerID = mPreferenceUtils?.getValue(Constants.USER_ID)
         var callbackURL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=" + orderID;
@@ -217,15 +294,16 @@ class PaymentActivity : BaseActivity() {
         val pgService = PaytmPGService.getStagingService()
         val paramMap = HashMap<String, String>()
         //these are mandatory parameters
-        paramMap["MID"] = "CAvRVp59211200813874" //MID provided by paytm
+        paramMap["MID"] = mGetSettingResponse?.data?.get(0)?.paytmMerchantMid!!//"CAvRVp59211200813874" //MID provided by paytm
         paramMap["ORDER_ID"] = mOrderHistoryDataItem?.orderId!!
         paramMap["CUST_ID"] = mPreferenceUtils?.getValue(Constants.USER_ID)
         paramMap["CHANNEL_ID"] = "WAP"
         paramMap["TXN_AMOUNT"] = mOrderHistoryDataItem?.payableAmount!!
         paramMap["WEBSITE"] = "WEBSTAGING"
-        paramMap["CALLBACK_URL"] = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=${mOrderHistoryDataItem?.orderId}"
-        paramMap.put( "EMAIL" , "test@gmail.com");   // no need
-         paramMap.put( "MOBILE_NO" , mPreferenceUtils?.getValue(Constants.USER_MOBILE));  // no need
+        paramMap["CALLBACK_URL"] =
+            "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=${mOrderHistoryDataItem?.orderId}"
+        paramMap.put("EMAIL", "test@gmail.com");   // no need
+        paramMap.put("MOBILE_NO", mPreferenceUtils?.getValue(Constants.USER_MOBILE));  // no need
         paramMap["CHECKSUMHASH"] = checksum
         //paramMap.put("PAYMENT_TYPE_ID" ,"CC");    // no need
         paramMap["INDUSTRY_TYPE_ID"] = "Retail"
@@ -239,11 +317,16 @@ class PaymentActivity : BaseActivity() {
                     var req: SavePaymentRequest = SavePaymentRequest()
                     if (bundle != null) for (key in bundle.keySet()) {
                         if (bundle.getString(key) != null) {
-                            if(key?.equals("STATUS")!! && !(bundle.getString(key)?.equals("TXN_SUCCESS")!!)){
+                            if (key?.equals("STATUS")!! && !(bundle.getString(key)
+                                    ?.equals("TXN_SUCCESS")!!)
+                            ) {
                                 finish()
                             }
                             mPaymentResList?.clear()
-                            CommonUtils.printLog("PAYMENT_RES2", key + " : " + bundle.getString(key))
+                            CommonUtils.printLog(
+                                "PAYMENT_RES2",
+                                key + " : " + bundle.getString(key)
+                            )
                             when (key) {
                                 "orderId" -> {
 //                            req.orderId = bundle.getString(key)!!
@@ -272,7 +355,6 @@ class PaymentActivity : BaseActivity() {
                     req.orderId = mOrderHistoryDataItem?.orderId
                     req.paymentMethod = "PAYTM"
                     callSavePayment(req)
-                    Toast.makeText(getApplicationContext(), "Payment Transaction response " + bundle.toString(), Toast.LENGTH_LONG).show();
                     Log.e("PAYTM_RES ", "${bundle.toString()}")
                 }
 
@@ -304,7 +386,7 @@ class PaymentActivity : BaseActivity() {
 
     }
 
-    fun generateRandomUUID():String {
+    fun generateRandomUUID(): String {
         var uuid = UUID.randomUUID().toString();
         return uuid.replace("[-+.^:,|@_]", "");
     }
@@ -328,7 +410,7 @@ class PaymentActivity : BaseActivity() {
          *      integrated the CashFree PG, use this value for stage variable. This will
          *      enable live transactions
          */
-        val stage = "PROD"
+        val stage = mGetSettingResponse?.data?.get(0)?.cashfreeMode
 
         //Show the UI for doGPayPayment and phonePePayment only after checking if the apps are ready for payment
         if (view.id == R.id.phonePe_exists) {
@@ -425,7 +507,7 @@ class PaymentActivity : BaseActivity() {
          */
 //            val appId = "134441f4914d787610a43c13f44431"
 //            val appId = "936476e4b0e75a0300a64fc14639"
-            val appId = "1196792a604ee2098128120f1d976911"
+            val appId = mGetSettingResponse?.data?.get(0)?.appid!!//"1196792a604ee2098128120f1d976911"
             val orderId = mOrderHistoryDataItem?.orderId!!
             val orderAmount = mOrderHistoryDataItem?.payableAmount!!
             val orderNote = "Order"

@@ -191,6 +191,12 @@ interface NetworkAPIService {
         @Body commonRequestObj: CommonRequestObj
     ): Response<CommonResponse>
 
+    @POST(ApiName.GET_SETTING)
+    suspend fun getSetting(
+        @Header("Authorization") token: String,
+        @Body commonRequestObj: CommonRequestObj
+    ): Response<GetSettingResponse>
+
     @POST(ApiName.HELP_SUPPORT_WEBVIEW)
     suspend fun getHelpSupportWebview(
         @Header("Authorization") token: String

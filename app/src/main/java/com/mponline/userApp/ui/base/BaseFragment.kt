@@ -239,6 +239,7 @@ abstract class BaseFragment : Fragment() {
         newpassword: String = "",
         discountamount: String = "",
         finalamountpay: String = "",
+        userid: String = "",
         product_id: String = ""
     ): CommonRequestObj {
         return CommonRequestObj(
@@ -264,6 +265,7 @@ abstract class BaseFragment : Fragment() {
             newpassword = newpassword,
             discountamount = discountamount,
             finalamountpay = finalamountpay,
+            userid = userid,
             headerInfo = HeaderInfo(Authorization = "Bearer "+mPreferenceUtils?.getValue(Constants.USER_TOKEN))
         )
     }

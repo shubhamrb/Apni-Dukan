@@ -41,7 +41,7 @@ class ChatAdapter(
 
         holder?.itemView?.text_letter?.text = mList?.get(position)?.products?.name?.toString()?.toCharArray()?.get(0)?.toString()?.toUpperCase()!!
         holder?.itemView?.text_chat_title?.text = Html.fromHtml(mList?.get(position)?.products?.name)
-        holder?.itemView?.text_chat_subtitle?.text = Html.fromHtml(mList?.get(position)?.products?.description)
+        holder?.itemView?.text_chat_subtitle?.text = "Order ID: ${mList?.get(position)?.orderId}"
         holder?.itemView?.text_chat_datetime?.text =  DateUtils.changeDateFormat(mList?.get(position)?.updatedAt, "yyyy-MM-dd hh:mm:ss", "dd MMM yyyy")+"\n"+ DateUtils.changeDateFormat(mList?.get(position)?.updatedAt, "yyyy-MM-dd hh:mm:ss", "hh:mm a")
 
     }

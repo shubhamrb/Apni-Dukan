@@ -129,6 +129,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                 switchView(3, "")
                 var commonRequestObj = getCommonRequestObj(
                     apiKey = getApiKey(),
+                    userid = mPreferenceUtils?.getValue(Constants.USER_ID),
                     latitude = LocationUtils?.getCurrentLocation()?.lat!!,
                     longitude = LocationUtils?.getCurrentLocation()?.lng!!
                 )

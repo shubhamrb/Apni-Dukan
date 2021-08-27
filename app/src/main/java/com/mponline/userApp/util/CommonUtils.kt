@@ -151,6 +151,7 @@ class  CommonUtils{
 
         fun showPermissionDialog(context: Activity) {
             // build alert dialog
+            CommonUtils.printLog("PERMISSION_DIALOGUE","show")
             val dialogBuilder = AlertDialog.Builder(context)
 
             // set message of alert dialog

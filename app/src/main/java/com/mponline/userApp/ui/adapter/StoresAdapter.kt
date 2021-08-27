@@ -41,8 +41,24 @@ class StoresAdapter(
         holder.itemView.text_store_name.text = mList?.get(position)?.name!!
         holder.itemView.text_store_loc.text = "${if(mList?.get(position)?.distance!! %1 == 0.0) mList?.get(position)?.distance?.toInt() else mList?.get(position)?.distance}KM away from you"
         holder.itemView.ratingbar_store.rating = if(mList?.get(position)?.ratting!=null && !mList?.get(position)?.ratting?.isNullOrEmpty() && !mList?.get(position)?.ratting?.equals("zero")) mList?.get(position)?.ratting?.toFloat() else 0f
-        holder.itemView.text_store_status.text = if(mList?.get(position)?.isAvailable?.equals("1")) "Open" else "Close"
-        if(mList?.get(position)?.isAvailable?.equals("1")) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)
+        if(mList?.get(position)?.isAvailable!=null && !mList?.get(position)?.isAvailable?.isNullOrBlank()){
+            if(mList?.get(position)?.isAvailable?.equals("1")){
+                if(mList?.get(position)?.openstatus?.equals("1")){
+                    holder.itemView.image_status.setImageResource(R.drawable.circle_green)
+                    holder.itemView.text_store_status.text = "Open"
+                }else{
+                    holder.itemView.image_status.setImageResource(R.drawable.circle_red)
+                    holder.itemView.text_store_status.text = "Close"
+                }
+            }else{
+                holder.itemView.image_status.setImageResource(R.drawable.circle_red)
+                holder.itemView.text_store_status.text = "Close"
+            }
+        }
+       /* if(mList?.get(position)?.is_available!=null && !mList?.get(position)?.is_available?.isNullOrBlank()){
+            if(mList?.get(position)?.is_available?.equals("1")) holder.itemView.image_status.setImageResource(R.drawable.circle_green) else holder.itemView.image_status.setImageResource(R.drawable.circle_red)
+            holder.itemView.text_store_status.text = if(mList?.get(position)?.is_available?.equals("1")) "Open" else "Close"
+        }*/
         if(mList?.get(position)?.price!=null && mList?.get(position)?.price > 0.0/*(!mList?.get(position)?.price?.isNullOrEmpty()) && (!mList?.get(position)?.price?.equals("0.00"))*/){
             holder.itemView.text_price.visibility = View.VISIBLE
             holder.itemView.text_price.text = "\u20B9 ${mList?.get(position)?.price}"

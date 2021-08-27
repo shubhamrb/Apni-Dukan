@@ -60,7 +60,7 @@ class FormPreviewActivity : BaseActivity(), OnItemClickListener {
     override fun onBackPressed() {
         if(from?.equals("paymentdone")){
             var intent: Intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra("from", "NOTI_history")
             startActivity(intent)
             finish()

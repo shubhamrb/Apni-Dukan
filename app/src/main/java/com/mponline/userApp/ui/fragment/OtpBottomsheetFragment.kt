@@ -167,6 +167,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 it?.run {
                     progressDialogDismiss()
                     if (status!!) {
+                        mSignupdata = this?.data
                         startTimer()
                     }
                     CommonUtils.createSnackBar(

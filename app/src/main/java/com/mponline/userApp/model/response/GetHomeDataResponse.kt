@@ -27,6 +27,10 @@ data class StorelistItem(@SerializedName("price")
                          val latitude: String = "",
                          @SerializedName("IsAvailable")
                          val isAvailable: String = "",
+                         @SerializedName("openstatus")
+                         val openstatus: String = "",
+                         @SerializedName("is_available")
+                         val is_available: String = "",
                          @SerializedName("name")
                          val name: String = "",
                          @SerializedName("storelogo")

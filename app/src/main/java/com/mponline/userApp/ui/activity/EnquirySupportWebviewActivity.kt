@@ -3,8 +3,8 @@ package com.mponline.userApp.ui.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ClipData
-import android.content.Intent
+import android.app.DownloadManager
+import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -51,7 +51,7 @@ class EnquirySupportWebviewActivity : BaseActivity() {
     private var file_data: ValueCallback<Uri>? =
         null       // data/header received after file selection
     private var file_path: ValueCallback<Array<Uri>>? = null     // received file(s) temp. location
-
+    var downloadID:Long = 1;
     private val file_req_code = 1
     val viewModel: UserListViewModel by viewModels()
 
@@ -120,6 +120,8 @@ class EnquirySupportWebviewActivity : BaseActivity() {
         val webSettings = webView?.getSettings()
         webSettings?.javaScriptEnabled = true
         webSettings?.allowFileAccess = true
+        webSettings?.loadWithOverviewMode = true
+        webSettings?.useWideViewPort = true
 
         if (Build.VERSION.SDK_INT >= 21) {
             webSettings?.mixedContentMode = 0
@@ -159,8 +161,13 @@ class EnquirySupportWebviewActivity : BaseActivity() {
                         view: WebView,
                         url: String
                     ): Boolean {
-
-                        view.loadUrl(url)
+                        if(url?.contains("https://apnaonlines.com?filepath=")){
+                            var fileurl = url?.replace("https://apnaonlines.com?filepath=","")
+                            //Download file
+                            donwloadFile(fileurl)
+                        }else{
+                            view.loadUrl(url)
+                        }
                         CommonUtils.printLog("test", "window shouldOverrideUrlLoading $url")
                         return true
                     }
@@ -374,7 +381,13 @@ class EnquirySupportWebviewActivity : BaseActivity() {
         ): Boolean {
             //This method will be called when the Auth proccess redirect to our RedirectUri.
             //We will check the url looking for our RedirectUri.
-            view?.loadUrl(authorizationUrl)
+            if(authorizationUrl?.contains("https://apnaonlines.com/?filepath=")){
+                var fileurl = authorizationUrl?.replace("https://apnaonlines.com/?filepath=","")
+                //Download file
+                donwloadFile(fileurl)
+            }else{
+                view.loadUrl(authorizationUrl)
+            }
             return true
         }
 
@@ -441,4 +454,80 @@ class EnquirySupportWebviewActivity : BaseActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
     }
+
+    fun donwloadFile(url:String){
+        if (isCameraStoragePermissionGranted()) {
+            var extention = CommonUtils.getFileExtentionFromStrPath(url)
+            if(extention?.contains(".png", true) || extention?.contains(".jpg", true) || extention?.contains(".jpeg", true)){
+                beginDownload(url, CommonUtils.getFileExtentionFromStrPath(url))
+            }else{
+                beginDownload(url, CommonUtils.getFileExtentionFromStrPath(url))
+            }
+        } else {
+            checkCameraStoragePermissions()
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun beginDownload(donwloadUrl:String, type:String) {
+        val file =
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                "ApnaOnline_"+System.currentTimeMillis()+"${type}"
+            )
+        CommonUtils.printLog("AGGREMENT_URL", "${donwloadUrl}")
+        val request =
+            DownloadManager.Request(Uri.parse(donwloadUrl))
+                .setTitle("Apna Online File")// Title of the Download Notification
+                .setDescription("Downloading...")// Description of the Download Notification
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)// Visibility of the download Notification
+                .setDestinationUri(Uri.fromFile(file))// Uri of the destination file
+                .setRequiresCharging(false)// Set if charging is required to begin the download
+                .setAllowedOverMetered(true)// Set if download is allowed on Mobile network
+                .setAllowedOverRoaming(true)// Set if download is allowed on roaming network
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "ApnaOnline_"+System.currentTimeMillis()+"${type}");
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+//        request.setMimeType("*/${type?.replace(".","")}");
+        downloadID =
+            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+        CommonUtils.createSnackBar(
+            findViewById(android.R.id.content)!!,
+            "Download started..."
+        )
+
+        //Broadcast reciever for download complete msg
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val action = intent.action
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE != action) {
+                    return
+                }
+                context.applicationContext.unregisterReceiver(this)
+                val query = DownloadManager.Query()
+                query.setFilterById(downloadID)
+                val c = downloadManager.query(query)
+                if (c.moveToFirst()) {
+                    val columnIndex = c.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(columnIndex)) {
+                        val uriString =
+                            c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
+                        CommonUtils.printLog("LK_AGGRE_DONWLOADED", "downloaded file $uriString")
+                        CommonUtils.createSnackBar(
+                            findViewById(android.R.id.content)!!,
+                            "Donwload successfully"
+                        )
+                    } else {
+                        CommonUtils.createSnackBar(
+                            findViewById(android.R.id.content)!!,
+                            "Donwload failed!"
+                        )
+                        CommonUtils.printLog("LK_AGGRE_DONWLOADED", "download failed " + c.getInt(columnIndex))
+                    }
+                }
+            }
+        }
+        applicationContext?.registerReceiver(receiver,  IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+    }
+
 }

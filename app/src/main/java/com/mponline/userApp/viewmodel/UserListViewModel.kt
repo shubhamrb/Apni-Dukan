@@ -229,6 +229,10 @@ public class UserListViewModel @ViewModelInject constructor(
         return userRepositoryImpl.updatePwd(commonRequestObj);
     }
 
+    fun getSetting(commonRequestObj: CommonRequestObj): LiveData<GetSettingResponse> {
+        return userRepositoryImpl.getSetting(commonRequestObj);
+    }
+
     fun getHelpSupportWebview(token: String): LiveData<String> {
         return userRepositoryImpl.getHelpSupportWebview(token);
     }

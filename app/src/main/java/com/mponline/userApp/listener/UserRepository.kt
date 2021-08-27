@@ -67,6 +67,7 @@ interface UserRepository {
     fun getPaytmChecksum(mobile:String, email:String,userid:String, orderid:String, amount:String): MutableLiveData<PaytmChecksumResponse>
 
     fun updatePwd(commonRequestObj: CommonRequestObj): MutableLiveData<CommonResponse>
+    fun getSetting(commonRequestObj: CommonRequestObj): MutableLiveData<GetSettingResponse>
     fun getHelpSupportWebview(token: String): MutableLiveData<String>
     fun getEnquiryWebview(token: String): MutableLiveData<String>
 

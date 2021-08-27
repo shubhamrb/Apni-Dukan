@@ -375,6 +375,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
                 var dataItem = data?.getParcelableExtra<DataItem>("data")!!
                 if (dataItem is DataItem) {
                     view?.edt_coupon_code?.setText(dataItem?.coupon)
+                    view?.text_apply?.performClick()
                 }
             }
         }
