@@ -168,14 +168,26 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     )
                     text_store_name.text = "${it?.data?.get(0)?.name}"
                     text_store_location.text = "${it?.data?.get(0)?.distance} Km away from you"
-                    text_store_status.text =
+                    if (it?.data?.get(0)?.is_available != null && it?.data?.get(0)?.is_available!! == "1"){
+                        if (it?.data?.get(0)?.openstatus != null && it?.data?.get(0)?.openstatus!! == "1"){
+                            text_store_status.text = "Open"
+                            image_store_status.setImageResource(R.drawable.circle_green)
+                        }else{
+                            text_store_status.text = "Closed"
+                            image_store_status.setImageResource(R.drawable.circle_red)
+                        }
+                    }else{
+                        text_store_status.text = "Closed"
+                        image_store_status.setImageResource(R.drawable.circle_red)
+                    }
+                   /* text_store_status.text =
                         if (it?.data?.get(0)?.is_available != null && it?.data?.get(0)?.is_available!! == "1") "Open" else "Closed"
                     image_store_status.setImageResource(
                             if (it?.data?.get(0)?.is_available != null && it?.data?.get(
                                     0
                                 )?.is_available!! == "1"
                             ) R.drawable.circle_green else R.drawable.circle_red
-                    )
+                    )*/
                     if (it?.data?.get(0)?.ratting != null) {
 //                        ratingbar_store.rating = it?.data?.get(0)?.ratting?.toFloat()
                         ratingbar_rating.rating = it?.data?.get(0)?.ratting?.toFloat()

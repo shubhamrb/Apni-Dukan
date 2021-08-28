@@ -520,6 +520,7 @@ class OrderHistoryAdapter(
                             "dd MMM yyyy"
                         )
                     }"
+                itemView.ll_hide_opt.visibility = View.GONE
                 mList?.get(pos)?.isDataShown = true
 //                notifyItemChanged(pos, "")
             }

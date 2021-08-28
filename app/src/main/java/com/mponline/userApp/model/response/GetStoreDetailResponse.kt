@@ -15,6 +15,8 @@ data class StoreDetailDataItem(
     val openingtime: String = "",
     @SerializedName("distance")
     val distance: String = "",
+    @SerializedName("openstatus")
+    val openstatus: String = "",
     @SerializedName("is_available")
     val is_available: String = "0",
     @SerializedName("ratting")
