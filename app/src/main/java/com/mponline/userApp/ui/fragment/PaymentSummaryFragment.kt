@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mponline.userApp.R
 import com.mponline.userApp.listener.OnItemClickListener
 import com.mponline.userApp.listener.OnSwichFragmentListener
+import com.mponline.userApp.model.LocationUtils
 import com.mponline.userApp.model.PaymentSummaryObj
 import com.mponline.userApp.model.request.CommonRequestObj
 import com.mponline.userApp.model.response.Data
@@ -305,7 +306,9 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
             var commonRequestObj =
                 getCommonRequestObj(
                     apiKey = getApiKey(),
-                    orderid = mOrderHistoryDataItem?.id!!
+                    orderid = mOrderHistoryDataItem?.id!!,
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!
                 )
             viewModel?.getCouponList(commonRequestObj)?.observe(this, Observer {
                 it?.run {

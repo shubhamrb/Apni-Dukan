@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -114,13 +115,19 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
-        FirebaseMessaging.getInstance().token?.addOnSuccessListener {
-            it?.let {
-                mFcmToken = it
-                CommonUtils.printLog("FCM_TOKEN", "${it}")
-                mPreferenceUtils?.setValue(Constants.FCM_TOKEN, mFcmToken)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                CommonUtils.printLog(
+                    "FETCHINGTOKEN",
+                    "Fetching FCM registration token failed" + task.exception
+                )
+                return@OnCompleteListener
             }
-        }
+            val token = task.result
+            mFcmToken = token
+            CommonUtils.printLog("FCM_TOKEN", "${token}")
+            mPreferenceUtils?.setValue(Constants.FCM_TOKEN, mFcmToken)
+        })
 
     }
 
@@ -161,27 +168,44 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
             device_type = Constants.DEVICE_TYPE,
             device_token = mFcmToken
         )
-        if (CommonUtils.isOnline(activity!!)) {
+        if (mFcmToken?.isNullOrEmpty()) {
             progressDialogShow()
-            viewModel?.register(commonRequestObj)?.observe(this, Observer {
-                it?.run {
-                    progressDialogDismiss()
-                    if (status!!) {
-                        mSignupdata = this?.data
-                        startTimer()
-                    }
-                    CommonUtils.createSnackBar(
-                        activity?.findViewById(android.R.id.content)!!,
-                        message!!
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    CommonUtils.printLog(
+                        "FETCHINGTOKEN2",
+                        "Fetching FCM registration token failed" + task.exception
                     )
+                    return@OnCompleteListener
                 }
+                val token = task.result
+                mFcmToken = token
+                CommonUtils.printLog("FCM_TOKEN", "${token}")
+                mPreferenceUtils?.setValue(Constants.FCM_TOKEN, mFcmToken)
+                callResendOtp()
             })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
-        }
+        } else
+            if (CommonUtils.isOnline(activity!!)) {
+                progressDialogShow()
+                viewModel?.register(commonRequestObj)?.observe(this, Observer {
+                    it?.run {
+                        progressDialogDismiss()
+                        if (status!!) {
+                            mSignupdata = this?.data
+                            startTimer()
+                        }
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            message!!
+                        )
+                    }
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
     }
 
     private fun callVerifyOtp(mobile: String) {
@@ -190,7 +214,7 @@ class OtpBottomsheetFragment : BottomSheetDialogFragment() {
             mobile = mobile,
             name = username,
             device_type = Constants.DEVICE_TYPE,
-            device_token = mPreferenceUtils?.getValue(Constants.FCM_TOKEN)!!,
+            device_token = mFcmToken,
             otp = edt_otp.text.toString().trim(),
             pin = mUserPin
         )

@@ -40,7 +40,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         token?.run {
             Log.d(TAG, "Refreshed token: $token")
-            PreferenceUtils.getInstance(this@MyFirebaseMessagingService).setValue(Constants.FCM_TOKEN, this)
+            PreferenceUtils.getInstance(this@MyFirebaseMessagingService).setValue(Constants.FCM_TOKEN, token)
         }
     }
 

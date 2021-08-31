@@ -133,244 +133,256 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onSwitchFragment(tag: String, type: String, obj: Any?, extras: Any?) {
-        app_bar_common.visibility = View.VISIBLE
-        val menu: Menu = bottom_navigation.getMenu()
-        when (tag) {
-            Constants.HOME_PAGE -> {
-                menu?.getItem(0)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.replace(R.id.rl_container_drawer, HomeFragment())
-                ft.commit()
-            }
-            Constants.SERVICE_PAGE -> {
-                if (obj != null && obj is CategorylistItem) {
+        try{
+            app_bar_common.visibility = View.VISIBLE
+            val menu: Menu = bottom_navigation.getMenu()
+            when (tag) {
+                Constants.HOME_PAGE -> {
+                    menu?.getItem(0)?.setChecked(true)
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        ServiceFragment.newInstance(this@MainActivity, obj)
-                    )
-                    ft.addToBackStack(Constants.SERVICE_PAGE)
+                    ft.replace(R.id.rl_container_drawer, HomeFragment())
                     ft.commit()
                 }
-            }
-            Constants.STORE_PAGE -> {
-                menu?.getItem(3)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
-                ft.addToBackStack(Constants.STORE_PAGE)
-                ft.commit()
-            }
-            Constants.STORE_PAGE_BY_PROD -> {
-                if (obj != null && obj is ProductListItem) {
+                Constants.SERVICE_PAGE -> {
+                    if (obj != null && obj is CategorylistItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            ServiceFragment.newInstance(this@MainActivity, obj)
+                        )
+                        ft.addToBackStack(Constants.SERVICE_PAGE)
+                        ft.commit()
+                    }
+                }
+                Constants.STORE_PAGE -> {
+                    menu?.getItem(3)?.setChecked(true)
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        StoresFragment.newInstance(this@MainActivity, obj)
-                    )
-                    ft.addToBackStack(Constants.STORE_PAGE_BY_PROD)
+                    ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
+                    ft.addToBackStack(Constants.STORE_PAGE)
                     ft.commit()
                 }
-            }
-            Constants.SUB_SERVICE_PAGE -> {
-                if (obj != null && obj is CategorylistItem && extras != null && extras is CategorylistItem) {
+                Constants.STORE_PAGE_BY_PROD -> {
+                    if (obj != null && obj is ProductListItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            StoresFragment.newInstance(this@MainActivity, obj)
+                        )
+                        ft.addToBackStack(Constants.STORE_PAGE_BY_PROD)
+                        ft.commit()
+                    }
+                }
+                Constants.SUB_SERVICE_PAGE -> {
+                    if (obj != null && obj is CategorylistItem && extras != null && extras is CategorylistItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            SubServiceFragment.newInstance(this@MainActivity, obj, extras)
+                        )
+                        ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
+                        ft.commit()
+                    } else if (obj == null && extras != null && extras is CategorylistItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            SubServiceFragment.newInstance(this@MainActivity, obj, extras)
+                        )
+                        ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
+                        ft.commit()
+                    }
+                }
+                Constants.INSTRUCTION_PAGE -> {
+                    if (obj != null && extras != null && obj is StoreDetailDataItem && extras is ProductListItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            InstructionFragment.newInstance(this, obj, extras)
+                        )
+                        ft.addToBackStack(Constants.INSTRUCTION_PAGE)
+                        ft.commit()
+                    }
+                }
+                Constants.CUSTOM_FOEMS_PAGE -> {
+                    if (obj != null && obj is PrePlaceOrderPojo) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(R.id.rl_container_drawer, CustomFormFragment.newInstance(this, obj))
+                        ft.addToBackStack(Constants.CUSTOM_FOEMS_PAGE)
+                        ft.commit()
+                    }
+                }
+                Constants.ORDER_HISTORY_PAGE -> {
+                    menu?.getItem(2)?.setChecked(true)
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        SubServiceFragment.newInstance(this@MainActivity, obj, extras)
-                    )
-                    ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
-                    ft.commit()
-                } else if (obj == null && extras != null && extras is CategorylistItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        SubServiceFragment.newInstance(this@MainActivity, obj, extras)
-                    )
-                    ft.addToBackStack(Constants.SUB_SERVICE_PAGE)
+                    ft.add(R.id.rl_container_drawer, OrderHistoryFragment())
+                    ft.addToBackStack(Constants.ORDER_HISTORY_PAGE)
                     ft.commit()
                 }
-            }
-            Constants.INSTRUCTION_PAGE -> {
-                if (obj != null && extras != null && obj is StoreDetailDataItem && extras is ProductListItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        InstructionFragment.newInstance(this, obj, extras)
-                    )
-                    ft.addToBackStack(Constants.INSTRUCTION_PAGE)
-                    ft.commit()
+                Constants.PAYMENT_DETAIL_PAGE -> {
+                    if (obj != null && obj is OrderHistoryDataItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            PaymentDetailFragment.newInstance(this@MainActivity, obj)
+                        )
+                        ft.addToBackStack(Constants.PAYMENT_DETAIL_PAGE)
+                        ft.commit()
+                    }
                 }
-            }
-            Constants.CUSTOM_FOEMS_PAGE -> {
-                if (obj != null && obj is PrePlaceOrderPojo) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(R.id.rl_container_drawer, CustomFormFragment.newInstance(this, obj))
-                    ft.addToBackStack(Constants.CUSTOM_FOEMS_PAGE)
-                    ft.commit()
+                Constants.PAYMENT_SUMMARY_PAGE -> {
+                    if (obj is OrderHistoryDataItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            PaymentSummaryFragment.newInstance(this@MainActivity, obj)
+                        )
+                        ft.addToBackStack(Constants.PAYMENT_SUMMARY_PAGE)
+                        ft.commit()
+                    }
                 }
-            }
-            Constants.ORDER_HISTORY_PAGE -> {
-                menu?.getItem(2)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, OrderHistoryFragment())
-                ft.addToBackStack(Constants.ORDER_HISTORY_PAGE)
-                ft.commit()
-            }
-            Constants.PAYMENT_DETAIL_PAGE -> {
-                if (obj != null && obj is OrderHistoryDataItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        PaymentDetailFragment.newInstance(this@MainActivity, obj)
-                    )
-                    ft.addToBackStack(Constants.PAYMENT_DETAIL_PAGE)
-                    ft.commit()
+                Constants.STORE_DETAIL_PAGE -> {
+                    if (obj != null && obj is StorelistItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            StoreDetailFragment.newInstance(this@MainActivity, obj)
+                        )
+                        ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
+                        ft.commit()
+                    }
                 }
-            }
-            Constants.PAYMENT_SUMMARY_PAGE -> {
-                if (obj is OrderHistoryDataItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        PaymentSummaryFragment.newInstance(this@MainActivity, obj)
-                    )
-                    ft.addToBackStack(Constants.PAYMENT_SUMMARY_PAGE)
-                    ft.commit()
-                }
-            }
-            Constants.STORE_DETAIL_PAGE -> {
-                if (obj != null && obj is StorelistItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        StoreDetailFragment.newInstance(this@MainActivity, obj)
-                    )
-                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
-                    ft.commit()
-                }
-            }
-            Constants.STORE_DETAIL_PAGE_WITH_PROD -> {
-                if (obj != null && obj is StorelistItem && extras != null && extras is ProductListItem) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    ft.add(
-                        R.id.rl_container_drawer,
-                        StoreDetailFragment.newInstance(this@MainActivity, obj, extras)
-                    )
-                    ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
-                    ft.commit()
-                } else if (obj != null && obj is StorelistItem) {
+                Constants.STORE_DETAIL_PAGE_WITH_PROD -> {
+                    if (obj != null && obj is StorelistItem && extras != null && extras is ProductListItem) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        ft.add(
+                            R.id.rl_container_drawer,
+                            StoreDetailFragment.newInstance(this@MainActivity, obj, extras)
+                        )
+                        ft.addToBackStack(Constants.STORE_DETAIL_PAGE_WITH_PROD)
+                        ft.commit()
+                    } else if (obj != null && obj is StorelistItem) {
 
+                    }
+                }
+                Constants.CHAT_MSG_PAGE -> {
+                    menu?.getItem(1)?.setChecked(true)
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(
+                        R.id.rl_container_drawer,
+                        ChatMsgFragment.newInstance(this@MainActivity, obj!!)
+                    )
+                    ft.addToBackStack(Constants.CHAT_MSG_PAGE)
+                    ft.commit()
+                }
+                Constants.CHAT_MSG_PAGE_FROM_DETAIL -> {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(
+                        R.id.rl_container_drawer,
+                        ChatMsgFragment.newInstance(this@MainActivity, obj!!, extras!!)
+                    )
+                    ft.addToBackStack(Constants.CHAT_MSG_PAGE)
+                    ft.commit()
+                }
+                Constants.COUPON_PAGE -> {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, CouponFragment())
+                    ft.addToBackStack(Constants.COUPON_PAGE)
+                    ft.commit()
+                }
+                Constants.UPDATE_PROFILE -> {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, UpdateProfileFragment())
+                    ft.addToBackStack(Constants.COUPON_PAGE)
+                    ft.commit()
+                }
+                Constants.CHANGE_PWD -> {
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, ChangePwdFragment())
+                    ft.addToBackStack(Constants.COUPON_PAGE)
+                    ft.commit()
+                }
+                Constants.CLOSE_NAV_DRAWER -> {
+                    if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                        drawer_layout.closeDrawer(GravityCompat.START)
+                    }
                 }
             }
-            Constants.CHAT_MSG_PAGE -> {
-                menu?.getItem(1)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(
-                    R.id.rl_container_drawer,
-                    ChatMsgFragment.newInstance(this@MainActivity, obj!!)
-                )
-                ft.addToBackStack(Constants.CHAT_MSG_PAGE)
-                ft.commit()
-            }
-            Constants.CHAT_MSG_PAGE_FROM_DETAIL -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(
-                    R.id.rl_container_drawer,
-                    ChatMsgFragment.newInstance(this@MainActivity, obj!!, extras!!)
-                )
-                ft.addToBackStack(Constants.CHAT_MSG_PAGE)
-                ft.commit()
-            }
-            Constants.COUPON_PAGE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, CouponFragment())
-                ft.addToBackStack(Constants.COUPON_PAGE)
-                ft.commit()
-            }
-            Constants.UPDATE_PROFILE -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, UpdateProfileFragment())
-                ft.addToBackStack(Constants.COUPON_PAGE)
-                ft.commit()
-            }
-            Constants.CHANGE_PWD -> {
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, ChangePwdFragment())
-                ft.addToBackStack(Constants.COUPON_PAGE)
-                ft.commit()
-            }
-            Constants.CLOSE_NAV_DRAWER -> {
-                if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-                    drawer_layout.closeDrawer(GravityCompat.START)
-                }
-            }
+        }catch (e:Exception){
+           CommonUtils.printLog("EXCEPTION", "${e?.message}")
         }
     }
 
     override fun onSwitchFragmentFromDrawer(tag: String, type: String, obj: Any?, extras: Any?) {
-        app_bar_common.visibility = View.VISIBLE
-        val menu: Menu = bottom_navigation.getMenu()
-        when (tag) {
-            Constants.STORE_PAGE -> {
-                menu?.getItem(3)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
-                ft.addToBackStack(Constants.STORE_PAGE)
-                ft.commit()
-            }
-            Constants.ORDER_HISTORY_PAGE -> {
-                menu?.getItem(2)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, OrderHistoryFragment())
-                ft.addToBackStack(Constants.ORDER_HISTORY_PAGE)
-                ft.commit()
-            }
-            Constants.MY_ACCOUNT_PAGE -> {
-                menu?.getItem(4)?.setChecked(true)
-                onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
-            }
-        }
+       try {
+           app_bar_common.visibility = View.VISIBLE
+           val menu: Menu = bottom_navigation.getMenu()
+           when (tag) {
+               Constants.STORE_PAGE -> {
+                   menu?.getItem(3)?.setChecked(true)
+                   val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                   ft.add(R.id.rl_container_drawer, StoresFragment.newInstance(this@MainActivity))
+                   ft.addToBackStack(Constants.STORE_PAGE)
+                   ft.commit()
+               }
+               Constants.ORDER_HISTORY_PAGE -> {
+                   menu?.getItem(2)?.setChecked(true)
+                   val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                   ft.add(R.id.rl_container_drawer, OrderHistoryFragment())
+                   ft.addToBackStack(Constants.ORDER_HISTORY_PAGE)
+                   ft.commit()
+               }
+               Constants.MY_ACCOUNT_PAGE -> {
+                   menu?.getItem(4)?.setChecked(true)
+                   onSwitchFragmentParent(Constants.MY_ACCOUNT_PAGE, "", null, null)
+               }
+           }
+       }catch (e:Exception){
+           CommonUtils.printLog("EXCEPTION", "${e?.message}")
+       }
     }
 
     override fun onSwitchFragmentParent(tag: String, type: String, obj: Any?, extras: Any?) {
-        val menu: Menu = bottom_navigation.getMenu()
-        when (tag) {
-            Constants.DOWNLOAD_LIST_PAGE -> {
-                app_bar_common.visibility = View.GONE
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, DownloadListFragment())
-                ft.addToBackStack(Constants.DOWNLOAD_LIST_PAGE)
-                ft.commit()
+        try {
+            val menu: Menu = bottom_navigation.getMenu()
+            when (tag) {
+                Constants.DOWNLOAD_LIST_PAGE -> {
+                    app_bar_common.visibility = View.GONE
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, DownloadListFragment())
+                    ft.addToBackStack(Constants.DOWNLOAD_LIST_PAGE)
+                    ft.commit()
+                }
+                Constants.CHAT_HOME_PAGE -> {
+                    menu?.getItem(1)?.setChecked(true)
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, ChatHomeFragment())
+                    ft.addToBackStack(Constants.CHAT_HOME_PAGE)
+                    ft.commit()
+                }
+                Constants.MY_ACCOUNT_PAGE -> {
+                    menu?.getItem(4)?.setChecked(true)
+                    app_bar_common.visibility = View.GONE
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, AccountFragment())
+                    ft.addToBackStack(Constants.MY_ACCOUNT_PAGE)
+                    ft.commit()
+                }
+                Constants.UPDATE_PROFILE -> {
+                    app_bar_common.visibility = View.GONE
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, UpdateProfileFragment())
+                    ft.addToBackStack(Constants.UPDATE_PROFILE)
+                    ft.commit()
+                }
+                Constants.CHANGE_PWD -> {
+                    app_bar_common.visibility = View.GONE
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    ft.add(R.id.rl_container_drawer, ChangePwdFragment())
+                    ft.addToBackStack(Constants.CHANGE_PWD)
+                    ft.commit()
+                }
             }
-            Constants.CHAT_HOME_PAGE -> {
-                menu?.getItem(1)?.setChecked(true)
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, ChatHomeFragment())
-                ft.addToBackStack(Constants.CHAT_HOME_PAGE)
-                ft.commit()
-            }
-            Constants.MY_ACCOUNT_PAGE -> {
-                menu?.getItem(4)?.setChecked(true)
-                app_bar_common.visibility = View.GONE
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, AccountFragment())
-                ft.addToBackStack(Constants.MY_ACCOUNT_PAGE)
-                ft.commit()
-            }
-            Constants.UPDATE_PROFILE -> {
-                app_bar_common.visibility = View.GONE
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, UpdateProfileFragment())
-                ft.addToBackStack(Constants.UPDATE_PROFILE)
-                ft.commit()
-            }
-            Constants.CHANGE_PWD -> {
-                app_bar_common.visibility = View.GONE
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                ft.add(R.id.rl_container_drawer, ChangePwdFragment())
-                ft.addToBackStack(Constants.CHANGE_PWD)
-                ft.commit()
-            }
+        }catch (e:Exception){
+            CommonUtils.printLog("EXCEPTION", "${e?.message}")
         }
     }
 
