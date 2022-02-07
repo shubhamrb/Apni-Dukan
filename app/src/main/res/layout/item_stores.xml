@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
 
-        <com.mponline.userApp.ui.customview.SquareRelativeLayout
+        <com.mamits.apnaonlines.user.ui.customview.SquareRelativeLayout
             android:layout_width="@dimen/margin0"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-        </com.mponline.userApp.ui.customview.SquareRelativeLayout>
+        </com.mamits.apnaonlines.user.ui.customview.SquareRelativeLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -132,21 +132,21 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_regular"
-                android:paddingTop="@dimen/margin5"
-                android:paddingBottom="@dimen/margin5"
-                android:paddingLeft="@dimen/margin20"
-                android:paddingRight="@dimen/margin20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="@dimen/margin15"
-                android:layout_marginTop="@dimen/margin15"
-                android:layout_marginBottom="@dimen/margin15"
                 android:layout_alignParentRight="true"
-                android:textSize="@dimen/textsize12"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:layout_marginBottom="@dimen/margin15"
                 android:background="@drawable/gradient_purple"
+                android:paddingLeft="@dimen/margin20"
+                android:paddingTop="@dimen/margin5"
+                android:paddingRight="@dimen/margin20"
+                android:paddingBottom="@dimen/margin5"
                 android:text="Assign"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize12" />
 
         </RelativeLayout>
 

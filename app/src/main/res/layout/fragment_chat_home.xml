@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,25 +7,46 @@
 
     <include layout="@layout/layout_back" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-<!--        <include-->
-<!--            android:id="@+id/app_bar_normal"-->
-<!--            layout="@layout/common_toolbar_normal"/>-->
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_chat_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin15"
-            android:layout_marginTop="@dimen/margin15"
-            android:layout_marginRight="@dimen/margin15" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_chat_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/next_btn"
+                style="@style/Text_mont_regular"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin40"
+                android:layout_marginTop="@dimen/margin15"
+                android:background="@color/magento"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin20"
+                android:paddingTop="@dimen/margin5"
+                android:paddingRight="@dimen/margin20"
+                android:paddingBottom="@dimen/margin5"
+                android:text="View more"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize14"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/layout_progress" />
+
     <include layout="@layout/layout_empty" />
 </RelativeLayout>

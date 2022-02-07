@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle" >
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
     <gradient
         android:angle="225"
-        android:startColor="@color/grad_purple"
         android:endColor="@color/grad_magento"
+        android:startColor="@color/grad_purple"
         android:type="linear" />
 
-    <corners
-        android:radius="0dp"/>
+    <corners android:radius="0dp" />
 
 </shape>

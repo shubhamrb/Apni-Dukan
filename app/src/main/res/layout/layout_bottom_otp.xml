@@ -70,32 +70,23 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
-                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginStart="@dimen/margin15"
                     android:layout_weight="1"
                     android:layout_width="@dimen/margin0"
                     android:layout_height="wrap_content">
 
-                    <View
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/edt_otp"
+                        style="@style/Text_mont_regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/edt_otp"
-                        android:layout_alignTop="@+id/edt_otp"
                         android:background="@color/white"
-                        android:alpha="0.3"/>
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        style="@style/Text_mont_regular"
-                        android:id="@+id/edt_otp"
-                        android:text=""
-                        android:hint="@string/otp"
+                        android:hint="Enter OTP"
                         android:inputType="number"
-                        android:textSize="@dimen/textsize14"
-                        android:textColor="@color/white"
-                        android:background="@android:color/transparent"
-                        android:layout_marginRight="@dimen/margin15"
                         android:padding="@dimen/margin15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize14" />
 
                 </RelativeLayout>
 

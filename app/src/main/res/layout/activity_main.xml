@@ -16,8 +16,7 @@
         <androidx.drawerlayout.widget.DrawerLayout
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:openDrawer="start">
+            android:layout_height="match_parent">
 
 
             <RelativeLayout
@@ -55,7 +54,7 @@
 
             <fragment
                 android:id="@+id/fragment_navigation_drawer"
-                android:name="com.mponline.userApp.ui.fragment.DrawerFragment"
+                android:name="com.mamits.apnaonlines.user.ui.fragment.DrawerFragment"
                 android:layout_width="260dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
@@ -125,7 +124,7 @@
         <RelativeLayout
             android:id="@+id/rl_container_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

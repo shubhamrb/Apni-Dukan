@@ -1,2 +1,2 @@
-include ':app', ':vendorApp'
+include ':app'
 rootProject.name = "MpOnline"

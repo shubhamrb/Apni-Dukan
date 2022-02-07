@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/rounded_stroke_gray_5"
+    android:id="@+id/cv_notification"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin15"
     android:layout_marginRight="@dimen/margin15"
     android:layout_marginBottom="@dimen/margin15"
-    android:elevation="@dimen/margin3"
-    android:id="@+id/cv_notification"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:background="@drawable/rounded_stroke_gray_5"
+    android:elevation="@dimen/margin3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,43 +22,43 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_order_history"
-                    android:scaleType="fitXY"
-                    android:layout_margin="@dimen/margin15"
                     android:layout_width="@dimen/margin55"
-                    android:layout_height="@dimen/margin55"/>
+                    android:layout_height="@dimen/margin55"
+                    android:layout_margin="@dimen/margin15"
+                    android:scaleType="fitXY" />
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginBottom="@dimen/margin15"
                     android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginBottom="@dimen/margin15"
                     android:layout_weight="3.5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_marginRight="@dimen/margin3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin3"
+                        android:orientation="horizontal">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/Text_mont_semibold"
                             android:id="@+id/text_order_title"
-                            android:text="RRB Group D"
-                            android:layout_marginRight="@dimen/margin20"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/textsize14"
+                            style="@style/Text_mont_semibold"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin20"
+                            android:text="RRB Group D"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/textsize14" />
 
                     </LinearLayout>
 
@@ -68,90 +68,91 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_weight="3.5"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                style="@style/Text_mont_regular"
                                 android:id="@+id/text_vendor_name"
-                                android:text="Vendor"
-                                android:layout_marginTop="@dimen/margin8"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsize12"
-                                android:layout_marginRight="@dimen/margin5"
+                                style="@style/Text_mont_regular"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin8"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:text="Vendor"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/textsize12" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                style="@style/Text_mont_regular"
                                 android:id="@+id/text_to_date"
-                                android:text="Application submitted as on 1 Jan 2021"
-                                android:layout_marginTop="@dimen/margin8"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/textsize12"
-                                android:layout_marginRight="@dimen/margin5"
+                                style="@style/Text_mont_regular"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin8"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:text="Application submitted as on 1 Jan 2021"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/textsize12" />
 
                         </LinearLayout>
 
                         <LinearLayout
-                            android:orientation="horizontal"
-                            android:gravity="right|center_vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="3"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content">
+                            android:gravity="right|center_vertical"
+                            android:orientation="horizontal">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                style="@style/Text_mont_regular"
                                 android:id="@+id/text_status"
-                                android:text="Waiting for\nkiosk to accept"
-                                android:layout_gravity="right|center_vertical"
-                                android:gravity="right"
-                                android:layout_marginRight="@dimen/margin5"
-                                android:textColor="@color/purple"
-                                android:textSize="@dimen/textsize10"
+                                style="@style/Text_mont_regular"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_marginRight="@dimen/margin5"
+                                android:gravity="right"
+                                android:text="Waiting for\nkiosk to accept"
+                                android:textColor="@color/purple"
+                                android:textSize="@dimen/textsize10" />
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                style="@style/Text_mont_regular"
                                 android:id="@+id/image_status"
-                                android:layout_gravity="right|center_vertical"
-                                android:gravity="right"
-                                android:background="@drawable/circle_green"
+                                style="@style/Text_mont_regular"
                                 android:layout_width="@dimen/margin10"
-                                android:layout_height="@dimen/margin10"/>
+                                android:layout_height="@dimen/margin10"
+                                android:layout_gravity="right|center_vertical"
+                                android:background="@drawable/circle_green"
+                                android:gravity="right" />
 
                         </LinearLayout>
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_semibold"
                         android:id="@+id/text_view_details"
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin8"
+                        android:paddingRight="@dimen/margin10"
+                        android:paddingBottom="@dimen/margin5"
                         android:text="@string/u_view_details_u"
                         android:textColor="@color/black"
-                        android:paddingTop="@dimen/margin8"
-                        android:paddingBottom="@dimen/margin5"
-                        android:paddingRight="@dimen/margin10"
-                        android:textSize="@dimen/textsize12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textSize="@dimen/textsize12" />
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_semibold"
                         android:id="@+id/text_view_invoice"
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin8"
+                        android:paddingRight="@dimen/margin10"
+                        android:paddingBottom="@dimen/margin5"
                         android:text="@string/download_invoice"
                         android:textColor="@color/black"
-                        android:visibility="gone"
-                        android:paddingTop="@dimen/margin8"
-                        android:paddingBottom="@dimen/margin5"
-                        android:paddingRight="@dimen/margin10"
                         android:textSize="@dimen/textsize12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -162,47 +163,48 @@
             android:id="@+id/linear_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/black"/>
+                android:background="@color/black" />
 
             <include
                 android:id="@+id/layout_order_complete"
-                android:visibility="gone"
-                layout="@layout/layout_order_complete_list"/>
+                layout="@layout/layout_order_complete_list"
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/layout_order_pending"
-                android:visibility="visible"
-                layout="@layout/layout_order_pending_list"/>
+                layout="@layout/layout_order_pending_list"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_hide_opt"
-                android:layout_marginTop="@dimen/margin25"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/gradient_navy_blue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin25"
+
+                android:background="@drawable/gradient_navy_blue"
+                android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
                     android:id="@+id/text_hide_option"
-                    android:text="@string/hide_options"
-                    android:padding="@dimen/margin15"
-                    android:textColor="@color/white"
+                    style="@style/Text_mont_regular"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin15"
+                    android:text="@string/hide_options"
+                    android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    app:srcCompat="@drawable/ic_arrow_back_ios"
-                    android:rotation="90"
                     android:layout_width="@dimen/margin15"
-                    android:layout_height="@dimen/margin15"/>
+                    android:layout_height="@dimen/margin15"
+                    android:rotation="90"
+                    app:srcCompat="@drawable/ic_arrow_back_ios" />
 
             </LinearLayout>
 

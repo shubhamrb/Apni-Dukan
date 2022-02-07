@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'kotlin-android'
 
@@ -9,28 +10,46 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.google.gms.google-services'
-
+apply plugin: 'com.google.firebase.crashlytics'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
-        applicationId "com.mponline.userApp"
+        applicationId "com.mamits.apnaonlines.user"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 4
-        versionName "1.4"
+        targetSdkVersion 30
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-//        javaCompileOptions {
-//            annotationProcessorOptions {
-//                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-//            }
-//        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('keystore.jks')
+            storePassword "123456"
+            keyAlias "my_alias"
+            keyPassword "123456"
+        }
+        debug {
+            storeFile file('keystore.jks')
+            storePassword "123456"
+            keyAlias "my_alias"
+            keyPassword "123456"
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
+            debuggable false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -161,11 +180,14 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'com.google.android.libraries.places:places:1.1.0'
 
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-messaging:21.0.0'
-    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
-    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation platform('com.google.firebase:firebase-bom:28.4.1')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.google.android:flexbox:1.1.0'
 

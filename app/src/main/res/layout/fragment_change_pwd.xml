@@ -1,116 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/relative_frag"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
-    <include
-        layout="@layout/layout_back"/>
+    <include layout="@layout/layout_back" />
 
     <LinearLayout
         android:id="@+id/ll_container"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include layout="@layout/common_toolbar_normal" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
                     android:id="@+id/text_list_title"
+                    style="@style/Text_mont_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
                     android:text="@string/change_pwd"
                     android:textColor="@color/light_black"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="@dimen/textsize16" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/Text_mont_regular"
                     android:id="@+id/edt_old_pwd"
-                    android:text=""
-                    android:inputType="numberPassword"
-                    android:hint="@string/old_pwd"
-                    android:digits="1234567890"
-                    android:maxLength="6"
-                    android:background="@color/grey_back"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/grey_back"
+                    android:digits="1234567890"
+                    android:hint="@string/old_pwd"
+                    android:inputType="numberPassword"
+                    android:maxLength="6"
                     android:padding="@dimen/margin15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:text="" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/Text_mont_regular"
                     android:id="@+id/edt_new_pwd1"
-                    android:text=""
-                    android:inputType="numberPassword"
-                    android:hint="@string/new_pwd"
-                    android:digits="1234567890"
-                    android:maxLength="6"
-                    android:background="@color/grey_back"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:padding="@dimen/margin15"
+                    style="@style/Text_mont_regular"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/grey_back"
+                    android:digits="1234567890"
+                    android:hint="@string/new_pwd"
+                    android:inputType="numberPassword"
+                    android:maxLength="6"
+                    android:padding="@dimen/margin15"
+                    android:text="" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/Text_mont_regular"
                     android:id="@+id/edt_confirm_pwd"
-                    android:text=""
-                    android:inputType="numberPassword"
-                    android:hint="@string/confirm_pwd"
-                    android:digits="1234567890"
-                    android:maxLength="6"
-                    android:background="@color/grey_back"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:padding="@dimen/margin15"
+                    style="@style/Text_mont_regular"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/grey_back"
+                    android:digits="1234567890"
+                    android:hint="@string/confirm_pwd"
+                    android:inputType="numberPassword"
+                    android:maxLength="6"
+                    android:padding="@dimen/margin15"
+                    android:text="" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_change_pwd"
                     style="@style/Text_mont_medium"
-                    android:text="@string/change_pwd"
-                    android:paddingTop="@dimen/margin10"
-                    android:paddingBottom="@dimen/margin10"
-                    android:paddingRight="@dimen/margin25"
-                    android:paddingLeft="@dimen/margin25"
-                    android:layout_marginTop="@dimen/margin25"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginRight="@dimen/margin15"
                     android:background="@drawable/gradient_blue"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin25"
+                    android:paddingTop="@dimen/margin10"
+                    android:paddingRight="@dimen/margin25"
+                    android:paddingBottom="@dimen/margin10"
+                    android:text="@string/change_pwd"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="@dimen/textsize16" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-    <include
-        layout="@layout/layout_progress"/>
-    <include
-        layout="@layout/layout_empty"/>
+    <include layout="@layout/layout_progress" />
+
+    <include layout="@layout/layout_empty" />
 </RelativeLayout>

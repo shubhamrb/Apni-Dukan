@@ -38,6 +38,7 @@
            android:textSize="@dimen/textsize14"
            android:layout_weight="1"
            android:layout_width="0dp"
+           android:visibility="gone"
            android:layout_height="wrap_content"/>
 
        <androidx.appcompat.widget.AppCompatTextView

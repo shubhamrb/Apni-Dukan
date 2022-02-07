@@ -18,10 +18,31 @@
             android:id="@+id/rv_chat_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin15"
-            android:layout_alignParentTop="true"
             android:layout_above="@+id/rl_send_msg"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/margin15"
+            android:layout_marginTop="@dimen/margin15"
+            android:layout_marginEnd="@dimen/margin15"
             android:layout_marginBottom="@dimen/margin15" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/next"
+            style="@style/Text_mont_regular"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin40"
+            android:layout_below="@+id/rv_chat_msg"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin15"
+            android:background="@color/magento"
+            android:paddingLeft="@dimen/margin20"
+            android:paddingTop="@dimen/margin5"
+            android:paddingRight="@dimen/margin20"
+            android:paddingBottom="@dimen/margin5"
+            android:text="View more"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize14" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Text_mont_medium"

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relative_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/relative_frag"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
-    <include
-        layout="@layout/layout_back"/>
+    <include layout="@layout/layout_back" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -24,89 +22,89 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_bold"
                     android:id="@+id/text_payment_mode"
-                    android:text="Upi Pay"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:textColor="@color/light_black"
-                    android:textSize="@dimen/textsize16"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
-                    android:id="@+id/text_scan_instruction"
-                    android:text="Scan the QR Code to make payment."
-                    android:layout_marginTop="@dimen/margin8"
-                    android:textColor="@color/light_black"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_bold"
-                    android:id="@+id/text_store_name"
-                    android:text="KIOSK STORE"
-                    android:layout_marginTop="@dimen/margin45"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:textColor="@color/light_black"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/textsize22"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="Upi Pay"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_scan_instruction"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:text="Scan the QR Code to make payment."
+                    android:textColor="@color/light_black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_store_name"
+                    style="@style/Text_mont_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin45"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:text="KIOSK STORE"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize22" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_qr_code"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin15"
                     android:layout_width="@dimen/margin200"
                     android:layout_height="@dimen/margin200"
-                    android:background="@color/grey_alpha"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:background="@color/grey_alpha" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
                     android:id="@+id/text_instruction"
-                    android:text="Scan to make payment."
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin25"
-                    android:textColor="@color/light_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:text="Scan to make payment."
+                    android:textColor="@color/light_black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_regular"
-                    android:gravity="center"
                     android:id="@+id/text_instr"
-                    android:text="Once payment is done kindly share it with\nthe kiosk on chat section."
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginBottom="@dimen/margin25"
-                    android:textColor="@color/light_black"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:gravity="center"
+                    android:text="Once payment is done kindly share it with\nthe kiosk on chat section."
+                    android:textColor="@color/light_black" />
 
                 <LinearLayout
                     android:id="@+id/ll_share_screenshot"
-                    android:layout_marginTop="@dimen/margin25"
-                    android:gravity="center"
-                    android:layout_marginLeft="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:visibility="gone"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/gradient_blue_180"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@drawable/gradient_blue_180"
+                    android:gravity="center"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Text_mont_regular"
                         android:id="@+id/text_share_screenshot"
-                        android:text="@string/share_screenshot"
-                        android:padding="@dimen/margin15"
-                        android:textColor="@color/white"
+                        style="@style/Text_mont_regular"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin15"
+                        android:text="@string/share_screenshot"
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
 

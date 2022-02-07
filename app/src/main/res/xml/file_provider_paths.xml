@@ -1,4 +1,23 @@
 <paths>
-    <external-path name="images" path="." />
-    <external-path name="external_files" path="."/>
+    <external-path
+        name="images"
+        path="." />
+
+    <root-path
+        name="external_image"
+        path="." />
+
+    <external-cache-path
+        name="external_cache_files"
+        path="." />
+    <external-files-path
+        name="external_files_files"
+        path="." />
+    <external-path
+        name="external_files"
+        path="." />
+
+    <external-files-path
+        name="external_files_files_d"
+        path="." />
 </paths>

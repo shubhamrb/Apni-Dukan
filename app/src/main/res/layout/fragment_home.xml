@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.mponline.userApp.ui.customview.AutoScrollViewPager
+                <com.mamits.apnaonlines.user.ui.customview.AutoScrollViewPager
                     android:id="@+id/viewpager_banner"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
@@ -65,7 +65,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_medium"
-                    android:text="@string/best_provider"
+                    android:text="@string/recommended_provider"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
@@ -79,7 +79,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_next"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin40"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:background="@color/magento"
+                    android:paddingLeft="@dimen/margin20"
+                    android:paddingTop="@dimen/margin5"
+                    android:paddingRight="@dimen/margin20"
+                    android:paddingBottom="@dimen/margin5"
+                    android:text="Load more"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize14" />
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_medium"
                     android:text="@string/latest_services"
@@ -98,7 +113,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_medium"
-                    android:text="@string/recommended_provider"
+                    android:text="@string/best_provider"
                     android:textColor="@color/light_black"
                     android:layout_marginTop="@dimen/margin15"
                     android:layout_marginLeft="@dimen/margin15"
@@ -110,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
-                <com.mponline.userApp.ui.customview.AutoScrollViewPager
+                <com.mamits.apnaonlines.user.ui.customview.AutoScrollViewPager
                     android:id="@+id/viewpager_bottom_banner"
                     android:layout_marginTop="@dimen/margin20"
                     android:layout_marginLeft="@dimen/margin15"

@@ -7,6 +7,64 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:169199873194:android:f20f818083ad264f85f4d3",
+        "android_client_info": {
+          "package_name": "com.mamits.apnaonlines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169199873194-junv2lc8r6uqvsj39gujdn4lpech1gfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVHNZg6-jPjmBz8EOq7CN6yHVmY2KpuIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169199873194-junv2lc8r6uqvsj39gujdn4lpech1gfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169199873194:android:5050884e7458b7bc85f4d3",
+        "android_client_info": {
+          "package_name": "com.mamits.apnaonlines.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169199873194-junv2lc8r6uqvsj39gujdn4lpech1gfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVHNZg6-jPjmBz8EOq7CN6yHVmY2KpuIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169199873194-junv2lc8r6uqvsj39gujdn4lpech1gfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:169199873194:android:225ffc348df773e685f4d3",
         "android_client_info": {
           "package_name": "com.mponline.userApp"

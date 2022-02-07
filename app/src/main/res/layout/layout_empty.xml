@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:visibility="gone"
-    android:id="@+id/relative_empty"
     tools:context=".ui.activity.MainActivity">
 
 
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/Text_mont_semibold"
         android:id="@+id/text_empty"
-        android:text="No Data Found"
-        android:textSize="@dimen/textsize16"
-        android:textColor="@color/black"
-        android:layout_centerInParent="true"
+        style="@style/Text_mont_semibold"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Data Found"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize16" />
 
 </RelativeLayout>

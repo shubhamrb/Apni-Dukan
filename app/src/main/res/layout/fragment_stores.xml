@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/relative_frag"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
-    <include
-        layout="@layout/layout_back"/>
+    <include layout="@layout/layout_back" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -25,38 +24,55 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Text_mont_semibold"
                     android:id="@+id/text_res_title"
-                    android:text="@string/top_stores"
-                    android:textColor="@color/light_black"
-                    android:layout_marginTop="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin15"
+                    style="@style/Text_mont_semibold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="@string/top_stores"
+                    android:textColor="@color/light_black" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_stores"
-                    android:layoutAnimation="@anim/layout_animation"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layoutAnimation="@anim/layout_animation"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_next"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin40"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:background="@color/magento"
+                    android:paddingLeft="@dimen/margin20"
+                    android:paddingTop="@dimen/margin5"
+                    android:paddingRight="@dimen/margin20"
+                    android:paddingBottom="@dimen/margin5"
+                    android:text="View more"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize14" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_filter"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin15"
         android:src="@drawable/ic_filter"
-        android:tint="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:tint="@color/white" />
 
     <include
         android:id="@+id/layout_progress"
-        layout="@layout/layout_progress"/>
+        layout="@layout/layout_progress" />
 
 </RelativeLayout>

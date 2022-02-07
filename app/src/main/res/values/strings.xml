@@ -48,7 +48,7 @@
     <string name="old_pwd">Old Password</string>
     <string name="new_pwd">New Password</string>
     <string name="email">Email</string>
-    <string name="confirm_pwd">Confirm pwd</string>
+    <string name="confirm_pwd">Confirm Password</string>
     <string name="full_name">Full name</string>
     <string name="read">Read</string>
     <string name="recent">Recent</string>
@@ -66,9 +66,9 @@
     <string name="nearby_stores">Nearby Stores</string>
     <string name="process_timer">Process Timer</string>
     <string name="process_timer_desc">The task will be done in a given time.</string>
-    <string name="call_kiosk">Call At Kiosk</string>
-    <string name="chat_kiosk">Chat At Kiosk</string>
-    <string name="whatapp_kiosk">WhatsApp At Kiosk</string>
+    <string name="call_kiosk">Call At Vendor</string>
+    <string name="chat_kiosk">Chat At Vendor</string>
+    <string name="whatapp_kiosk">WhatsApp At Vendor</string>
     <string name="make_payment">Make Payment</string>
     <string name="hide_options">Hide more options</string>
     <string name="share_screenshot">Share Screenshot</string>
@@ -99,7 +99,7 @@
     <string name="empty_device_type">Please wait until fetch valid device type</string>
     <string name="u_view_details_u"><u>View Details</u></string>
     <string name="rs">\u20B9</string>
-    <string name="api_key">AIzaSyD3tR0ziIBVRteQ_t7Rd1rIrQoqr08Iv4Q</string>
+    <string name="api_key">AIzaSyBqqRDGvGCxSP4cSi4kZseS6oeL-uU7SRg</string>
     <string name="apply_filter">Apply Filter</string>
     <string name="download_invoice"><u>Download Invoice</u></string>
     <string name="enquiry">Enquiry</string>
