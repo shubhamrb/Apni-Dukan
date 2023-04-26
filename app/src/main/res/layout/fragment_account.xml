@@ -151,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin15"
                         android:layout_marginTop="@dimen/margin8"
-                        android:text="Help and support"
+                        android:text="शिकायत दर्ज करे या कस्टमर केयर को कॉल करे"
                         android:textColor="@color/light_black" />
 
                 </LinearLayout>
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin15"
                         android:layout_marginTop="@dimen/margin8"
-                        android:text="Support"
+                        android:text="सुझाव  एवं जानकारी"
                         android:textColor="@color/light_black" />
 
                 </LinearLayout>
@@ -213,7 +213,7 @@
                         android:layout_marginTop="@dimen/margin15"
                         android:backgroundTint="@color/black"
                         android:gravity="center"
-                        android:text="Share Application"
+                        android:text="ऐप शेयर करे"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/textsize16" />
 
@@ -237,8 +237,10 @@
                     android:layout_marginTop="@dimen/margin15"
                     android:text="@string/order_history"
                     android:textSize="@dimen/textsize16"
+                    android:visibility="gone"
                     android:textColor="@color/light_black" />
                 <View
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/margin15"
@@ -248,7 +250,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginStart="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin15"
                     android:orientation="horizontal"
                     android:visibility="gone">

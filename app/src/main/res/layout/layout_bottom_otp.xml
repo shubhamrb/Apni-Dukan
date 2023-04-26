@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="Enter OTP"
+                        android:hint="OTP  डाले"
                         android:inputType="number"
                         android:padding="@dimen/margin15"
                         android:text=""

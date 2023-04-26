@@ -56,7 +56,7 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:background="@drawable/gradient_purple"
-                    android:text="Upload"/>
+                    android:text="अपलोड करे"/>
             </LinearLayout>
 
             <LinearLayout

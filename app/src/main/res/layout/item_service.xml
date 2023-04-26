@@ -38,7 +38,7 @@
                     android:gravity="center"
                     android:lines="2"
                     android:ellipsize="end"
-                    android:textSize="@dimen/textsize10"
+                    android:textSize="@dimen/textsize13"
                     android:text="Exam forms"
                     android:textColor="@color/black" />
 

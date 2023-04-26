@@ -19,13 +19,32 @@ import com.mamits.apnaonlines.user.ui.activity.InvoicePreviewActivity
 import com.mamits.apnaonlines.user.util.CommonUtils
 import com.mamits.apnaonlines.user.util.ImageGlideUtils
 import com.mamits.apnaonlines.user.utils.DateUtils
-import kotlinx.android.synthetic.main.item_order_history.view.*
-import kotlinx.android.synthetic.main.layout_order_complete_list.view.*
-import kotlinx.android.synthetic.main.layout_order_pending_list.view.*
+import kotlinx.android.synthetic.main.item_order_history.view.image_order_history
+import kotlinx.android.synthetic.main.item_order_history.view.image_status
+import kotlinx.android.synthetic.main.item_order_history.view.layout_order_complete
+import kotlinx.android.synthetic.main.item_order_history.view.layout_order_pending
+import kotlinx.android.synthetic.main.item_order_history.view.linear_bottom_layout
+import kotlinx.android.synthetic.main.item_order_history.view.linear_upper_layout
+import kotlinx.android.synthetic.main.item_order_history.view.ll_hide_opt
+import kotlinx.android.synthetic.main.item_order_history.view.text_order_title
+import kotlinx.android.synthetic.main.item_order_history.view.text_status
+import kotlinx.android.synthetic.main.item_order_history.view.text_to_date
+import kotlinx.android.synthetic.main.item_order_history.view.text_vendor_name
+import kotlinx.android.synthetic.main.item_order_history.view.text_view_details
+import kotlinx.android.synthetic.main.item_order_history.view.text_view_invoice
+import kotlinx.android.synthetic.main.layout_order_complete_list.view.ll_download_files
+import kotlinx.android.synthetic.main.layout_order_complete_list.view.ll_submit_rating
+import kotlinx.android.synthetic.main.layout_order_complete_list.view.ratingbar
+import kotlinx.android.synthetic.main.layout_order_complete_list.view.text_rating_msg
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.rl_call
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.rl_chat
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.rl_whatsapp
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.text_hour
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.text_make_payment
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.text_minute
+import kotlinx.android.synthetic.main.layout_order_pending_list.view.text_sec
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class OrderHistoryAdapter(
@@ -68,10 +87,12 @@ class OrderHistoryAdapter(
         mList.addAll(list)
         notifyDataSetChanged()
     }
+
     fun clearList() {
         mList.clear()
         notifyDataSetChanged()
     }
+
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
@@ -94,7 +115,7 @@ class OrderHistoryAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is OrderHistoryTimerViewHolder) {
             if (mList?.get(position)?.status == 2) {
-                holder.itemView.text_status.text = "Accepted\nby vendor"
+                holder.itemView.text_status.text = "कार्य चल रहा है\nइंतजार करे"
                 if (Build.VERSION.SDK_INT < 23) {
                     holder.itemView.text_status.setTextAppearance(
                         context,
@@ -121,8 +142,7 @@ class OrderHistoryAdapter(
                     }
                 holder.bind(context, mList?.get(position), position, listener)
             }
-        }
-        else if (holder is OrderHistoryViewHolder) {
+        } else if (holder is OrderHistoryViewHolder) {
             if (!mList?.get(position)?.isBottomPartHidden && !mList?.get(position)?.isforcedClose) {
                 if ((mList?.get(position)?.status == 5 && !mList?.get(
                         position
@@ -156,7 +176,7 @@ class OrderHistoryAdapter(
                 }"
             when (mList?.get(position)?.status) {
                 1 -> {
-                    holder.itemView.text_status.text = "Waiting for\nvendor accept"
+                    holder.itemView.text_status.text = "इंतजार करे आपका\nआर्डर प्रतीक्षा में है"
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
                             context,
@@ -171,8 +191,9 @@ class OrderHistoryAdapter(
                     holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_yellow);
                 }
+
                 2 -> {
-                    holder.itemView.text_status.text = "Accepted\nby vendor"
+                    holder.itemView.text_status.text = "कार्य चल रहा है\nइंतजार करे"
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
                             context,
@@ -201,6 +222,7 @@ class OrderHistoryAdapter(
                             )
                         }
                 }
+
                 3 -> {
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
@@ -217,6 +239,7 @@ class OrderHistoryAdapter(
                     holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_red);
                 }
+
                 4 -> {
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
@@ -233,8 +256,9 @@ class OrderHistoryAdapter(
                     holder.itemView.text_view_invoice.visibility = View.GONE
                     holder.itemView.image_status.setBackgroundResource(R.drawable.circle_red);
                 }
+
                 5 -> {
-                    holder.itemView.text_status.text = "Order has been\ncompleted"
+                    holder.itemView.text_status.text = "आर्डर (कार्य) पूर्ण हुआ"
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
                             context,

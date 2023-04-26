@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin8"
-                    android:text="Scan the QR Code to make payment."
+                    android:text="ऊपर दिए नंबर पर पेमेंट करे"
                     android:textColor="@color/light_black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin25"
-                    android:text="Scan to make payment."
+                    android:text="क्यूआर कोड को स्कैन करके पेमेंट करे"
                     android:textColor="@color/light_black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -82,7 +82,8 @@
                     android:layout_marginTop="@dimen/margin25"
                     android:layout_marginBottom="@dimen/margin25"
                     android:gravity="center"
-                    android:text="Once payment is done kindly share it with\nthe kiosk on chat section."
+                    android:text="पेमेंट करने के बाद आर्डर हिस्ट्री में जाकर स्क्रीनशॉट लेकर ओटीपी एवं
+डॉक्यूमेंटस भेजे पर क्लिक करके शेयर जरूर करें"
                     android:textColor="@color/light_black" />
 
                 <LinearLayout

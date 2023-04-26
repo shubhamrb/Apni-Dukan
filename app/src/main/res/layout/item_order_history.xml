@@ -113,7 +113,7 @@
                                 android:layout_gravity="right|center_vertical"
                                 android:layout_marginRight="@dimen/margin5"
                                 android:gravity="right"
-                                android:text="Waiting for\nkiosk to accept"
+                                android:text="इंतजार करे आपका\nआर्डर प्रतीक्षा में है"
                                 android:textColor="@color/purple"
                                 android:textSize="@dimen/textsize10" />
 

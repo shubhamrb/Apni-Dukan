@@ -11,13 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mamits.apnaonlines.user.BuildConfig
 import com.mamits.apnaonlines.user.R
 import com.mamits.apnaonlines.user.listener.OnItemClickListener
 import com.mamits.apnaonlines.user.listener.OnSwichFragmentListener
-import com.mamits.apnaonlines.user.model.LocationUtils
 import com.mamits.apnaonlines.user.model.response.OrderDetailItem
 import com.mamits.apnaonlines.user.model.response.OrderHistoryDataItem
 import com.mamits.apnaonlines.user.ui.activity.EnquirySupportWebviewActivity
@@ -29,14 +26,20 @@ import com.mamits.apnaonlines.user.util.Constants
 import com.mamits.apnaonlines.user.utils.DateUtils
 import com.mamits.apnaonlines.user.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.common_toolbar_normal.view.*
-import kotlinx.android.synthetic.main.fragment_account.view.*
-import kotlinx.android.synthetic.main.fragment_account.view.btn_next
+import kotlinx.android.synthetic.main.common_toolbar_normal.view.image_back
+import kotlinx.android.synthetic.main.common_toolbar_normal.view.toolbar_title
+import kotlinx.android.synthetic.main.fragment_account.view.ll_change_pwd
 import kotlinx.android.synthetic.main.fragment_account.view.ll_container
+import kotlinx.android.synthetic.main.fragment_account.view.ll_enquiry
+import kotlinx.android.synthetic.main.fragment_account.view.ll_help
+import kotlinx.android.synthetic.main.fragment_account.view.ll_shareapp
+import kotlinx.android.synthetic.main.fragment_account.view.ll_update_profile
 import kotlinx.android.synthetic.main.fragment_account.view.relative_frag
-import kotlinx.android.synthetic.main.fragment_account.view.rv_order_history
-import kotlinx.android.synthetic.main.fragment_order_history.view.*
-import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.fragment_account.view.text_email
+import kotlinx.android.synthetic.main.fragment_account.view.text_mobile
+import kotlinx.android.synthetic.main.fragment_account.view.text_order_title
+import kotlinx.android.synthetic.main.fragment_account.view.text_username
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment(), OnItemClickListener {
@@ -140,25 +143,25 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
         }
 
 
-       /* view?.rv_order_history?.setHasFixedSize(true)
-        view?.rv_order_history?.layoutManager =
-            LinearLayoutManager(
-                activity,
-                RecyclerView.VERTICAL,
-                false
-            )
-        mAdapter = OrderHistoryAdapter(
-            activity,
-            this@AccountFragment,
-            isFromAccount = true
-        )
-        view?.rv_order_history?.adapter = mAdapter
+        /* view?.rv_order_history?.setHasFixedSize(true)
+         view?.rv_order_history?.layoutManager =
+             LinearLayoutManager(
+                 activity,
+                 RecyclerView.VERTICAL,
+                 false
+             )
+         mAdapter = OrderHistoryAdapter(
+             activity,
+             this@AccountFragment,
+             isFromAccount = true
+         )
+         view?.rv_order_history?.adapter = mAdapter
 
-        callOrderHistoryApi(CURRENT_PAGE)
-        view.btn_next.setOnClickListener {
-            CURRENT_PAGE++
-            callOrderHistoryApi(CURRENT_PAGE)
-        }*/
+         callOrderHistoryApi(CURRENT_PAGE)
+         view.btn_next.setOnClickListener {
+             CURRENT_PAGE++
+             callOrderHistoryApi(CURRENT_PAGE)
+         }*/
     }
 
     fun setUserInfo() {
@@ -251,6 +254,7 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     null
                 )
             }
+
             R.id.text_make_payment -> {
                 if (obj is OrderHistoryDataItem) {
                     mSwichFragmentListener?.onSwitchFragment(
@@ -261,11 +265,13 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     )
                 }
             }
+
             R.id.ll_submit_rating -> {
                 if (obj is OrderHistoryDataItem) {
 //                    callSaveRating(obj)
                 }
             }
+
             R.id.text_view_details -> {
                 if (obj is OrderHistoryDataItem) {
                     var intent: Intent = Intent(activity!!, FormPreviewActivity::class.java)
@@ -273,6 +279,7 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     activity?.startActivity(intent)
                 }
             }
+
             R.id.rl_chat -> {
                 if (obj is OrderHistoryDataItem) {
                     mSwichFragmentListener?.onSwitchFragment(
@@ -283,6 +290,7 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     )
                 }
             }
+
             R.id.rl_call -> {
                 if (obj is OrderHistoryDataItem) {
                     val intent = Intent(Intent.ACTION_DIAL)
@@ -290,6 +298,7 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     activity?.startActivity(intent)
                 }
             }
+
             R.id.rl_whatsapp -> {
                 if (obj is OrderHistoryDataItem) {
                     val url = "https://api.whatsapp.com/send?phone=${
@@ -316,13 +325,16 @@ class AccountFragment : BaseFragment(), OnItemClickListener {
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE

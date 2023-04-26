@@ -16,11 +16,11 @@
     <string name="total_order">Total orders</string>
     <string name="security">Security</string>
     <string name="nav_nearby_services">Nearby Kiosk services</string>
-    <string name="nav_history">History</string>
-    <string name="nav_home">Home</string>
-    <string name="nav_chat">Chat</string>
-    <string name="nav_nearby">Nearby</string>
-    <string name="nav_acc">Account</string>
+    <string name="nav_history">आर्डर हिस्ट्री</string>
+    <string name="nav_home">मेन पेज</string>
+    <string name="nav_chat">दुकान से बातचीत</string>
+    <string name="nav_nearby">दुकाने</string>
+    <string name="nav_acc">अकाउंट</string>
     <string name="top_services">Top Services</string>
     <string name="services">Services</string>
     <string name="review_n_ratings">Review and ratings</string>
@@ -35,21 +35,21 @@
     <string name="verify">Verify</string>
     <string name="otp">OTP</string>
     <string name="enter_otp">Enter Otp</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up">साइन अप</string>
     <string name="otp_recieved">OTP received on mobile</string>
-    <string name="verify_otp">Verify OTP</string>
+    <string name="verify_otp">वेरीफाई OTP</string>
     <string name="forgot_pwd">Forgot Password</string>
     <string name="edit_phone">Edit Phone No.</string>
     <string name="already_acc"><u>Already have an account? Login!</u></string>
     <string name="dont_hav_acc"><u>Don\'t have an account? Sign up!</u></string>
     <string name="forgot_pin"><u>Forgot Pin? Reset Here</u></string>
     <string name="already_login"><u>Already have an account Login!</u></string>
-    <string name="mobile_no">Mobile no.</string>
+    <string name="mobile_no">मोबाइल नंबर डाले</string>
     <string name="old_pwd">Old Password</string>
     <string name="new_pwd">New Password</string>
     <string name="email">Email</string>
     <string name="confirm_pwd">Confirm Password</string>
-    <string name="full_name">Full name</string>
+    <string name="full_name">पूरा नाम लिखे</string>
     <string name="read">Read</string>
     <string name="recent">Recent</string>
     <string name="order_history">Order History</string>
@@ -61,25 +61,25 @@
     <string name="apply">Apply</string>
     <string name="sub_total">Sub Total</string>
     <string name="total">Total</string>
-    <string name="payment_method">Payment Method</string>
+    <string name="payment_method">पेमेंट का प्रकार चुने</string>
 
     <string name="nearby_stores">Nearby Stores</string>
     <string name="process_timer">Process Timer</string>
-    <string name="process_timer_desc">The task will be done in a given time.</string>
-    <string name="call_kiosk">Call At Vendor</string>
-    <string name="chat_kiosk">Chat At Vendor</string>
-    <string name="whatapp_kiosk">WhatsApp At Vendor</string>
-    <string name="make_payment">Make Payment</string>
+    <string name="process_timer_desc">कार्य पूरा होने का समय</string>
+    <string name="call_kiosk">दुकानदार को कॉल करे</string>
+    <string name="chat_kiosk">OTP एवं डॉक्यूमेंट भेजें</string>
+    <string name="whatapp_kiosk">व्हाट्सएप्स से जुड़े</string>
+    <string name="make_payment">पेमेंट करे</string>
     <string name="hide_options">Hide more options</string>
     <string name="share_screenshot">Share Screenshot</string>
     <string name="expand_options">Expand for more options</string>
-    <string name="download_files">Download Files</string>
+    <string name="download_files">रिसीप्ट डाउनलोड करे</string>
     <string name="submit_rating">Submit your rating now</string>
     <string name="leave_rating">Leave a rating</string>
     <string name="post_submit_desc">Kindly wait till approval from our partner end. Once Application is marked as\nApproved kindly top to proceed </string>
     <string name="select_coupons">Select Coupons</string>
     <string name="download_desc">kindly download your files provided by the kiosk.</string>
-    <string name="apply_coupon_code">Apply Coupon Code.</string>
+    <string name="apply_coupon_code">कूपन अप्लाई करे</string>
     <string name="apply_coupon_code_desc">Kindly select or apply Coupon code here.</string>
     <string name="select_payment_method">Kindly select your payment method here.</string>
     <string name="payment_summary">Payment summary</string>
@@ -87,8 +87,8 @@
     <string name="coupon_applied">Coupon Applied</string>
     <string name="discount">Discount</string>
     <string name="cart_value_discount">Cart Value Offer Discount</string>
-    <string name="get_coupons_click"><u>Get Free Coupons, Click here</u></string>
-    <string name="clk_to_proceed">Click to proceed</string>
+    <string name="get_coupons_click"><u>कूपन देखे और अप्लाई करे</u></string>
+    <string name="clk_to_proceed">आगे बढ़े</string>
     <string name="resend"><u>Resend</u></string>
 
     <!--    validations-->
@@ -101,7 +101,7 @@
     <string name="rs">\u20B9</string>
     <string name="api_key">AIzaSyBqqRDGvGCxSP4cSi4kZseS6oeL-uU7SRg</string>
     <string name="apply_filter">Apply Filter</string>
-    <string name="download_invoice"><u>Download Invoice</u></string>
+    <string name="download_invoice"><u>बिल डाउनलोड करे</u></string>
     <string name="enquiry">Enquiry</string>
     <string name="browse_by_category">Browse By Category</string>
     <string name="best_provider">Best Provider</string>
@@ -110,5 +110,5 @@
     <string name="search_for_online_service">Search for online service...</string>
     <string name="view_more"><u>View more orders</u></string>
     <string name="default_notification_channel_id">com.mponline.userApp.urgent</string>
-    <string name="i_have_agree_terms_amp_conditions">I have agree <u>terms &amp; conditions</u></string>
+    <string name="i_have_agree_terms_amp_conditions"><u>नियम शर्ते स्वीकार करे</u></string>
 </resources>

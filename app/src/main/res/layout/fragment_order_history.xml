@@ -60,12 +60,12 @@
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="New Order" />
+                        android:text="नये आर्डर" />
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Order History" />
+                        android:text="आर्डर हिस्ट्री" />
 
                 </com.google.android.material.tabs.TabLayout>
                 <androidx.recyclerview.widget.RecyclerView

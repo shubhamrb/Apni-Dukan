@@ -143,7 +143,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Text_mont_semibold"
                     android:id="@+id/text_proceed"
-                    android:text="Proceed To Checkout"
+                    android:text="ऊपर दी गई जानकारी पढ़े और आगे बढ़े"
                     android:gravity="center"
                     android:padding="@dimen/margin15"
                     android:textColor="@color/white"

@@ -184,7 +184,7 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
             isCheckedTnc = b
         }
 
-        setClickableHighLightedText(view?.text_chkbox, "terms & conditions")
+        setClickableHighLightedText(view?.text_chkbox, "नियम शर्ते स्वीकार करे")
 
         view?.text_proceed?.setOnClickListener {
             var errormsg = isValidData()
