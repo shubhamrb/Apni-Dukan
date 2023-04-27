@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mamits.apnaonlines.user">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme_NoActionBar"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -37,18 +42,23 @@
 
         <activity
             android:name=".ui.activity.ImgPreviewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.ChatHomeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,33 +67,55 @@
         </activity>
         <activity
             android:name=".ui.activity.RegisterActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
+
         <activity
             android:name=".ui.activity.ChangePwdActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
+
         <activity
             android:name=".ui.activity.EnquirySupportWebviewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
+
         <activity
             android:name=".ui.activity.NotificationActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.activity.FilePreviewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.activity.FormPreviewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.activity.OffersActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.activity.PaymentActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
         <activity
             android:name=".ui.activity.InvoicePreviewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:exported="false"
+            />
 
-        <service android:name=".fcm.MyFirebaseMessagingService">
+        <service android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

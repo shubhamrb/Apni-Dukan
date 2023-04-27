@@ -258,7 +258,7 @@ class OrderHistoryAdapter(
                 }
 
                 5 -> {
-                    holder.itemView.text_status.text = "आर्डर (कार्य) पूर्ण हुआ"
+                    holder.itemView.text_status.text = "आर्डर (कार्य)\nपूर्ण हुआ"
                     if (Build.VERSION.SDK_INT < 23) {
                         holder.itemView.text_status.setTextAppearance(
                             context,
@@ -283,7 +283,7 @@ class OrderHistoryAdapter(
                             holder?.itemView?.ratingbar?.rating =
                                 mList?.get(position)?.userratting?.toFloat()!!
                             holder?.itemView?.ratingbar?.setIsIndicator(true);
-                            holder?.itemView?.text_rating_msg?.text = "Your ratings"
+                            holder?.itemView?.text_rating_msg?.text = "रेटिंग दे"
                         }
                     } else {
                         holder?.itemView?.text_rating_msg?.text = "Leave a rating"
