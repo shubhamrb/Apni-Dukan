@@ -19,7 +19,11 @@ import com.mamits.apnaonlines.user.R
 import com.mamits.apnaonlines.user.listener.OnItemClickListener
 import com.mamits.apnaonlines.user.listener.OnSwichFragmentListener
 import com.mamits.apnaonlines.user.model.LocationUtils
-import com.mamits.apnaonlines.user.model.response.*
+import com.mamits.apnaonlines.user.model.response.CategorylistItem
+import com.mamits.apnaonlines.user.model.response.GetStoreDetailResponse
+import com.mamits.apnaonlines.user.model.response.ProductListItem
+import com.mamits.apnaonlines.user.model.response.StoreDetailDataItem
+import com.mamits.apnaonlines.user.model.response.StorelistItem
 import com.mamits.apnaonlines.user.ui.adapter.ServicesAdapter
 import com.mamits.apnaonlines.user.ui.adapter.StoreDetailBannerPagerAdapter
 import com.mamits.apnaonlines.user.ui.base.BaseFragment
@@ -28,20 +32,41 @@ import com.mamits.apnaonlines.user.util.Constants
 import com.mamits.apnaonlines.user.util.ImageGlideUtils
 import com.mamits.apnaonlines.user.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_store_detail.*
-import kotlinx.android.synthetic.main.fragment_store_detail.view.*
+import kotlinx.android.synthetic.main.fragment_store_detail.view.btn_location
+import kotlinx.android.synthetic.main.fragment_store_detail.view.btn_share
 import kotlinx.android.synthetic.main.fragment_store_detail.view.image_store
+import kotlinx.android.synthetic.main.fragment_store_detail.view.image_store_status
 import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_container
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_grey
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_grey_1
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_grey_2
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_grey_3
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_grey_4
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating_1
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating_2
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating_3
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating_4
+import kotlinx.android.synthetic.main.fragment_store_detail.view.ratingbar_rating
 import kotlinx.android.synthetic.main.fragment_store_detail.view.ratingbar_store
+import kotlinx.android.synthetic.main.fragment_store_detail.view.relative_frag
 import kotlinx.android.synthetic.main.fragment_store_detail.view.rv_services
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_checkout
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_rating
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_desc
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_location
 import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_name
 import kotlinx.android.synthetic.main.fragment_store_detail.view.text_store_status
-import kotlinx.android.synthetic.main.item_stores.view.*
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_total_users
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_users_1
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_users_2
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_users_3
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_users_4
+import kotlinx.android.synthetic.main.fragment_store_detail.view.text_users_5
+import kotlinx.android.synthetic.main.fragment_store_detail.view.viewpager_banner_storedetail
+import kotlinx.android.synthetic.main.layout_empty.relative_empty
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
 import java.text.DecimalFormat
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -112,7 +137,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     "http://maps.google.com/maps?q=loc:" + mStoreDetailDataItem?.latitude + "," + mStoreDetailDataItem?.longitude
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                 intent.setPackage("com.google.android.apps.maps");
-                context!!.startActivity(intent)
+                requireContext().startActivity(intent)
             }
         }
 
@@ -124,7 +149,11 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             if (it?.containsKey("store")) {
                 mStorelistItem = arguments?.getParcelable<StorelistItem>("store")
                 mStorelistItem?.let {
-                    callStoreDetail(mStorelistItem?.id!!)
+                    try {
+                        callStoreDetail(mStorelistItem?.id!!)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
             if (it?.containsKey("prod")) {
@@ -148,36 +177,40 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun callStoreDetail(store_id: String) {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                store_id = store_id,
-                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
-                longitude = LocationUtils?.getCurrentLocation()?.lng!!
-            )
-            viewModel?.getStoreDetail(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        if (this?.data != null && this?.data?.size!! > 0) {
-                            mStoreDetailDataItem = this?.data?.get(0)!!
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(3, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    store_id = store_id,
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!
+                )
+                viewModel.getStoreDetail(commonRequestObj).observe(viewLifecycleOwner, Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            if (this?.data != null && this?.data?.size!! > 0) {
+                                mStoreDetailDataItem = this?.data?.get(0)!!
+                            }
+                            setDataToUI(this)
+                        } else {
+                            switchView(0, "")
+                            CommonUtils.createSnackBar(
+                                activity?.findViewById(android.R.id.content)!!,
+                                resources?.getString(R.string.no_net)!!
+                            )
                         }
-                        setDataToUI(this)
-                    } else {
-                        switchView(0, "")
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                            resources?.getString(R.string.no_net)!!
-                        )
                     }
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -186,7 +219,7 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             if (it?.data != null && it?.data?.size!! > 0) {
                 mView?.run {
                     ImageGlideUtils.loadUrlImage(
-                        activity!!,
+                        requireActivity(),
                         it?.data?.get(0)?.storelogo,
                         image_store
                     )
@@ -368,15 +401,18 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     relative_empty?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     relative_empty?.visibility = View.GONE

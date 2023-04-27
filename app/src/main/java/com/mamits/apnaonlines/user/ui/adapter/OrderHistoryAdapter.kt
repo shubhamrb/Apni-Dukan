@@ -599,11 +599,13 @@ class OrderHistoryAdapter(
                                     var remainingTimeObj = async {
                                         var timessf =
                                             DateUtils.getTimeObjFromMillis(millisUntilFinished)
-                                        CommonUtils.printLog("TIMER_TICKTICK-->", "${timessf?.sec}")
-                                        mList?.get(pos)?.timerObj = timessf
-                                        notifyItemChanged(pos, timessf)
+
+                                        if (mList.size > 0) {
+                                            mList[pos].timerObj = timessf
+                                            notifyItemChanged(pos, timessf)
+                                        }
                                     }
-                                    var res = remainingTimeObj?.await()
+                                    remainingTimeObj.await()
                                 }
                             }
 

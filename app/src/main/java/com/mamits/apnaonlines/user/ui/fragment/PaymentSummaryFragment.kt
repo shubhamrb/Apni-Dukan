@@ -29,10 +29,21 @@ import com.mamits.apnaonlines.user.util.CommonUtils
 import com.mamits.apnaonlines.user.util.Constants
 import com.mamits.apnaonlines.user.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_payment_summary.view.*
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.edt_coupon_code
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.image_close
 import kotlinx.android.synthetic.main.fragment_payment_summary.view.relative_frag
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.rv_payment_details
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_apply
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_coupon_amt
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_free_coupons
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_pay_online
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_pay_to_shop
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_subtotal_amt
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_total_amt
+import kotlinx.android.synthetic.main.fragment_payment_summary.view.text_upi
 import kotlinx.android.synthetic.main.fragment_service.view.ll_container
-import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
+import java.util.concurrent.ExecutionException
 
 @AndroidEntryPoint
 class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
@@ -73,10 +84,10 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
         arguments?.let {
             if (it?.containsKey("obj")) {
                 mOrderHistoryDataItem = it?.getParcelable("obj")
-                if(mOrderHistoryDataItem?.payableAmount!=null){
+                if (mOrderHistoryDataItem?.payableAmount != null) {
                     mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
                 }
-                if(mOrderHistoryDataItem?.offerAmount!=null){
+                if (mOrderHistoryDataItem?.offerAmount != null) {
                     mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
                 }
                 callCouponList()
@@ -87,9 +98,9 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
 
         }
         view?.image_close?.setOnClickListener {
-            if(isCouponApplied){
+            if (isCouponApplied) {
                 callRemoveCoupon()
-            }else{
+            } else {
                 mView?.edt_coupon_code?.setText("")
             }
         }
@@ -112,7 +123,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
                 } else {
                     view?.image_close?.visibility = View.GONE
                     mView?.text_coupon_amt?.text = ""
-                    if(isCouponApplied) {
+                    if (isCouponApplied) {
                         callRemoveCoupon()
                     }
                     mCouponAmt = "0.0"
@@ -151,19 +162,19 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
                 arrayList
             )
         }
-        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Online",true)!!){
+        if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Online", true)!!) {
             view?.text_pay_online?.visibility = View.VISIBLE
-        }else{
+        } else {
             view?.text_pay_online?.visibility = View.GONE
         }
-        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Offline",true)!!){
+        if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Offline", true)!!) {
             view?.text_pay_to_shop?.visibility = View.VISIBLE
-        }else{
+        } else {
             view?.text_pay_to_shop?.visibility = View.GONE
         }
-        if(mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Upi",true)!!){
+        if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Upi", true)!!) {
             view?.text_upi?.visibility = View.VISIBLE
-        }else{
+        } else {
             view?.text_upi?.visibility = View.GONE
         }
         view?.text_pay_online?.setOnClickListener {
@@ -204,7 +215,7 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
 
     fun calculateTotal() {
         mView?.text_coupon_amt?.text =
-            "- "+activity?.resources?.getString(R.string.rs) + " ${mCouponAmt}"
+            "- " + activity?.resources?.getString(R.string.rs) + " ${mCouponAmt}"
         view?.text_subtotal_amt?.text = mOrderHistoryDataItem?.orderAmount!!
         var totalAmt = 0f
         totalAmt =
@@ -213,127 +224,141 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
     }
 
     private fun callApplyCoupon(couponCode: String) {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(4, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                orderid = mOrderHistoryDataItem?.id!!,
-                coupon = couponCode,
-                orderamount = mOrderHistoryDataItem?.orderAmount!!
-            )
-            viewModel?.applyCoupon(commonRequestObj)?.observe(this, Observer {
-                it?.run {
-                    switchView(1, "")
-                    if (status) {
-                        mCouponAmt = data?.discountamount!!
-                        mPayableAmt = data?.finalamountpay!!
-                        mView?.text_coupon_amt?.text =
-                            "- " + activity?.resources?.getString(R.string.rs) + " ${data?.discountamount!!}"
-                        isCouponApplied = true
-                        calculateTotal()
-                    } else {
-                        view?.edt_coupon_code?.setText("")
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(4, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    orderid = mOrderHistoryDataItem?.id!!,
+                    coupon = couponCode,
+                    orderamount = mOrderHistoryDataItem?.orderAmount!!
+                )
+                viewModel.applyCoupon(commonRequestObj).observe(viewLifecycleOwner, Observer {
+                    it?.run {
+                        switchView(1, "")
+                        if (status) {
+                            mCouponAmt = data?.discountamount!!
+                            mPayableAmt = data?.finalamountpay!!
+                            mView?.text_coupon_amt?.text =
+                                "- " + activity?.resources?.getString(R.string.rs) + " ${data?.discountamount!!}"
+                            isCouponApplied = true
+                            calculateTotal()
+                        } else {
+                            view?.edt_coupon_code?.setText("")
+                        }
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            message
+                        )
                     }
-                    CommonUtils.createSnackBar(
-                        activity?.findViewById(android.R.id.content)!!,
-                        message
-                    )
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun callRemoveCoupon() {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(4, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                orderid = mOrderHistoryDataItem?.id!!,
-                discountamount = mCouponAmt,
-                finalamountpay = mPayableAmt
-            )
-            viewModel?.removeCoupon(commonRequestObj)?.observe(this, Observer {
-                it?.run {
-                    switchView(1, "")
-                    if(status){
-                        isCouponApplied = false
-                        mView?.edt_coupon_code?.setText("")
-                        if(!mPayableAmt?.isNullOrEmpty() && !mCouponAmt?.isNullOrEmpty()){
-                            var payamt = mPayableAmt?.toFloat()
-                            var cpnAmt = mCouponAmt?.toFloat()
-                            mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
-                            mCouponAmt = "0.00"
-                            calculateTotal()
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(4, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    orderid = mOrderHistoryDataItem?.id!!,
+                    discountamount = mCouponAmt,
+                    finalamountpay = mPayableAmt
+                )
+                viewModel.removeCoupon(commonRequestObj).observe(viewLifecycleOwner, Observer {
+                    it?.run {
+                        switchView(1, "")
+                        if (status) {
+                            isCouponApplied = false
+                            mView?.edt_coupon_code?.setText("")
+                            if (!mPayableAmt?.isNullOrEmpty() && !mCouponAmt?.isNullOrEmpty()) {
+                                var payamt = mPayableAmt?.toFloat()
+                                var cpnAmt = mCouponAmt?.toFloat()
+                                mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
+                                mCouponAmt = "0.00"
+                                calculateTotal()
+                            }
                         }
+                        CommonUtils.createSnackBar(
+                            activity?.findViewById(android.R.id.content)!!,
+                            message
+                        )
                     }
-                    CommonUtils.createSnackBar(
-                        activity?.findViewById(android.R.id.content)!!,
-                        message
-                    )
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: ExecutionException) {
+            e.printStackTrace()
         }
     }
 
     private fun callCouponList() {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            var commonRequestObj =
-                getCommonRequestObj(
-                    apiKey = getApiKey(),
-                    orderid = mOrderHistoryDataItem?.id!!,
-                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
-                    longitude = LocationUtils?.getCurrentLocation()?.lng!!
-                )
-            viewModel?.getCouponList(commonRequestObj)?.observe(this, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        mGetCouponListResponse = this
-                        mGetCouponListResponse?.data?.forEach {
-                            if(it?.id?.equals(mOrderHistoryDataItem?.offerId)){
-                                mView?.edt_coupon_code?.setText(it?.coupon)
-                                if(it?.coupon!=null && !it?.coupon?.isNullOrEmpty()){
-                                    isCouponApplied = true
-                                }else{
-                                    isCouponApplied = false
-                                }
-                                if(mOrderHistoryDataItem?.offerAmount!=null && !mOrderHistoryDataItem?.offerAmount?.isNullOrEmpty()!!){
-                                    mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
-                                    var res = ((mOrderHistoryDataItem?.orderAmount?.toFloat()!!) + (mOrderHistoryDataItem?.offerAmount?.toFloat()!!))
-                                    mOrderHistoryDataItem?.orderAmount = mOrderHistoryDataItem?.orderAmount
-                                    mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
-                                    mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
-                                    mView?.text_coupon_amt?.text =
-                                        "- " + activity?.resources?.getString(R.string.rs) + " ${it?.discount_amount!!}"
-                                    calculateTotal()
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(3, "")
+                var commonRequestObj =
+                    getCommonRequestObj(
+                        apiKey = getApiKey(),
+                        orderid = mOrderHistoryDataItem?.id!!,
+                        latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                        longitude = LocationUtils?.getCurrentLocation()?.lng!!
+                    )
+                viewModel.getCouponList(commonRequestObj).observe(viewLifecycleOwner, Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            mGetCouponListResponse = this
+                            mGetCouponListResponse?.data?.forEach {
+                                if (it?.id?.equals(mOrderHistoryDataItem?.offerId)) {
+                                    mView?.edt_coupon_code?.setText(it?.coupon)
+                                    if (it?.coupon != null && !it?.coupon?.isNullOrEmpty()) {
+                                        isCouponApplied = true
+                                    } else {
+                                        isCouponApplied = false
+                                    }
+                                    if (mOrderHistoryDataItem?.offerAmount != null && !mOrderHistoryDataItem?.offerAmount?.isNullOrEmpty()!!) {
+                                        mPayableAmt = mOrderHistoryDataItem?.orderAmount!!
+                                        var res =
+                                            ((mOrderHistoryDataItem?.orderAmount?.toFloat()!!) + (mOrderHistoryDataItem?.offerAmount?.toFloat()!!))
+                                        mOrderHistoryDataItem?.orderAmount =
+                                            mOrderHistoryDataItem?.orderAmount
+                                        mCouponAmt = mOrderHistoryDataItem?.offerAmount!!
+                                        mPayableAmt = mOrderHistoryDataItem?.payableAmount!!
+                                        mView?.text_coupon_amt?.text =
+                                            "- " + activity?.resources?.getString(R.string.rs) + " ${it?.discount_amount!!}"
+                                        calculateTotal()
+                                    }
                                 }
                             }
+                        } else {
+                            switchView(0, "")
+                            //                        CommonUtils.createSnackBar(
+                            //                            activity?.findViewById(android.R.id.content)!!,
+                            //                            message
+                            //                        )
                         }
-                    } else {
-                        switchView(0, "")
-//                        CommonUtils.createSnackBar(
-//                            activity?.findViewById(android.R.id.content)!!,
-//                            message
-//                        )
                     }
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -376,17 +401,21 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
                 }
+
                 4 -> {
                     relative_progress?.visibility = View.VISIBLE
                 }

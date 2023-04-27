@@ -78,19 +78,19 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     override fun onCameraGalleryClicked(position: Int) {
         when (position) {
             0 -> {
-                if (isCameraStoragePermissionGranted(activity!!)) {
+                if (isCameraStoragePermissionGranted(requireActivity())) {
                     mPictureType = Constants.CAMERA
-                    dispatchTakePictureIntent(activity!!)
+                    dispatchTakePictureIntent(requireActivity())
                 } else {
-                    checkCameraStoragePermissions(activity!!)
+                    checkCameraStoragePermissions(requireActivity())
                 }
             }
             1 -> {
-                if (isCameraStoragePermissionGranted(activity!!)) {
+                if (isCameraStoragePermissionGranted(requireActivity())) {
                     mPictureType = Constants.GALLERY
-                    choosePhotoFromGallary(activity!!)
+                    choosePhotoFromGallary(requireActivity())
                 } else {
-                    checkCameraStoragePermissions(activity!!)
+                    checkCameraStoragePermissions(requireActivity())
                 }
             }
         }
@@ -106,23 +106,23 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
             Constants.REQUEST_PERMISSIONS -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     if (mPictureType == Constants.CAMERA) {
-                        if (isCameraStoragePermissionGranted(activity!!)) {
+                        if (isCameraStoragePermissionGranted(requireActivity())) {
                             mPictureType = Constants.CAMERA
-                            dispatchTakePictureIntent(activity!!)
+                            dispatchTakePictureIntent(requireActivity())
                         } else {
-                            checkCameraStoragePermissions(activity!!)
+                            checkCameraStoragePermissions(requireActivity())
                         }
                     } else if (mPictureType == Constants.GALLERY) {
-                        if (isCameraStoragePermissionGranted(activity!!)) {
+                        if (isCameraStoragePermissionGranted(requireActivity())) {
                             mPictureType = Constants.GALLERY
-                            choosePhotoFromGallary(activity!!)
+                            choosePhotoFromGallary(requireActivity())
                         } else {
-                            checkCameraStoragePermissions(activity!!)
+                            checkCameraStoragePermissions(requireActivity())
                         }
                     }
                 } else {
                     CommonUtils.printLog("DENIED_ALL_PERMISSIONs", "")
-                    CommonUtils.showPermissionDialog(activity!!)
+                    CommonUtils.showPermissionDialog(requireActivity())
                 }
             }
         }
@@ -239,13 +239,13 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         if (obj is ChatListDataItem) {
             when (view?.id) {
                 R.id.image_download_file_incomming -> {
-                    var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
+                    var intent: Intent = Intent(requireActivity(), FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
                     intent?.putExtra("from", "file")
                     activity?.startActivity(intent)
                 }
                 R.id.image_download_file -> {
-                    var intent: Intent = Intent(activity!!, FilePreviewActivity::class.java)
+                    var intent: Intent = Intent(requireActivity(), FilePreviewActivity::class.java)
                     intent?.putExtra("file", obj?.attachment)
                     intent?.putExtra("from", "file")
                     activity?.startActivity(intent)
@@ -278,7 +278,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                             if (contentStr != null) {
                                 var extension =
                                     CommonUtils.getFileExtension(
-                                        activity!!,
+                                        requireActivity(),
                                         contentStr
                                     )
                                 val fileRealPath = FilePathUtil.getPath(activity, it?.data)
@@ -303,7 +303,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                                             ) || extension?.equals(".png", true)
                                         ) {
                                             val file = cameraUtils.createImageFile(
-                                                activity!!,
+                                                requireActivity(),
                                                 extension
                                             )
                                             ImageOrientationChecker.getCopyOfImage(
@@ -455,7 +455,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     }
 
     private fun callGetChatList(current_page: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
+        if (CommonUtils.isOnline(requireActivity())) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
@@ -510,16 +510,16 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
     }
 
     private fun callGetUpdatedChatlist() {
-        if (activity != null && CommonUtils.isOnline(activity!!)) {
+        if (activity != null && CommonUtils.isOnline(requireActivity())) {
 //            switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 orderid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.id!! else orderId,
                 vendorid = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId
             )
-            viewModel?.getUpdatedChatList(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
+            viewModel.getUpdatedChatList(commonRequestObj).observe(viewLifecycleOwner, Observer {
                 it?.run {
                     if (status) {
-//                        switchView(1, "")
+        //                        switchView(1, "")
                         if (chatMsgList != null && chatMsgList?.size != data?.size) {
                             chatMsgList = data!!
                             mAdapter?.refreshList(chatMsgList!!)
@@ -529,11 +529,11 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
                             }
                         }
                     } else {
-//                        switchView(0, "")
-//                        CommonUtils.createSnackBar(
-//                            activity?.findViewById(android.R.id.content)!!,
-//                            resources?.getString(R.string.no_net)!!
-//                        )
+        //                        switchView(0, "")
+        //                        CommonUtils.createSnackBar(
+        //                            activity?.findViewById(android.R.id.content)!!,
+        //                            resources?.getString(R.string.no_net)!!
+        //                        )
                     }
                 }
             })
@@ -552,7 +552,7 @@ class ChatMsgFragment : BaseFragment(), OnItemClickListener, CameraGalleryFragme
         msg: String,
         selectedPos: Int
     ) {
-        if (CommonUtils.isOnline(activity!!)) {
+        if (CommonUtils.isOnline(requireActivity())) {
             chatMsgList?.add(
                 ChatListDataItem(
                     toUser = if (mOrderHistoryDataItem != null) mOrderHistoryDataItem?.storedetail?.userId!! else storeId,

@@ -13,7 +13,6 @@ import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -161,25 +160,25 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun callNewOrderApi() {
-        if (CommonUtils.isOnline(activity!!)) {
-            try {
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
                 var commonRequestObj = getCommonRequestObj()
-                viewModel?.getNewOrders(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
+                viewModel.getNewOrders(commonRequestObj).observe(viewLifecycleOwner, Observer {
                     it?.run {
                         try {
                             if (status) {
-                                if (data != null && data?.size > 0) {
+                                if (data != null && data.size > 0) {
                                     mOrderlist = this?.data!!
 
                                     view?.btn_next!!.visibility = View.GONE
 
-                                    data?.forEachIndexed { index, order ->
+                                    data.forEachIndexed { index, order ->
                                         if (order?.status == 2) {
                                             var currDateTime =
                                                 DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
                                             var estimatedDateTime = DateUtils.addHrMinuteToDateStr(
                                                 order?.acceptedAt!!,
-                                                if (order?.timeType?.equals("hour")!!) true else false,
+                                                if (order.timeType?.equals("hour")!!) true else false,
                                                 order?.orderCompletionTime
                                             )
                                             var timerObj = DateUtils.checkTimeDifference(
@@ -210,19 +209,19 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
                     }
                 })
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
             }
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun callOrderHistoryApi(current_page: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
+        if (CommonUtils.isOnline(requireActivity())) {
             try {
                 switchView(3, "")
                 var commonRequestObj = getCommonRequestObj(
@@ -358,6 +357,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     donwloadFile(obj?.paymentFile!!)
                 }
             }
+
             R.id.text_make_payment -> {
                 if (obj is OrderHistoryDataItem) {
                     if (obj?.paymentStatus == 1) {
@@ -375,6 +375,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     }
                 }
             }
+
             R.id.ll_submit_rating -> {
                 if (obj is OrderHistoryDataItem) {
                     callSaveRating(obj, pos)
@@ -383,11 +384,12 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
             R.id.text_view_details -> {
                 if (obj is OrderHistoryDataItem) {
-                    var intent: Intent = Intent(activity!!, FormPreviewActivity::class.java)
+                    var intent: Intent = Intent(requireActivity(), FormPreviewActivity::class.java)
                     intent?.putExtra("data", obj?.orderDetail!!)
                     activity?.startActivity(intent)
                 }
             }
+
             R.id.rl_chat -> {
                 if (obj is OrderHistoryDataItem) {
                     mSwichFragmentListener?.onSwitchFragment(
@@ -398,6 +400,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     )
                 }
             }
+
             R.id.rl_call -> {
                 if (obj is OrderHistoryDataItem) {
                     val intent = Intent(Intent.ACTION_DIAL)
@@ -405,6 +408,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     activity?.startActivity(intent)
                 }
             }
+
             R.id.rl_whatsapp -> {
                 if (obj is OrderHistoryDataItem) {
                     val url = "https://api.whatsapp.com/send?phone=${
@@ -425,7 +429,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun callSaveRating(mOrderHistoryDataItem: OrderHistoryDataItem, pos: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
+        if (CommonUtils.isOnline(requireActivity())) {
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
                 orderid = mOrderHistoryDataItem?.id!!,
@@ -452,7 +456,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
     }
 
     fun donwloadFile(url: String) {
-        if (isCameraStoragePermissionGranted(activity!!)) {
+        if (isCameraStoragePermissionGranted(requireActivity())) {
             var extention = CommonUtils.getFileExtentionFromStrPath(url)
             if (extention?.contains(".png", true) || extention?.contains(
                     ".jpg",
@@ -549,21 +553,25 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     ll_container?.visibility = View.GONE
                     text_empty?.text = msg
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.VISIBLE
                     text_empty?.text = msg
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.GONE
                 }
+
                 4 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.VISIBLE
@@ -591,6 +599,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
         timer?.cancel()
         super.onStop()
     }
+
     override fun onDestroy() {
         timer?.cancel()
         super.onDestroy()

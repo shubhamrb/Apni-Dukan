@@ -104,8 +104,8 @@ class CommonUtils {
         fun isOnline(context: Context): Boolean {
             try {
                 val connMgr =
-                    context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                val networkInfo: NetworkInfo? = connMgr?.activeNetworkInfo
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
                 return networkInfo?.isConnected == true
             } catch (e: Exception) {
                 e.printStackTrace()

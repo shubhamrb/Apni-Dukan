@@ -25,10 +25,14 @@ import com.mamits.apnaonlines.user.util.CommonUtils
 import com.mamits.apnaonlines.user.util.Constants
 import com.mamits.apnaonlines.user.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_stores.*
-import kotlinx.android.synthetic.main.fragment_stores.view.*
-import kotlinx.android.synthetic.main.layout_progress.*
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_stores.text_res_title
+import kotlinx.android.synthetic.main.fragment_stores.view.btn_next
+import kotlinx.android.synthetic.main.fragment_stores.view.fab_filter
+import kotlinx.android.synthetic.main.fragment_stores.view.ll_container
+import kotlinx.android.synthetic.main.fragment_stores.view.relative_frag
+import kotlinx.android.synthetic.main.fragment_stores.view.rv_stores
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
+import java.util.Collections
 
 @AndroidEntryPoint
 class StoresFragment : BaseFragment(), OnItemClickListener,
@@ -151,86 +155,95 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     }
 
     private fun callNearByStores(current_page: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
-                longitude = LocationUtils?.getCurrentLocation()?.lng!!,
-                start = current_page.toString(),
-                pagelength = LIMIT.toString()
-            )
-            viewModel?.getStoreAround(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        mStoreList?.addAll(it?.data!!)
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(3, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    latitude = LocationUtils.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils.getCurrentLocation()?.lng!!,
+                    start = current_page.toString(),
+                    pagelength = LIMIT.toString()
+                )
+                viewModel.getStoreAround(commonRequestObj).observe(viewLifecycleOwner, Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            mStoreList?.addAll(it?.data!!)
 
-                        if (it?.next) {
-                            view?.btn_next!!.visibility = View.VISIBLE
+                            if (it?.next) {
+                                view?.btn_next!!.visibility = View.VISIBLE
+                            } else {
+                                view?.btn_next!!.visibility = View.GONE
+                            }
+                            setDataToUI(mStoreList!!, true)
                         } else {
-                            view?.btn_next!!.visibility = View.GONE
+                            switchView(0, "")
+                            CommonUtils.createSnackBar(
+                                activity?.findViewById(android.R.id.content)!!,
+                                resources?.getString(R.string.no_net)!!
+                            )
                         }
-                        setDataToUI(mStoreList!!, true)
-                    } else {
-                        switchView(0, "")
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                            resources?.getString(R.string.no_net)!!
-                        )
                     }
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun callStoreByCategory(current_page: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
-            switchView(3, "")
-            var commonRequestObj = getCommonRequestObj(
-                apiKey = getApiKey(),
-                latitude = LocationUtils?.getCurrentLocation()?.lat!!,
-                longitude = LocationUtils?.getCurrentLocation()?.lng!!,
-                category_id = mCategorylistItem?.id!!,
-                start = current_page.toString(),
-                pagelength = LIMIT.toString()
-            )
-            viewModel?.getStoreByCategory(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        mStoreList?.addAll(it?.data.stores!!)
-                        if (it?.data.next) {
-                            view?.btn_next!!.visibility = View.VISIBLE
-                        } else {
-                            view?.btn_next!!.visibility = View.GONE
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
+                switchView(3, "")
+                var commonRequestObj = getCommonRequestObj(
+                    apiKey = getApiKey(),
+                    latitude = LocationUtils?.getCurrentLocation()?.lat!!,
+                    longitude = LocationUtils?.getCurrentLocation()?.lng!!,
+                    category_id = mCategorylistItem?.id!!,
+                    start = current_page.toString(),
+                    pagelength = LIMIT.toString()
+                )
+                viewModel?.getStoreByCategory(commonRequestObj)
+                    ?.observe(viewLifecycleOwner, Observer {
+                        it?.run {
+                            if (status) {
+                                switchView(1, "")
+                                mStoreList?.addAll(it?.data.stores!!)
+                                if (it?.data.next) {
+                                    view?.btn_next!!.visibility = View.VISIBLE
+                                } else {
+                                    view?.btn_next!!.visibility = View.GONE
+                                }
+                                setDataToUI(mStoreList!!, true)
+                            } else {
+                                switchView(0, "")
+                                CommonUtils.createSnackBar(
+                                    activity?.findViewById(android.R.id.content)!!,
+                                    resources?.getString(R.string.no_net)!!
+                                )
+                            }
                         }
-                        setDataToUI(mStoreList!!,true)
-                    } else {
-                        switchView(0, "")
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                            resources?.getString(R.string.no_net)!!
-                        )
-                    }
-                }
-            })
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+                    })
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun callStoreByProduct(current_page: Int) {
-        if (CommonUtils.isOnline(activity!!)) {
-            try {
+        try {
+            if (CommonUtils.isOnline(requireActivity())) {
                 switchView(3, "")
                 var commonRequestObj = getCommonRequestObj(
                     apiKey = getApiKey(),
@@ -241,7 +254,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                     pagelength = LIMIT.toString()
                 )
                 viewModel?.getStoreByProduct(commonRequestObj)
-                    ?.observe(viewLifecycleOwner, Observer {
+                    .observe(viewLifecycleOwner, Observer {
                         it?.run {
                             try {
                                 if (status) {
@@ -252,7 +265,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                                     } else {
                                         view?.btn_next!!.visibility = View.GONE
                                     }
-                                    setDataToUI(mStoreList!!,true)
+                                    setDataToUI(mStoreList!!, true)
                                 } else {
                                     switchView(0, "")
                                     CommonUtils.createSnackBar(
@@ -266,14 +279,15 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
 
                         }
                     })
-            } catch (e: Exception) {
-                e.printStackTrace()
+
+            } else {
+                CommonUtils.createSnackBar(
+                    activity?.findViewById(android.R.id.content)!!,
+                    resources?.getString(R.string.no_net)!!
+                )
             }
-        } else {
-            CommonUtils.createSnackBar(
-                activity?.findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
-            )
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -282,7 +296,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
 
             text_res_title?.text = "Search Result (${data?.size})"
             if (it?.size >= 0) {
-                if (isNearyby){
+                if (isNearyby) {
                     Collections.sort(it, Comparator { obj1, obj2 ->
                         obj1.distance.compareTo(obj2.distance) // To compare string values
                     })
@@ -336,13 +350,16 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
@@ -368,11 +385,13 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                                 filteredList?.remove(it)
                             }
                         }
+
                         "Within 10km" -> {
                             if (dist > 10) {
                                 filteredList?.remove(it)
                             }
                         }
+
                         "Within 15km" -> {
                             if (dist > 15) {
                                 filteredList?.remove(it)
@@ -393,26 +412,31 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                                 filteredList?.remove(it)
                             }
                         }
+
                         "1 star" -> {
                             if (rating > 2f || rating <= 0f) {
                                 filteredList?.remove(it)
                             }
                         }
+
                         "2 star" -> {
                             if (rating < 2f || rating > 2.9f) {
                                 filteredList?.remove(it)
                             }
                         }
+
                         "3 star" -> {
                             if (rating < 3 || rating > 3.9f) {
                                 filteredList?.remove(it)
                             }
                         }
+
                         "4 star" -> {
                             if (rating < 4 || rating > 4.9f) {
                                 filteredList?.remove(it)
                             }
                         }
+
                         "5 star" -> {
                             if (rating != 5f) {
                                 filteredList?.remove(it)
@@ -429,6 +453,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
                             obj1.price.compareTo(obj2.price) // To compare string values
                         })
                     }
+
                     "High to low" -> {
                         Collections.sort(filteredList, Comparator { obj1, obj2 ->
                             obj2.price.compareTo(obj1.price) // To compare string values
@@ -439,7 +464,7 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
             if (filteredList.size == 0) {
                 view?.btn_next!!.visibility = View.GONE
             }
-            setDataToUI(filteredList,false)
+            setDataToUI(filteredList, false)
         }
     }
 
