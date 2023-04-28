@@ -16,11 +16,12 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -49,13 +50,14 @@
                     android:layout_marginTop="@dimen/margin15"
                     android:text="@string/post_submit_desc"
                     android:textColor="@color/light_black" />
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tabMode="fixed"
                     app:tabGravity="fill"
-                    app:tabMaxWidth="0dp">
+                    app:tabMaxWidth="0dp"
+                    app:tabMode="fixed">
 
                     <com.google.android.material.tabs.TabItem
                         android:layout_width="match_parent"
@@ -68,33 +70,43 @@
                         android:text="आर्डर हिस्ट्री" />
 
                 </com.google.android.material.tabs.TabLayout>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_order_history"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin15" />
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_order_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin15" />
+
+                    <include layout="@layout/layout_empty" />
+
+                </RelativeLayout>
+
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btn_next"
                     style="@style/Text_mont_regular"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin40"
-                    android:visibility="gone"
-                    android:gravity="center"
                     android:layout_marginTop="@dimen/margin15"
                     android:background="@color/magento"
+                    android:gravity="center"
                     android:paddingLeft="@dimen/margin20"
                     android:paddingTop="@dimen/margin5"
                     android:paddingRight="@dimen/margin20"
                     android:paddingBottom="@dimen/margin5"
                     android:text="View more"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/textsize14" />
+                    android:textSize="@dimen/textsize14"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <include layout="@layout/layout_progress" />
 
-    <include layout="@layout/layout_empty" />
 </RelativeLayout>

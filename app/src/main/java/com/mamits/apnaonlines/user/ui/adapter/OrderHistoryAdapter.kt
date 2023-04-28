@@ -283,10 +283,10 @@ class OrderHistoryAdapter(
                             holder?.itemView?.ratingbar?.rating =
                                 mList?.get(position)?.userratting?.toFloat()!!
                             holder?.itemView?.ratingbar?.setIsIndicator(true);
-                            holder?.itemView?.text_rating_msg?.text = "रेटिंग दे"
+                            holder?.itemView?.text_rating_msg?.text = "दी गई रेटिंग"
                         }
                     } else {
-                        holder?.itemView?.text_rating_msg?.text = "Leave a rating"
+                        holder?.itemView?.text_rating_msg?.text = "रेटिंग दे"
                         holder?.itemView?.ratingbar?.setIsIndicator(false);
                         holder?.itemView?.ll_submit_rating?.visibility = View.VISIBLE
                     }

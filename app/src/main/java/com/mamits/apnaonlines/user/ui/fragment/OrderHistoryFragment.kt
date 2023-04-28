@@ -228,7 +228,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                     start = current_page.toString(),
                     pagelength = LIMIT.toString()
                 )
-                viewModel?.getOrderHistory(commonRequestObj)?.observe(viewLifecycleOwner, Observer {
+                viewModel.getOrderHistory(commonRequestObj).observe(viewLifecycleOwner, Observer {
                     it?.run {
                         try {
                             if (status) {
@@ -239,7 +239,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
                                     } else {
                                         view?.btn_next!!.visibility = View.GONE
                                     }
-                                    data?.forEachIndexed { index, order ->
+                                    data.forEachIndexed { index, order ->
                                         if (order?.status == 2) {
                                             var currDateTime =
                                                 DateUtils.getCurrentDate("yyyy-MM-dd HH:mm:ss")
