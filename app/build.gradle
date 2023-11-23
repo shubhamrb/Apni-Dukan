@@ -12,14 +12,13 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.google.firebase.crashlytics'
 android {
-    compileSdkVersion 31
-    buildToolsVersion "30.0.3"
+    compileSdk 33
     defaultConfig {
-        applicationId "com.mamits.apnaonlines.user"
+        applicationId "com.mamits.apnaonlines.userv"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 11
-        versionName "1.10"
+        targetSdkVersion 33
+        versionCode 4
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -79,7 +78,7 @@ dependencies {
 
     //Room library
     implementation "androidx.room:room-runtime:$room_version"
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     kapt "androidx.room:room-compiler:$room_version"
 
     //ViewModel and LiveData
@@ -155,11 +154,11 @@ dependencies {
 
     implementation 'com.zplesac:connectionbuddy:2.0.0-beta1@aar'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //Cash free SDK
     implementation 'com.cashfree.pg:android-sdk:1.6.1'
@@ -173,13 +172,13 @@ dependencies {
 
     //doGPayPayment
 //    implementation files ("libs/google-pay-client-api-1.0.0.aar")
-    implementation 'com.google.android.gms:play-services-tasks:17.2.0'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.2'
 
     //doAmazonPayment
     implementation 'androidx.browser:browser:1.0.0'
 
     implementation 'com.airbnb.android:lottie:3.4.0'
-    implementation 'com.google.android.libraries.places:places:1.1.0'
+    implementation 'com.google.android.libraries.places:places:3.2.0'
 
     implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
 
@@ -191,6 +190,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.google.android:flexbox:1.1.0'
-
+    implementation 'phonepe.intentsdk.android.release:IntentSDK:2.1.1'
 }
 

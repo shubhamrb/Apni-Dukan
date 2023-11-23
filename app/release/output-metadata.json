@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.mamits.apnaonlines.user",
+  "applicationId": "com.mamits.apnaonlines.userv",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 9,
-      "versionName": "1.8",
+      "versionCode": 3,
+      "versionName": "1.0.1",
       "outputFile": "app-release.apk"
     }
   ],

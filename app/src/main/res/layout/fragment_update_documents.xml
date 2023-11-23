@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include layout="@layout/layout_back" />
+
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_list_title"
+                    style="@style/Text_mont_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:text="Add / Update Documents"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/textsize16" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edt_document_name"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/grey_back"
+                    android:hint="Document name"
+                    android:inputType="text"
+                    android:padding="@dimen/margin15"
+                    android:text="" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_file_label"
+                        style="@style/Text_mont_regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin15"
+                        android:layout_weight="1.5"
+                        android:background="@color/white"
+                        android:padding="@dimen/margin15"
+                        android:hint="Choose Document" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_file_upload"
+                        style="@style/Text_mont_regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/gradient_purple"
+                        android:gravity="center"
+                        android:paddingTop="@dimen/margin8"
+                        android:paddingBottom="@dimen/margin8"
+                        android:text="Browse"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_selected_file"
+                    android:layout_width="@dimen/margin200"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@drawable/rounded_stroke_puple_5"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_filename"
+                        style="@style/Text_mont_regular"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin3"
+                        android:layout_weight="8"
+                        android:background="@color/white"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:padding="@dimen/margin15"
+                        android:text="Document name" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_file_close"
+                        android:layout_width="@dimen/margin20"
+                        android:layout_height="@dimen/margin20"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="@dimen/margin10"
+                        app:srcCompat="@drawable/ic_file_close" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_add_document"
+                    style="@style/Text_mont_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin25"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@drawable/gradient_blue"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin25"
+                    android:paddingTop="@dimen/margin10"
+                    android:paddingRight="@dimen/margin25"
+                    android:paddingBottom="@dimen/margin10"
+                    android:text="Add Document"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize16" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_docs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginBottom="@dimen/margin15" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_next"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin40"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:background="@color/magento"
+                    android:paddingLeft="@dimen/margin20"
+                    android:paddingTop="@dimen/margin5"
+                    android:paddingRight="@dimen/margin20"
+                    android:paddingBottom="@dimen/margin5"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:text="View more"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize14" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/layout_progress" />
+
+    <include layout="@layout/layout_empty" />
+</RelativeLayout>

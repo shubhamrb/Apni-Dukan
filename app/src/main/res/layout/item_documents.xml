@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cv_store"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin8"
+    android:background="@drawable/rounded_stroke_gray_5"
+    android:elevation="@dimen/margin3"
+    android:padding="@dimen/margin15">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_doc"
+            android:layout_width="@dimen/margin100"
+            android:layout_height="@dimen/margin100"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_doc_name"
+            style="@style/Text_mont_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin15"
+            android:layout_marginEnd="@dimen/margin15"
+            android:layout_toStartOf="@+id/btn_delete"
+            android:layout_toEndOf="@+id/image_doc"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/textsize14" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="@dimen/margin24"
+            android:layout_height="@dimen/margin24"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin15"
+            android:src="@drawable/ic_close" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

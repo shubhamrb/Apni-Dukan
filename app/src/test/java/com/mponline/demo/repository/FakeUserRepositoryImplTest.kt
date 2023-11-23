@@ -3,9 +3,9 @@ package com.mponline.demo.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.mamits.apnaonlines.user.listener.UserRepository
-import com.mamits.apnaonlines.user.model.ResultUserItem
-import com.mamits.apnaonlines.user.model.UserListResponse
+import com.mamits.apnaonlines.userv.listener.UserRepository
+import com.mamits.apnaonlines.userv.model.ResultUserItem
+import com.mamits.apnaonlines.userv.model.UserListResponse
 
 //This is for viewmodel testing
 class FakeUserRepositoryImplTest: UserRepository {

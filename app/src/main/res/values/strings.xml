@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Apna Onlines</string>
+    <string name="app_name">Apni Dukan</string>
     <string name="no_net">No data found, please on wifi/mobile data !</string>
     <string name="failure_msg">Something went wrong, Please try again!</string>
     <string name="no_data">No data found</string>
@@ -12,6 +12,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="my_account">My Account</string>
+    <string name="my_docs">My Documents</string>
     <string name="help">Help</string>
     <string name="total_order">Total orders</string>
     <string name="security">Security</string>
@@ -20,6 +21,7 @@
     <string name="nav_home">मेन पेज</string>
     <string name="nav_chat">दुकान से बातचीत</string>
     <string name="nav_nearby">दुकाने</string>
+    <string name="nav_docs">मेरे डॉक्यूमेंट</string>
     <string name="nav_acc">अकाउंट</string>
     <string name="top_services">Top Services</string>
     <string name="services">Services</string>
@@ -45,9 +47,10 @@
     <string name="forgot_pin"><u>Forgot Pin? Reset Here</u></string>
     <string name="already_login"><u>Already have an account Login!</u></string>
     <string name="mobile_no">मोबाइल नंबर डाले</string>
+    <string name="vendor_code">वेंडर कोड</string>
     <string name="old_pwd">Old Password</string>
     <string name="new_pwd">New Password</string>
-    <string name="email">Email</string>
+    <string name="email">ईमेल</string>
     <string name="confirm_pwd">Confirm Password</string>
     <string name="full_name">पूरा नाम लिखे</string>
     <string name="read">Read</string>
@@ -94,6 +97,7 @@
     <!--    validations-->
     <string name="empty_name">Please enter valid name</string>
     <string name="empty_mobile">Please enter valid mobile no</string>
+    <string name="empty_vendor_code">Please enter vendor code</string>
     <string name="empty_pin">Please enter valid pin</string>
     <string name="empty_device_token">Please wait until fetch valid device token</string>
     <string name="empty_device_type">Please wait until fetch valid device type</string>

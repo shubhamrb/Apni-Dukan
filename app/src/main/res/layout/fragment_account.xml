@@ -93,6 +93,40 @@
                     android:background="@color/black" />
 
                 <LinearLayout
+                    android:id="@+id/ll_update_vendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:text="Update Vendor"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/textsize16" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Text_mont_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin15"
+                        android:layout_marginTop="@dimen/margin8"
+                        android:text="Update vendor code"
+                        android:textColor="@color/light_black" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin10"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:background="@color/black" />
+
+                <LinearLayout
                     android:id="@+id/ll_change_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -236,17 +270,19 @@
                     android:layout_marginStart="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin15"
                     android:text="@string/order_history"
+                    android:textColor="@color/light_black"
                     android:textSize="@dimen/textsize16"
-                    android:visibility="gone"
-                    android:textColor="@color/light_black" />
+                    android:visibility="gone" />
+
                 <View
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_marginTop="@dimen/margin10"
                     android:layout_marginRight="@dimen/margin15"
-                    android:background="@color/black" />
+                    android:background="@color/black"
+                    android:visibility="gone" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -283,8 +319,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin15"
-                    android:visibility="gone"
-                    android:layout_marginBottom="@dimen/margin15" />
+                    android:layout_marginBottom="@dimen/margin15"
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btn_next"
@@ -311,10 +347,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin25"
                     android:padding="@dimen/margin8"
-                    android:visibility="gone"
                     android:text="@string/view_more"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsize16" />
+                    android:textSize="@dimen/textsize16"
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

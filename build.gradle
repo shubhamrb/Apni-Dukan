@@ -43,6 +43,9 @@ allprojects {
         maven {
             url "https://artifactory.paytm.in/libs-release-local"
         }
+        maven {
+            url  "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
+        }
     }
 }
 

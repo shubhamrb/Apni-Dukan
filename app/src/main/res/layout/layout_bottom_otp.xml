@@ -17,63 +17,75 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/btn_close"
+                android:layout_width="@dimen/margin20"
+                android:layout_height="@dimen/margin20"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin20"
+                android:src="@drawable/ic_close"
+                app:tint="@color/white" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Text_mont_semibold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
-                android:textSize="@dimen/textsize16"
-                android:layout_marginTop="@dimen/margin50"
-                android:textAllCaps="true"
+                android:layout_marginTop="@dimen/margin20"
                 android:text="@string/verify_otp"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_mont_regular"
-                android:id="@+id/text_mobile_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin15"
-                android:textSize="@dimen/textsize14"
-                android:layout_marginTop="@dimen/margin15"
-                android:text="Kindly check your SMS sent on 888888888"
-                android:textColor="@color/white" />
-
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_edit_phone"
-                style="@style/Text_mont_regular"
-                android:text="@string/edit_phone"
-                android:padding="@dimen/margin15"
-                android:layout_margin="@dimen/margin15"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textsize14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_mont_semibold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin15"
-                android:textSize="@dimen/textsize14"
-                android:text="@string/otp_recieved"
-                android:textColor="@color/white" />
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize16" />
 
             <LinearLayout
-                android:layout_marginTop="@dimen/margin15"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin15"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_mobile_text"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kindly check your SMS sent on \n888888888"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textsize14" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/text_edit_phone"
+                    style="@style/Text_mont_regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin10"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/margin5"
+                    android:src="@drawable/ic_edit_24" />
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Text_mont_semibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:text="@string/otp_recieved"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize14" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin15">
 
                 <RelativeLayout
-                    android:layout_marginStart="@dimen/margin15"
-                    android:layout_weight="1"
                     android:layout_width="@dimen/margin0"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin15"
+                    android:layout_weight="1">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/edt_otp"
@@ -93,39 +105,39 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_verify_otp"
                     style="@style/Text_mont_regular"
-                    android:text="@string/verify_otp"
-                    android:padding="@dimen/margin15"
-                    android:layout_marginRight="@dimen/margin15"
-                    android:layout_marginLeft="@dimen/margin20"
-                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@color/white"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/textsize14"
-                    android:layout_width="0dp"
+                    android:layout_marginLeft="@dimen/margin20"
+                    android:layout_marginRight="@dimen/margin15"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"/>
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="@dimen/margin15"
+                    android:text="@string/verify_otp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsize14" />
 
             </LinearLayout>
 
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_mont_bold"
                 android:id="@+id/text_resend"
-                android:text="Send again 2:00"
-                android:textColor="@color/white"
+                style="@style/Text_mont_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:paddingLeft="@dimen/margin15"
-                android:paddingRight="@dimen/margin15"
-                android:paddingTop="@dimen/margin5"
-                android:paddingBottom="@dimen/margin15"
                 android:layout_marginTop="@dimen/margin5"
                 android:layout_marginBottom="@dimen/margin25"
-                android:textSize="@dimen/textsize14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:paddingLeft="@dimen/margin15"
+                android:paddingTop="@dimen/margin5"
+                android:paddingRight="@dimen/margin15"
+                android:paddingBottom="@dimen/margin15"
+                android:text="Send again 2:00"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize14" />
 
 
         </LinearLayout>

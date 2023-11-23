@@ -79,6 +79,22 @@
                     android:padding="@dimen/margin15"
                     android:text="" />
 
+                <androidx.appcompat.widget.AppCompatEditText
+                    style="@style/Text_mont_regular"
+                    android:id="@+id/edit_vendor_code"
+                    android:text=""
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:hint="@string/vendor_code"
+                    android:background="@color/grey_back"
+                    android:layout_marginLeft="@dimen/margin15"
+                    android:layout_marginRight="@dimen/margin15"
+                    android:layout_marginTop="@dimen/margin15"
+                    android:padding="@dimen/margin15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_update_profile"
                     style="@style/Text_mont_medium"

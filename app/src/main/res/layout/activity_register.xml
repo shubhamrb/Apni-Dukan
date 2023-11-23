@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +10,10 @@
     <include layout="@layout/layout_back" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_above="@id/bottom_navigation"
-        android:layout_below="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@+id/app_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,93 +25,90 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
-                android:textSize="@dimen/textsize20"
                 android:layout_marginTop="@dimen/margin50"
-                android:textAllCaps="true"
                 android:text="@string/sign_up"
-                android:textColor="@color/blue" />
+                android:textAllCaps="true"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/textsize20" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                style="@style/Text_mont_regular"
                 android:id="@+id/edt_name"
-                android:text=""
-                android:hint="@string/full_name"
-                android:background="@color/grey_back"
-                android:layout_marginLeft="@dimen/margin15"
-                android:layout_marginRight="@dimen/margin15"
-                android:layout_marginTop="@dimen/margin15"
-                android:padding="@dimen/margin15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <androidx.appcompat.widget.AppCompatEditText
                 style="@style/Text_mont_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:background="@color/grey_back"
+                android:hint="@string/full_name"
+                android:padding="@dimen/margin15"
+                android:text="" />
+
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_mobile_no"
-                android:text=""
+                style="@style/Text_mont_regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin15"
+                android:layout_marginTop="@dimen/margin15"
+                android:layout_marginRight="@dimen/margin15"
+                android:background="@color/grey_back"
                 android:hint="@string/mobile_no"
                 android:inputType="number"
                 android:maxLength="10"
-                android:background="@color/grey_back"
-                android:layout_marginLeft="@dimen/margin15"
-                android:layout_marginRight="@dimen/margin15"
-                android:layout_marginTop="@dimen/margin15"
                 android:padding="@dimen/margin15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:text="" />
 
-            <!--<androidx.appcompat.widget.AppCompatTextView
-                style="@style/Text_raleway_regular"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edt_vendor_code"
+                style="@style/Text_mont_regular"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin15"
-                android:textSize="@dimen/textsize14"
                 android:layout_marginTop="@dimen/margin15"
-                android:text="Create new pin" />
-
-            <RelativeLayout
-                android:layout_marginLeft="@dimen/margin15"
                 android:layout_marginRight="@dimen/margin15"
-                android:layout_marginTop="@dimen/margin8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:background="@color/grey_back"
+                android:hint="@string/vendor_code"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="@dimen/margin15"
+                android:text="" />
 
-              <include
-                  layout="@layout/layout_otp"/>
-
-            </RelativeLayout>-->
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_register"
                 style="@style/Text_mont_medium"
-                android:text="@string/sign_up"
-                android:paddingTop="@dimen/margin10"
-                android:paddingBottom="@dimen/margin10"
-                android:paddingRight="@dimen/margin25"
-                android:paddingLeft="@dimen/margin25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin15"
-                android:layout_marginRight="@dimen/margin15"
                 android:layout_marginTop="@dimen/margin25"
+                android:layout_marginRight="@dimen/margin15"
                 android:background="@drawable/gradient_blue"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textsize16"
                 android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:paddingLeft="@dimen/margin25"
+                android:paddingTop="@dimen/margin10"
+                android:paddingRight="@dimen/margin25"
+                android:paddingBottom="@dimen/margin10"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textsize16" />
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/layout_progress" />
+
     <androidx.appcompat.widget.AppCompatTextView
-        style="@style/Text_mont_regular"
         android:id="@+id/text_makelogin"
-        android:text="@string/already_acc"
+        style="@style/Text_mont_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:padding="@dimen/margin15"
-        android:textSize="@dimen/textsize16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="@string/already_acc"
+        android:textSize="@dimen/textsize16" />
 </RelativeLayout>

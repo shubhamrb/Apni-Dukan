@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -161,7 +161,7 @@
 
     <!-- Medium Normal TextSize -->
 
-    <style name="EditText_Auth_Normal" parent="AppTheme_NoActionBar">
+    <style name="EditText_Auth_Normal" parent="Theme_NoActionBar">
         <item name="android:textColorHint">@color/text_white</item>
         <item name="android:textColor">@color/text_white</item>
         <item name="android:textSize">@dimen/textsize14</item>
@@ -184,7 +184,7 @@
     </style>
 <!--    <item name="android:background">@drawable/rectangle_white_border</item>-->
 
-    <style name="EditText_Normal" parent="AppTheme_NoActionBar">
+    <style name="EditText_Normal" parent="Theme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
         <item name="android:textColor">@color/secondary_text_color</item>
         <item name="android:textSize">@dimen/textsize14</item>
@@ -205,7 +205,7 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
         <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
-    <style name="EditText_Normal_borderless" parent="AppTheme_NoActionBar">
+    <style name="EditText_Normal_borderless" parent="Theme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
         <item name="android:textColor">@color/secondary_text_color</item>
         <item name="android:textSize">@dimen/textsize14</item>
@@ -223,7 +223,7 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
         <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
-    <style name="EditText_Normal_no_margin" parent="AppTheme_NoActionBar">
+    <style name="EditText_Normal_no_margin" parent="Theme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
         <item name="android:textColor">@color/secondary_text_color</item>
         <item name="android:textSize">@dimen/textsize14</item>
@@ -244,7 +244,7 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
         <item name="android:importantForAutofill" tools:ignore="NewApi">no</item>
     </style>
-    <style name="EditText_Normal_no_margin_padding" parent="AppTheme_NoActionBar">
+    <style name="EditText_Normal_no_margin_padding" parent="Theme_NoActionBar">
         <item name="android:textColorHint">@color/gray_border</item>
         <item name="android:textColor">@color/secondary_text_color</item>
         <item name="android:textSize">@dimen/textsize14</item>

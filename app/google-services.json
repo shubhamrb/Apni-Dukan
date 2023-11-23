@@ -65,9 +65,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:169199873194:android:225ffc348df773e685f4d3",
+        "mobilesdk_app_id": "1:169199873194:android:cd6843b5fc2a869685f4d3",
         "android_client_info": {
-          "package_name": "com.mponline.userApp"
+          "package_name": "com.mamits.apnaonlines.userv"
         }
       },
       "oauth_client": [

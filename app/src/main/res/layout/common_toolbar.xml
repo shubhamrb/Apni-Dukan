@@ -46,9 +46,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_logo"
                     android:layout_width="@dimen/margin60"
-                    android:layout_height="@dimen/margin30"
+                    android:layout_height="@dimen/margin100"
                     android:layout_centerVertical="true"
-                    android:maxWidth="@dimen/margin60"
                     android:tint="@color/white"
                     app:srcCompat="@drawable/logo" />
 
@@ -59,7 +58,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin15"
                     android:layout_toRightOf="@+id/img_logo"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_locationName"
@@ -91,7 +91,8 @@
                     android:layout_toStartOf="@+id/image_offer"
                     android:padding="@dimen/margin2"
                     android:src="@drawable/ic_toolbar_search"
-                    android:tint="@color/white" />
+                    android:tint="@color/white"
+                    android:visibility="invisible"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_offer_txt"

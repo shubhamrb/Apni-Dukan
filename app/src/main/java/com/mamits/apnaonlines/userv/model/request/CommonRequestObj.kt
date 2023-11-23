@@ -1,0 +1,72 @@
+package com.mamits.apnaonlines.userv.model.request
+
+
+import com.google.gson.annotations.SerializedName
+
+data class CommonRequestObj(
+    @SerializedName("api_key")
+    val apiKey: String = "",
+    @SerializedName("userid")
+    val userid: String = "",
+    @SerializedName("password")
+    val password: String = "",
+    @SerializedName("name")
+    val name: String = "",
+    @SerializedName("email")
+    val email: String = "",
+    @SerializedName("mobile")
+    val mobile: String = "",
+    @SerializedName("search")
+    val search: String = "",
+    @SerializedName("oldpassword")
+    val oldpassword: String = "",
+    @SerializedName("newpassword")
+    val newpassword: String = "",
+    @SerializedName("orderid")
+    val orderid: String = "",
+    @SerializedName("coupon")
+    val coupon: String = "",
+    @SerializedName("orderamount")
+    val orderamount: String = "",
+    @SerializedName("vendorid")
+    val vendorid: String = "",
+    @SerializedName("latitude")
+    val latitude: String = "",
+    @SerializedName("longitude")
+    val longitude: String = "",
+    @SerializedName("category_id")
+    val category_id: String = "",
+    @SerializedName("category")
+    val category: String = "",
+    @SerializedName("store_id")
+    val store_id: String = "",
+    @SerializedName("subcategory_id")
+    val subcategory_id: String = "",
+    @SerializedName("storeid")
+    val storeid: String = "",
+    @SerializedName("rating")
+    val rating: String = "",
+    @SerializedName("discountamount")
+    val discountamount: String = "",
+    @SerializedName("finalamountpay")
+    val finalamountpay: String = "",
+    @SerializedName("product_id")
+    val product_id: String = "",
+    var headerInfo: HeaderInfo? = null,
+    @SerializedName("start")
+    val start: String = "",
+    @SerializedName("pagelength")
+    val pagelength: String = "",
+    @SerializedName("doc_id")
+    val doc_id: String = "",
+    @SerializedName("vendor_code")
+    val vendor_code: String = "",
+    @SerializedName("status")
+    val status: String = ""
+)
+
+data class HeaderInfo(
+    var Authorization: String = ""
+)
+
+

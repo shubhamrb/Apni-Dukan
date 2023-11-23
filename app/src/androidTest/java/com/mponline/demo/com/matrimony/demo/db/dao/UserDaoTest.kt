@@ -7,9 +7,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
-import com.mamits.apnaonlines.user.db.AppDatabase
-import com.mamits.apnaonlines.user.db.dao.UserDao
-import com.mamits.apnaonlines.user.model.ResultUserItem
+import com.mamits.apnaonlines.userv.db.AppDatabase
+import com.mamits.apnaonlines.userv.db.dao.UserDao
+import com.mamits.apnaonlines.userv.model.ResultUserItem
 import com.mponline.demo.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
