@@ -147,18 +147,15 @@ dependencies {
     //Room debugging
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
 
-    implementation 'com.airbnb.android:lottie:3.4.0'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     implementation 'com.zplesac:connectionbuddy:2.0.0-beta1@aar'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
 
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     //Cash free SDK
     implementation 'com.cashfree.pg:android-sdk:1.6.1'
