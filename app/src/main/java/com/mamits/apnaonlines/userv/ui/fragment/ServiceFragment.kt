@@ -15,17 +15,21 @@ import com.mamits.apnaonlines.userv.listener.OnItemClickListener
 import com.mamits.apnaonlines.userv.listener.OnSwichFragmentListener
 import com.mamits.apnaonlines.userv.model.response.CategorylistItem
 import com.mamits.apnaonlines.userv.model.response.GetCategoriesResponse
+import com.mamits.apnaonlines.userv.model.response.StoreDetailDataItem
 import com.mamits.apnaonlines.userv.ui.adapter.ServicesAdapter
 import com.mamits.apnaonlines.userv.ui.base.BaseFragment
 import com.mamits.apnaonlines.userv.util.CommonUtils
 import com.mamits.apnaonlines.userv.util.Constants
 import com.mamits.apnaonlines.userv.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_service.*
-import kotlinx.android.synthetic.main.fragment_service.view.*
+import kotlinx.android.synthetic.main.fragment_service.ll_container
+import kotlinx.android.synthetic.main.fragment_service.view.ll_container
+import kotlinx.android.synthetic.main.fragment_service.view.relative_frag
 import kotlinx.android.synthetic.main.fragment_service.view.rv_services
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.fragment_service.view.text_servicename
+import kotlinx.android.synthetic.main.layout_empty.relative_empty
+import kotlinx.android.synthetic.main.layout_empty.text_empty
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
 
 @AndroidEntryPoint
 class ServiceFragment : BaseFragment(), OnItemClickListener {
@@ -63,10 +67,11 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
         }
         arguments?.let {
             if (it?.containsKey("obj")) {
-                val data: CategorylistItem? = arguments?.getParcelable<CategorylistItem>("obj")
+                val data: CategorylistItem? =
+                    arguments?.getParcelable<CategorylistItem>("obj")
                 data?.let {
                     mCategoryObj = it
-                    if(mCategoryObj?.name!=null && !mCategoryObj?.name?.isNullOrEmpty()!!){
+                    if (mCategoryObj?.name != null && !mCategoryObj?.name?.isNullOrEmpty()!!) {
                         view?.text_servicename?.text = mCategoryObj?.name
                     }
                     callSubCategory(it)
@@ -109,10 +114,10 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
 
     fun setDataToUI(mGetCategoriesResponse: GetCategoriesResponse) {
         mGetCategoriesResponse?.let {
-            if(it?.data?.size!!>0){
+            if (it?.data?.size!! > 0) {
                 relative_empty?.visibility = View.GONE
                 ll_container?.visibility = View.VISIBLE
-            }else{
+            } else {
                 text_empty?.text = "No Service found"
                 relative_empty?.visibility = View.VISIBLE
                 ll_container?.visibility = View.GONE
@@ -162,15 +167,18 @@ class ServiceFragment : BaseFragment(), OnItemClickListener {
                     relative_empty?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     relative_empty?.visibility = View.GONE

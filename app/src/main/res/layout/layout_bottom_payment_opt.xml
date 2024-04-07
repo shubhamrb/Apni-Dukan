@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin5"
             android:layout_weight="1"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@color/grey_alpha"
             android:gravity="center"
             android:padding="@dimen/margin15"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin5"
             android:layout_weight="1"
-
+            android:visibility="gone"
             android:background="@color/grey_alpha"
             android:gravity="center"
             android:padding="@dimen/margin15"

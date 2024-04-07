@@ -17,6 +17,7 @@ import com.mamits.apnaonlines.userv.listener.OnSwichFragmentListener
 import com.mamits.apnaonlines.userv.model.response.CategorylistItem
 import com.mamits.apnaonlines.userv.model.response.GetProductByCategoryResponse
 import com.mamits.apnaonlines.userv.model.response.ProductListItem
+import com.mamits.apnaonlines.userv.model.response.StoreDetailDataItem
 import com.mamits.apnaonlines.userv.model.response.StorelistItem
 import com.mamits.apnaonlines.userv.ui.adapter.SubServiceAdapter
 import com.mamits.apnaonlines.userv.ui.base.BaseFragment
@@ -24,10 +25,12 @@ import com.mamits.apnaonlines.userv.util.CommonUtils
 import com.mamits.apnaonlines.userv.util.Constants
 import com.mamits.apnaonlines.userv.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_sub_services.view.*
 import kotlinx.android.synthetic.main.fragment_sub_services.view.ll_container
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.layout_progress.*
+import kotlinx.android.synthetic.main.fragment_sub_services.view.relative_frag
+import kotlinx.android.synthetic.main.fragment_sub_services.view.rv_sub_service
+import kotlinx.android.synthetic.main.fragment_sub_services.view.text_list_title
+import kotlinx.android.synthetic.main.layout_empty.relative_empty
+import kotlinx.android.synthetic.main.layout_progress.relative_progress
 
 @AndroidEntryPoint
 class SubServiceFragment : BaseFragment(), OnItemClickListener {
@@ -39,7 +42,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     val viewModel: UserListViewModel by viewModels()
     var categoryObj: CategorylistItem? = null
-    var subCategoryObj: CategorylistItem? = null
+    var subCategoryObj: StoreDetailDataItem? = null
     var getProdByCategory: GetProductByCategoryResponse? = null
     var isFromStore = false
 
@@ -55,7 +58,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context!=null){
+        if (context != null) {
             mSwichFragmentListener = context as OnSwichFragmentListener
         }
     }
@@ -65,68 +68,70 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
         arguments?.let {
             isFromStore = false
-            if (it?.containsKey("obj") && it?.containsKey("obj2")) {
+            if (it.containsKey("obj") && it.containsKey("obj2")) {
                 categoryObj = arguments?.getParcelable<CategorylistItem>("obj")
-                subCategoryObj = arguments?.getParcelable<CategorylistItem>("obj2")
-                if(subCategoryObj!=null){
+                subCategoryObj = arguments?.getParcelable<StoreDetailDataItem>("obj2")
+                /*if (subCategoryObj != null) {
                     categoryObj?.let {
                         callSubCategory(it, subCategoryObj!!)
                     }
-                    if(categoryObj?.name!=null && subCategoryObj?.name!=null){
-                        view?.text_list_title?.text = "${categoryObj?.name} | ${subCategoryObj?.name}"
-                    }else{
+                    if (categoryObj?.name != null && subCategoryObj?.name != null) {
+                        view?.text_list_title?.text =
+                            "${categoryObj?.name} | ${subCategoryObj?.name}"
+                    } else {
 
                     }
-                }else{
+                } else {*/
                     categoryObj?.let {
-                        if(!it?.storeId?.isNullOrEmpty()){
+                        if (!it?.storeId?.isNullOrEmpty()) {
                             isFromStore = true
                             callProductsByStore(it?.id, it?.storeId)
                         }
                     }
-                }
-            }else if(it?.containsKey("obj")) {
-                subCategoryObj = arguments?.getParcelable<CategorylistItem>("obj")
+//                }
+            } else if (it?.containsKey("obj")) {
+                subCategoryObj = arguments?.getParcelable<StoreDetailDataItem>("obj")
                 subCategoryObj?.let {
-                    if(it?.storeId?.isNullOrEmpty()){
+                    if (it?.storeId?.isNullOrEmpty()) {
                         callSubCategory(null, subCategoryObj!!)
-                    }else{
+                    } else {
                         callProductsByStore(it?.id, it?.storeId)
                     }
                 }
-            } else{
+            } else {
 
             }
         }
 
 
-        view?.relative_frag?.setOnClickListener {  }
+        view?.relative_frag?.setOnClickListener { }
 
     }
 
-    private fun callSubCategory(category: CategorylistItem?, subcategory: CategorylistItem) {
+    private fun callSubCategory(category: StoreDetailDataItem?, subcategory: StoreDetailDataItem) {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
                 apiKey = getApiKey(),
-                category_id = if(category!=null) category?.id!! else "",
+                category_id = if (category != null) category?.id!! else "",
                 subcategory_id = subcategory?.id!!
             )
-            viewModel?.getProductByCategory(commonRequestObj)?.observe(this@SubServiceFragment, Observer {
-                it?.run {
-                    if (status) {
-                        switchView(1, "")
-                        getProdByCategory = it!!
-                        setDataToUI(data?.productList!!)
-                    } else {
-                        switchView(0, "")
-                        CommonUtils.createSnackBar(
-                            activity?.findViewById(android.R.id.content)!!,
-                           message
-                        )
+            viewModel?.getProductByCategory(commonRequestObj)
+                ?.observe(this@SubServiceFragment, Observer {
+                    it?.run {
+                        if (status) {
+                            switchView(1, "")
+                            getProdByCategory = it!!
+                            setDataToUI(data?.productList!!)
+                        } else {
+                            switchView(0, "")
+                            CommonUtils.createSnackBar(
+                                activity?.findViewById(android.R.id.content)!!,
+                                message
+                            )
+                        }
                     }
-                }
-            })
+                })
         } else {
             CommonUtils.createSnackBar(
                 activity?.findViewById(android.R.id.content)!!,
@@ -134,7 +139,8 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
             )
         }
     }
-    private fun callProductsByStore(categoryId:String, storeId:String) {
+
+    private fun callProductsByStore(categoryId: String, storeId: String) {
         if (CommonUtils.isOnline(activity!!)) {
             switchView(3, "")
             var commonRequestObj = getCommonRequestObj(
@@ -164,7 +170,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
         }
     }
 
-    fun setDataToUI(arraylist:ArrayList<ProductListItem>, isFromStore:Boolean = false) {
+    fun setDataToUI(arraylist: ArrayList<ProductListItem>, isFromStore: Boolean = false) {
         arraylist?.let {
             mView?.rv_sub_service?.setHasFixedSize(true)
             mView?.rv_sub_service?.layoutManager =
@@ -190,27 +196,36 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
-        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR,"",null)
+        mSwichFragmentListener?.onSwichToolbar(Constants.SHOW_NAV_DRAWER_TOOLBAR, "", null)
     }
 
     override fun onClick(pos: Int, view: View, obj: Any?) {
-        when(view?.id){
-            R.id.cv_sub_service->{
-                if(!isFromStore){
+        when (view?.id) {
+            R.id.cv_sub_service -> {
+                if (!isFromStore) {
                     //Go to storelist
                     mSwichFragmentListener?.onSwitchFragment(
                         Constants.STORE_PAGE_BY_PROD,
                         Constants.WITH_NAV_DRAWER,
                         obj, null
                     )
-                }else{
+                } else {
                     //Go to storeDetail
-                    mSwichFragmentListener?.onSwitchFragment(
+                    /*mSwichFragmentListener?.onSwitchFragment(
                         Constants.STORE_DETAIL_PAGE_WITH_PROD,
                         Constants.WITH_NAV_DRAWER,
-                        StorelistItem(id = if(subCategoryObj!=null)subCategoryObj?.storeId!! else categoryObj?.storeId!!),
+                        StorelistItem(id = if (subCategoryObj != null) subCategoryObj?.storeId!! else categoryObj?.storeId!!),
                         obj
-                    )
+                    )*/
+
+                    if (obj != null) {
+                        mSwichFragmentListener?.onSwitchFragment(
+                            Constants.INSTRUCTION_PAGE,
+                            Constants.WITH_NAV_DRAWER,
+                            subCategoryObj,
+                            obj
+                        )
+                    }
                 }
             }
         }
@@ -224,15 +239,18 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
                     relative_empty?.visibility = View.VISIBLE
                     ll_container?.visibility = View.GONE
                 }
+
                 1 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                     ll_container?.visibility = View.VISIBLE
                 }
+
                 2 -> {
                     relative_progress?.visibility = View.GONE
                     relative_empty?.visibility = View.GONE
                 }
+
                 3 -> {
                     relative_progress?.visibility = View.VISIBLE
                     relative_empty?.visibility = View.GONE
@@ -246,7 +264,7 @@ class SubServiceFragment : BaseFragment(), OnItemClickListener {
     companion object {
         fun newInstance(
             context: Activity,
-            subcategory: CategorylistItem?,
+            subcategory: StoreDetailDataItem?,
             category: CategorylistItem
         ): Fragment {
             val fragment = SubServiceFragment()

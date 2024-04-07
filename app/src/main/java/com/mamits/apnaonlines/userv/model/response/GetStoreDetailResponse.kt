@@ -11,6 +11,10 @@ data class StoreDetailDataItem(
     val category: ArrayList<CategorylistItem>,
     @SerializedName("banner_image")
     val banner_image: ArrayList<String>,
+    @SerializedName("storeId")
+    var storeId: String = "",
+    @SerializedName("image")
+    var image: String = "",
     @SerializedName("openingtime")
     val openingtime: String = "",
     @SerializedName("distance")
@@ -38,7 +42,11 @@ data class StoreDetailDataItem(
     @SerializedName("rating")
     val rating: RatingDetail?,
     @SerializedName("longitude")
-    val longitude: String = ""
+    val longitude: String = "",
+    @SerializedName("whatsapp_no")
+    val whatsapp_no: String = "",
+    @SerializedName("qrcode")
+    val qrcode: String = ""
 ) : Parcelable {
 
     @Parcelize
@@ -53,7 +61,7 @@ data class StoreDetailDataItem(
         var four: String?,
         @SerializedName("5")
         var five: String?
-    ):Parcelable
+    ) : Parcelable
 }
 
 @Parcelize

@@ -1,5 +1,6 @@
 package com.mamits.apnaonlines.userv.api
 
+import com.google.gson.JsonObject
 import com.mamits.apnaonlines.userv.model.UserListResponse
 import com.mamits.apnaonlines.userv.model.request.*
 import com.mamits.apnaonlines.userv.model.response.*
@@ -125,6 +126,12 @@ interface NetworkAPIService {
         @Header("Authorization") token: String,
         @Body commonRequestObj: CommonRequestObj
     ): Response<ApplyCouponResponse>
+
+    @GET
+    suspend fun checkPhonepeStatus(
+        @Url url: String,
+        @HeaderMap headers: Map<String, String>,
+    ): Response<JsonObject>
 
     @POST(ApiName.GET_COUPON_LIST)
     suspend fun getCouponList(

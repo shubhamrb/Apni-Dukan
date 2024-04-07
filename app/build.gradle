@@ -17,8 +17,8 @@ android {
         applicationId "com.mamits.apnaonlines.userv"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 4
-        versionName "1.0.2"
+        versionCode 8
+        versionName "1.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -190,6 +190,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'com.google.android:flexbox:1.1.0'
-    implementation 'phonepe.intentsdk.android.release:IntentSDK:2.1.1'
+    implementation 'phonepe.intentsdk.android.release:IntentSDK:2.4.3'
 }
 

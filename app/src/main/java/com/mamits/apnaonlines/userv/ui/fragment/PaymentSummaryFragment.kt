@@ -167,11 +167,11 @@ class PaymentSummaryFragment : BaseFragment(), OnItemClickListener,
                 arrayList
             )
         }
-        if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Online", true)!!) {
+        /*if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Online", true)!!) {
             view?.text_pay_online?.visibility = View.VISIBLE
         } else {
             view?.text_pay_online?.visibility = View.GONE
-        }
+        }*/
         if (mOrderHistoryDataItem?.storedetail?.paymentAcceptMode?.contains("Offline", true)!!) {
             view?.text_pay_to_shop?.visibility = View.VISIBLE
         } else {

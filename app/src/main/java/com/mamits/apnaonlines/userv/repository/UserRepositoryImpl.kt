@@ -2,6 +2,7 @@ package com.mamits.apnaonlines.userv.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.mamits.apnaonlines.userv.api.NetworkAPIService
 import com.mamits.apnaonlines.userv.db.dao.UserDao
 import com.mamits.apnaonlines.userv.listener.UserRepository
@@ -567,6 +568,32 @@ class UserRepositoryImpl @Inject constructor(
                 val response = apiService?.applyCoupon(
                     commonRequestObj?.headerInfo?.Authorization!!,
                     commonRequestObj
+                )
+                if (response?.isSuccessful!!) {
+                    data.postValue(response?.body())
+                } else {
+                    errorOnAPI.postValue("${response.message()}")
+                }
+
+            } catch (e: Exception) {
+                errorOnAPI.postValue("Something went wrong::${e.localizedMessage}")
+            }
+        }
+        return data;
+    }
+
+    override fun checkPhonepeStatus(
+        PHONEPE_MERCHANT_ID: String,
+        PHONEPE_MERCHANT_TR_ID: String,
+        headers: Map<String, String>
+    ): MutableLiveData<JsonObject> {
+        val data = MutableLiveData<JsonObject>()
+        val errorOnAPI = MutableLiveData<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService.checkPhonepeStatus(
+                    "https://api.phonepe.com/apis/hermes/pg/v1/status/$PHONEPE_MERCHANT_ID/$PHONEPE_MERCHANT_TR_ID",
+                    headers
                 )
                 if (response?.isSuccessful!!) {
                     data.postValue(response?.body())

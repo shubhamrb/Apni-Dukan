@@ -26,6 +26,7 @@ import com.phonepe.intent.sdk.api.B2BPGRequest
 import com.phonepe.intent.sdk.api.B2BPGRequestBuilder
 import com.phonepe.intent.sdk.api.PhonePe
 import com.phonepe.intent.sdk.api.PhonePeInitException
+import com.phonepe.intent.sdk.api.models.PhonePeEnvironment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment.web
 import kotlinx.android.synthetic.main.layout_progress.relative_progress
@@ -35,7 +36,10 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.text.SimpleDateFormat
 import java.util.Base64
+import java.util.Date
+import java.util.Locale
 import java.util.Random
 import java.util.UUID
 
@@ -45,6 +49,7 @@ class PaymentActivity : BaseActivity() {
         CARD, WALLET, NET_BANKING, UPI_COLLECT, PAY_PAL
     }
 
+    private lateinit var PHONEPE_MERCHANT_TR_ID: String
     private var currentMode = SeamlessMode.CARD
     val viewModel: UserListViewModel by viewModels()
     var mOrderHistoryDataItem: OrderHistoryDataItem? = null
@@ -57,16 +62,14 @@ class PaymentActivity : BaseActivity() {
     private val apiEndPoint = "/pg/v1/pay"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_payment)
-        /*phonepe sdk initialized*/
-        PhonePe.init(this)
+        setContentView(R.layout.activity_payment)/*phonepe sdk initialized*/
+        PhonePe.init(this, PhonePeEnvironment.RELEASE, PHONEPE_MERCHANT_ID, null)
         if (intent?.hasExtra("paymentgateway")!!) {
             mPaymentGateway = intent?.getStringExtra("paymentgateway")!!
         }
         if (intent?.hasExtra("data")!!) {
             mOrderHistoryDataItem = intent?.getParcelableExtra("data")
-            if (mOrderHistoryDataItem != null) {
-                /* callCashfreeToken(
+            if (mOrderHistoryDataItem != null) {/* callCashfreeToken(
                      orderId = mOrderHistoryDataItem?.orderId!!,
                      orderAmt = mOrderHistoryDataItem?.payableAmount!!
                  )*/
@@ -125,18 +128,22 @@ class PaymentActivity : BaseActivity() {
                     }
                 }
             }
+            req.orderId = mOrderHistoryDataItem?.orderId
+            req.paymentMethod = "CASHFREE"
+            callSavePayment(req)
         } else if (requestCode == 1 && data != null) {
             if (resultCode == RESULT_OK) {
                 // The transaction was successful
-                val response = data.getStringExtra("response")
-                Log.d("response : ", "PhonePe Transaction Success. Response: $response")
+                Log.d("response : ", "PhonePe Transaction Success. Data: ${data.data}")
+
+                /*val response = data.getStringExtra("response")
+                Log.d("response : ", "PhonePe Transaction Success. Response: $response")*/
 
                 // Parse the response and handle it as needed
                 // Example: You might want to check the status and other details
-                try {
-                    val jsonResponse = JSONObject(response)
-                    val status = jsonResponse.optString("status")
-                    // Handle the status and other details accordingly
+                try {/*val jsonResponse = response?.let { JSONObject(it) }
+                    val status = jsonResponse?.optString("status")*/
+                    checkStatus()
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -145,10 +152,73 @@ class PaymentActivity : BaseActivity() {
                 Log.d("response : ", "PhonePe Transaction Failed.")
             }
         }
+    }
 
-        /*req.orderId = mOrderHistoryDataItem?.orderId
-        req.paymentMethod = "CASHFREE"
-        callSavePayment(req)*/
+
+    private fun checkStatus() {
+
+        val xVerify =
+            sha256("/pg/v1/status/$PHONEPE_MERCHANT_ID/${PHONEPE_MERCHANT_TR_ID}${PHONEPE_SALT}") + "###1"
+
+        Log.d("phonepe", "onCreate  xverify : $xVerify")
+
+
+        val headers = mapOf(
+            "Content-Type" to "application/json",
+            "X-VERIFY" to xVerify,
+            "X-MERCHANT-ID" to PHONEPE_MERCHANT_ID,
+        )
+
+
+
+        viewModel.checkPhonepeStatus(PHONEPE_MERCHANT_ID, PHONEPE_MERCHANT_TR_ID, headers)
+            .observe(this, androidx.lifecycle.Observer {
+                it?.run {
+
+                    Log.d("phonepe", "onCreate: $it")
+
+                    /*
+                    * {"success":true,"code":"PAYMENT_SUCCESS","message":"Your payment is successful.","data":{"merchantId":"APNAONLINES","merchantTransactionId":"183301373","transactionId":"T2312192252126734210842","amount":100,"state":"COMPLETED","responseCode":"SUCCESS","paymentInstrument":{"type":"UPI","utr":"335376998756","upiTransactionId":"AXLe714bb03fb95416da5267c2f1a412c05","cardNetwork":null,"accountType":"SAVINGS"}}}*/
+
+                    /*if (res.body() != null && res.body()!!.success) {
+                        Log.d("phonepe", "onCreate: success")
+                        Toast.makeText(this@PaymentActivity, res.body()!!.message, Toast.LENGTH_SHORT)
+                            .show()
+
+        req.orderId = mOrderHistoryDataItem?.orderId
+                req.paymentMethod = "CASHFREE"
+                callSavePayment(req)
+                    }*/
+
+                    if (it.get("success").asBoolean) {
+
+                        var dataObj = it.get("data").asJsonObject
+
+                        var req = SavePaymentRequest()
+
+                        val currentTime = System.currentTimeMillis()
+                        val simpleDateFormat =
+                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                        req.txTime = simpleDateFormat.format(Date(currentTime))
+
+                        req.referenceId = dataObj.get("transactionId").asString
+                        req.txMsg = it.get("message").asString
+                        req.paymentMode = "ONLINE"
+//                        req.orderAmount = dataObj.get("amount").asInt.toString()
+                        req.orderAmount = mOrderHistoryDataItem?.orderAmount
+                        req.txStatus = dataObj.get("responseCode").asString
+
+                        req.orderId = mOrderHistoryDataItem?.orderId
+                        req.paymentMethod = "PHONEPE"
+                        callSavePayment(req)
+                    } else {
+                        finish()
+                        CommonUtils.createSnackBar(
+                            findViewById(android.R.id.content)!!, it.get("message").asString
+                        )
+                    }
+                }
+            })
     }
 
     private fun callGetting() {
@@ -175,16 +245,14 @@ class PaymentActivity : BaseActivity() {
                     } else {
                         finish()
                         CommonUtils.createSnackBar(
-                            findViewById(android.R.id.content)!!,
-                            message
+                            findViewById(android.R.id.content)!!, message
                         )
                     }
                 }
             })
         } else {
             CommonUtils.createSnackBar(
-                findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
+                findViewById(android.R.id.content)!!, resources?.getString(R.string.no_net)!!
             )
         }
     }
@@ -194,42 +262,40 @@ class PaymentActivity : BaseActivity() {
             val data = JSONObject()
             val n = 10000 + Random().nextInt(90000)
             val m = Math.pow(10.0, (n - 1).toDouble()).toInt()
-            val orderId = (m + Random().nextInt(9 * m)).toString().replace("-", "")
+            PHONEPE_MERCHANT_TR_ID = (m + Random().nextInt(9 * m)).toString().replace("-", "")
             try {
-                data.put("merchantTransactionId", orderId)
+                data.put("merchantTransactionId", PHONEPE_MERCHANT_TR_ID)
                 data.put("merchantId", PHONEPE_MERCHANT_ID)
-                data.put("amount", 100)
-                data.put("mobileNumber", "7415100418")
+                data.put("merchantUserId", mOrderHistoryDataItem?.userId)
+                data.put(
+                    "amount",
+                    (mOrderHistoryDataItem?.payableAmount!!.toDouble()).toInt() * 100
+                )
+                data.put("mobileNumber", "8602741312")
                 data.put("callbackUrl", "https://webhook.site/callback-url")
                 val paymentInstrument = JSONObject()
-                paymentInstrument.put("type", "UPI_INTENT")
-                paymentInstrument.put("targetApp", "com.phonepe.app")
+                paymentInstrument.put("type", "PAY_PAGE")//UPI_INTENT
                 data.put("paymentInstrument", paymentInstrument)
-                val deviceContext = JSONObject()
-                deviceContext.put("deviceOS", "ANDROID")
-                data.put("deviceContext", deviceContext)
+
                 val payloadBase64: String
                 payloadBase64 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     Base64.getEncoder()
                         .encodeToString(data.toString().toByteArray(Charset.defaultCharset()))
                 } else {
                     android.util.Base64.encodeToString(
-                        data.toString().toByteArray(),
-                        android.util.Base64.DEFAULT
+                        data.toString().toByteArray(), android.util.Base64.DEFAULT
                     )
                 }
                 val checksum: String = sha256(payloadBase64 + apiEndPoint + PHONEPE_SALT) + "###1"
                 val checksum1: String =
-                    sha256("/pg/v1/status/$PHONEPE_MERCHANT_ID/$orderId$PHONEPE_SALT") + "###1"
-                Log.d(TAG, "merchantTransactionId : $orderId")
+                    sha256("/pg/v1/status/$PHONEPE_MERCHANT_ID/$PHONEPE_MERCHANT_TR_ID$PHONEPE_SALT") + "###1"
+                Log.d(TAG, "merchantTransactionId : $PHONEPE_MERCHANT_TR_ID")
                 Log.d(TAG, "payloadBase64 : $payloadBase64")
                 Log.d(TAG, "checksum : $checksum")
                 Log.d(TAG, "checksum1 : $checksum1")
-                val b2BPGRequest: B2BPGRequest = B2BPGRequestBuilder()
-                    .setData(payloadBase64)
-                    .setChecksum(checksum)
-                    .setUrl(apiEndPoint)
-                    .build()
+                val b2BPGRequest: B2BPGRequest =
+                    B2BPGRequestBuilder().setData(payloadBase64).setChecksum(checksum)
+                        .setUrl(apiEndPoint).build()
                 try {
                     val intent: Intent =
                         PhonePe.getImplicitIntent(this, b2BPGRequest, "com.phonepe.app")!!
@@ -264,15 +330,12 @@ class PaymentActivity : BaseActivity() {
         if (CommonUtils.isOnline(this)) {
             switchView(3, "")
             var cashfreeObj: CashfreeObj = CashfreeObj(
-                orderId = orderId,
-                orderAmount = orderAmt
+                orderId = orderId, orderAmount = orderAmt
             )
             viewModel.cashfreeToken(
-                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}",
-                cashfreeObj
+                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}", cashfreeObj
             ).observe(this, androidx.lifecycle.Observer {
-                if (mGetSettingResponse != null)
-                    switchView(1, "")
+                if (mGetSettingResponse != null) switchView(1, "")
                 if (it?.status!!) {
                     mToken = it?.data
                     onClick(web)
@@ -282,8 +345,7 @@ class PaymentActivity : BaseActivity() {
             })
         } else {
             CommonUtils.createSnackBar(
-                findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
+                findViewById(android.R.id.content)!!, resources?.getString(R.string.no_net)!!
             )
         }
     }
@@ -292,56 +354,47 @@ class PaymentActivity : BaseActivity() {
         if (CommonUtils.isOnline(this)) {
             switchView(3, "")
             viewModel?.savePayment(
-                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}",
-                savePaymentRequest
+                "Bearer ${mPreferenceUtils?.getValue(Constants.USER_TOKEN)}", savePaymentRequest
             )?.observe(this, androidx.lifecycle.Observer {
                 switchView(1, "")
                 CommonUtils.createSnackBar(
-                    findViewById(android.R.id.content)!!,
-                    it?.message!!
+                    findViewById(android.R.id.content)!!, it?.message!!
                 )
                 if (it?.status!!) {
                     mPaymentResList?.clear()
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Order ID",
-                            value = savePaymentRequest?.orderId
+                            name = "Order ID", value = savePaymentRequest?.orderId
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Order Amount",
-                            value = savePaymentRequest?.orderAmount
+                            name = "Order Amount", value = savePaymentRequest?.orderAmount
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Reference ID",
-                            value = savePaymentRequest?.referenceId
+                            name = "Reference ID", value = savePaymentRequest?.referenceId
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Transaction Status",
-                            value = savePaymentRequest?.txStatus
+                            name = "Transaction Status", value = savePaymentRequest?.txStatus
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Payment Mode",
-                            value = savePaymentRequest?.paymentMethod
+                            name = "Payment Mode", value = savePaymentRequest?.paymentMethod
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Message",
-                            value = savePaymentRequest?.txMsg
+                            name = "Message", value = savePaymentRequest?.txMsg
                         )
                     )
                     mPaymentResList?.add(
                         OrderDetailItem(
-                            name = "Transaction Time",
-                            value = savePaymentRequest?.txTime
+                            name = "Transaction Time", value = savePaymentRequest?.txTime
                         )
                     )
                     var intent: Intent = Intent(this, FormPreviewActivity::class.java)
@@ -355,8 +408,7 @@ class PaymentActivity : BaseActivity() {
             })
         } else {
             CommonUtils.createSnackBar(
-                findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
+                findViewById(android.R.id.content)!!, resources?.getString(R.string.no_net)!!
             )
         }
     }
@@ -387,8 +439,7 @@ class PaymentActivity : BaseActivity() {
             })
         } else {
             CommonUtils.createSnackBar(
-                findViewById(android.R.id.content)!!,
-                resources?.getString(R.string.no_net)!!
+                findViewById(android.R.id.content)!!, resources?.getString(R.string.no_net)!!
             )
         }
     }
@@ -424,7 +475,10 @@ class PaymentActivity : BaseActivity() {
         val Order = PaytmOrder(paramMap)
         Log.e("checksum ", "param $paramMap")
         pgService.initialize(Order, null)
-        pgService.startPaymentTransaction(this, true, true,
+        pgService.startPaymentTransaction(
+            this,
+            true,
+            true,
             object : PaytmPaymentTransactionCallback {
                 override fun onTransactionResponse(bundle: Bundle?) {
                     var req: SavePaymentRequest = SavePaymentRequest()
@@ -437,8 +491,7 @@ class PaymentActivity : BaseActivity() {
                             }
                             mPaymentResList?.clear()
                             CommonUtils.printLog(
-                                "PAYMENT_RES2",
-                                key + " : " + bundle.getString(key)
+                                "PAYMENT_RES2", key + " : " + bundle.getString(key)
                             )
                             when (key) {
                                 "orderId" -> {
@@ -514,8 +567,7 @@ class PaymentActivity : BaseActivity() {
     /**
      * Cashfree process start
      */
-    fun onClick(view: View) {
-        /*
+    fun onClick(view: View) {/*
          * stage allows you to switch between sandboxed and production servers
          * for CashFree Payment Gateway. The possible values are
          *
@@ -564,13 +616,7 @@ class PaymentActivity : BaseActivity() {
         val cfPaymentService = CFPaymentService.getCFPaymentServiceInstance()
         cfPaymentService.setOrientation(0)
         cfPaymentService.doPayment(
-            this@PaymentActivity,
-            inputParams,
-            token,
-            stage,
-            "#784BD2",
-            "#FFFFFF",
-            false
+            this@PaymentActivity, inputParams, token, stage, "#784BD2", "#FFFFFF", false
         )
 //        when (view.id) {
 //            R.id.web -> {

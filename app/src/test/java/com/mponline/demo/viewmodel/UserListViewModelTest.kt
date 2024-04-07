@@ -3,7 +3,7 @@ package com.mponline.demo.viewmodel
 import com.google.common.truth.Truth.assertThat
 import com.mponline.demo.repository.FakeUserRepositoryImplTest
 import com.mamits.apnaonlines.userv.model.ResultUserItem
-import com.mponline.userApp.viewmodel.UserListViewModel
+import com.mamits.apnaonlines.userv.viewmodel.UserListViewModel
 import org.junit.Before
 import org.junit.Test
 

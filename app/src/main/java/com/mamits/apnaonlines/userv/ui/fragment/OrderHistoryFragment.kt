@@ -360,7 +360,7 @@ class OrderHistoryFragment : BaseFragment(), OnItemClickListener {
 
             R.id.text_make_payment -> {
                 if (obj is OrderHistoryDataItem) {
-                    if (obj?.paymentStatus == 1) {
+                    if (obj?.paymentStatus != 1) {
                         CommonUtils.createSnackBar(
                             activity?.findViewById(android.R.id.content)!!,
                             "You have already paid for this order!"

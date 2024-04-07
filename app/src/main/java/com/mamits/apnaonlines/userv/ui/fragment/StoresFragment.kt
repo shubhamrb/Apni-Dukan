@@ -15,9 +15,9 @@ import com.mamits.apnaonlines.userv.R
 import com.mamits.apnaonlines.userv.listener.OnItemClickListener
 import com.mamits.apnaonlines.userv.listener.OnSwichFragmentListener
 import com.mamits.apnaonlines.userv.model.LocationUtils
-import com.mamits.apnaonlines.userv.model.response.CategorylistItem
 import com.mamits.apnaonlines.userv.model.response.FilterDataSelectedObj
 import com.mamits.apnaonlines.userv.model.response.ProductListItem
+import com.mamits.apnaonlines.userv.model.response.StoreDetailDataItem
 import com.mamits.apnaonlines.userv.model.response.StorelistItem
 import com.mamits.apnaonlines.userv.ui.adapter.StoresAdapter
 import com.mamits.apnaonlines.userv.ui.base.BaseFragment
@@ -44,8 +44,8 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     var mView: View? = null
     var mSwichFragmentListener: OnSwichFragmentListener? = null
     val viewModel: UserListViewModel by viewModels()
-    var mCategorylistItem: CategorylistItem? = null
-    var mSubCategorylistItem: CategorylistItem? = null
+    var mCategorylistItem: StoreDetailDataItem? = null
+    var mSubCategorylistItem: StoreDetailDataItem? = null
     var mProductListItem: ProductListItem? = null
     var mStoreList: ArrayList<StorelistItem>? = arrayListOf()
     var mFilterDataSelectedObj: FilterDataSelectedObj? = FilterDataSelectedObj()
@@ -94,8 +94,8 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
 
         arguments?.let {
             if (it?.containsKey("obj") && it?.containsKey("subobj")) {
-                mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
-                mSubCategorylistItem = arguments?.getParcelable<CategorylistItem>("subobj")
+                mCategorylistItem = arguments?.getParcelable<StoreDetailDataItem>("obj")
+                mSubCategorylistItem = arguments?.getParcelable<StoreDetailDataItem>("subobj")
                 callStoreByCategory(CURRENT_PAGE)
 
                 view.btn_next.setOnClickListener {
@@ -310,8 +310,8 @@ class StoresFragment : BaseFragment(), OnItemClickListener,
     companion object {
         fun newInstance(
             context: Activity,
-            category: CategorylistItem,
-            subcategory: CategorylistItem
+            category: StoreDetailDataItem,
+            subcategory: StoreDetailDataItem
         ): Fragment {
             val fragment = StoresFragment()
             val bundle = Bundle()

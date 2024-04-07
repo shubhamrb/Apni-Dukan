@@ -49,7 +49,6 @@ data class StorelistItem(
 ) : Parcelable
 
 
-
 data class HomeData(
     @SerializedName("bottom_bannerlist")
     var bottom_bannerlist: ArrayList<BannerlistItem>?,
@@ -90,16 +89,14 @@ data class ProductItem(
 
 @Parcelize
 data class CategorylistItem(
-    @SerializedName("image")
-    val image: String = "",
     @SerializedName("storeId")
     var storeId: String = "",
     @SerializedName("name")
     val name: String = "",
+    @SerializedName("image")
+    val image: String = "",
     @SerializedName("id")
-    val id: String = "",
-    @SerializedName("banner_image")
-    val bannerImage: String = ""
+    val id: String = ""
 ) : Parcelable
 
 

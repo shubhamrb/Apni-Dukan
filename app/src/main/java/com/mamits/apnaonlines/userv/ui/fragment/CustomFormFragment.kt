@@ -851,7 +851,10 @@ class CustomFormFragment : BaseFragment(), OnItemClickListener, CameraGalleryFra
         val gallery = Intent(Intent.ACTION_OPEN_DOCUMENT)
         gallery.addCategory(Intent.CATEGORY_OPENABLE)
         gallery.type = "*/*"
-
+        gallery.putExtra(
+            Intent.EXTRA_MIME_TYPES,
+            arrayOf("image/*", "application/pdf", "application/msword", "application/vnd.ms-excel")
+        )
         try {
             gallery.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivityForResult(gallery, Constants.REQUEST_GALLERY)

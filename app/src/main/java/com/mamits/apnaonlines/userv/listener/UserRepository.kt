@@ -2,6 +2,7 @@ package com.mamits.apnaonlines.userv.listener
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.mamits.apnaonlines.userv.model.ResultUserItem
 import com.mamits.apnaonlines.userv.model.UserListResponse
 import com.mamits.apnaonlines.userv.model.request.CashfreeObj
@@ -89,6 +90,11 @@ interface UserRepository {
     ): MutableLiveData<GetChatListResponse>
 
     fun applyCoupon(commonRequestObj: CommonRequestObj): MutableLiveData<ApplyCouponResponse>
+    fun checkPhonepeStatus(
+        commonRequestObj: String,
+        PHONEPE_MERCHANT_TR_ID: String,
+        headers: Map<String, String>
+    ): MutableLiveData<JsonObject>
     fun getCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
     fun getOfferCouponList(commonRequestObj: CommonRequestObj): MutableLiveData<GetCouponListResponse>
     fun placeOrder(

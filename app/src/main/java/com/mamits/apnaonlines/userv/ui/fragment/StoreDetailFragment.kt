@@ -3,6 +3,7 @@ package com.mamits.apnaonlines.userv.ui.fragment
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
@@ -34,6 +35,7 @@ import com.mamits.apnaonlines.userv.viewmodel.UserListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_store_detail.view.btn_location
 import kotlinx.android.synthetic.main.fragment_store_detail.view.btn_share
+import kotlinx.android.synthetic.main.fragment_store_detail.view.image_qr_code
 import kotlinx.android.synthetic.main.fragment_store_detail.view.image_store
 import kotlinx.android.synthetic.main.fragment_store_detail.view.image_store_status
 import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_container
@@ -50,6 +52,8 @@ import kotlinx.android.synthetic.main.fragment_store_detail.view.ll_rating_4
 import kotlinx.android.synthetic.main.fragment_store_detail.view.ratingbar_rating
 import kotlinx.android.synthetic.main.fragment_store_detail.view.ratingbar_store
 import kotlinx.android.synthetic.main.fragment_store_detail.view.relative_frag
+import kotlinx.android.synthetic.main.fragment_store_detail.view.rl_call
+import kotlinx.android.synthetic.main.fragment_store_detail.view.rl_whatsapp
 import kotlinx.android.synthetic.main.fragment_store_detail.view.rv_services
 import kotlinx.android.synthetic.main.fragment_store_detail.view.text_checkout
 import kotlinx.android.synthetic.main.fragment_store_detail.view.text_rating
@@ -78,9 +82,9 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
     var mView: View? = null
     val viewModel: UserListViewModel by viewModels()
     var mSwichFragmentListener: OnSwichFragmentListener? = null
-    var mCategorylistItem: CategorylistItem? = null
+    var mCategorylistItem: StoreDetailDataItem? = null
     var mStorelistItem: StorelistItem? = null
-    var mSubCategorylistItem: CategorylistItem? = null
+    var mSubCategorylistItem: StoreDetailDataItem? = null
     var mStoreDetailDataItem: StoreDetailDataItem? = null
     var mProductListItem: ProductListItem? = null
 
@@ -129,10 +133,12 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                     App Link
                 */
 
-                val url = "https://play.google.com/store/apps/details?id=com.mamits.apnaonlines.userv"
+                val url =
+                    "https://play.google.com/store/apps/details?id=com.mamits.apnaonlines.userv"
 
                 val intent = Intent(Intent.ACTION_SEND)
-                val shareBody = "Download ApnaOnlines App Now!" + "\n" + "Vendor :  " + mStorelistItem?.name + "\n" +
+                val shareBody =
+                    "Download ApnaOnlines App Now!" + "\n" + "Vendor :  " + mStorelistItem?.name + "\n" +
                             "Vendor ID :  " + mStorelistItem?.vendor_code + "\n" + url
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_TEXT, shareBody)
@@ -150,10 +156,35 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
             }
         }
 
+        view.rl_call?.setOnClickListener {
+            if (mStoreDetailDataItem != null && !mStoreDetailDataItem?.whatsapp_no.equals("")) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:${mStoreDetailDataItem?.whatsapp_no}")
+                activity?.startActivity(intent)
+            }
+        }
+
+        view.rl_whatsapp?.setOnClickListener {
+            if (mStoreDetailDataItem != null && !mStoreDetailDataItem?.whatsapp_no.equals("")) {
+                val url = "https://api.whatsapp.com/send?phone=${
+                    if (mStoreDetailDataItem?.whatsapp_no?.startsWith("+91")!!) mStoreDetailDataItem?.whatsapp_no!! else "+91" + mStoreDetailDataItem?.whatsapp_no!!
+                }"
+                try {
+                    val pm: PackageManager = activity?.packageManager!!
+                    pm.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    activity?.startActivity(i)
+                } catch (e: PackageManager.NameNotFoundException) {
+                    activity?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                }
+            }
+        }
+
         arguments?.let {
             if (it?.containsKey("obj") && it?.containsKey("subobj")) {
-                mCategorylistItem = arguments?.getParcelable<CategorylistItem>("obj")
-                mSubCategorylistItem = arguments?.getParcelable<CategorylistItem>("subobj")
+                mCategorylistItem = arguments?.getParcelable<StoreDetailDataItem>("obj")
+                mSubCategorylistItem = arguments?.getParcelable<StoreDetailDataItem>("subobj")
             }
             if (it?.containsKey("store")) {
                 mStorelistItem = arguments?.getParcelable<StorelistItem>("store")
@@ -230,6 +261,15 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
                 mGetStoreDetailResponse?.data?.get(0)?.storelogo,
                 mView?.image_store!!
             )
+
+            if (mGetStoreDetailResponse.data[0].qrcode != "") {
+                ImageGlideUtils.loadUrlImage(
+                    requireActivity(),
+                    mGetStoreDetailResponse.data[0].qrcode,
+                    mView?.image_qr_code!!
+                )
+            }
+
             mView?.text_store_name?.text = mGetStoreDetailResponse.data.get(0).name
             mView?.text_store_location!!.text =
                 "${mGetStoreDetailResponse?.data?.get(0)?.distance} Km away from you"
@@ -401,11 +441,11 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
         when (view?.id) {
             R.id.cv_service -> {
                 if (obj is CategorylistItem) {
-                    obj?.storeId = mStoreDetailDataItem?.id!!
+                    obj.storeId = mStoreDetailDataItem?.id!!
                     mSwichFragmentListener?.onSwitchFragment(
                         Constants.SUB_SERVICE_PAGE,
                         Constants.WITH_NAV_DRAWER,
-                        null,
+                        mStoreDetailDataItem,
                         obj
                     )
                 }
@@ -447,8 +487,8 @@ class StoreDetailFragment : BaseFragment(), OnItemClickListener {
         //Not used
         fun newInstance(
             context: Activity,
-            category: CategorylistItem,
-            subcategory: CategorylistItem,
+            category: StoreDetailDataItem,
+            subcategory: StoreDetailDataItem,
             mStorelistItem: StorelistItem,
             store_id: String
         ): Fragment {

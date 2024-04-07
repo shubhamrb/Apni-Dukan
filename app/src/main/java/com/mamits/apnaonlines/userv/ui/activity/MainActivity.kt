@@ -181,7 +181,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
 
                 Constants.SUB_SERVICE_PAGE -> {
-                    if (obj != null && obj is CategorylistItem && extras != null && extras is CategorylistItem) {
+                    if (obj != null && obj is StoreDetailDataItem && extras != null && extras is CategorylistItem) {
                         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                         ft.add(
                             R.id.rl_container_drawer,
@@ -1172,7 +1172,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             onSwitchFragment(
                                 Constants.SERVICE_PAGE,
                                 Constants.WITH_NAV_DRAWER,
-                                CategorylistItem(id = obj?.product_id!!, name = ""),
+                                StoreDetailDataItem(
+                                    id = obj?.product_id!!,
+                                    name = "",
+                                    banner_image = ArrayList(),
+                                    rating = null,
+                                    category = ArrayList()
+                                ),
                                 null
                             )
                         }
@@ -1188,7 +1194,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             onSwitchFragment(
                                 Constants.SERVICE_PAGE,
                                 Constants.WITH_NAV_DRAWER,
-                                CategorylistItem(id = obj?.value!!, name = obj?.name),
+                                StoreDetailDataItem(
+                                    id = obj?.value!!,
+                                    name = obj?.name,
+                                    banner_image = ArrayList(),
+                                    category = ArrayList(),
+                                    rating = null
+                                ),
                                 null
                             )
                         }
@@ -1198,7 +1210,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                                 Constants.SUB_SERVICE_PAGE,
                                 Constants.WITH_NAV_DRAWER,
                                 null,
-                                CategorylistItem(id = obj?.value!!, name = obj?.name)
+                                StoreDetailDataItem(
+                                    id = obj?.value!!,
+                                    name = obj?.name,
+                                    banner_image = ArrayList(),
+                                    category = ArrayList(),
+                                    rating = null
+                                )
                             )
                         }
 

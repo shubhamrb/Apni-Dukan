@@ -168,7 +168,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
     }
 
     fun setDataToUI(mGetHomeDataResponse: GetHomeDataResponse) {
-        mGetHomeDataResponse?.let {
+        mGetHomeDataResponse.let {
             mView?.run {
                 //Banner
                 val displayMetrics = DisplayMetrics()
@@ -185,7 +185,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                         BannerPagerAdapter(activity!!, childFragmentManager, it?.data?.bannerlist!!)
                     viewpager_banner.adapter = adapter
                     dots_indicator.setViewPager(viewpager_banner)
-//        indicator_startup.setViewPager(viewpager_startup)
+    //        indicator_startup.setViewPager(viewpager_startup)
                     viewpager_banner?.clipToPadding = false
                     viewpager_banner?.pageMargin = CommonUtils.convertDpToPixel(activity!!, 15)
                     viewpager_banner?.setPadding(
@@ -276,7 +276,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                                     mHandler!!.removeCallbacks(SCROLLING_RUNNABLE)
                                     val postHandler = Handler()
                                     postHandler.postDelayed({
-//                                    rv_top_exam_forms.setAdapter(null)
+    //                                    rv_top_exam_forms.setAdapter(null)
                                         rv_top_exam_forms.setAdapter(listadapter)
                                         mHandler!!.postDelayed(SCROLLING_RUNNABLE, 2000)
                                     }, 2000)
@@ -313,7 +313,7 @@ class HomeFragment : BaseFragment(), OnItemClickListener, OnLocationFetchListene
                     )
                     viewpager_bottom_banner.adapter = adapter2
                     dots_bottom_indicator.setViewPager(viewpager_bottom_banner)
-//        indicator_startup.setViewPager(viewpager_startup)
+    //        indicator_startup.setViewPager(viewpager_startup)
                     viewpager_bottom_banner?.clipToPadding = false
                     viewpager_bottom_banner?.pageMargin =
                         CommonUtils.convertDpToPixel(activity!!, 15)

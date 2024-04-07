@@ -5,6 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.JsonObject
 import com.mamits.apnaonlines.userv.R
 import com.mamits.apnaonlines.userv.listener.UserRepository
 import com.mamits.apnaonlines.userv.model.ResultUserItem
@@ -69,7 +70,7 @@ public class UserListViewModel @ViewModelInject constructor(
             return context?.resources?.getString(R.string.empty_name)!!
         } else if (userAuthRequestObj?.mobile?.isNullOrEmpty() || userAuthRequestObj?.mobile?.length!! < 10) {
             return context?.resources?.getString(R.string.empty_mobile)!!
-        }else if (userAuthRequestObj?.vendor_code?.isNullOrEmpty()) {
+        } else if (userAuthRequestObj?.vendor_code?.isNullOrEmpty()) {
             return context?.resources?.getString(R.string.empty_vendor_code)!!
         }
         /*else if (userAuthRequestObj?.pin?.isNullOrEmpty() || userAuthRequestObj?.pin?.length!! < 6) {
@@ -141,9 +142,11 @@ public class UserListViewModel @ViewModelInject constructor(
     fun getProductDetail(commonRequestObj: CommonRequestObj): LiveData<GetProductDetailResponse> {
         return userRepositoryImpl.getProductDetail(commonRequestObj);
     }
+
     fun verifyVendorCode(userAuthRequestObj: UserAuthRequestObj): LiveData<LoginOtpResponse> {
         return userRepositoryImpl.verifyVendorCode(userAuthRequestObj);
     }
+
     //Login
     fun login(userAuthRequestObj: UserAuthRequestObj): LiveData<LoginOtpResponse> {
         return userRepositoryImpl.login(userAuthRequestObj);
@@ -207,6 +210,18 @@ public class UserListViewModel @ViewModelInject constructor(
 
     fun applyCoupon(commonRequestObj: CommonRequestObj): LiveData<ApplyCouponResponse> {
         return userRepositoryImpl.applyCoupon(commonRequestObj);
+    }
+
+    fun checkPhonepeStatus(
+        PHONEPE_MERCHANT_ID: String,
+        PHONEPE_MERCHANT_TR_ID: String,
+        headers: Map<String, String>
+    ): LiveData<JsonObject> {
+        return userRepositoryImpl.checkPhonepeStatus(
+            PHONEPE_MERCHANT_ID,
+            PHONEPE_MERCHANT_TR_ID,
+            headers
+        );
     }
 
     fun placeOrder(token: String, postOrderRequest: PlaceOrderRequest): LiveData<CommonResponse> {
